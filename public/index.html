@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Workout</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="topbar">
+    <div>
+      <h1>Code Workout</h1>
+      <p>Programming Practice Study</p>
+    </div>
+    <div id="sessionMeta" class="session-meta hidden" aria-live="polite"></div>
+  </header>
+
+  <main id="main" class="app-shell">
+    <section id="participantScreen" class="screen card narrow" aria-labelledby="participantTitle">
+      <p class="eyebrow">Step 1 of 2</p>
+      <h2 id="participantTitle">Enter your Participant ID</h2>
+      <p class="muted">Use the ID provided by the research team. Do not enter your name.</p>
+      <label for="participantId">Participant ID</label>
+      <input id="participantId" autocomplete="off" maxlength="64" inputmode="text" placeholder="e.g., 2011">
+      <button id="participantContinue" class="primary">Continue</button>
+    </section>
+
+    <section id="languageScreen" class="screen card narrow hidden" aria-labelledby="languageTitle">
+      <p class="eyebrow">Step 2 of 2</p>
+      <h2 id="languageTitle">Choose your programming language</h2>
+      <p class="muted">Your language is fixed for this study session after you begin.</p>
+      <div class="choice-grid two-col" role="group" aria-label="Programming language">
+        <button class="language-choice" data-language="python"><strong>Python</strong><span>Python 3 syntax and runtime</span></button>
+        <button class="language-choice" data-language="java"><strong>Java</strong><span>Java syntax and runtime</span></button>
+      </div>
+      <button id="backParticipant" class="ghost">Back</button>
+    </section>
+
+    <section id="modalityScreen" class="screen hidden" aria-labelledby="modalityTitle">
+      <div class="screen-heading">
+        <div>
+          <p class="eyebrow">Practice dashboard</p>
+          <h2 id="modalityTitle">Choose a modality</h2>
+          <p class="muted">Each modality contains 3 randomized questions. Completed modalities cannot be repeated.</p>
+        </div>
+        <div>
+          <div class="overall-progress" aria-label="Study progress">
+            <span id="progressText">0 of 4 modalities completed</span>
+            <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+          </div>
+          <button id="newParticipant" class="ghost compact" style="margin-top:10px">New Participant</button>
+        </div>
+      </div>
+      <div id="modalityGrid" class="modality-grid"></div>
+      <div id="studyCompletedBanner" class="completion-banner hidden" role="status">
+        <h3>Study complete</h3>
+        <p>All modalities have been completed. Thank you for participating.</p>
+      </div>
+    </section>
+
+    <section id="workspaceScreen" class="screen hidden" aria-labelledby="taskTitle">
+      <div class="workspace-top">
+        <button id="backToModalities" class="ghost">← Modalities</button>
+        <div class="question-progress">
+          <span id="questionProgressText">Question 1 of 3</span>
+          <div class="progress-track small"><div id="questionProgressBar" class="progress-fill"></div></div>
+        </div>
+        <span id="autosaveStatus" class="autosave" aria-live="polite">Saved</span>
+      </div>
+
+      <div class="workspace-grid">
+        <aside class="task-panel">
+          <div class="pill-row">
+            <span id="languagePill" class="pill"></span>
+            <span id="modalityPill" class="pill"></span>
+            <span id="difficultyPill" class="pill subtle"></span>
+          </div>
+          <h2 id="taskTitle"></h2>
+          <div id="taskId" class="task-id"></div>
+          <p id="taskPrompt" class="task-prompt"></p>
+          <div id="traceInstructions" class="info-box hidden">For code tracing, keep the provided code unchanged and enter your predicted output or explanation below.</div>
+        </aside>
+
+        <section class="ide-panel" aria-label="Coding workspace">
+          <div class="panel-header">
+            <div>
+              <h3>Code Editor</h3>
+              <p class="muted small-text">Syntax highlighting, line numbers, autocomplete, bracket matching, and auto-indentation are enabled.</p>
+            </div>
+            <button id="formatCode" class="secondary compact">Format Code</button>
+          </div>
+          <div id="editorHost" class="editor-host" aria-label="Code editor"></div>
+          <textarea id="fallbackEditor" class="fallback-editor hidden" spellcheck="false" aria-label="Code editor fallback"></textarea>
+
+          <div id="explanationSection" class="field-block">
+            <label id="explanationLabel" for="explanationInput">Explanation / notes</label>
+            <textarea id="explanationInput" rows="5" maxlength="12000" placeholder="Enter your explanation, predicted output, or reasoning here."></textarea>
+          </div>
+
+          <div class="field-block compact-field">
+            <label for="stdinInput">Optional program input (stdin)</label>
+            <textarea id="stdinInput" rows="2" maxlength="5000" placeholder="Only use this if your program reads input."></textarea>
+          </div>
+
+          <div class="action-row">
+            <button id="runCode" class="primary">▶ Run Code</button>
+            <button id="getFeedback" class="ai-button">✦ Get AI Feedback</button>
+            <button id="saveFinal" class="save-button">Save Final Response</button>
+          </div>
+
+          <section class="result-panel output-panel" aria-labelledby="outputTitle">
+            <div class="result-heading"><h3 id="outputTitle">Program Output</h3><span id="executionStatus" class="result-status">Not run</span></div>
+            <pre id="programOutput" tabindex="0">Run your code to see compilation/runtime output here.</pre>
+          </section>
+
+          <section class="result-panel feedback-panel" aria-labelledby="feedbackTitle">
+            <div class="result-heading"><h3 id="feedbackTitle">AI Feedback</h3><span id="feedbackCount" class="result-status">0 requests</span></div>
+            <div id="aiFeedback" class="feedback-content" tabindex="0">Request feedback when you are ready. AI feedback is separate from actual program execution.</div>
+          </section>
+        </section>
+      </div>
+    </section>
+
+    <section id="reviewScreen" class="screen hidden" aria-labelledby="reviewTitle">
+      <div class="card wide-card">
+        <p class="eyebrow">Modality review</p>
+        <h2 id="reviewTitle">Review your 3 saved responses</h2>
+        <p class="muted">Check the saved responses below. When you confirm completion, this modality will be locked and cannot be repeated.</p>
+        <div id="reviewList" class="review-list"></div>
+        <div class="action-row end">
+          <button id="completeModality" class="save-button">Confirm & Complete Modality</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <h2 id="dialogTitle">Confirm</h2>
+      <p id="dialogMessage"></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost">Cancel</button>
+        <button value="confirm" class="save-button">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: code-workout-web
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.5
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: SESSION_LABEL
+        value: study-2026
+      - key: EXECUTION_PROVIDER
+        value: judge0
+      - key: JUDGE0_URL
+        value: https://ce.judge0.com
+      - key: FEEDBACK_RATE_LIMIT
+        value: "60"
+      - key: EXECUTION_RATE_LIMIT
+        value: "120"
+      - key: SAVE_RATE_LIMIT
+        value: "600"

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Workout Research Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .admin-shell{max-width:1400px;margin:0 auto;padding:28px 24px 60px}.admin-login{max-width:560px;margin:7vh auto}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}.metric{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}.metric strong{display:block;font-size:1.8rem}.metric span{color:var(--muted)}.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.data-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;overflow:auto}.data-card h3{margin-top:0}.bar-row{display:grid;grid-template-columns:150px 1fr 50px;gap:10px;align-items:center;margin:9px 0}.bar-bg{height:12px;background:#edf1f6;border-radius:999px;overflow:hidden}.bar{height:100%;background:var(--primary);border-radius:999px}.admin-table{width:100%;border-collapse:collapse;font-size:.9rem}.admin-table th,.admin-table td{text-align:left;padding:9px;border-bottom:1px solid var(--border);white-space:nowrap}.toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center}@media(max-width:950px){.metric-grid{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}}@media(max-width:560px){.metric-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div><h1>Research Dashboard</h1><p>Code Workout study analytics</p></div><a href="/" class="ghost" style="text-decoration:none;padding:10px 14px;border-radius:8px">Participant view</a></header>
+  <main class="admin-shell">
+    <section id="loginCard" class="card admin-login">
+      <p class="eyebrow">Administrator access</p>
+      <h2>Enter dashboard token</h2>
+      <p class="muted">Use the ADMIN_TOKEN configured in Render. The token is kept only in this browser tab.</p>
+      <label for="adminToken">Admin token</label>
+      <input id="adminToken" type="password" autocomplete="current-password">
+      <button id="adminLogin" class="primary">Open Dashboard</button>
+      <p id="loginError" class="autosave error hidden" role="alert"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="toolbar">
+        <div><p class="eyebrow">Live research data</p><h2 style="margin:0">Study Overview</h2></div>
+        <div class="action-row" style="margin:0"><button id="refreshDashboard" class="secondary">Refresh</button><button id="exportCsv" class="primary">Export CSV</button><button id="exportXlsx" class="save-button">Export Excel</button></div>
+      </div>
+      <div id="metricGrid" class="metric-grid"></div>
+      <div class="dashboard-grid">
+        <section class="data-card"><h3>Language usage</h3><div id="languageBars"></div></section>
+        <section class="data-card"><h3>Completed modalities</h3><div id="modalityBars"></div></section>
+      </div>
+      <section class="data-card" style="margin-top:16px"><h3>Participant sessions</h3><div style="overflow:auto"><table class="admin-table"><thead><tr><th>Participant</th><th>Language</th><th>Status</th><th>Modalities</th><th>AI requests</th><th>Avg Q time</th><th>Started</th><th>Completed</th><th>Session ID</th></tr></thead><tbody id="sessionRows"></tbody></table></div></section>
+    </section>
+  </main>
+  <script src="/admin.js" defer></script>
+</body>
+</html>

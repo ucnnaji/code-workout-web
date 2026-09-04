@@ -1,0 +1,2027 @@
+[
+  {
+    "id": "PY-PS-01",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Print 1 to 5",
+    "prompt": "Write a program that prints the integers 1 through 5, one per line.",
+    "starter_code": "",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "for loop",
+      "range"
+    ]
+  },
+  {
+    "id": "PY-PS-02",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Sum 1 to 10",
+    "prompt": "Compute and print the sum of the integers 1 through 10.",
+    "starter_code": "",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "loop",
+      "accumulator"
+    ]
+  },
+  {
+    "id": "PY-PS-03",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Even numbers",
+    "prompt": "Print all even numbers from 2 through 20, one per line.",
+    "starter_code": "",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "loop",
+      "modulo"
+    ]
+  },
+  {
+    "id": "PY-PS-04",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Count vowels",
+    "prompt": "Given text = \"programming\", count and print the number of vowels.",
+    "starter_code": "text = \"programming\"\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "string",
+      "loop",
+      "condition"
+    ]
+  },
+  {
+    "id": "PY-PS-05",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Largest value",
+    "prompt": "Given nums = [4, 9, 2, 7, 5], print the largest value without using max().",
+    "starter_code": "nums = [4, 9, 2, 7, 5]\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "list",
+      "loop",
+      "comparison"
+    ]
+  },
+  {
+    "id": "PY-PS-06",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Factorial",
+    "prompt": "Compute and print 5 factorial using a loop.",
+    "starter_code": "",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "loop",
+      "accumulator"
+    ]
+  },
+  {
+    "id": "PY-PS-07",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Reverse text",
+    "prompt": "Given text = \"hello\", build and print the reversed string without using slicing.",
+    "starter_code": "text = \"hello\"\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "string",
+      "loop"
+    ]
+  },
+  {
+    "id": "PY-PS-08",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Count positives",
+    "prompt": "Given nums = [-2, 4, 0, 7, -1, 3], count and print how many values are positive.",
+    "starter_code": "nums = [-2, 4, 0, 7, -1, 3]\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "list",
+      "condition",
+      "counter"
+    ]
+  },
+  {
+    "id": "PY-PS-09",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Squares",
+    "prompt": "Print the square of each integer from 1 through 6.",
+    "starter_code": "",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "loop",
+      "arithmetic"
+    ]
+  },
+  {
+    "id": "PY-PS-10",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Running total",
+    "prompt": "Given nums = [3, 1, 4, 2], print the running total after each value.",
+    "starter_code": "nums = [3, 1, 4, 2]\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "loop",
+      "accumulator"
+    ]
+  },
+  {
+    "id": "PY-PS-11",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Multiplication table",
+    "prompt": "Print the first five multiples of 7.",
+    "starter_code": "",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "loop",
+      "multiplication"
+    ]
+  },
+  {
+    "id": "PY-PS-12",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Count letter",
+    "prompt": "Given text = \"banana\", count and print how many times the letter 'a' occurs.",
+    "starter_code": "text = \"banana\"\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "string",
+      "counter"
+    ]
+  },
+  {
+    "id": "PY-PS-13",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Minimum value",
+    "prompt": "Given nums = [8, 3, 6, 1, 9], print the smallest value without using min().",
+    "starter_code": "nums = [8, 3, 6, 1, 9]\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "list",
+      "comparison"
+    ]
+  },
+  {
+    "id": "PY-PS-14",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Sum evens",
+    "prompt": "Compute and print the sum of all even integers from 1 through 20.",
+    "starter_code": "",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "loop",
+      "condition",
+      "accumulator"
+    ]
+  },
+  {
+    "id": "PY-PS-15",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "List lengths",
+    "prompt": "Given words = [\"cat\", \"tiger\", \"ox\"], print each word followed by its length.",
+    "starter_code": "words = [\"cat\", \"tiger\", \"ox\"]\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "list",
+      "string"
+    ]
+  },
+  {
+    "id": "PY-PS-16",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Temperature labels",
+    "prompt": "Given temps = [35, 72, 90], print 'cold' for values below 50, 'warm' for 50-79, and 'hot' for 80 or higher.",
+    "starter_code": "temps = [35, 72, 90]\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "conditionals",
+      "loop"
+    ]
+  },
+  {
+    "id": "PY-PS-17",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Skip multiples of 3",
+    "prompt": "Print integers 1 through 12 except multiples of 3.",
+    "starter_code": "",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "loop",
+      "continue",
+      "modulo"
+    ]
+  },
+  {
+    "id": "PY-PS-18",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "First matching value",
+    "prompt": "Given nums = [3, 5, 8, 10], print the first even number and then stop searching.",
+    "starter_code": "nums = [3, 5, 8, 10]\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "loop",
+      "break"
+    ]
+  },
+  {
+    "id": "PY-PS-19",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Average",
+    "prompt": "Given nums = [6, 8, 10, 12], compute and print their average using a loop.",
+    "starter_code": "nums = [6, 8, 10, 12]\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "loop",
+      "average"
+    ]
+  },
+  {
+    "id": "PY-PS-20",
+    "language": "python",
+    "modality_id": "problem-solving",
+    "title": "Character positions",
+    "prompt": "Given text = \"code\", print each character with its zero-based index.",
+    "starter_code": "text = \"code\"\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "enumeration",
+      "string"
+    ]
+  },
+  {
+    "id": "PY-DBG-01",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Off-by-one range",
+    "prompt": "Fix the program so it prints 1 through 5.",
+    "starter_code": "for n in range(1, 5):\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-02",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Missing colon",
+    "prompt": "Fix the syntax error.",
+    "starter_code": "for n in range(3)\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-03",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Indentation error",
+    "prompt": "Fix the indentation so the loop prints each value.",
+    "starter_code": "for n in range(3):\nprint(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-04",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong accumulator",
+    "prompt": "Fix the program so it prints 15.",
+    "starter_code": "total = 0\nfor n in range(1, 6):\n    total = n\nprint(total)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-05",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "String integer mix",
+    "prompt": "Fix the program so it prints Age: 20.",
+    "starter_code": "age = 20\nprint(\"Age: \" + age)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-06",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong comparison",
+    "prompt": "Fix the program so it prints only positive values.",
+    "starter_code": "nums = [-1, 2, -3, 4]\nfor n in nums:\n    if n < 0:\n        print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-07",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Infinite loop",
+    "prompt": "Fix the loop so it prints 1, 2, 3 and stops.",
+    "starter_code": "n = 1\nwhile n <= 3:\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-08",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong list index",
+    "prompt": "Fix the program so it prints the last item.",
+    "starter_code": "items = [10, 20, 30]\nprint(items[3])\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-09",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Case mismatch",
+    "prompt": "Fix the condition so the program prints Yes.",
+    "starter_code": "answer = \"yes\"\nif answer == \"Yes\":\n    print(\"Yes\")\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-10",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong boolean operator",
+    "prompt": "Fix the condition so 15 is recognized as being between 10 and 20 inclusive.",
+    "starter_code": "x = 15\nif x >= 10 or x <= 20:\n    print(\"between\")\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-11",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Average denominator",
+    "prompt": "Fix the average calculation.",
+    "starter_code": "nums = [2, 4, 6, 8]\ntotal = sum(nums)\naverage = total / 3\nprint(average)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-12",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Function return",
+    "prompt": "Fix the function so result becomes 10.",
+    "starter_code": "def double(x):\n    x * 2\n\nresult = double(5)\nprint(result)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-13",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong loop target",
+    "prompt": "Fix the code so it prints each word, not each character of the first word.",
+    "starter_code": "words = [\"red\", \"blue\"]\nfor word in words[0]:\n    print(word)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-14",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Modulo bug",
+    "prompt": "Fix the code so it prints even numbers.",
+    "starter_code": "for n in range(1, 7):\n    if n % 2 == 1:\n        print(n)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-15",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Wrong initialization",
+    "prompt": "Fix the maximum-finding logic.",
+    "starter_code": "nums = [-8, -3, -12]\nlargest = 0\nfor n in nums:\n    if n > largest:\n        largest = n\nprint(largest)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-16",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Append call",
+    "prompt": "Fix the code so 3 is added to the list.",
+    "starter_code": "values = [1, 2]\nvalues.append[3]\nprint(values)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-17",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Key lookup",
+    "prompt": "Fix the dictionary key error.",
+    "starter_code": "student = {\"name\": \"Ada\"}\nprint(student[\"Name\"])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-18",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Loop boundary",
+    "prompt": "Fix the code so it prints indexes 0, 1, and 2 without an IndexError.",
+    "starter_code": "items = [\"a\", \"b\", \"c\"]\nfor i in range(4):\n    print(items[i])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-19",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Integer input",
+    "prompt": "Fix the code so adding 1 works when the input is 5.",
+    "starter_code": "value = input()\nprint(value + 1)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-DBG-20",
+    "language": "python",
+    "modality_id": "debugging",
+    "title": "Nested indentation",
+    "prompt": "Fix the code so only even values print 'even'.",
+    "starter_code": "for n in range(1, 5):\n    if n % 2 == 0:\n        print(n)\n    print(\"even\")\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "debugging"
+    ]
+  },
+  {
+    "id": "PY-TRC-01",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace a range",
+    "prompt": "Without running the code first, state exactly what it prints.",
+    "starter_code": "for n in range(1, 4):\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-02",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace accumulator",
+    "prompt": "Predict the final output.",
+    "starter_code": "total = 0\nfor n in [2, 3, 4]:\n    total += n\nprint(total)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-03",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace condition",
+    "prompt": "Predict the output in order.",
+    "starter_code": "for n in range(5):\n    if n % 2 == 0:\n        print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-04",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace string",
+    "prompt": "Predict the output.",
+    "starter_code": "text = \"cat\"\nfor ch in text:\n    print(ch.upper())\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-05",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace while",
+    "prompt": "Predict the output.",
+    "starter_code": "x = 3\nwhile x > 0:\n    print(x)\n    x -= 1\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-06",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace break",
+    "prompt": "Predict the output.",
+    "starter_code": "for n in range(1, 6):\n    if n == 4:\n        break\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-07",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace continue",
+    "prompt": "Predict the output.",
+    "starter_code": "for n in range(1, 6):\n    if n == 3:\n        continue\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-08",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace nested loop",
+    "prompt": "How many times is X printed? Also state the printed lines.",
+    "starter_code": "for i in range(2):\n    for j in range(2):\n        print(\"X\")\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-09",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace list mutation",
+    "prompt": "Predict the final list.",
+    "starter_code": "values = [1, 2]\nfor n in [3, 4]:\n    values.append(n)\nprint(values)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-10",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace variable update",
+    "prompt": "Predict the output.",
+    "starter_code": "x = 1\nfor _ in range(3):\n    x *= 2\nprint(x)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-11",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace enumerate",
+    "prompt": "Predict the output lines.",
+    "starter_code": "for i, ch in enumerate(\"ab\"):\n    print(i, ch)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-12",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace membership",
+    "prompt": "Predict the output.",
+    "starter_code": "items = [2, 4, 6]\nprint(4 in items)\nprint(5 in items)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-13",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace function",
+    "prompt": "Predict the output.",
+    "starter_code": "def add_one(x):\n    return x + 1\n\nprint(add_one(4))\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-14",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace slicing",
+    "prompt": "Predict the output.",
+    "starter_code": "text = \"python\"\nprint(text[1:4])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-15",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace dictionary",
+    "prompt": "Predict the output.",
+    "starter_code": "d = {\"a\": 2, \"b\": 3}\nprint(d[\"a\"] + d[\"b\"])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-16",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace comparison",
+    "prompt": "Predict the output.",
+    "starter_code": "x = 7\nif x > 5 and x < 10:\n    print(\"A\")\nelse:\n    print(\"B\")\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-17",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace sum loop",
+    "prompt": "Predict the final output.",
+    "starter_code": "s = 1\nfor n in range(1, 4):\n    s += n\nprint(s)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-18",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace reversed",
+    "prompt": "Predict the output sequence.",
+    "starter_code": "for n in reversed([1, 2, 3]):\n    print(n)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-19",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace length",
+    "prompt": "Predict the output.",
+    "starter_code": "words = [\"hi\", \"code\"]\nfor w in words:\n    print(len(w))\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-TRC-20",
+    "language": "python",
+    "modality_id": "code-explanation",
+    "title": "Trace nested condition",
+    "prompt": "Predict the output.",
+    "starter_code": "for n in [1, 2, 3, 4]:\n    if n > 2:\n        if n % 2 == 0:\n            print(n)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "tracing"
+    ]
+  },
+  {
+    "id": "PY-CMP-01",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete range",
+    "prompt": "Replace TODO so the loop prints 1 through 5.",
+    "starter_code": "for n in range(TODO):\n    print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-02",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete sum",
+    "prompt": "Replace TODO to accumulate the sum.",
+    "starter_code": "total = 0\nfor n in range(1, 6):\n    TODO\nprint(total)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-03",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete condition",
+    "prompt": "Replace TODO so only even numbers print.",
+    "starter_code": "for n in range(1, 7):\n    if TODO:\n        print(n)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-04",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete function",
+    "prompt": "Replace TODO with the correct return statement.",
+    "starter_code": "def square(x):\n    TODO\n\nprint(square(4))\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-05",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete list loop",
+    "prompt": "Replace TODO so each item prints.",
+    "starter_code": "items = [\"a\", \"b\", \"c\"]\nfor item in TODO:\n    print(item)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-06",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete counter",
+    "prompt": "Replace TODO so the count increases for positive values.",
+    "starter_code": "count = 0\nfor n in [-1, 2, 3]:\n    if n > 0:\n        TODO\nprint(count)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-07",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete while",
+    "prompt": "Replace TODO so the loop eventually stops.",
+    "starter_code": "n = 1\nwhile n <= 3:\n    print(n)\n    TODO\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-08",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete append",
+    "prompt": "Replace TODO to add 3 to values.",
+    "starter_code": "values = [1, 2]\nTODO\nprint(values)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-09",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete maximum",
+    "prompt": "Replace TODO in the comparison.",
+    "starter_code": "nums = [2, 8, 4]\nlargest = nums[0]\nfor n in nums:\n    if TODO:\n        largest = n\nprint(largest)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-10",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete string count",
+    "prompt": "Replace TODO so the program counts 'a'.",
+    "starter_code": "text = \"banana\"\ncount = 0\nfor ch in text:\n    if TODO:\n        count += 1\nprint(count)\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-11",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete input conversion",
+    "prompt": "Replace TODO so numeric addition works.",
+    "starter_code": "value = TODO(input())\nprint(value + 1)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-12",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete index loop",
+    "prompt": "Replace TODO to iterate valid indexes.",
+    "starter_code": "items = [10, 20, 30]\nfor i in range(TODO):\n    print(i, items[i])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-13",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete average",
+    "prompt": "Replace TODO with the correct denominator.",
+    "starter_code": "nums = [2, 4, 6, 8]\naverage = sum(nums) / TODO\nprint(average)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-14",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete break",
+    "prompt": "Replace TODO so the loop stops when n equals 3.",
+    "starter_code": "for n in range(1, 6):\n    if TODO:\n        break\n    print(n)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-15",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete dictionary",
+    "prompt": "Replace TODO with the correct key.",
+    "starter_code": "student = {\"name\": \"Ada\", \"score\": 95}\nprint(student[TODO])\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-16",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete nested loop",
+    "prompt": "Replace TODO so the inner loop runs twice.",
+    "starter_code": "for i in range(2):\n    for j in range(TODO):\n        print(i, j)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-17",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete boolean",
+    "prompt": "Replace TODO so values 10 through 20 inclusive are accepted.",
+    "starter_code": "x = 15\nif TODO:\n    print(\"accepted\")\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-18",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete reverse build",
+    "prompt": "Replace TODO so reversed_text becomes 'cba'.",
+    "starter_code": "text = \"abc\"\nreversed_text = \"\"\nfor ch in text:\n    TODO\nprint(reversed_text)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-19",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete list comprehension",
+    "prompt": "Replace TODO so squares becomes [1, 4, 9, 16].",
+    "starter_code": "squares = [TODO for n in range(1, 5)]\nprint(squares)\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "PY-CMP-20",
+    "language": "python",
+    "modality_id": "code-completion",
+    "title": "Complete return condition",
+    "prompt": "Replace TODO so is_even returns True for even values.",
+    "starter_code": "def is_even(n):\n    return TODO\n\nprint(is_even(6))\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-PS-01",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Print 1 to 5",
+    "prompt": "Write a Java program that prints the integers 1 through 5, one per line.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-02",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Sum 1 to 10",
+    "prompt": "Compute and print the sum of the integers 1 through 10.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-03",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Even numbers",
+    "prompt": "Print all even numbers from 2 through 20, one per line.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-04",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Count vowels",
+    "prompt": "Given String text = \"programming\", count and print the number of vowels.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-05",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Largest value",
+    "prompt": "Given int[] nums = {4, 9, 2, 7, 5}, print the largest value without using library max helpers.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-06",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Factorial",
+    "prompt": "Compute and print 5 factorial using a loop.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-07",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Reverse text",
+    "prompt": "Given String text = \"hello\", build and print the reversed string using a loop.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-08",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Count positives",
+    "prompt": "Given int[] nums = {-2, 4, 0, 7, -1, 3}, count and print how many values are positive.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-09",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Squares",
+    "prompt": "Print the square of each integer from 1 through 6.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-10",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Running total",
+    "prompt": "Given int[] nums = {3, 1, 4, 2}, print the running total after each value.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-11",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Multiplication table",
+    "prompt": "Print the first five multiples of 7.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-12",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Count letter",
+    "prompt": "Given String text = \"banana\", count and print how many times 'a' occurs.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-13",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Minimum value",
+    "prompt": "Given int[] nums = {8, 3, 6, 1, 9}, print the smallest value.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-14",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Sum evens",
+    "prompt": "Compute and print the sum of all even integers from 1 through 20.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-15",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Word lengths",
+    "prompt": "Given String[] words = {\"cat\", \"tiger\", \"ox\"}, print each word followed by its length.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-16",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Temperature labels",
+    "prompt": "Given int[] temps = {35, 72, 90}, print cold/warm/hot using the same boundaries: below 50, 50-79, 80+.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-17",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Skip multiples of 3",
+    "prompt": "Print integers 1 through 12 except multiples of 3.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-18",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "First matching value",
+    "prompt": "Given int[] nums = {3, 5, 8, 10}, print the first even number and stop searching.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-19",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Average",
+    "prompt": "Given int[] nums = {6, 8, 10, 12}, compute and print their average as a double.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-PS-20",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Character positions",
+    "prompt": "Given String text = \"code\", print each character with its zero-based index.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "loops"
+    ]
+  },
+  {
+    "id": "JA-DBG-01",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Off-by-one loop",
+    "prompt": "Fix the loop so it prints 1 through 5.",
+    "starter_code": "public class Main { public static void main(String[] args) { for (int n = 1; n < 5; n++) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-02",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Missing semicolon",
+    "prompt": "Fix the syntax error.",
+    "starter_code": "public class Main { public static void main(String[] args) { int x = 5 System.out.println(x); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-03",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Wrong increment",
+    "prompt": "Fix the loop so it prints 1, 2, 3 and stops.",
+    "starter_code": "public class Main { public static void main(String[] args) { for (int n=1; n<=3; n--) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-04",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Wrong accumulator",
+    "prompt": "Fix the program so it prints 15.",
+    "starter_code": "public class Main { public static void main(String[] args) { int total=0; for(int n=1;n<=5;n++){ total=n; } System.out.println(total); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-05",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "String comparison",
+    "prompt": "Fix the condition so it prints Yes.",
+    "starter_code": "public class Main { public static void main(String[] args) { String s=\"yes\"; if(s == \"yes\") System.out.println(\"Yes\"); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-06",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Wrong comparison",
+    "prompt": "Fix the program so it prints only positive values.",
+    "starter_code": "public class Main { public static void main(String[] args) { int[] a={-1,2,-3,4}; for(int n:a) if(n<0) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-07",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Array bound",
+    "prompt": "Fix the program so it prints the last item.",
+    "starter_code": "public class Main { public static void main(String[] args) { int[] a={10,20,30}; System.out.println(a[3]); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-08",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Integer division",
+    "prompt": "Fix the program so it prints 2.5.",
+    "starter_code": "public class Main { public static void main(String[] args) { int a=5; int b=2; System.out.println(a/b); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-09",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Assignment in condition",
+    "prompt": "Fix the condition.",
+    "starter_code": "public class Main { public static void main(String[] args) { int x=5; if(x = 5) System.out.println(\"five\"); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-10",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Wrong boolean operator",
+    "prompt": "Fix the condition so only values from 10 through 20 inclusive are accepted.",
+    "starter_code": "public class Main { public static void main(String[] args) { int x=25; if(x>=10 || x<=20) System.out.println(\"between\"); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-11",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Average denominator",
+    "prompt": "Fix the average calculation.",
+    "starter_code": "public class Main { public static void main(String[] args) { int[] a={2,4,6,8}; int total=0; for(int n:a) total+=n; double avg=total/3.0; System.out.println(avg); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-12",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Missing return",
+    "prompt": "Fix the method so result becomes 10.",
+    "starter_code": "public class Main { static int twice(int x){ x*2; } public static void main(String[] args){ System.out.println(twice(5)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-13",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Wrong loop index",
+    "prompt": "Fix the loop so every array element prints without error.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=0;i<=a.length;i++) System.out.println(a[i]); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-14",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Modulo bug",
+    "prompt": "Fix the code so it prints even numbers.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(n%2==1) System.out.println(n); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-15",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Maximum initialization",
+    "prompt": "Fix the maximum logic for all-negative input.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={-8,-3,-12}; int largest=0; for(int n:a) if(n>largest) largest=n; System.out.println(largest); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-16",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Array length",
+    "prompt": "Fix the property/method error.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={1,2,3}; System.out.println(a.length()); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-17",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Character method",
+    "prompt": "Fix the code so it prints the first character.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"code\"; System.out.println(s[0]); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-18",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Parse input",
+    "prompt": "Fix the code so numeric addition works.",
+    "starter_code": "import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); String x=sc.nextLine(); System.out.println(x+1); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-19",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Scope error",
+    "prompt": "Fix the code so total can be printed after the loop.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int i=0;i<3;i++){ int total=i; } System.out.println(total); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-DBG-20",
+    "language": "java",
+    "modality_id": "debugging",
+    "title": "Nested braces",
+    "prompt": "Fix the braces so 'even' prints only for even values.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=4;n++){ if(n%2==0) System.out.println(n); } System.out.println(\"even\"); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "debugging"
+    ]
+  },
+  {
+    "id": "JA-TRC-01",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace a loop",
+    "prompt": "Without running the code first, state exactly what it prints.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=3;n++) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-02",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace accumulator",
+    "prompt": "Predict the final output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int total=0; for(int n:new int[]{2,3,4}) total+=n; System.out.println(total); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-03",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace condition",
+    "prompt": "Predict the output in order.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=0;n<5;n++) if(n%2==0) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-04",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace string",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"cat\"; for(int i=0;i<s.length();i++) System.out.println(Character.toUpperCase(s.charAt(i))); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-05",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace while",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int x=3; while(x>0){ System.out.println(x); x--; } } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-06",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace break",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==4) break; System.out.println(n); } } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-07",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace continue",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==3) continue; System.out.println(n); } } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-08",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace nested loop",
+    "prompt": "How many times is X printed?",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<2;j++) System.out.println(\"X\"); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-09",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace array update",
+    "prompt": "Predict the final output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={1,2,3}; a[1]=9; System.out.println(a[0]+\" \"+a[1]+\" \"+a[2]); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-10",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace doubling",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int x=1; for(int i=0;i<3;i++) x*=2; System.out.println(x); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-11",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace index",
+    "prompt": "Predict the output lines.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"ab\"; for(int i=0;i<s.length();i++) System.out.println(i+\" \"+s.charAt(i)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-12",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace boolean",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int x=4; System.out.println(x>2 && x<6); System.out.println(x==5); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-13",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace method",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { static int addOne(int x){ return x+1; } public static void main(String[] args){ System.out.println(addOne(4)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-14",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace substring",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"python\"; System.out.println(s.substring(1,4)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-15",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace array length",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={4,5,6}; System.out.println(a.length); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-16",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace comparison",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int x=7; if(x>5 && x<10) System.out.println(\"A\"); else System.out.println(\"B\"); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-17",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace sum loop",
+    "prompt": "Predict the final output.",
+    "starter_code": "public class Main { public static void main(String[] args){ int s=1; for(int n=1;n<=3;n++) s+=n; System.out.println(s); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-18",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace reverse index",
+    "prompt": "Predict the output sequence.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=a.length-1;i>=0;i--) System.out.println(a[i]); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-19",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace word lengths",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ String[] w={\"hi\",\"code\"}; for(String s:w) System.out.println(s.length()); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-TRC-20",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Trace nested condition",
+    "prompt": "Predict the output.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n:new int[]{1,2,3,4}) if(n>2) if(n%2==0) System.out.println(n); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "tracing"
+    ]
+  },
+  {
+    "id": "JA-CMP-01",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete loop bound",
+    "prompt": "Replace TODO so the loop prints 1 through 5.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=TODO;n++) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-02",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete sum",
+    "prompt": "Replace TODO to accumulate the sum.",
+    "starter_code": "public class Main { public static void main(String[] args){ int total=0; for(int n=1;n<=5;n++){ TODO } System.out.println(total); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-03",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete condition",
+    "prompt": "Replace TODO so only even numbers print.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(TODO) System.out.println(n); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-04",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete method",
+    "prompt": "Replace TODO with the correct return statement.",
+    "starter_code": "public class Main { static int square(int x){ TODO } public static void main(String[] args){ System.out.println(square(4)); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-05",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete enhanced loop",
+    "prompt": "Replace TODO so each item prints.",
+    "starter_code": "public class Main { public static void main(String[] args){ String[] items={\"a\",\"b\",\"c\"}; for(String item : TODO) System.out.println(item); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-06",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete counter",
+    "prompt": "Replace TODO so count increases for positive values.",
+    "starter_code": "public class Main { public static void main(String[] args){ int count=0; for(int n:new int[]{-1,2,3}) if(n>0){ TODO } System.out.println(count); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-07",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete while",
+    "prompt": "Replace TODO so the loop stops after printing 1,2,3.",
+    "starter_code": "public class Main { public static void main(String[] args){ int n=1; while(n<=3){ System.out.println(n); TODO } } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-08",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete array assignment",
+    "prompt": "Replace TODO so the second element becomes 9.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={1,2,3}; TODO; System.out.println(a[1]); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-09",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete maximum",
+    "prompt": "Replace TODO in the comparison.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={2,8,4}; int largest=a[0]; for(int n:a) if(TODO) largest=n; System.out.println(largest); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-10",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete string count",
+    "prompt": "Replace TODO so the program counts 'a'.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"banana\"; int count=0; for(int i=0;i<s.length();i++) if(TODO) count++; System.out.println(count); } }",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-11",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete parsing",
+    "prompt": "Replace TODO so numeric addition works.",
+    "starter_code": "import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); int x=TODO(sc.nextLine()); System.out.println(x+1); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-12",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete index loop",
+    "prompt": "Replace TODO to iterate valid indexes.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={10,20,30}; for(int i=0;i<TODO;i++) System.out.println(i+\" \"+a[i]); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-13",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete average",
+    "prompt": "Replace TODO so the result is a double average.",
+    "starter_code": "public class Main { public static void main(String[] args){ int[] a={2,4,6,8}; int total=20; double avg=TODO; System.out.println(avg); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-14",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete break",
+    "prompt": "Replace TODO so the loop stops when n equals 3.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(TODO) break; System.out.println(n); } } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-15",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete map lookup",
+    "prompt": "Replace TODO to print Ada.",
+    "starter_code": "import java.util.*; public class Main { public static void main(String[] args){ Map<String,String> m=new HashMap<>(); m.put(\"name\",\"Ada\"); System.out.println(m.get(TODO)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-16",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete nested loop",
+    "prompt": "Replace TODO so the inner loop runs twice.",
+    "starter_code": "public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<TODO;j++) System.out.println(i+\" \"+j); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-17",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete boolean",
+    "prompt": "Replace TODO so values 10 through 20 inclusive are accepted.",
+    "starter_code": "public class Main { public static void main(String[] args){ int x=15; if(TODO) System.out.println(\"accepted\"); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-18",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete reverse build",
+    "prompt": "Replace TODO so out becomes cba.",
+    "starter_code": "public class Main { public static void main(String[] args){ String s=\"abc\", out=\"\"; for(int i=0;i<s.length();i++){ TODO } System.out.println(out); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-19",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete ArrayList add",
+    "prompt": "Replace TODO so 3 is appended.",
+    "starter_code": "import java.util.*; public class Main { public static void main(String[] args){ List<Integer> a=new ArrayList<>(); a.add(1); a.add(2); TODO; System.out.println(a); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  },
+  {
+    "id": "JA-CMP-20",
+    "language": "java",
+    "modality_id": "code-completion",
+    "title": "Complete even method",
+    "prompt": "Replace TODO so isEven returns true for even values.",
+    "starter_code": "public class Main { static boolean isEven(int n){ return TODO; } public static void main(String[] args){ System.out.println(isEven(6)); } }",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "java",
+      "completion"
+    ]
+  }
+]

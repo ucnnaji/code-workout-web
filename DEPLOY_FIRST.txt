@@ -1,0 +1,26 @@
+CODE WORKOUT V2 - DEPLOY ORDER
+
+1) Supabase SQL Editor: run the entire supabase_upgrade.sql file once.
+   Expected validation result: 6 rows, each with question_count = 20.
+
+2) Supabase API Keys: use a SERVER-SIDE Secret key (or legacy service_role key)
+   in Render as SUPABASE_SECRET_KEY. Do NOT use anon/publishable.
+
+3) Render environment variables required:
+   OPENAI_API_KEY
+   SUPABASE_URL
+   SUPABASE_SECRET_KEY
+   ADMIN_TOKEN
+
+4) Replace/update the GitHub repo with this folder and push main.
+   Render Blueprint auto-deploys from render.yaml.
+
+5) After deployment open:
+   /health      -> should report ok:true and questions:160
+   /            -> participant app
+   /admin.html  -> research dashboard
+
+6) Test one disposable participant end-to-end before collecting study data.
+
+IMPORTANT: The database migration is required. A Render restart cannot create
+new Supabase tables using only the REST/Secret key.
