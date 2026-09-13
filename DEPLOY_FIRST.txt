@@ -1,0 +1,33 @@
+CODE WORKOUT — MODIFIED STUDY BUILD
+
+1. Back up Supabase and keep private .env values outside Git.
+   Render compute target in render.yaml: 2c-4g (Pro-equivalent).
+2. In Supabase SQL Editor run ONE file only: supabase_upgrade.sql.
+   (supabase_setup.sql and supabase_workflow.sql are identical aliases.)
+3. Push this folder's CONTENTS to the existing GitHub repository root.
+4. In Render keep/set:
+   SUPABASE_URL
+   SUPABASE_SECRET_KEY
+   PUBLIC_ORIGIN
+   PII_ENCRYPTION_KEY
+   ADMIN_TOKEN
+   COMPENSATION_ADMIN_TOKEN
+   OPENAI_API_KEY
+   OPENAI_MODEL
+   EXECUTION_PROVIDER=judge0
+   JUDGE0_URL=https://ce.judge0.com (or your approved Judge0-compatible service)
+   JUDGE0_PYTHON_ID / JUDGE0_JAVA_ID are optional; the app can discover them.
+5. SUPABASE_SECRET_KEY must be a backend secret/service_role key, never anon/publishable.
+6. PII_ENCRYPTION_KEY must decode to exactly 32 random bytes.
+7. For remote student self-enrollment, set LIVE_COLLECTION_ENABLED=true and keep the saved study configuration deliveryMode set to remote.
+8. Render liveness: /healthz. Setup diagnostics: /health. Strict readiness: /readyz.
+9. Deploy latest commit after environment changes.
+10. After deploy, open the public URL in a private/incognito window and verify that a student can consent, choose a Participant ID/language, generate a Private Access Key, and start Session 1.
+
+Verification before push:
+  npm test
+  npm run build:verify
+  npm run test:security
+  LOAD_USERS=500 npm run test:load
+  python scripts/browser_test.py
+  python scripts/admin_browser_test.py

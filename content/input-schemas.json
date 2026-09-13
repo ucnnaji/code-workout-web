@@ -1,0 +1,45 @@
+{
+  "version": "inputs-v1",
+  "questions": {
+    "PY-DBG-19": [
+      {
+        "id": "value",
+        "label": "Number to add one to",
+        "type": "integer",
+        "example": "5",
+        "default": "5",
+        "required": true,
+        "help": "The program reads this value once. The platform adds the line ending for you."
+      }
+    ],
+    "JA-DBG-18": [
+      {
+        "id": "value",
+        "label": "Number to add one to",
+        "type": "integer",
+        "example": "5",
+        "default": "5",
+        "required": true,
+        "help": "The program reads this value once. The platform adds the line ending for you."
+      }
+    ]
+  },
+  "multiInputExample": [
+    {
+      "id": "first",
+      "label": "First number",
+      "type": "integer",
+      "example": "4",
+      "default": "4",
+      "required": true
+    },
+    {
+      "id": "second",
+      "label": "Second number",
+      "type": "integer",
+      "example": "7",
+      "default": "7",
+      "required": true
+    }
+  ]
+}

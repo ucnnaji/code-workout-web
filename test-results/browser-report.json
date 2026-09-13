@@ -1,0 +1,17 @@
+{
+  "mode": "offline DOM + in-memory API",
+  "language": "java",
+  "questions": 4,
+  "passed": true,
+  "checks": [
+    "no startup login flicker",
+    "consent version hidden",
+    "student-generated access flow",
+    "Java survey wording",
+    "2/1/1 locked modality order",
+    "Run Code absent for code explanation",
+    "explanation absent for problem-solving/debugging",
+    "visible scoring",
+    "completion"
+  ]
+}

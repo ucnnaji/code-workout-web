@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Workout</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="topbar">
+    <div>
+      <h1>Code Workout</h1>
+      <p>Programming Practice Study</p>
+    </div>
+    <div id="sessionMeta" class="session-meta hidden" aria-live="polite"></div>
+  </header>
+
+  <main id="main" class="app-shell">
+    <section id="loadingScreen" class="screen card narrow" aria-labelledby="loadingTitle"><p class="eyebrow">Code Workout</p><h2 id="loadingTitle">Loading study…</h2><p class="muted">Please wait while the study page is prepared.</p></section>
+    <div id="reviewNotice" class="info-box hidden" role="status"></div>
+    <div id="studyControls" class="study-controls hidden">
+      <button id="saveExit" class="ghost compact">Save &amp; exit</button>
+      <button id="stopStudy" class="ghost compact">Stop participating</button>
+      <a id="consentCopy" class="hidden" target="_blank" rel="noopener">Your consent copy</a>
+    </div>
+    <nav id="stageTracker" class="stage-tracker hidden" aria-label="Study progress"></nav>
+    <section id="consentScreen" class="screen card wide-card hidden" aria-labelledby="preflightConsentTitle">
+      <p class="eyebrow">Your choice</p>
+      <h2 id="preflightConsentTitle" tabindex="-1">Informed Consent</h2>
+      <p class="muted small-text consent-scroll-hint">Scroll inside the box to read the complete consent information.</p>
+      <div id="preflightConsentCopy" class="consent-text consent-scroll" role="region" aria-label="Consent information" tabindex="0"></div>
+      <p class="private-note">Participation is voluntary. Choosing not to participate will not affect your grade, academic standing, or relationship with course staff or the research team.</p>
+      <label class="option-label"><input id="preflightAgree" type="checkbox"><span>I have read the information above, have had the opportunity to ask questions, and agree to participate.</span></label>
+      <label for="preflightSignature">Type your name to sign</label>
+      <input id="preflightSignature" maxlength="160" autocomplete="name">
+      <p id="preflightConsentError" class="form-error" role="alert"></p>
+      <div class="stage-actions"><button id="consentYes" class="primary">I agree &amp; continue</button><button id="consentNo" class="ghost">I do not consent</button></div>
+    </section>
+
+    <section id="declineScreen" class="screen card narrow hidden" aria-labelledby="declineTitle">
+      <p class="eyebrow">Participation declined</p>
+      <h2 id="declineTitle" tabindex="-1">Your decision is respected</h2>
+      <p>You have chosen not to participate in the research study. This does not affect your grade, academic standing, or relationship with your instructor or the research team.</p>
+      <div class="completion-banner">
+        <h3>Non-research course-credit option</h3>
+        <p>The approved study materials provide a non-research option to earn the same course credit by completing comparable programming practice. Across the study, the available credit totals up to 1.0 point (0.3 + 0.3 + 0.4).</p>
+        <p><strong>This page does not itself award course credit.</strong> Follow the study team's instructions to complete the non-research alternative.</p>
+      </div>
+      <p id="declineContact" class="muted"></p>
+    </section>
+
+    <section id="accessSetupScreen" class="screen card wide-card hidden" aria-labelledby="accessSetupTitle">
+      <p class="eyebrow">Create your study access</p>
+      <h2 id="accessSetupTitle" tabindex="-1">Set up your Participant ID and Private Access Key</h2>
+      <p>Choose a Participant ID that you will remember. <strong>Do not use your name, A-number, email address, birthday, or another identifying number.</strong></p>
+      <div id="accessCreationForm">
+        <label for="newStudyParticipantId">Choose a Participant ID</label>
+        <input id="newStudyParticipantId" maxlength="20" autocomplete="off" placeholder="Example: BLUE42">
+        <p class="muted small-text">Use 4–20 letters, numbers, hyphens, or underscores.</p>
+        <p class="muted small-text">You will choose Python or Java once after creating your study access, before the first survey begins.</p>
+        <p id="accessSetupError" class="form-error" role="alert"></p>
+        <div class="action-row"><button id="generateStudyAccess" class="primary">Generate my Private Access Key</button><button id="showReturningLogin" class="ghost">I already have study access</button></div>
+      </div>
+      <div id="generatedAccess" class="access-key-card hidden" aria-live="polite">
+        <h3>Save these study credentials now</h3>
+        <p>Your Private Access Key is shown only once. You will need both items to return for later sessions.</p>
+        <div class="credential-row"><span>Participant ID</span><strong id="generatedParticipantId" class="mono"></strong></div>
+        <div class="credential-row"><span>Private Access Key</span><strong id="generatedAccessKey" class="mono"></strong><button id="copyStudyAccess" class="secondary compact">Copy</button></div>
+        <label class="option-label"><input id="savedStudyAccess" type="checkbox"><span>I have saved my Participant ID and Private Access Key.</span></label>
+        <div class="action-row"><button id="continueWithStudyAccess" class="primary" disabled>Continue to the study</button></div>
+      </div>
+    </section>
+
+    <section id="participantScreen" class="screen card narrow hidden" aria-labelledby="participantTitle">
+      <p class="eyebrow">Returning participant</p>
+      <h2 id="participantTitle">Sign in to resume your study</h2>
+      <p class="muted">Use the same ID for all three sessions. Do not enter your name or student number.</p>
+      <form id="loginForm">
+        <label for="participantId">Participant ID</label><input id="participantId" maxlength="64" autocomplete="username" required>
+        <label for="accessKey">Private access key</label><input id="accessKey" type="password" maxlength="128" autocomplete="current-password" required>
+        <p class="muted small-text">Use the Private Access Key you saved when your study access was created.</p>
+        <div class="action-row"><button class="primary" type="submit">Continue</button></div>
+      </form>
+      <p id="loginError" class="form-error" role="alert"></p>
+      <p class="muted">Lost your key? Contact <span id="loginContact">the research team</span>. The team can reset it without changing your Participant ID.</p><button id="backToAccessSetup" class="ghost">Back to study access</button>
+    </section>
+    <section id="sessionScreen" class="screen card wide-card hidden" aria-labelledby="sessionTitle">
+      <p class="eyebrow">Your study sessions</p><h2 id="sessionTitle">Continue your study</h2>
+      <p class="muted">Each session has its own progress. Reopening a session resumes it; it does not create a second record.</p>
+      <div id="sessionList" class="choice-grid"></div>
+    </section>
+    <section id="workflowScreen" class="screen card wide-card hidden" aria-labelledby="stageTitle">
+      <p id="stageEyebrow" class="eyebrow"></p><h2 id="stageTitle" tabindex="-1"></h2>
+      <div id="stageContent"></div><p id="stageSaveStatus" class="autosave" aria-live="polite"></p>
+      <p id="stageError" class="form-error" role="alert"></p>
+    </section>
+    <section id="completionScreen" class="screen card wide-card hidden" aria-labelledby="completionTitle">
+      <p class="eyebrow">Saved study progress</p><h2 id="completionTitle" tabindex="-1"></h2><div id="completionContent"></div>
+      <div class="action-row"><button id="viewSessions" class="primary">View my sessions</button></div>
+    </section>
+    <section id="modalityScreen" class="screen hidden" aria-labelledby="modalityTitle">
+      <div class="screen-heading">
+        <div>
+          <p class="eyebrow">Practice dashboard</p>
+          <h2 id="modalityTitle">Practice activities</h2>
+          <p class="muted">Complete the activities in the assigned order. The next activity unlocks after the current one is finished. There are four questions in total.</p>
+        </div>
+        <div>
+          <div class="overall-progress" aria-label="Study progress">
+            <span id="progressText">0 of 4 questions completed</span>
+            <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+          </div>
+          
+        </div>
+      </div>
+      <div id="modalityGrid" class="modality-grid"></div>
+      <div id="studyCompletedBanner" class="completion-banner hidden" role="status">
+        <h3>Coding activities complete</h3>
+        <p>Your coding responses are saved. Continue to the next study section.</p>
+        <button id="codingContinue" class="primary">Continue</button>
+      </div>
+    </section>
+
+    <section id="workspaceScreen" class="screen hidden" aria-labelledby="taskTitle">
+      <div class="workspace-top">
+        <button id="backToModalities" class="ghost">← Practice overview</button>
+        <div class="question-progress">
+          <span id="questionProgressText">Question 1 of 4</span>
+          <div class="progress-track small"><div id="questionProgressBar" class="progress-fill"></div></div>
+        </div>
+        <span id="autosaveStatus" class="autosave" aria-live="polite">Saved</span>
+      </div>
+
+      <div class="workspace-grid">
+        <aside class="task-panel">
+          <div class="pill-row">
+            <span id="languagePill" class="pill"></span>
+            <span id="modalityPill" class="pill"></span>
+            <span id="difficultyPill" class="pill subtle"></span>
+          </div>
+          <h2 id="taskTitle"></h2>
+          <div id="taskId" class="task-id"></div>
+          <p id="taskPrompt" class="task-prompt"></p>
+          <div id="traceInstructions" class="info-box hidden">For Code Explanation, read the provided code and explain what it does. The code itself is read-only.</div>
+        </aside>
+
+        <section class="ide-panel" aria-label="Coding workspace">
+          <div class="panel-header">
+            <div>
+              <h3>Code Editor</h3>
+              <p id="editorHelp" class="muted small-text">Loading the code editor…</p>
+            </div>
+            <button id="formatCode" class="secondary compact">Format Code</button>
+          </div>
+          <section id="scoreBox" class="score-box" aria-live="polite">
+            <div><span class="score-label">Score</span><strong id="scoreValue">—</strong></div>
+            <div><p id="scoreSummary">Run your code or check your explanation to see a score.</p><ul id="scoreChecks"></ul></div>
+          </section>
+          <div id="editorHost" class="editor-host" aria-label="Code editor"></div>
+          <textarea id="fallbackEditor" class="fallback-editor hidden" spellcheck="false" aria-label="Code editor fallback"></textarea>
+
+          <div id="explanationSection" class="field-block">
+            <label id="explanationLabel" for="explanationInput">Explanation / notes</label>
+            <textarea id="explanationInput" rows="5" maxlength="12000" placeholder="Enter your explanation, predicted output, or reasoning here."></textarea>
+          </div>
+
+          <section id="structuredInputs" class="field-block compact-field" aria-label="Exercise inputs"></section>
+          <div id="feedbackTypeField" class="field-block compact-field"><label for="feedbackType">Feedback type</label><select id="feedbackType"></select></div>
+          <div class="action-row">
+            <button id="runCode" class="primary">▶ Run Code</button>
+            <button id="checkExplanation" class="primary hidden">Check Explanation</button>
+            <button id="getFeedback" class="ai-button">✦ Get AI Feedback</button>
+            <button id="saveFinal" class="save-button">Save Final Response</button>
+            <button id="skipQuestion" class="ghost">Skip question</button>
+          </div>
+
+          <section id="outputPanel" class="result-panel output-panel" aria-labelledby="outputTitle">
+            <div class="result-heading"><h3 id="outputTitle">Program Output</h3><span id="executionStatus" class="result-status">Not run</span></div>
+            <pre id="programOutput" tabindex="0">Run your code to see compilation/runtime output here.</pre>
+          </section>
+
+          <section class="result-panel feedback-panel" aria-labelledby="feedbackTitle">
+            <div class="result-heading"><h3 id="feedbackTitle">AI Feedback</h3><span id="feedbackCount" class="result-status">0 requests</span></div>
+            <div id="aiFeedback" class="feedback-content" tabindex="0">Request feedback when you are ready. AI feedback is separate from actual program execution.</div>
+          </section>
+        </section>
+      </div>
+    </section>
+
+    <section id="reviewScreen" class="screen hidden" aria-labelledby="reviewTitle">
+      <div class="card wide-card">
+        <p class="eyebrow">Modality review</p>
+        <h2 id="reviewTitle">Review your saved responses</h2>
+        <p class="muted">Check the saved responses below. When you confirm completion, this modality will be locked and cannot be repeated.</p>
+        <div id="reviewList" class="review-list"></div>
+        <div class="action-row end">
+          <button id="completeModality" class="save-button">Confirm & Complete Modality</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <h2 id="dialogTitle">Confirm</h2>
+      <p id="dialogMessage"></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost">Cancel</button>
+        <button value="confirm" class="save-button">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="/vendor/monaco/vs/loader.js"></script>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

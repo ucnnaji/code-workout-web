@@ -1,0 +1,54 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const root = new URL('../', import.meta.url);
+const read = p => readFileSync(new URL(p, root), 'utf8');
+const files = ['server.mjs','lib/app.mjs','lib/core.mjs','lib/database.mjs','lib/providers.mjs','lib/study.mjs','lib/runtime-config.mjs','public/app.js','public/admin.js'];
+const source = files.map(f => `\n/* ${f} */\n${read(f)}`).join('\n');
+const envRefs = new Set([...source.matchAll(/(?:env|process\.env)\.([A-Z][A-Z0-9_]*)/g)].map(m => m[1]));
+const example = read('.env.example');
+const render = read('render.yaml');
+for (const key of envRefs) {
+  if (key === 'PORT') continue;
+  assert.match(example, new RegExp(`^${key}=`, 'm'), `${key} missing from .env.example`);
+  assert.match(render, new RegExp(`key:\\s*${key}\\b`), `${key} missing from render.yaml`);
+}
+for (const pattern of [/\bsk-[A-Za-z0-9_-]{20,}/, /\bsb_secret_[A-Za-z0-9_-]{20,}/, /PII_ENCRYPTION_KEY\s*=\s*['\"][A-Za-z0-9+/=]{30,}['\"]/, /ADMIN_TOKEN\s*=\s*['\"][^'\"\n]{24,}['\"]/]) {
+  assert.doesNotMatch(source, pattern, `Possible hard-coded secret found: ${pattern}`);
+}
+assert.doesNotMatch(source, /from ['"]node:child_process['"]|\bexecSync\(|\bspawnSync\(|\beval\(|new Function\(/, 'Runtime shell/eval primitive found.');
+const app = read('lib/app.mjs');
+assert.match(app, /HttpOnly|httpOnly: true/);
+assert.match(app, /sameSite: 'strict'/);
+assert.match(app, /X-CSRF-Token/);
+assert.match(app, /Cross-origin requests are not accepted/);
+assert.match(app, /publicQuestionSnapshot/);
+assert.match(app, /expected_concepts/);
+assert.match(app, /topicValidation/);
+assert.match(app, /Cross-Origin-Resource-Policy/);
+assert.match(app, /spreadsheetCell/);
+assert.match(app, /selfEnrollIpPerHour: 1200/);
+assert.match(app, /loginIpPer15Min: 2000/);
+assert.match(read('public/app.js'), /body: \{ stage: state\.flow\.currentStage \}/);
+assert.match(read('public/app.js'), /}, 30000\);/);
+const providers = read('lib/providers.mjs');
+assert.match(providers, /enable_network: false/);
+assert.match(providers, /OPENAI_MAX_CONCURRENCY/);
+assert.match(providers, /JUDGE0_MAX_CONCURRENCY/);
+assert.match(providers, /type: 'json_schema'/);
+assert.match(providers, /store: false/);
+assert.match(providers, /judge0LanguagePromises/);
+const questions = JSON.parse(read('questions.seed.json'));
+assert.equal(new Set(questions.map(q => q.id)).size, questions.length);
+assert.ok(questions.length >= 36);
+const sqlA = read('supabase_upgrade.sql'), sqlB = read('supabase_setup.sql'), sqlC = read('supabase_workflow.sql');
+assert.equal(createHash('sha256').update(sqlA).digest('hex'), createHash('sha256').update(sqlB).digest('hex'));
+assert.equal(sqlA, sqlC);
+assert.match(sqlA, /Canonical question bank generated from questions\.seed\.json/);
+assert.match(sqlA, /cw_operations_assignment_recent/);
+assert.match(sqlA, /p->>'cleanup'/);
+assert.match(sqlA, /cw_question_banks/);
+assert.match(sqlA, /bank_release/);
+assert.match(sqlA, /questionBankHash/);
+assert.match(sqlA, /not \(qa\.question_snapshot \? 'expected_concepts'\)/);
+console.log(JSON.stringify({ ok: true, envVariablesChecked: [...envRefs].sort(), sourceFilesChecked: files.length, questionDefinitions: questions.length, notes: ['No hard-coded secret signature found', 'No runtime child_process/eval primitive found', 'Three generated SQL entry files are identical'] }, null, 2));

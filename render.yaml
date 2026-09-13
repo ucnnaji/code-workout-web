@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: code-workout-web
+    runtime: node
+    plan: 2c-4g
+    buildCommand: npm install --omit=dev --no-audit --no-fund && npm run build:verify
+    startCommand: npm start
+    healthCheckPath: /healthz
+    maxShutdownDelaySeconds: 90
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LIVE_COLLECTION_ENABLED
+        value: "false"
+      - key: PUBLIC_ORIGIN
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: COMPENSATION_ADMIN_TOKEN
+        sync: false
+      - key: PII_ENCRYPTION_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini-2025-04-14
+      - key: OPENAI_MAX_CONCURRENCY
+        value: "120"
+      - key: EXECUTION_PROVIDER
+        value: judge0
+      - key: JUDGE0_URL
+        value: https://ce.judge0.com
+      - key: JUDGE0_MAX_CONCURRENCY
+        value: "120"
+      - key: JUDGE0_PYTHON_ID
+        sync: false
+      - key: JUDGE0_JAVA_ID
+        sync: false
+      - key: JUDGE0_AUTH_TOKEN
+        sync: false
+      - key: JUDGE0_RAPIDAPI_KEY
+        sync: false

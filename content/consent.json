@@ -1,0 +1,90 @@
+{
+  "version": "supplied-main-consent-16317-v1",
+  "title": "Comparing Practice Modalities for Programming Education - Main Study Informed Consent",
+  "protocol": "16317",
+  "sourceFilename": "16137 Informed Consent-Main Study IRB Edits(2).docx",
+  "reviewStatus": "supplied-document-not-evidence-of-current-approval",
+  "sections": [
+    {
+      "heading": "Introduction",
+      "paragraphs": [
+        "You are invited to participate in a research study conducted by Dr. Yang Shi in the Department of Computer Science at Utah State University. The purpose of this study is to understand how different ways of practicing programming affect students' programming self-efficacy and the skills they develop. You’re being asked to participate because you’re an adult in an introductory programming course. Participation is voluntary. ",
+        "Please read this form and ask any questions before deciding whether to participate."
+      ]
+    },
+    {
+      "heading": "Procedures",
+      "paragraphs": [
+        "If you agree to participate, you will attend three in-person experiment sessions during your introductory programming course: Week 3 (loops), Week 6 (functions), and Week 10 (arrays). Each session will take about 65 minutes.",
+        "Each of the three sessions will follow the same structure:",
+        "Pre-session self-efficacy survey: about 5 minutes (five short questions).",
+        "Practice Question 1: about 20 minutes using your initially assigned practice modality.",
+        "Practice Question 2: about 20 minutes using the same assigned modality and a similar programming question.",
+        "Crossover activity: about 15 minutes using the other two practice modalities.",
+        "Post-session self-efficacy survey: about 5 minutes.",
+        "The three programming practice modalities are problem solving with AI-generated feedback, debugging, and code explanation. Across the crossover portion of each weekly session, you will experience all three modalities for that week's programming topic. You will complete one pre-session and one post-session self-efficacy survey in each of the three sessions, for six self-efficacy surveys total. Participation will last a little over three hours total across the semester.",
+        "The study will collect the code you write or modify, code-explanation responses, exercise submissions, submission timestamps, test results within the programming sessions, feedback shown to you, and activity scores. Coding activity will be recorded using a study ID rather than your name whenever possible. You should not include your name, A-number, email address, or other identifying information in your code or written responses."
+      ]
+    },
+    {
+      "heading": "Risks",
+      "paragraphs": [
+        "This is a minimal-risk study. You may feel mild frustration or discomfort while completing programming tasks or answering questions about your confidence. There is also a small risk of loss of confidentiality. You may skip any question you do not want to answer and may stop participating at any time."
+      ]
+    },
+    {
+      "heading": "Benefits",
+      "paragraphs": [
+        "You may benefit from additional programming practice, but a direct educational benefit is not guaranteed. The study may help educators better understand how problem solving, debugging, and code explanation support programming confidence and skill development."
+      ]
+    },
+    {
+      "heading": "Confidentiality",
+      "paragraphs": [
+        "Study data will be stored on secure, password-protected, university-approved systems. Access will be limited to approved research team members. You will be assigned a study ID, and identifying information will be stored separately from research data when possible. Qualtrics will be set not to collect unnecessary information such as IP addresses when possible.",
+        "The file linking your identity to your study ID will be deleted when it is no longer needed for study administration and before the IRB protocol is closed. After identifiers are removed, de-identified research data may be kept for three years after study completion and then securely deleted. Consent forms and required compensation records will be kept according to university requirements. Results will be reported only in aggregate or de-identified form."
+      ]
+    },
+    {
+      "heading": "Voluntary Participation and Withdrawal",
+      "paragraphs": [
+        "Taking part is completely voluntary. Choosing not to participate, or choosing to stop later, will not affect your grade, academic standing, or relationship with course staff or the research team. You may ask to withdraw identifiable study data until the data have been fully de-identified and can no longer be linked back to you."
+      ]
+    },
+    {
+      "heading": "Compensation and Course Credit",
+      "paragraphs": [
+        "You will receive a $20 Amazon e-gift card for each completed study session, for up to $60 across the three sessions. Compensation does not depend on your performance or assigned practice modality.",
+        "You may also earn up to 1.0 course credit point across the study: 0.3 points for Week 3, 0.3 points for Week 6, and 0.4 points for Week 10. Students who do not participate in the research will have a non-research option to earn the same course credit by completing and submitting comparable programming practice requiring similar effort. Please reach out to the study team if you are interested in the non-research extra credit option. The same credit structure will be used across participating introductory programming courses."
+      ]
+    },
+    {
+      "heading": "Optional Follow-up Interview",
+      "paragraphs": [
+        "After the main study, you may be invited to a separate optional 20-minute interview about your programming-practice experience. The interview is not required to complete the main study. Choosing not to participate will not affect your study compensation, course credit, grade, or academic standing. Students who choose the interview will review a separate interview consent form and will receive an additional $15 Amazon e-gift card for completing the interview."
+      ]
+    },
+    {
+      "heading": "Findings and Future Use",
+      "paragraphs": [
+        "Study findings may be published or presented. Only de-identified or summarized information will be reported. De-identified data may be used for future research."
+      ]
+    },
+    {
+      "heading": "Questions and IRB Contact",
+      "paragraphs": [
+        "If you have questions about the study, contact the Principal Investigator, Dr. Yang Shi, at 435-797-4458 or Yang.Shi@usu.edu. If you have questions about your rights as a research participant or would like to speak with someone outside the research team, contact the USU IRB at 435-797-0567 or irb@usu.edu."
+      ]
+    },
+    {
+      "heading": "Informed Consent",
+      "paragraphs": [
+        "By signing below, you agree to participate in the main study described above. You confirm that you understand what you will be asked to do, the possible risks and benefits, and that participation is voluntary. You have had the opportunity to ask questions."
+      ]
+    }
+  ],
+  "sourceSignatureFields": [
+    "Participant Name: ______________________________________________",
+    "Participant Signature: ___________________________________________    Date: ______________"
+  ]
+}

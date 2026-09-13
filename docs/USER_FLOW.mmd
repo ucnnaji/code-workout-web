@@ -1,0 +1,20 @@
+flowchart TD
+  A[Research information] --> B{Consent?}
+  B -->|No| X[End research path + non-research option information]
+  B -->|Yes| C[Choose non-identifying Participant ID + select Python/Java]
+  C --> D[Server generates Private Access Key and signs participant in]
+  D --> E[Language-tailored pre-survey]
+  E --> F[Practice environment demo]
+  F --> G[Confirm selected programming language]
+  G --> H[Primary modality · Question 1]
+  H --> I[Primary modality · Question 2]
+  I --> J[Second modality · Question 3]
+  J --> K[Third modality · Question 4]
+  K --> L[Language-tailored post-survey]
+  L --> M[Incentive]
+  M --> N[Completion + return instructions]
+  H & I & J -. score + response .-> R[Supabase research records]
+  K -. score + response .-> R
+  E & L -. survey responses .-> R
+  B -. signed consent .-> Q[Restricted encrypted consent record]
+  M -. compensation contact .-> P[Restricted encrypted compensation record]

@@ -1,0 +1,381 @@
+{
+  "version": "supplied-eight-items-plus-requested-draft-v1",
+  "background": [
+    {
+      "id": "major",
+      "label": "What is your major?",
+      "type": "text",
+      "required": false,
+      "source": "supplied Section A"
+    },
+    {
+      "id": "course_count",
+      "label": "How many programming courses have you completed before CS 1400?",
+      "type": "choice",
+      "required": false,
+      "source": "supplied Section A",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "3 or more"
+      ]
+    },
+    {
+      "id": "experience",
+      "label": "How much programming experience did you have before this semester?",
+      "type": "choice",
+      "required": false,
+      "source": "supplied Section A",
+      "options": [
+        "None",
+        "Less than 6 months",
+        "6-12 months",
+        "1-2 years",
+        "More than 2 years"
+      ]
+    },
+    {
+      "id": "familiarity",
+      "label": "Before this course, how familiar were you with Python?",
+      "type": "choice",
+      "required": false,
+      "source": "supplied Section A",
+      "options": [
+        "Not at all",
+        "Slightly",
+        "Moderately",
+        "Very",
+        "Extremely"
+      ]
+    }
+  ],
+  "selfEfficacy": [
+    {
+      "id": "se_1",
+      "label": "Write a short Python program to solve a new programming problem.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_2",
+      "label": "Break a programming problem into smaller steps.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_3",
+      "label": "Identify an error in Python code.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_4",
+      "label": "Fix an error in Python code.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_5",
+      "label": "Explain in plain English what a short Python program does.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_6",
+      "label": "Understand a short Python program that I did not write.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_7",
+      "label": "Solve a programming problem without step-by-step help.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    },
+    {
+      "id": "se_8",
+      "label": "Learn a new programming concept introduced in class.",
+      "type": "likert",
+      "required": false,
+      "source": "supplied Sections B/C",
+      "options": [
+        "Not at all confident",
+        "Slightly confident",
+        "Moderately confident",
+        "Very confident",
+        "Extremely confident"
+      ]
+    }
+  ],
+  "preExtras": [
+    {
+      "id": "previous_coursework",
+      "label": "Which programming courses have you taken?",
+      "type": "text",
+      "required": false,
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "prior_ai",
+      "label": "Before this study, how often had you used AI-assisted learning tools?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Very often"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "learning_preferences",
+      "label": "Which ways of learning programming do you prefer?",
+      "type": "multi",
+      "required": false,
+      "options": [
+        "Writing programs",
+        "Finding and fixing errors",
+        "Explaining code",
+        "Worked examples",
+        "Other"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "past_modalities",
+      "label": "Which programming practice modalities have you used in the past?",
+      "type": "multi",
+      "required": false,
+      "options": [
+        "Coding",
+        "Debugging",
+        "Program Explanations",
+        "Other"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "past_enjoyment",
+      "label": "Which modality did you enjoy the most?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Coding",
+        "Debugging",
+        "Program Explanations",
+        "Other",
+        "None / no prior experience"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "other_pre",
+      "label": "For any Other selection, please describe.",
+      "type": "text",
+      "required": false,
+      "source": "new request; needs instrument review"
+    }
+  ],
+  "postSource": [
+    {
+      "id": "confidence_activity",
+      "label": "Which practice activity made you feel most confident about programming?",
+      "type": "choice",
+      "required": false,
+      "source": "supplied Section D",
+      "options": [
+        "Problem solving with feedback",
+        "Debugging practice",
+        "Code explanation practice",
+        "No difference"
+      ]
+    },
+    {
+      "id": "confidence_reason",
+      "label": "Optional: Briefly explain why you selected that activity.",
+      "type": "text",
+      "required": false,
+      "source": "supplied Section D"
+    }
+  ],
+  "postExtras": [
+    {
+      "id": "engagement",
+      "label": "How engaged were you during the coding activities?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Not at all",
+        "Slightly",
+        "Moderately",
+        "Very",
+        "Extremely"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "satisfaction",
+      "label": "How satisfied were you with the study platform?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Very dissatisfied",
+        "Dissatisfied",
+        "Neither satisfied nor dissatisfied",
+        "Satisfied",
+        "Very satisfied"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "perceived_learning",
+      "label": "How much do you feel you learned?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Nothing",
+        "A little",
+        "A moderate amount",
+        "A lot",
+        "A great deal"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "usability",
+      "label": "How easy was the platform to use?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Very difficult",
+        "Difficult",
+        "Neither easy nor difficult",
+        "Easy",
+        "Very easy"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "ai_usefulness",
+      "label": "How useful was the AI-generated feedback?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Did not use AI feedback",
+        "Not at all useful",
+        "Slightly useful",
+        "Moderately useful",
+        "Very useful",
+        "Extremely useful"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "useful_activity",
+      "label": "Which activity type did you find most useful?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Coding",
+        "Debugging",
+        "Program Explanations",
+        "No difference"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "enjoyed_activity",
+      "label": "Which activity type did you enjoy most?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Coding",
+        "Debugging",
+        "Program Explanations",
+        "No difference"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "use_again",
+      "label": "Would you use this system again?",
+      "type": "choice",
+      "required": false,
+      "options": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "source": "new request; needs instrument review"
+    },
+    {
+      "id": "improvements",
+      "label": "What improvements would you suggest?",
+      "type": "text",
+      "required": false,
+      "source": "new request; needs instrument review"
+    }
+  ],
+  "prePrompt": "Before beginning the study activities, how confident are you that you can do each of the following?",
+  "postPrompt": "Now that you have completed all three programming practice activities, how confident are you that you can do each of the following?",
+  "scaleNote": "1 = Not at all confident; 2 = Slightly confident; 3 = Moderately confident; 4 = Very confident; 5 = Extremely confident."
+}

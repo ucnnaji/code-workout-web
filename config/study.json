@@ -1,0 +1,87 @@
+{
+  "studyKey": "programming-practice-16317",
+  "workflowVersion": "4.0.0",
+  "title": "Programming Practice Study",
+  "contact": {
+    "name": "Dr. Yang Shi",
+    "email": "Yang.Shi@usu.edu",
+    "phone": "435-797-4458",
+    "irbEmail": "irb@usu.edu",
+    "irbPhone": "435-797-0567"
+  },
+  "deliveryMode": "remote",
+  "durationText": "Each study session will take about 65 minutes.",
+  "languages": [
+    "python",
+    "java"
+  ],
+  "activityDesign": "assigned_crossover",
+  "questionsPerModality": 3,
+  "aiEnabled": true,
+  "aiModalities": [
+    "problem-solving"
+  ],
+  "feedbackTypes": [
+    "hint",
+    "concept",
+    "debugging"
+  ],
+  "maxFeedbackPerQuestion": 8,
+  "maxRunsPerQuestion": 30,
+  "executionEnabled": true,
+  "sessions": [
+    {
+      "number": 1,
+      "label": "Session 1",
+      "open": true
+    },
+    {
+      "number": 2,
+      "label": "Session 2",
+      "open": false
+    },
+    {
+      "number": 3,
+      "label": "Session 3",
+      "open": false
+    }
+  ],
+  "stages": {
+    "pre_survey": true,
+    "demo": true,
+    "coding": true,
+    "post_survey": true,
+    "incentive": true
+  },
+  "backgroundFirstSessionOnly": true,
+  "includeAdditionalSurveyItems": false,
+  "questionBankVersion": "inherited-v2-120",
+  "questionIdsBySession": {},
+  "avoidRepeatedQuestions": true,
+  "compensation": {
+    "amount": 20,
+    "currency": "USD",
+    "description": "$20 Amazon e-gift card per completed session; up to $60 across three sessions. Performance and assigned practice modality do not affect compensation.",
+    "instructions": "Choose how to receive your gift card. The research team issues cards; this website does not send payments automatically. Contact the team about payment questions or participation that ends early.",
+    "courseCredit": "Up to 1.0 course credit point: 0.3 for Week 3, 0.3 for Week 6, and 0.4 for Week 10. A comparable non-research option is available through the study team."
+  },
+  "release": {
+    "status": "draft",
+    "approvalReference": "",
+    "reviewed": {
+      "remote_delivery": false,
+      "electronic_consent": false,
+      "university_approved_storage": false,
+      "external_ai_and_execution": false,
+      "duration_and_assessments": false,
+      "survey_item_count_and_additions": false,
+      "java_adaptation": false,
+      "activity_design_and_topic_banks": false,
+      "eligibility_wording": false,
+      "contact_information": false
+    },
+    "reviewedContentHash": ""
+  },
+  "contentNotice": "Welcome! Click Continue to continue with the study.",
+  "preventDuplicateEntries": true
+}
