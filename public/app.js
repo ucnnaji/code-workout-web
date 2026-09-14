@@ -387,10 +387,7 @@ async function renderStage() {
                 return;
             send({ responses });
         };
-        $('skipStage').onclick = async () => {
-            if (await confirmAction('Skip this section?', 'This is voluntary. Your current answers will be retained, and the section will be marked skipped.'))
-                send({ responses: collectAnswers(), skipped: true });
-        };
+       
         await recoverDraft(populateAnswers);
     }
 }
