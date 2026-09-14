@@ -506,8 +506,8 @@ function setCode(code) {
     else
         $('fallbackEditor').value = code || '';
 }
-function codingValues() { const explanation = state.assignment?.modality_id === 'code-explanation' ? $('explanationInput').value : ''; const inputs = state.assignment?.modality_id === 'code-explanation' ? {} : Object.fromEntries([...document.querySelectorAll('[data-program-input]')].map(el => [el.dataset.programInput, el.value])); return { code: getCode(), explanation, inputs }; }
-function populateCoding(v) {
+function codingValues(){const modality=state.assignment?.modality_id;const explanation=modality==='code-explanation'?$('explanationInput').value:'';const inputs=modality==='problem-solving'?Object.fromEntries([...document.querySelectorAll('[data-program-input]')].map(el=>[el.dataset.programInput,el.value])):{};return{code:getCode(),explanation,inputs};}
+
     state.loadingAssignment = true;
     setCode(v.code || '');
     $('explanationInput').value = v.explanation || '';
