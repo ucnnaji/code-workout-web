@@ -856,7 +856,6 @@ $('runCode').onclick = () => runOperation('execute');
 $('checkExplanation').onclick = () => runOperation('score');
 $('getFeedback').onclick = () => runOperation('feedback');
 $('saveFinal').onclick = () => finalizeQuestion(false);
-$('skipQuestion').onclick = () => finalizeQuestion(true);
 $('completeModality').onclick = async () => {
     if (state.busy || !await confirmAction('Complete this modality?', 'This locks the modality for this session.'))
         return;
