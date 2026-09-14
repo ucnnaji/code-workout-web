@@ -506,15 +506,51 @@ function setCode(code) {
     else
         $('fallbackEditor').value = code || '';
 }
-function codingValues(){const modality=state.assignment?.modality_id;const explanation=modality==='code-explanation'?$('explanationInput').value:'';const inputs=modality==='problem-solving'?Object.fromEntries([...document.querySelectorAll('[data-program-input]')].map(el=>[el.dataset.programInput,el.value])):{};return{code:getCode(),explanation,inputs};}
+function codingValues() {
+    const modality = state.assignment?.modality_id;
 
+    const explanation =
+        modality === 'code-explanation'
+            ? $('explanationInput').value
+            : '';
+
+    const inputs =
+        modality === 'problem-solving'
+            ? Object.fromEntries(
+                [...document.querySelectorAll('[data-program-input]')]
+                    .map(el => [
+                        el.dataset.programInput,
+                        el.value
+                    ])
+            )
+            : {};
+
+    return {
+        code: getCode(),
+        explanation,
+        inputs
+    };
+}
+
+function populateCoding(v) {
     state.loadingAssignment = true;
+
     setCode(v.code || '');
-    $('explanationInput').value = v.explanation || '';
-    document.querySelectorAll('[data-program-input]').forEach(el => {
-        if (v.inputs?.[el.dataset.programInput] != null)
-            el.value = v.inputs[el.dataset.programInput];
-    });
+
+    $('explanationInput').value =
+        v.explanation || '';
+
+    document
+        .querySelectorAll('[data-program-input]')
+        .forEach(el => {
+            if (
+                v.inputs?.[el.dataset.programInput] != null
+            ) {
+                el.value =
+                    v.inputs[el.dataset.programInput];
+            }
+        });
+
     state.loadingAssignment = false;
 }
 function markDirty() {
