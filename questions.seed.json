@@ -880,6 +880,278 @@
     ]
   },
   {
+    "id": "JA-PS-02",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Scanner integer input",
+    "prompt": "Write a Java program that uses Scanner to read one integer into a variable named age and then prints the value stored in age.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Scanner",
+      "input",
+      "variables",
+      "output"
+    ]
+  },
+  {
+    "id": "JA-PS-03",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Double arithmetic",
+    "prompt": "Write a Java program that stores 4.5 in double price and 2 in int quantity. Calculate price * quantity in double total and print total.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "double",
+      "variables",
+      "arithmetic",
+      "output"
+    ]
+  },
+  {
+    "id": "JA-PS-04",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Order of operations",
+    "prompt": "Write Java code that calculates (4 + 6) * 2, stores the result in int result, and prints result.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "arithmetic",
+      "order of operations",
+      "parentheses"
+    ]
+  },
+  {
+    "id": "JA-PS-05",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Basic if statement",
+    "prompt": "Write a Java program with int score = 75. If score is at least 60, print Pass.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if",
+      "comparison"
+    ]
+  },
+  {
+    "id": "JA-PS-06",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "If-else selection",
+    "prompt": "Write a Java program with int number = 7. Print Positive if number is greater than 0; otherwise print Not positive.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if-else",
+      "comparison"
+    ]
+  },
+  {
+    "id": "JA-PS-07",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Else-if selection",
+    "prompt": "Write a Java program with int score = 85. Print A for scores 90 or higher, B for scores 80 through 89, and C for anything lower.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if-else-if",
+      "comparison"
+    ]
+  },
+  {
+    "id": "JA-PS-08",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Range check with AND",
+    "prompt": "Write a Java program with int age = 20. If age is at least 18 and at most 25, print In range. Use && in the condition.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "conditionals",
+      "logical AND",
+      "comparison"
+    ]
+  },
+  {
+    "id": "JA-PS-09",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "String equality",
+    "prompt": "Given String answer = \"yes\", write an if statement that prints Accepted when answer contains the text yes. Use equals().",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Strings",
+      "equals",
+      "conditionals"
+    ]
+  },
+  {
+    "id": "JA-PS-10",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "String length and charAt",
+    "prompt": "Given String word = \"java\", print the length of the word and then print its first character using String methods.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Strings",
+      "length",
+      "charAt",
+      "indexing"
+    ]
+  },
+  {
+    "id": "JA-PS-11",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Formatted output",
+    "prompt": "Given double price = 3.5, use System.out.printf() to print the price with exactly two digits after the decimal point.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "formatted output",
+      "printf",
+      "format specifiers"
+    ]
+  },
+  {
+    "id": "JA-PS-12",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Basic for loop",
+    "prompt": "Write a for loop that prints the integers 1, 2, and 3, one per line.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "for loop",
+      "loop boundary",
+      "iteration"
+    ]
+  },
+  {
+    "id": "JA-PS-13",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Basic while loop",
+    "prompt": "Write a while loop that starts with int n = 1 and prints 1, 2, and 3, then stops.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "while loop",
+      "loop update",
+      "iteration"
+    ]
+  },
+  {
+    "id": "JA-PS-14",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Simple loop total",
+    "prompt": "Use a for loop and int total = 0 to add the integers 1 through 4. Print the final total.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "for loop",
+      "accumulator",
+      "arithmetic"
+    ]
+  },
+  {
+    "id": "JA-PS-15",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Loop with a condition",
+    "prompt": "Write a for loop that checks the integers 1 through 4 and prints only the even values. Use % 2 == 0.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "for loop",
+      "conditionals",
+      "modulo"
+    ]
+  },
+  {
+    "id": "JA-PS-16",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Method with one parameter",
+    "prompt": "Write a static method named square that receives one int named x and returns x * x. In main, print square(4).",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "methods",
+      "parameters",
+      "return values",
+      "method call"
+    ]
+  },
+  {
+    "id": "JA-PS-17",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Method with two parameters",
+    "prompt": "Write a static method named add that receives two int parameters a and b and returns their sum. Print add(3, 5) in main.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "methods",
+      "parameters",
+      "return values",
+      "arithmetic"
+    ]
+  },
+  {
+    "id": "JA-PS-18",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Void method call",
+    "prompt": "Write a static void method named greet that receives a String name and prints Hello followed by the name. In main, call greet(\"Ada\").",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "methods",
+      "void",
+      "parameters",
+      "method call"
+    ]
+  },
+  {
+    "id": "JA-PS-19",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Basic array indexing",
+    "prompt": "Given int[] values = {10, 20, 30}, print the first element and then print the second element using array indexes.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "one-dimensional arrays",
+      "array declaration",
+      "indexing"
+    ]
+  },
+  {
+    "id": "JA-PS-20",
+    "language": "java",
+    "modality_id": "problem-solving",
+    "title": "Array length and last index",
+    "prompt": "Given int[] values = {10, 20, 30}, print the number of elements using values.length, then print the last element using values.length - 1 as the index.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "one-dimensional arrays",
+      "array length",
+      "indexing"
+    ]
+  },
+  {
     "id": "JA-DBG-01",
     "language": "java",
     "modality_id": "debugging",
@@ -893,37 +1165,6 @@
       "arithmetic",
       "output",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-01",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Variables and addition",
-    "prompt": "Explain what a, b, and total store, how total is calculated, and state exactly what is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a + b;\n        System.out.println(total);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "variables",
-      "int",
-      "arithmetic",
-      "output",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-02",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Scanner integer input",
-    "prompt": "Write a Java program that uses Scanner to read one integer into a variable named age and then prints the value stored in age.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Scanner",
-      "input",
-      "variables",
-      "output"
     ]
   },
   {
@@ -943,37 +1184,6 @@
     ]
   },
   {
-    "id": "JA-EXP-02",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Scanner integer input",
-    "prompt": "Assume the user enters 19. Explain what nextInt() does, what is stored in age, and what is printed.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        System.out.println(age);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Scanner",
-      "input",
-      "variables",
-      "output",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-03",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Double arithmetic",
-    "prompt": "Write a Java program that stores 4.5 in double price and 2 in int quantity. Calculate price * quantity in double total and print total.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "double",
-      "variables",
-      "arithmetic",
-      "output"
-    ]
-  },
-  {
     "id": "JA-DBG-03",
     "language": "java",
     "modality_id": "debugging",
@@ -987,36 +1197,6 @@
       "arithmetic",
       "output",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-03",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Double arithmetic",
-    "prompt": "Explain why total is a double and state the value printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price * quantity;\n        System.out.println(total);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "double",
-      "variables",
-      "arithmetic",
-      "output",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-04",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Order of operations",
-    "prompt": "Write Java code that calculates (4 + 6) * 2, stores the result in int result, and prints result.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "arithmetic",
-      "order of operations",
-      "parentheses"
     ]
   },
   {
@@ -1035,35 +1215,6 @@
     ]
   },
   {
-    "id": "JA-EXP-04",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Order of operations",
-    "prompt": "Explain why the parentheses make addition happen before multiplication and state the output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2;\n        System.out.println(result);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "arithmetic",
-      "order of operations",
-      "parentheses",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-05",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Basic if statement",
-    "prompt": "Write a Java program with int score = 75. If score is at least 60, print Pass.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if",
-      "comparison"
-    ]
-  },
-  {
     "id": "JA-DBG-05",
     "language": "java",
     "modality_id": "debugging",
@@ -1076,35 +1227,6 @@
       "if",
       "comparison",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-05",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Basic if statement",
-    "prompt": "Explain whether the condition is true for score = 75 and state what is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if",
-      "comparison",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-06",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "If-else selection",
-    "prompt": "Write a Java program with int number = 7. Print Positive if number is greater than 0; otherwise print Not positive.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if-else",
-      "comparison"
     ]
   },
   {
@@ -1123,35 +1245,6 @@
     ]
   },
   {
-    "id": "JA-EXP-06",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: If-else selection",
-    "prompt": "Explain which branch runs when number = 7 and why.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Not positive\");\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if-else",
-      "comparison",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-07",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Else-if selection",
-    "prompt": "Write a Java program with int score = 85. Print A for scores 90 or higher, B for scores 80 through 89, and C for anything lower.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if-else-if",
-      "comparison"
-    ]
-  },
-  {
     "id": "JA-DBG-07",
     "language": "java",
     "modality_id": "debugging",
@@ -1164,35 +1257,6 @@
       "if-else-if",
       "comparison",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-07",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Else-if selection",
-    "prompt": "Trace the conditions for score = 85 and explain why B is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "conditionals",
-      "if-else-if",
-      "comparison",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-08",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Range check with AND",
-    "prompt": "Write a Java program with int age = 20. If age is at least 18 and at most 25, print In range. Use && in the condition.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "conditionals",
-      "logical AND",
-      "comparison"
     ]
   },
   {
@@ -1211,35 +1275,6 @@
     ]
   },
   {
-    "id": "JA-EXP-08",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Range check with AND",
-    "prompt": "Explain why both comparisons must be true and why && is appropriate for this range check.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "conditionals",
-      "logical AND",
-      "comparison",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-09",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "String equality",
-    "prompt": "Given String answer = \"yes\", write an if statement that prints Accepted when answer contains the text yes. Use equals().",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Strings",
-      "equals",
-      "conditionals"
-    ]
-  },
-  {
     "id": "JA-DBG-09",
     "language": "java",
     "modality_id": "debugging",
@@ -1252,36 +1287,6 @@
       "equals",
       "conditionals",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-09",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: String equality",
-    "prompt": "Explain what answer.equals(\"yes\") checks and why this condition is true.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Strings",
-      "equals",
-      "conditionals",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-10",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "String length and charAt",
-    "prompt": "Given String word = \"java\", print the length of the word and then print its first character using String methods.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Strings",
-      "length",
-      "charAt",
-      "indexing"
     ]
   },
   {
@@ -1301,36 +1306,6 @@
     ]
   },
   {
-    "id": "JA-EXP-10",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: String length and charAt",
-    "prompt": "Explain what length() returns and why charAt(0) returns the first character.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Strings",
-      "length",
-      "charAt",
-      "indexing",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-11",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Formatted output",
-    "prompt": "Given double price = 3.5, use System.out.printf() to print the price with exactly two digits after the decimal point.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "formatted output",
-      "printf",
-      "format specifiers"
-    ]
-  },
-  {
     "id": "JA-DBG-11",
     "language": "java",
     "modality_id": "debugging",
@@ -1343,35 +1318,6 @@
       "printf",
       "format specifiers",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-11",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Formatted output",
-    "prompt": "Explain what %.2f means and state the visible output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.2f%n\", price);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "formatted output",
-      "printf",
-      "format specifiers",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-12",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Basic for loop",
-    "prompt": "Write a for loop that prints the integers 1, 2, and 3, one per line.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "for loop",
-      "loop boundary",
-      "iteration"
     ]
   },
   {
@@ -1390,35 +1336,6 @@
     ]
   },
   {
-    "id": "JA-EXP-12",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Basic for loop",
-    "prompt": "State exactly what the loop prints and explain how n changes after each iteration.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "for loop",
-      "loop boundary",
-      "iteration",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-13",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Basic while loop",
-    "prompt": "Write a while loop that starts with int n = 1 and prints 1, 2, and 3, then stops.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "while loop",
-      "loop update",
-      "iteration"
-    ]
-  },
-  {
     "id": "JA-DBG-13",
     "language": "java",
     "modality_id": "debugging",
@@ -1431,35 +1348,6 @@
       "loop update",
       "iteration",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-13",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Basic while loop",
-    "prompt": "Trace n through the loop and explain why the loop stops after printing 3.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n            n++;\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "while loop",
-      "loop update",
-      "iteration",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-14",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Simple loop total",
-    "prompt": "Use a for loop and int total = 0 to add the integers 1 through 4. Print the final total.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "for loop",
-      "accumulator",
-      "arithmetic"
     ]
   },
   {
@@ -1478,35 +1366,6 @@
     ]
   },
   {
-    "id": "JA-EXP-14",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Simple loop total",
-    "prompt": "Explain how total changes during the loop and state the final output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        System.out.println(total);\n    }\n}",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "for loop",
-      "accumulator",
-      "arithmetic",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-15",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Loop with a condition",
-    "prompt": "Write a for loop that checks the integers 1 through 4 and prints only the even values. Use % 2 == 0.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "for loop",
-      "conditionals",
-      "modulo"
-    ]
-  },
-  {
     "id": "JA-DBG-15",
     "language": "java",
     "modality_id": "debugging",
@@ -1519,36 +1378,6 @@
       "conditionals",
       "modulo",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-15",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Loop with a condition",
-    "prompt": "Trace n from 1 through 4 and explain why only 2 and 4 are printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 0) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "for loop",
-      "conditionals",
-      "modulo",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-16",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Method with one parameter",
-    "prompt": "Write a static method named square that receives one int named x and returns x * x. In main, print square(4).",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "methods",
-      "parameters",
-      "return values",
-      "method call"
     ]
   },
   {
@@ -1568,37 +1397,6 @@
     ]
   },
   {
-    "id": "JA-EXP-16",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Method with one parameter",
-    "prompt": "Explain what value is passed into x, what the method returns, and what main prints.",
-    "starter_code": "public class Main {\n    public static int square(int x) {\n        return x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "methods",
-      "parameters",
-      "return values",
-      "method call",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-17",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Method with two parameters",
-    "prompt": "Write a static method named add that receives two int parameters a and b and returns their sum. Print add(3, 5) in main.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "methods",
-      "parameters",
-      "return values",
-      "arithmetic"
-    ]
-  },
-  {
     "id": "JA-DBG-17",
     "language": "java",
     "modality_id": "debugging",
@@ -1612,37 +1410,6 @@
       "return values",
       "arithmetic",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-17",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Method with two parameters",
-    "prompt": "Explain how 3 and 5 are matched to a and b and state the returned value.",
-    "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "methods",
-      "parameters",
-      "return values",
-      "arithmetic",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-18",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Void method call",
-    "prompt": "Write a static void method named greet that receives a String name and prints Hello followed by the name. In main, call greet(\"Ada\").",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "methods",
-      "void",
-      "parameters",
-      "method call"
     ]
   },
   {
@@ -1662,36 +1429,6 @@
     ]
   },
   {
-    "id": "JA-EXP-18",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Void method call",
-    "prompt": "Explain why greet has return type void, what value is passed into name, and what the call greet(\"Ada\") prints.",
-    "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        greet(\"Ada\");\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "methods",
-      "void",
-      "parameters",
-      "method call",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-19",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Basic array indexing",
-    "prompt": "Given int[] values = {10, 20, 30}, print the first element and then print the second element using array indexes.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "one-dimensional arrays",
-      "array declaration",
-      "indexing"
-    ]
-  },
-  {
     "id": "JA-DBG-19",
     "language": "java",
     "modality_id": "debugging",
@@ -1704,35 +1441,6 @@
       "array declaration",
       "indexing",
       "debugging"
-    ]
-  },
-  {
-    "id": "JA-EXP-19",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain: Basic array indexing",
-    "prompt": "Explain why values[0] is the first element and values[1] is the second element.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[0]);\n        System.out.println(values[1]);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "one-dimensional arrays",
-      "array declaration",
-      "indexing",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-PS-20",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Array length and last index",
-    "prompt": "Given int[] values = {10, 20, 30}, print the number of elements using values.length, then print the last element using values.length - 1 as the index.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "one-dimensional arrays",
-      "array length",
-      "indexing"
     ]
   },
   {
@@ -1751,7 +1459,299 @@
     ]
   },
   {
-    "id": "JA-EXP-20",
+    "id": "JA-TRC-01",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Variables and addition",
+    "prompt": "Explain what a, b, and total store, how total is calculated, and state exactly what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a + b;\n        System.out.println(total);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "variables",
+      "int",
+      "arithmetic",
+      "output",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-02",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Scanner integer input",
+    "prompt": "Assume the user enters 19. Explain what nextInt() does, what is stored in age, and what is printed.",
+    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        System.out.println(age);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Scanner",
+      "input",
+      "variables",
+      "output",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-03",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Double arithmetic",
+    "prompt": "Explain why total is a double and state the value printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price * quantity;\n        System.out.println(total);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "double",
+      "variables",
+      "arithmetic",
+      "output",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-04",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Order of operations",
+    "prompt": "Explain why the parentheses make addition happen before multiplication and state the output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2;\n        System.out.println(result);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "arithmetic",
+      "order of operations",
+      "parentheses",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-05",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Basic if statement",
+    "prompt": "Explain whether the condition is true for score = 75 and state what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if",
+      "comparison",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-06",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: If-else selection",
+    "prompt": "Explain which branch runs when number = 7 and why.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Not positive\");\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if-else",
+      "comparison",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-07",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Else-if selection",
+    "prompt": "Trace the conditions for score = 85 and explain why B is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "conditionals",
+      "if-else-if",
+      "comparison",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-08",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Range check with AND",
+    "prompt": "Explain why both comparisons must be true and why && is appropriate for this range check.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "conditionals",
+      "logical AND",
+      "comparison",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-09",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: String equality",
+    "prompt": "Explain what answer.equals(\"yes\") checks and why this condition is true.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Strings",
+      "equals",
+      "conditionals",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-10",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: String length and charAt",
+    "prompt": "Explain what length() returns and why charAt(0) returns the first character.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "Strings",
+      "length",
+      "charAt",
+      "indexing",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-11",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Formatted output",
+    "prompt": "Explain what %.2f means and state the visible output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.2f%n\", price);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "formatted output",
+      "printf",
+      "format specifiers",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-12",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Basic for loop",
+    "prompt": "State exactly what the loop prints and explain how n changes after each iteration.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "for loop",
+      "loop boundary",
+      "iteration",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-13",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Basic while loop",
+    "prompt": "Trace n through the loop and explain why the loop stops after printing 3.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n            n++;\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "while loop",
+      "loop update",
+      "iteration",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-14",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Simple loop total",
+    "prompt": "Explain how total changes during the loop and state the final output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        System.out.println(total);\n    }\n}",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "for loop",
+      "accumulator",
+      "arithmetic",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-15",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Loop with a condition",
+    "prompt": "Trace n from 1 through 4 and explain why only 2 and 4 are printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 0) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "for loop",
+      "conditionals",
+      "modulo",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-16",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Method with one parameter",
+    "prompt": "Explain what value is passed into x, what the method returns, and what main prints.",
+    "starter_code": "public class Main {\n    public static int square(int x) {\n        return x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "methods",
+      "parameters",
+      "return values",
+      "method call",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-17",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Method with two parameters",
+    "prompt": "Explain how 3 and 5 are matched to a and b and state the returned value.",
+    "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
+    "difficulty": "medium",
+    "expected_concepts": [
+      "methods",
+      "parameters",
+      "return values",
+      "arithmetic",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-18",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Void method call",
+    "prompt": "Explain why greet has return type void, what value is passed into name, and what the call greet(\"Ada\") prints.",
+    "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        greet(\"Ada\");\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "methods",
+      "void",
+      "parameters",
+      "method call",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-19",
+    "language": "java",
+    "modality_id": "code-explanation",
+    "title": "Explain: Basic array indexing",
+    "prompt": "Explain why values[0] is the first element and values[1] is the second element.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[0]);\n        System.out.println(values[1]);\n    }\n}",
+    "difficulty": "easy",
+    "expected_concepts": [
+      "one-dimensional arrays",
+      "array declaration",
+      "indexing",
+      "code understanding"
+    ]
+  },
+  {
+    "id": "JA-TRC-20",
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Array length and last index",
