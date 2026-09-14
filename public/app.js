@@ -677,10 +677,7 @@ async function loadAssignment(data) {
         !isExplanation
     );
 
-    $('explanationSection').classList.toggle(
-        'hidden',
-        !isExplanation
-    );
+    $('explanationSection').classList.toggle('hidden', !isExplanation);
 
     $('formatCode').classList.toggle(
         'hidden',
@@ -692,10 +689,7 @@ async function loadAssignment(data) {
         !isExplanation
     );
 
-    $('outputPanel').classList.toggle(
-        'hidden',
-        isExplanation
-    );
+    $('outputPanel').classList.toggle('hidden', isExplanation);
 
     $('runCode').classList.toggle(
         'hidden',
