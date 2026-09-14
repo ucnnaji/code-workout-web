@@ -276,8 +276,37 @@ async function renderStage() {
           <div class="demo-save"><span class="demo-callout">6 · Save Response</span><button class="save-button" type="button" disabled>Save Final Response</button></div>
         </div><div class="stage-actions"><button id="stageContinue" class="primary">Continue to practice activities</button></div>`;
     }
+
     else if (key === 'language') {
-        body = `<p class="muted">Choose the programming language you use in your course. You will select it once, and it will be used for your surveys and coding activities in all study sessions.</p><div class="choice-grid two-col language-choice-grid">${cfg.languages.map(l => `<button class="language-choice language-choice-card" data-language="${l}" aria-label="Choose ${l === 'python' ? 'Python' : 'Java'}"><span class="language-choice-icon" aria-hidden="true"><i class="${l === 'python' ? 'devicon-python-plain colored' : 'devicon-java-plain colored'}"></i></span><span class="language-choice-copy"><strong>${l === 'python' ? 'Python' : 'Java'}</strong><span>${state.flow.session.language && state.flow.session.language !== l ? 'Not your selected study language' : 'Use ' + (l === 'python' ? 'Python' : 'Java') + ' throughout this study'}</span></span></button>`).join('')}</div>`;
+    body = `
+      <p class="muted">
+        Choose the programming language you use in your course.
+        You will select it once, and it will be used for your surveys and practice activities.
+      </p>
+
+      <div class="choice-grid two-col language-choice-grid">
+        ${cfg.languages.map((l) => {
+            const isPython = l === 'python';
+            const title = isPython ? 'Python' : 'Java';
+            const imageSrc = isPython ? '/assets/python.png' : '/assets/java.png';
+            const description = isPython
+                ? 'Choose Python for your study activities.'
+                : 'Choose Java for your study activities.';
+
+            return `
+              <button class="language-choice language-choice-card" data-language="${l}" type="button">
+                <span class="language-choice-image-wrap">
+                  <img class="language-choice-image" src="${imageSrc}" alt="${title} logo">
+                </span>
+                <span class="language-choice-copy">
+                  <strong>${title}</strong>
+                  <span>${description}</span>
+                </span>
+              </button>
+            `;
+        }).join('')}
+      </div>
+    `;
     }
     else if (key === 'incentive') {
         body = `<p>${esc(cfg.compensation.description)}</p><p>${esc(cfg.compensation.instructions)}</p><p class="muted">${esc(cfg.compensation.courseCredit)}</p><p class="private-note">Your gift-card email is stored in a separate, encrypted compensation record. Do not include payment details in survey or code responses.</p>${[['receive', 'Provide my email for this session’s gift card'], ['later', 'I will provide my email to the study team later'], ['decline', 'I do not want a gift card']].map(([v, t]) => `<label class="option-label"><input type="radio" name="compensationChoice" value="${v}"><span>${esc(t)}</span></label>`).join('')}<div id="emailField" class="hidden"><label for="compensationEmail">Email for your e-gift card</label><input id="compensationEmail" type="email" maxlength="254" autocomplete="email"></div><div class="stage-actions"><button id="stageContinue" class="save-button">Save &amp; finish session</button></div>`;
