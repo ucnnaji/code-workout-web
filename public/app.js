@@ -675,7 +675,7 @@ function lockEditor(locked) {
     document.querySelectorAll('#structuredInputs input').forEach(x => x.disabled = locked);
 }
 function disableActions(busy) {
-    ['runCode', 'checkExplanation', 'getFeedback', 'saveFinal', 'skipQuestion', 'backToModalities', 'formatCode'].forEach(id => $(id).disabled = busy);
+    ['runCode', 'checkExplanation', 'getFeedback', 'saveFinal', 'backToModalities', 'formatCode'].forEach(id => $(id).disabled = busy);
     if (state.modality === 'code-explanation') $('formatCode').disabled = true;
 }
 async function runOperation(kind) {
