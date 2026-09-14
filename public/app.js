@@ -587,127 +587,489 @@ async function startModality(modality) {
         state.busy = false;
     }
 }
+
 async function loadAssignment(data) {
     state.assignment = data.assignment;
     state.submission = data.submission;
     state.lastExecutionText = '';
     state.lastScore = null;
     state.loadingAssignment = true;
-    const a = state.assignment, q = a.question_snapshot, cfg = state.flow.config, isExplanation = a.modality_id === 'code-explanation';
+
+    const a = state.assignment;
+    const q = a.question_snapshot;
+    const cfg = state.flow.config;
+
+    const isExplanation =
+        a.modality_id === 'code-explanation';
+
+    const isProblemSolving =
+        a.modality_id === 'problem-solving';
+
     const position = questionPosition(a);
+
     state.totalQuestions = position.total;
+
     $('taskTitle').textContent = q.title;
     $('taskId').textContent = q.id;
     $('taskPrompt').textContent = q.prompt;
     $('languagePill').textContent = q.language;
-    $('modalityPill').textContent = state.flow.modalities.find(m => m.id === a.modality_id)?.label;
-    $('difficultyPill').textContent = q.difficulty;
-    $('questionProgressText').textContent = `Question ${position.index} of ${position.total}`;
-    $('questionProgressBar').style.width = `${Math.max(0, (position.index - 1) / position.total * 100)}%`;
-    $('traceInstructions').classList.toggle('hidden', !isExplanation);
-    $('explanationSection').classList.toggle('hidden', !isExplanation);
-    $('formatCode').classList.toggle('hidden', isExplanation);
-    $('checkExplanation').classList.toggle('hidden', !isExplanation);
-    $('outputPanel').classList.toggle('hidden', isExplanation);
-$('runCode').classList.toggle('hidden', isExplanation || !cfg.executionEnabled);
-$('explanationLabel').textContent = 'Your explanation';
 
-// Inputs are allowed ONLY for Problem Solving.
-const isProblemSolving = a.modality_id === 'problem-solving';
+    $('modalityPill').textContent =
+        state.flow.modalities.find(
+            m => m.id === a.modality_id
+        )?.label || '';
 
-const fields =
-    isProblemSolving && Array.isArray(q.inputSchema)
-        ? q.inputSchema
-        : [];
+    $('difficultyPill').textContent =
+        q.difficulty;
 
-// Show the input area only when the current Problem Solving
-// question actually defines one or more inputs.
-const showInputs =
-    isProblemSolving &&
-    fields.length > 0;
+    $('questionProgressText').textContent =
+        `Question ${position.index} of ${position.total}`;
 
-$('structuredInputs').classList.toggle('hidden', !showInputs);
+    $('questionProgressBar').style.width =
+        `${Math.max(
+            0,
+            (position.index - 1) / position.total * 100
+        )}%`;
 
-if (showInputs) {
-    $('structuredInputs').innerHTML = `
-        <h3>Inputs for this exercise</h3>
 
-        <p class="muted small-text">
-            Fill in each value below.
-            The platform sends them in this order;
-            you do not need to type line breaks or press Enter between inputs.
-        </p>
+    // --------------------------------------------------
+    // MODALITY-SPECIFIC INTERFACE
+    // --------------------------------------------------
 
-        <div class="input-grid">
-            ${fields.map(f => `
-                <div>
-                    <label for="input_${esc(f.id)}">
-                        ${esc(f.label)}
-                    </label>
+    $('traceInstructions').classList.toggle(
+        'hidden',
+        !isExplanation
+    );
 
-                    <input
-                        id="input_${esc(f.id)}"
-                        data-program-input="${esc(f.id)}"
-                        inputmode="${['integer', 'number'].includes(f.type) ? 'decimal' : 'text'}"
-                        maxlength="512"
-                        placeholder="Example: ${esc(f.example || '')}"
-                        value="${esc(
-                            data.submission.draft_inputs?.[f.id] ??
-                            f.default ??
-                            ''
-                        )}"
-                        aria-describedby="help_${esc(f.id)}"
-                    >
+    $('explanationSection').classList.toggle(
+        'hidden',
+        !isExplanation
+    );
 
-                    <p
-                        id="help_${esc(f.id)}"
-                        class="muted small-text"
-                    >
-                        ${esc(f.help || 'Enter one value.')}
-                    </p>
-                </div>
-            `).join('')}
-        </div>
-    `;
-} else {
-    $('structuredInputs').innerHTML = '';
-}
-    $('feedbackType').innerHTML = cfg.feedbackTypes.map(t => `<option value="${t}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}</option>`).join('');
-    const ai = cfg.aiEnabled && cfg.aiModalities.includes(a.modality_id);
-    $('getFeedback').classList.toggle('hidden', !ai);
-    $('feedbackTypeField').classList.toggle('hidden', !ai);
-    $('aiFeedback').textContent = ai ? 'Request feedback when you are ready. It is separate from your score and actual program output.' : 'AI feedback is not enabled for this activity.';
-    $('programOutput').textContent = 'Run your code to see compilation/runtime output here.';
-    $('executionStatus').textContent = 'Not run';
+    $('formatCode').classList.toggle(
+        'hidden',
+        isExplanation
+    );
+
+    $('checkExplanation').classList.toggle(
+        'hidden',
+        !isExplanation
+    );
+
+    $('outputPanel').classList.toggle(
+        'hidden',
+        isExplanation
+    );
+
+    $('runCode').classList.toggle(
+        'hidden',
+        isExplanation || !cfg.executionEnabled
+    );
+
+    $('explanationLabel').textContent =
+        'Your explanation';
+
+
+    // --------------------------------------------------
+    // PROGRAM INPUTS
+    // --------------------------------------------------
+
+    /*
+     * Inputs are permitted ONLY for Problem Solving.
+     *
+     * q.inputSchema controls how many input boxes appear.
+     *
+     * Examples:
+     *
+     * []             -> no boxes
+     * [field1]       -> one box
+     * [field1,field2] -> two boxes
+     * etc.
+     */
+    const fields =
+        isProblemSolving &&
+        Array.isArray(q.inputSchema)
+            ? q.inputSchema
+            : [];
+
+    const showInputs =
+        fields.length > 0;
+
+    const inputSection =
+        $('structuredInputs');
+
+    inputSection.classList.toggle(
+        'hidden',
+        !showInputs
+    );
+
+
+    if (showInputs) {
+        inputSection.innerHTML = `
+            <h3>Inputs for this exercise</h3>
+
+            <p class="muted small-text">
+                Fill in each value below.
+                The platform sends the values to your program
+                in the order shown.
+            </p>
+
+            <div class="input-grid">
+
+                ${fields.map(f => `
+
+                    <div class="program-input-field">
+
+                        <label for="input_${esc(f.id)}">
+                            ${esc(f.label)}
+                        </label>
+
+                        <input
+                            id="input_${esc(f.id)}"
+                            data-program-input="${esc(f.id)}"
+
+                            type="${
+                                ['integer', 'number'].includes(f.type)
+                                    ? 'number'
+                                    : 'text'
+                            }"
+
+                            inputmode="${
+                                ['integer', 'number'].includes(f.type)
+                                    ? 'decimal'
+                                    : 'text'
+                            }"
+
+                            maxlength="512"
+
+                            placeholder="${
+                                f.example
+                                    ? `Example: ${esc(f.example)}`
+                                    : ''
+                            }"
+
+                            value="${esc(
+                                data.submission?.draft_inputs?.[f.id] ??
+                                f.default ??
+                                ''
+                            )}"
+
+                            aria-describedby="help_${esc(f.id)}"
+                        >
+
+                        ${
+                            f.help
+                                ? `
+                                    <p
+                                        id="help_${esc(f.id)}"
+                                        class="muted small-text"
+                                    >
+                                        ${esc(f.help)}
+                                    </p>
+                                `
+                                : ''
+                        }
+
+                    </div>
+
+                `).join('')}
+
+            </div>
+        `;
+    }
+    else {
+        /*
+         * Do not show an empty input container or
+         * "this question has no inputs" message.
+         */
+        inputSection.innerHTML = '';
+    }
+
+
+    // --------------------------------------------------
+    // AI FEEDBACK OPTIONS
+    // --------------------------------------------------
+
+    $('feedbackType').innerHTML =
+        cfg.feedbackTypes
+            .map(
+                t =>
+                    `<option value="${esc(t)}">${esc(
+                        t.charAt(0).toUpperCase() +
+                        t.slice(1)
+                    )}</option>`
+            )
+            .join('');
+
+
+    const ai =
+        cfg.aiEnabled &&
+        cfg.aiModalities.includes(
+            a.modality_id
+        );
+
+
+    $('getFeedback').classList.toggle(
+        'hidden',
+        !ai
+    );
+
+    $('feedbackTypeField').classList.toggle(
+        'hidden',
+        !ai
+    );
+
+
+    $('aiFeedback').textContent =
+        ai
+            ? 'Request feedback when you are ready. It is separate from your score and actual program output.'
+            : 'AI feedback is not enabled for this activity.';
+
+
+    // --------------------------------------------------
+    // PROGRAM OUTPUT / SCORE
+    // --------------------------------------------------
+
+    $('programOutput').textContent =
+        'Run your code to see compilation/runtime output here.';
+
+    $('executionStatus').textContent =
+        'Not run';
+
     showScore(null);
-    $('scoreSummary').textContent = isExplanation ? 'Write your explanation, then choose Check Explanation to see a score.' : 'Run your code to see a correctness score.';
-    populateCoding({ code: data.submission.draft_code ?? q.starter_code, explanation: data.submission.draft_explanation, inputs: data.submission.draft_inputs });
+
+
+    $('scoreSummary').textContent =
+        isExplanation
+            ? 'Write your explanation, then choose Check Explanation to see a score.'
+            : 'Run your code to see a correctness score.';
+
+
+    // --------------------------------------------------
+    // RESTORE CURRENT DRAFT
+    // --------------------------------------------------
+
+    populateCoding({
+        code:
+            data.submission?.draft_code ??
+            q.starter_code ??
+            '',
+
+        explanation:
+            data.submission?.draft_explanation ??
+            '',
+
+        inputs:
+            data.submission?.draft_inputs ??
+            {}
+    });
+
+
+    // --------------------------------------------------
+    // CODE EDITOR
+    // --------------------------------------------------
+
     if (state.editor) {
-        monaco.editor.setModelLanguage(state.editor.getModel(), q.language);
-        state.editor.updateOptions({ readOnly: isExplanation });
+        monaco.editor.setModelLanguage(
+            state.editor.getModel(),
+            q.language === 'java'
+                ? 'java'
+                : 'python'
+        );
+
+        state.editor.updateOptions({
+            readOnly:
+                isExplanation
+        });
     }
-    else $('fallbackEditor').readOnly = isExplanation;
-    $('editorHelp').textContent = isExplanation ? 'Read-only code. Use the explanation box below to describe what the code does.' : 'Syntax highlighting, line numbers, bracket matching, indentation, undo/redo, and Format Code are available.';
-    const operations = data.operations || [];
-    const fb = operations.filter(o => o.kind === 'feedback');
-    $('feedbackCount').textContent = `${fb.length} request${fb.length === 1 ? '' : 's'}`;
-    const lastFb = fb.filter(o => o.status === 'succeeded').at(-1);
-    if (lastFb) $('aiFeedback').textContent = lastFb.result.feedback;
-    const lastRun = operations.filter(o => o.kind === 'execute' && o.status === 'succeeded').at(-1);
+    else {
+        $('fallbackEditor').readOnly =
+            isExplanation;
+    }
+
+
+    $('editorHelp').textContent =
+        isExplanation
+            ? 'Read-only code. Use the explanation box below to describe what the code does.'
+            : 'Syntax highlighting, line numbers, bracket matching, indentation, undo/redo, and Format Code are available.';
+
+
+    // --------------------------------------------------
+    // PREVIOUS AI / EXECUTION OPERATIONS
+    // --------------------------------------------------
+
+    const operations =
+        data.operations || [];
+
+
+    const fb =
+        operations.filter(
+            o =>
+                o.kind === 'feedback'
+        );
+
+
+    $('feedbackCount').textContent =
+        `${fb.length} request${fb.length === 1 ? '' : 's'}`;
+
+
+    const lastFb =
+        fb
+            .filter(
+                o =>
+                    o.status === 'succeeded'
+            )
+            .at(-1);
+
+
+    if (lastFb) {
+        $('aiFeedback').textContent =
+            lastFb.result.feedback;
+    }
+
+
+    const lastRun =
+        operations
+            .filter(
+                o =>
+                    o.kind === 'execute' &&
+                    o.status === 'succeeded'
+            )
+            .at(-1);
+
+
     if (lastRun) {
-        showOutput(lastRun.result);
-        if (lastRun.result?.score) showScore(lastRun.result.score);
+        showOutput(
+            lastRun.result
+        );
+
+        if (
+            lastRun.result?.score
+        ) {
+            showScore(
+                lastRun.result.score
+            );
+        }
     }
-    const lastExplanationScore = operations.filter(o => o.kind === 'score' && o.status === 'succeeded').at(-1);
-    if (lastExplanationScore) showScore(lastExplanationScore.result);
-    if (data.submission.final_score != null && !state.lastScore) showScore({ score: data.submission.final_score, summary: 'Saved final score.', checks: data.submission.score_details?.checks || [] });
-    state.loadingAssignment = false;
-    installQueue(data.submission.revision, async (value, rev, requestId) => api('/api/draft', { method: 'PUT', body: { sessionId: state.flow.session.id, assignmentId: a.id, ...value, revision: rev, requestId, final: false } }));
-    document.querySelectorAll('[data-program-input]').forEach(el => el.addEventListener('input', markDirty));
-    showScreen('workspaceScreen');
-    requestAnimationFrame(() => state.editor?.layout());
-    await recoverDraft(populateCoding);
+
+
+    const lastExplanationScore =
+        operations
+            .filter(
+                o =>
+                    o.kind === 'score' &&
+                    o.status === 'succeeded'
+            )
+            .at(-1);
+
+
+    if (lastExplanationScore) {
+        showScore(
+            lastExplanationScore.result
+        );
+    }
+
+
+    if (
+        data.submission?.final_score != null &&
+        !state.lastScore
+    ) {
+        showScore({
+            score:
+                data.submission.final_score,
+
+            summary:
+                'Saved final score.',
+
+            checks:
+                data.submission
+                    .score_details
+                    ?.checks || []
+        });
+    }
+
+
+    // --------------------------------------------------
+    // AUTOSAVE
+    // --------------------------------------------------
+
+    state.loadingAssignment =
+        false;
+
+
+    installQueue(
+        data.submission.revision,
+
+        async (
+            value,
+            rev,
+            requestId
+        ) =>
+            api(
+                '/api/draft',
+                {
+                    method:
+                        'PUT',
+
+                    body: {
+                        sessionId:
+                            state.flow.session.id,
+
+                        assignmentId:
+                            a.id,
+
+                        ...value,
+
+                        revision:
+                            rev,
+
+                        requestId,
+
+                        final:
+                            false
+                    }
+                }
+            )
+    );
+
+
+    /*
+     * Attach autosave listeners to however many input
+     * fields were generated by inputSchema.
+     */
+    document
+        .querySelectorAll(
+            '[data-program-input]'
+        )
+        .forEach(
+            el =>
+                el.addEventListener(
+                    'input',
+                    markDirty
+                )
+        );
+
+
+    // --------------------------------------------------
+    // SHOW WORKSPACE
+    // --------------------------------------------------
+
+    showScreen(
+        'workspaceScreen'
+    );
+
+
+    requestAnimationFrame(
+        () =>
+            state.editor?.layout()
+    );
+
+
+    await recoverDraft(
+        populateCoding
+    );
 }
+
 function showOutput(r) {
     const parts = [];
     if (r.stdout)
