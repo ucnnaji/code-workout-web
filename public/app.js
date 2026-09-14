@@ -609,11 +609,69 @@ async function loadAssignment(data) {
     $('formatCode').classList.toggle('hidden', isExplanation);
     $('checkExplanation').classList.toggle('hidden', !isExplanation);
     $('outputPanel').classList.toggle('hidden', isExplanation);
-    $('structuredInputs').classList.toggle('hidden', isExplanation);
-    $('runCode').classList.toggle('hidden', isExplanation || !cfg.executionEnabled);
-    $('explanationLabel').textContent = 'Your explanation';
-    const fields = q.inputSchema || [];
-    $('structuredInputs').innerHTML = fields.length ? `<h3>Inputs for this exercise</h3><p class="muted small-text">Fill in each value below. The platform sends them in this order; you do not need to type line breaks or press Enter between inputs.</p><div class="input-grid">${fields.map(f => `<div><label for="input_${esc(f.id)}">${esc(f.label)}</label><input id="input_${esc(f.id)}" data-program-input="${esc(f.id)}" inputmode="${['integer', 'number'].includes(f.type) ? 'decimal' : 'text'}" maxlength="512" placeholder="Example: ${esc(f.example || '')}" value="${esc(data.submission.draft_inputs?.[f.id] ?? f.default ?? '')}" aria-describedby="help_${esc(f.id)}"><p id="help_${esc(f.id)}" class="muted small-text">${esc(f.help || 'Enter one value.')}</p></div>`).join('')}</div>` : '<p class="muted small-text">This exercise has no separate inputs. Use the values provided in the question or starter code.</p>';
+$('runCode').classList.toggle('hidden', isExplanation || !cfg.executionEnabled);
+$('explanationLabel').textContent = 'Your explanation';
+
+// Inputs are allowed ONLY for Problem Solving.
+const isProblemSolving = a.modality_id === 'problem-solving';
+
+const fields =
+    isProblemSolving && Array.isArray(q.inputSchema)
+        ? q.inputSchema
+        : [];
+
+// Show the input area only when the current Problem Solving
+// question actually defines one or more inputs.
+const showInputs =
+    isProblemSolving &&
+    fields.length > 0;
+
+$('structuredInputs').classList.toggle('hidden', !showInputs);
+
+if (showInputs) {
+    $('structuredInputs').innerHTML = `
+        <h3>Inputs for this exercise</h3>
+
+        <p class="muted small-text">
+            Fill in each value below.
+            The platform sends them in this order;
+            you do not need to type line breaks or press Enter between inputs.
+        </p>
+
+        <div class="input-grid">
+            ${fields.map(f => `
+                <div>
+                    <label for="input_${esc(f.id)}">
+                        ${esc(f.label)}
+                    </label>
+
+                    <input
+                        id="input_${esc(f.id)}"
+                        data-program-input="${esc(f.id)}"
+                        inputmode="${['integer', 'number'].includes(f.type) ? 'decimal' : 'text'}"
+                        maxlength="512"
+                        placeholder="Example: ${esc(f.example || '')}"
+                        value="${esc(
+                            data.submission.draft_inputs?.[f.id] ??
+                            f.default ??
+                            ''
+                        )}"
+                        aria-describedby="help_${esc(f.id)}"
+                    >
+
+                    <p
+                        id="help_${esc(f.id)}"
+                        class="muted small-text"
+                    >
+                        ${esc(f.help || 'Enter one value.')}
+                    </p>
+                </div>
+            `).join('')}
+        </div>
+    `;
+} else {
+    $('structuredInputs').innerHTML = '';
+}
     $('feedbackType').innerHTML = cfg.feedbackTypes.map(t => `<option value="${t}">${esc(t.charAt(0).toUpperCase() + t.slice(1))}</option>`).join('');
     const ai = cfg.aiEnabled && cfg.aiModalities.includes(a.modality_id);
     $('getFeedback').classList.toggle('hidden', !ai);
