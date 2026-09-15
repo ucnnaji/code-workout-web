@@ -868,8 +868,8 @@
     "id": "JA-PS-01",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Add two integer values",
-    "prompt": "Write Java code that stores 8 in int a and 5 in int b. Store a + b in int total and print total.",
+    "title": "Calculate a total from three integers",
+    "prompt": "Store 8 in int a, 5 in int b, and 3 in int c. Add all three values, store the result in int total, and print total.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -883,14 +883,15 @@
     "id": "JA-PS-02",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Read and display an integer",
-    "prompt": "Write Java code that uses Scanner to read one integer into a variable named age and then prints the value stored in age.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
+    "title": "Read two integers and print their sum",
+    "prompt": "Use Scanner to read two integers into first and second. Store first + second in int total, then print total.",
+    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "Scanner",
       "input",
       "variables",
+      "arithmetic",
       "output"
     ]
   },
@@ -898,8 +899,8 @@
     "id": "JA-PS-03",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Calculate a total with decimals",
-    "prompt": "Write Java code that stores 4.5 in double price and 2 in int quantity. Calculate price * quantity in double total and print total.",
+    "title": "Calculate a purchase total and change",
+    "prompt": "Store 4.5 in double price and 3 in int quantity. Calculate the purchase total, then calculate the change from 20.0. Print total and then change.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -913,8 +914,8 @@
     "id": "JA-PS-04",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Apply parentheses in a calculation",
-    "prompt": "Write Java code that calculates (4 + 6) * 2, stores the result in int result, and prints result.",
+    "title": "Use parentheses in a multi-step calculation",
+    "prompt": "Calculate (4 + 6) * 2 - 3, store the result in int result, and print result.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -927,111 +928,119 @@
     "id": "JA-PS-05",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Check whether a score passes",
-    "prompt": "Write a Java program with int score = 75. If score is at least 60, print Pass.",
+    "title": "Check a passing score at the boundary",
+    "prompt": "Use int score = 60. Write an if statement that prints Pass when score is 60 or higher.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if",
-      "comparison"
+      "comparison",
+      "boundary value"
     ]
   },
   {
     "id": "JA-PS-06",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Choose between two outcomes",
-    "prompt": "Write a Java program with int number = 7. Print Positive if number is greater than 0; otherwise print Not positive.",
+    "title": "Choose an output at a boundary value",
+    "prompt": "Use int number = 0. Print Positive if number is greater than 0; otherwise print Zero or negative.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if-else",
-      "comparison"
+      "comparison",
+      "boundary value"
     ]
   },
   {
     "id": "JA-PS-07",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Choose a letter grade",
-    "prompt": "Write a Java program with int score = 85. Print A for scores 90 or higher, B for scores 80 through 89, and C for anything lower.",
+    "title": "Assign a letter grade across four ranges",
+    "prompt": "Use int score = 78. Print A for 90 or higher, B for 80-89, C for 70-79, and D for anything lower.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "if-else-if",
-      "comparison"
+      "comparison",
+      "branch order"
     ]
   },
   {
     "id": "JA-PS-08",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Check whether a value is in range",
-    "prompt": "Write a Java program with int age = 20. If age is at least 18 and at most 25, print In range. Use && in the condition.",
+    "title": "Check whether a value is inside a range",
+    "prompt": "Use int age = 25. Print Eligible if age is between 18 and 25 inclusive; otherwise print Not eligible. Use && in the condition.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "logical AND",
-      "comparison"
+      "comparison",
+      "boundary value"
     ]
   },
   {
     "id": "JA-PS-09",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Compare a String value",
-    "prompt": "Given String answer = \"yes\", write an if statement that prints Accepted when answer contains the text yes. Use equals().",
+    "title": "Compare a String and choose a response",
+    "prompt": "Use String answer = \"yes\". Print Accepted when answer equals \"yes\"; otherwise print Try again. Use equals() for the comparison.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "Strings",
       "equals",
-      "conditionals"
+      "conditionals",
+      "if-else"
     ]
   },
   {
     "id": "JA-PS-10",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Read characters from a String",
-    "prompt": "Given String word = \"java\", print the length of the word and then print its first character using String methods.",
+    "title": "Print the first and last characters of a String",
+    "prompt": "Given String word = \"java\", print its length, its first character, and its last character. Use charAt(0) for the first character and word.length() - 1 for the last index.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "Strings",
       "length",
       "charAt",
-      "indexing"
+      "indexing",
+      "derived index"
     ]
   },
   {
     "id": "JA-PS-11",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Format a decimal value",
-    "prompt": "Given double price = 3.5, use System.out.printf() to print the price with exactly two digits after the decimal point.",
+    "title": "Format text with two values",
+    "prompt": "Given double price = 3.5 and int quantity = 2, use one printf statement to display: Price: $3.50 Quantity: 2",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "formatted output",
       "printf",
-      "format specifiers"
+      "format specifiers",
+      "multiple values"
     ]
   },
   {
     "id": "JA-PS-12",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Print values with a for loop",
-    "prompt": "Write a for loop that prints the integers 1, 2, and 3, one per line.",
+    "title": "Print even values with a for loop",
+    "prompt": "Write a for loop that prints 2, 4, 6, 8, and 10, one per line. Start at 2 and increase the loop variable by 2 each time.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
+      "loop update",
       "loop boundary",
       "iteration"
     ]
@@ -1040,13 +1049,14 @@
     "id": "JA-PS-13",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Print values with a while loop",
-    "prompt": "Write a while loop that starts with int n = 1 and prints 1, 2, and 3, then stops.",
+    "title": "Count down with a while loop",
+    "prompt": "Start with int n = 5. Use a while loop to print 5 through 1, one per line, then print Done after the loop.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "while loop",
       "loop update",
+      "loop boundary",
       "iteration"
     ]
   },
@@ -1054,110 +1064,117 @@
     "id": "JA-PS-14",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Add values in a loop",
-    "prompt": "Use a for loop and int total = 0 to add the integers 1 through 4. Print the final total.",
+    "title": "Calculate a total and average in a loop",
+    "prompt": "Use a for loop and int total = 0 to add the integers 1 through 4. After the loop, calculate double average = total / 4.0 and print total and then average.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "accumulator",
-      "arithmetic"
+      "arithmetic",
+      "double division"
     ]
   },
   {
     "id": "JA-PS-15",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Print only even values",
-    "prompt": "Write a for loop that checks the integers 1 through 4 and prints only the even values. Use % 2 == 0.",
+    "title": "Add only the even values in a loop",
+    "prompt": "Loop through the integers 1 through 6. Add only the even values to int total using % 2 == 0, then print the final total.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "conditionals",
-      "modulo"
+      "modulo",
+      "accumulator"
     ]
   },
   {
     "id": "JA-PS-16",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Return a value from a method",
-    "prompt": "Write a static method named square that receives one int named x and returns x * x. In main, print square(4).",
+    "title": "Return a calculated value from a method",
+    "prompt": "Write a static method named squarePlusOne that receives one int x and returns x * x + 1. In main, print squarePlusOne(4).",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
-      "method call"
+      "method call",
+      "arithmetic"
     ]
   },
   {
     "id": "JA-PS-17",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Add two values with a method",
-    "prompt": "Write a static method named add that receives two int parameters a and b and returns their sum. Print add(3, 5) in main.",
+    "title": "Return the larger of two method arguments",
+    "prompt": "Write a static method named larger that receives two int parameters a and b. Return the larger value using if-else. In main, print larger(7, 11).",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
-      "arithmetic"
+      "conditionals",
+      "comparison"
     ]
   },
   {
     "id": "JA-PS-18",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Call a void method",
-    "prompt": "Write a static void method named greet that receives a String name and prints Hello followed by the name. In main, call greet(\"Ada\").",
+    "title": "Pass two values to a void method",
+    "prompt": "Write a static void method named printStudent that receives String name and int age. Print Name: followed by the name and Age: followed by the age on separate lines. In main, call printStudent(\"Ada\", 18).",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "void",
       "parameters",
-      "method call"
+      "method call",
+      "output"
     ]
   },
   {
     "id": "JA-PS-19",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Read values by array index",
-    "prompt": "Given int[] values = {10, 20, 30}, print the first element and then print the second element using array indexes.",
+    "title": "Use array indexes in a calculation",
+    "prompt": "Given int[] values = {10, 20, 30, 40}, print the first element, print the third element, then print their sum.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array declaration",
-      "indexing"
+      "indexing",
+      "arithmetic"
     ]
   },
   {
     "id": "JA-PS-20",
     "language": "java",
     "modality_id": "problem-solving",
-    "title": "Find the last array element",
-    "prompt": "Given int[] values = {10, 20, 30}, print the number of elements using values.length, then print the last element using values.length - 1 as the index.",
+    "title": "Use array length to find the last two elements",
+    "prompt": "Given int[] values = {10, 20, 30, 40}, print values.length, then print the last element using values.length - 1 and the second-to-last element using values.length - 2.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array length",
-      "indexing"
+      "indexing",
+      "derived index"
     ]
   },
   {
     "id": "JA-DBG-01",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the addition calculation",
-    "prompt": "The program should print 13. Fix the arithmetic operator.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a - b;\n        System.out.println(total);\n    }\n}",
+    "title": "Fix the three-number total",
+    "prompt": "The program should add a, b, and c and print 16. Fix the calculation for total.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b - c;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "variables",
@@ -1171,14 +1188,15 @@
     "id": "JA-DBG-02",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Print the value read by Scanner",
-    "prompt": "The program should read an integer into age and print that value. Fix the variable used in the print statement.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        int year = 2026;\n        System.out.println(year);\n    }\n}",
+    "title": "Fix the sum of two input values",
+    "prompt": "The program should read two integers, add them, and print the sum. Fix the calculation for total.",
+    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int first = input.nextInt();\n        int second = input.nextInt();\n        int total = first - second;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "Scanner",
       "input",
       "variables",
+      "arithmetic",
       "output",
       "debugging"
     ]
@@ -1187,9 +1205,9 @@
     "id": "JA-DBG-03",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the total calculation",
-    "prompt": "The program should calculate price times quantity. Fix the expression for total.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price + quantity;\n        System.out.println(total);\n    }\n}",
+    "title": "Fix the change calculation",
+    "prompt": "The purchase total is price * quantity, and change should be 20.0 - total. Fix the calculation for change.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = total - 20.0;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "double",
@@ -1203,9 +1221,9 @@
     "id": "JA-DBG-04",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the calculation order",
-    "prompt": "The intended calculation is (4 + 6) * 2. Add the needed parentheses.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = 4 + 6 * 2;\n        System.out.println(result);\n    }\n}",
+    "title": "Fix the order of operations",
+    "prompt": "The intended calculation is (4 + 6) * 2 - 3. Add the parentheses needed to produce the correct result.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = 4 + 6 * 2 - 3;\n        System.out.println(result);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "arithmetic",
@@ -1218,14 +1236,15 @@
     "id": "JA-DBG-05",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the passing-score condition",
-    "prompt": "The program should print Pass when score is 60 or higher. Fix the comparison operator.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score < 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
+    "title": "Fix the passing-score boundary",
+    "prompt": "A score of exactly 60 should print Pass. Fix the comparison operator so 60 is included.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score > 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if",
       "comparison",
+      "boundary value",
       "debugging"
     ]
   },
@@ -1233,14 +1252,15 @@
     "id": "JA-DBG-06",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the if-else outputs",
-    "prompt": "The program should print Positive for number = 7. Fix the two output statements so they match the branches.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Not positive\");\n        } else {\n            System.out.println(\"Positive\");\n        }\n    }\n}",
+    "title": "Fix the if-else boundary",
+    "prompt": "For number = 0, the program should print Zero or negative. Fix the condition so only values greater than 0 use the first branch.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number >= 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if-else",
       "comparison",
+      "boundary value",
       "debugging"
     ]
   },
@@ -1248,14 +1268,15 @@
     "id": "JA-DBG-07",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the letter-grade condition",
-    "prompt": "For score = 85, the program should print B. Fix the second condition.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 90) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the order of the grade conditions",
+    "prompt": "For score = 85, the program should print B. Reorder the conditions so higher score ranges are checked before lower ranges.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 70) {\n            System.out.println(\"C\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 90) {\n            System.out.println(\"A\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "if-else-if",
       "comparison",
+      "branch order",
       "debugging"
     ]
   },
@@ -1263,14 +1284,15 @@
     "id": "JA-DBG-08",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the range check",
-    "prompt": "The program should print In range only when age is between 18 and 25 inclusive. Fix the logical operator.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 || age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
+    "title": "Fix the inclusive range check",
+    "prompt": "The program should print Eligible only for ages from 18 through 25. Fix the logical operator so both comparisons must be true.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 || age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "logical AND",
       "comparison",
+      "boundary value",
       "debugging"
     ]
   },
@@ -1279,13 +1301,14 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix the String comparison",
-    "prompt": "Fix the String comparison so the program checks the text stored in answer.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = new String(\"yes\");\n        if (answer == \"yes\") {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
+    "prompt": "The program should compare the text stored in answer with \"yes\". Replace the incorrect comparison with equals().",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer == \"yes\") {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "Strings",
       "equals",
       "conditionals",
+      "if-else",
       "debugging"
     ]
   },
@@ -1293,15 +1316,16 @@
     "id": "JA-DBG-10",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the first-character index",
-    "prompt": "The program should print the first character of the String. Fix the index.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.charAt(1));\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the last-character index",
+    "prompt": "The program should print the last character of word without an error. Fix the index used in charAt().",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length()));\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "Strings",
       "length",
       "charAt",
       "indexing",
+      "derived index",
       "debugging"
     ]
   },
@@ -1309,14 +1333,15 @@
     "id": "JA-DBG-11",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the decimal format",
-    "prompt": "The value 3.5 should display as 3.50. Fix the format specifier.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.0f%n\", price);\n    }\n}",
+    "title": "Fix the printf format specifiers",
+    "prompt": "The program should display price with two decimal places and quantity as an integer. Fix the two format specifiers.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%d Quantity: %.2f%n\", price, quantity);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "formatted output",
       "printf",
       "format specifiers",
+      "multiple values",
       "debugging"
     ]
   },
@@ -1324,12 +1349,13 @@
     "id": "JA-DBG-12",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the for-loop boundary",
-    "prompt": "The loop should print 1, 2, and 3. Fix the loop condition.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n < 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the for-loop update",
+    "prompt": "The loop should print 2, 4, 6, 8, and 10. Fix the update expression so n increases by 2 each iteration.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n++) {\n            System.out.println(n);\n        }\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
+      "loop update",
       "loop boundary",
       "iteration",
       "debugging"
@@ -1339,13 +1365,14 @@
     "id": "JA-DBG-13",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the while-loop update",
-    "prompt": "The loop should stop after printing 1, 2, and 3. Add the missing update.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the while-loop countdown",
+    "prompt": "The loop should count down 5, 4, 3, 2, 1 and then stop. Fix the update statement so n decreases by 1 each iteration.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n -= 2;\n        }\n        System.out.println(\"Done\");\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "while loop",
       "loop update",
+      "loop boundary",
       "iteration",
       "debugging"
     ]
@@ -1355,13 +1382,14 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix the running total",
-    "prompt": "The program should add all values from 1 through 4. Fix the accumulator statement.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total = n;\n        }\n        System.out.println(total);\n    }\n}",
+    "prompt": "The program should add 1 through 4 so total becomes 10 and average becomes 2.5. Fix the statement that updates total.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total = n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "accumulator",
       "arithmetic",
+      "double division",
       "debugging"
     ]
   },
@@ -1369,14 +1397,15 @@
     "id": "JA-DBG-15",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the even-number condition",
-    "prompt": "The program should print only even values. Fix the comparison after the modulo operation.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 1) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the even-value total",
+    "prompt": "The program should add only the even values from 1 through 6 and print 12. Fix the condition so only even values are added.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 != 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "conditionals",
       "modulo",
+      "accumulator",
       "debugging"
     ]
   },
@@ -1384,15 +1413,16 @@
     "id": "JA-DBG-16",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Add the missing return",
-    "prompt": "The method should return x * x. Add the missing return keyword.",
-    "starter_code": "public class Main {\n    public static int square(int x) {\n        x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the method calculation",
+    "prompt": "The method squarePlusOne should return x * x + 1. Fix the return expression so squarePlusOne(4) produces 17.",
+    "starter_code": "public class Main {\n    public static int squarePlusOne(int x) {\n        return x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
       "method call",
+      "arithmetic",
       "debugging"
     ]
   },
@@ -1400,15 +1430,16 @@
     "id": "JA-DBG-17",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the method return value",
-    "prompt": "The add method should return the sum of a and b. Fix the return expression.",
-    "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a - b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
+    "title": "Fix the method that chooses the larger value",
+    "prompt": "The larger method should return the greater of a and b. Fix the return statements so larger(7, 11) prints 11.",
+    "starter_code": "public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return b;\n        } else {\n            return a;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
-      "arithmetic",
+      "conditionals",
+      "comparison",
       "debugging"
     ]
   },
@@ -1416,15 +1447,16 @@
     "id": "JA-DBG-18",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Call the greet method",
-    "prompt": "The program defines greet correctly but never calls it. Add the method call in main so Hello Ada is printed.",
-    "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        // Add the method call here\n    }\n}",
-    "difficulty": "easy",
+    "title": "Fix the arguments in a void-method call",
+    "prompt": "The method is defined correctly. Fix the call in main so the String argument is passed to name and the int argument is passed to age.",
+    "starter_code": "public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(18, \"Ada\");\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "void",
       "parameters",
       "method call",
+      "output",
       "debugging"
     ]
   },
@@ -1432,14 +1464,15 @@
     "id": "JA-DBG-19",
     "language": "java",
     "modality_id": "debugging",
-    "title": "Fix the array index",
-    "prompt": "The program should print the first element, 10. Fix the array index.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[1]);\n    }\n}",
+    "title": "Fix the array indexes used in a sum",
+    "prompt": "The program should add the first and third elements, 10 and 30, and print 40. Fix the incorrect array index.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[1] + values[2];\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array declaration",
       "indexing",
+      "arithmetic",
       "debugging"
     ]
   },
@@ -1448,13 +1481,14 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix the last array index",
-    "prompt": "The program should print the last element without an ArrayIndexOutOfBoundsException. Fix the index.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[values.length]);\n    }\n}",
-    "difficulty": "medium",
+    "prompt": "The program should print the last element without an array-index error. Fix the index used in the first element access.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length]);\n        System.out.println(values[values.length - 2]);\n    }\n}",
+    "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array length",
       "indexing",
+      "derived index",
       "debugging"
     ]
   },
@@ -1462,9 +1496,9 @@
     "id": "JA-TRC-01",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how two values are added",
-    "prompt": "Explain what a, b, and total store, how total is calculated, and state exactly what is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a + b;\n        System.out.println(total);\n    }\n}",
+    "title": "Explain how the three-number total is calculated",
+    "prompt": "Explain what a, b, c, and total store, how total is calculated, and state exactly what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b + c;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "variables",
@@ -1478,14 +1512,15 @@
     "id": "JA-TRC-02",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how Scanner stores input",
-    "prompt": "Assume the user enters 19. Explain what nextInt() does, what is stored in age, and what is printed.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        System.out.println(age);\n    }\n}",
+    "title": "Explain how two input values are added",
+    "prompt": "Assume the user enters 7 and then 4. Explain what is stored in first and second, how total is calculated, and what is printed.",
+    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int first = input.nextInt();\n        int second = input.nextInt();\n        int total = first + second;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "Scanner",
       "input",
       "variables",
+      "arithmetic",
       "output",
       "code understanding"
     ]
@@ -1494,9 +1529,9 @@
     "id": "JA-TRC-03",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how decimal multiplication works",
-    "prompt": "Explain why total is a double and state the value printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price * quantity;\n        System.out.println(total);\n    }\n}",
+    "title": "Explain the purchase total and change",
+    "prompt": "Explain how total and change are calculated, why they are doubles, and state the two values printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = 20.0 - total;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "double",
@@ -1510,9 +1545,9 @@
     "id": "JA-TRC-04",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how parentheses change the calculation",
-    "prompt": "Explain why the parentheses make addition happen before multiplication and state the output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2;\n        System.out.println(result);\n    }\n}",
+    "title": "Explain the order of operations",
+    "prompt": "Explain which calculation happens first because of the parentheses and state the final output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2 - 3;\n        System.out.println(result);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "arithmetic",
@@ -1525,14 +1560,15 @@
     "id": "JA-TRC-05",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the if condition is evaluated",
-    "prompt": "Explain whether the condition is true for score = 75 and state what is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
+    "title": "Explain the passing-score boundary",
+    "prompt": "Explain why the condition is true when score is exactly 60 and state what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if",
       "comparison",
+      "boundary value",
       "code understanding"
     ]
   },
@@ -1540,14 +1576,15 @@
     "id": "JA-TRC-06",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain which if-else branch runs",
-    "prompt": "Explain which branch runs when number = 7 and why.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Not positive\");\n        }\n    }\n}",
+    "title": "Explain which branch runs at zero",
+    "prompt": "Explain which branch runs when number is 0, why that branch is selected, and what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "conditionals",
       "if-else",
       "comparison",
+      "boundary value",
       "code understanding"
     ]
   },
@@ -1555,14 +1592,15 @@
     "id": "JA-TRC-07",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the letter grade is chosen",
-    "prompt": "Trace the conditions for score = 85 and explain why B is printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how a letter grade is selected",
+    "prompt": "For score = 78, trace the conditions in order and explain why C is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 78;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 70) {\n            System.out.println(\"C\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "if-else-if",
       "comparison",
+      "branch order",
       "code understanding"
     ]
   },
@@ -1570,14 +1608,15 @@
     "id": "JA-TRC-08",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the range check works",
-    "prompt": "Explain why both comparisons must be true and why && is appropriate for this range check.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
+    "title": "Explain how an inclusive range check works",
+    "prompt": "For age = 25, explain the result of each comparison, how && combines them, and which message is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "conditionals",
       "logical AND",
       "comparison",
+      "boundary value",
       "code understanding"
     ]
   },
@@ -1585,14 +1624,15 @@
     "id": "JA-TRC-09",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how Strings are compared",
-    "prompt": "Explain what answer.equals(\"yes\") checks and why this condition is true.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
+    "title": "Explain how the String comparison chooses a branch",
+    "prompt": "Explain what answer.equals(\"yes\") checks, why the condition is true, and which message is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "Strings",
       "equals",
       "conditionals",
+      "if-else",
       "code understanding"
     ]
   },
@@ -1600,15 +1640,16 @@
     "id": "JA-TRC-10",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how String indexing works",
-    "prompt": "Explain what length() returns and why charAt(0) returns the first character.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how the first and last characters are found",
+    "prompt": "Explain what length() returns, why charAt(0) gives the first character, and why length() - 1 gives the last character.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length() - 1));\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "Strings",
       "length",
       "charAt",
       "indexing",
+      "derived index",
       "code understanding"
     ]
   },
@@ -1616,14 +1657,15 @@
     "id": "JA-TRC-11",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the decimal is formatted",
-    "prompt": "Explain what %.2f means and state the visible output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.2f%n\", price);\n    }\n}",
+    "title": "Explain how two values are formatted",
+    "prompt": "Explain what %.2f and %d do and state the exact visible output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%.2f Quantity: %d%n\", price, quantity);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "formatted output",
       "printf",
       "format specifiers",
+      "multiple values",
       "code understanding"
     ]
   },
@@ -1631,12 +1673,13 @@
     "id": "JA-TRC-12",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the for loop changes",
-    "prompt": "State exactly what the loop prints and explain how n changes after each iteration.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how the for loop produces even values",
+    "prompt": "Trace the values of n, explain how n += 2 changes the loop variable, and state exactly what is printed.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n += 2) {\n            System.out.println(n);\n        }\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
+      "loop update",
       "loop boundary",
       "iteration",
       "code understanding"
@@ -1646,13 +1689,14 @@
     "id": "JA-TRC-13",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the while loop stops",
-    "prompt": "Trace n through the loop and explain why the loop stops after printing 3.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n            n++;\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how the while-loop countdown stops",
+    "prompt": "Trace n from 5 to 1, explain how n-- changes it after each iteration, and explain why Done prints after the loop.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n--;\n        }\n        System.out.println(\"Done\");\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "while loop",
       "loop update",
+      "loop boundary",
       "iteration",
       "code understanding"
     ]
@@ -1661,14 +1705,15 @@
     "id": "JA-TRC-14",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the running total changes",
-    "prompt": "Explain how total changes during the loop and state the final output.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        System.out.println(total);\n    }\n}",
+    "title": "Explain how the total and average are calculated",
+    "prompt": "Trace how total changes as n goes from 1 through 4, then explain how average is calculated and state the two outputs.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "accumulator",
       "arithmetic",
+      "double division",
       "code understanding"
     ]
   },
@@ -1676,14 +1721,15 @@
     "id": "JA-TRC-15",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain why only even values print",
-    "prompt": "Trace n from 1 through 4 and explain why only 2 and 4 are printed.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 0) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how only even values are added",
+    "prompt": "Trace n from 1 through 6, identify which values satisfy n % 2 == 0, explain how total changes, and state the final output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 == 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "for loop",
       "conditionals",
       "modulo",
+      "accumulator",
       "code understanding"
     ]
   },
@@ -1691,15 +1737,16 @@
     "id": "JA-TRC-16",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how a method returns a value",
-    "prompt": "Explain what value is passed into x, what the method returns, and what main prints.",
-    "starter_code": "public class Main {\n    public static int square(int x) {\n        return x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how a method calculates and returns a value",
+    "prompt": "Explain what value is passed into x, how x * x + 1 is evaluated, what the method returns, and what main prints.",
+    "starter_code": "public class Main {\n    public static int squarePlusOne(int x) {\n        return x * x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
       "method call",
+      "arithmetic",
       "code understanding"
     ]
   },
@@ -1707,15 +1754,16 @@
     "id": "JA-TRC-17",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how method arguments are used",
-    "prompt": "Explain how 3 and 5 are matched to a and b and state the returned value.",
-    "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
+    "title": "Explain how a method chooses the larger value",
+    "prompt": "For larger(7, 11), explain how the arguments map to a and b, which branch runs, what value is returned, and what main prints.",
+    "starter_code": "public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return a;\n        } else {\n            return b;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "parameters",
       "return values",
-      "arithmetic",
+      "conditionals",
+      "comparison",
       "code understanding"
     ]
   },
@@ -1723,15 +1771,16 @@
     "id": "JA-TRC-18",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the void method is called",
-    "prompt": "Explain why greet has return type void, what value is passed into name, and what the call greet(\"Ada\") prints.",
-    "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        greet(\"Ada\");\n    }\n}",
-    "difficulty": "easy",
+    "title": "Explain how two arguments are passed to a void method",
+    "prompt": "Explain why the method is void, how \"Ada\" and 18 are matched to the parameters, and state the two lines printed.",
+    "starter_code": "public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(\"Ada\", 18);\n    }\n}",
+    "difficulty": "medium",
     "expected_concepts": [
       "methods",
       "void",
       "parameters",
       "method call",
+      "output",
       "code understanding"
     ]
   },
@@ -1739,14 +1788,15 @@
     "id": "JA-TRC-19",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how array indexes select values",
-    "prompt": "Explain why values[0] is the first element and values[1] is the second element.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[0]);\n        System.out.println(values[1]);\n    }\n}",
+    "title": "Explain how array indexes select values for a sum",
+    "prompt": "Explain which values are selected by values[0] and values[2], why those indexes refer to the first and third elements, and state the output.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[0] + values[2];\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array declaration",
       "indexing",
+      "arithmetic",
       "code understanding"
     ]
   },
@@ -1754,14 +1804,15 @@
     "id": "JA-TRC-20",
     "language": "java",
     "modality_id": "code-explanation",
-    "title": "Explain how the last array index is found",
-    "prompt": "Explain what values.length returns and why values.length - 1 is the last valid index.",
-    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values.length);\n        System.out.println(values[values.length - 1]);\n    }\n}",
-    "difficulty": "medium",
+    "title": "Explain how array length gives the last two indexes",
+    "prompt": "Explain what values.length returns, why length - 1 is the last valid index, why length - 2 is the second-to-last index, and state the three outputs.",
+    "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length - 1]);\n        System.out.println(values[values.length - 2]);\n    }\n}",
+    "difficulty": "easy",
     "expected_concepts": [
       "one-dimensional arrays",
       "array length",
       "indexing",
+      "derived index",
       "code understanding"
     ]
   }
