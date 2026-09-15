@@ -122,7 +122,7 @@ def run():
         expect(page.locator('#accessSetupScreen')).to_be_visible(); expect(page.locator('input[name="accessLanguage"]')).to_have_count(0); page.locator('#newStudyParticipantId').fill('java42'); page.locator('#generateStudyAccess').click()
         expect(page.locator('#generatedAccessKey')).to_have_text('ABCD-EFGH-JKLM-NPQR'); page.locator('#savedStudyAccess').check(); page.locator('#continueWithStudyAccess').click()
         expect(page.locator('#stageTitle')).to_have_text('Language'); expect(page.locator('[data-language="python"]')).to_be_enabled(); expect(page.locator('[data-language="java"]')).to_be_enabled(); page.locator('[data-language="java"]').click()
-        expect(page.locator('#stageTitle')).to_have_text('Pre-survey'); expect(page.locator('#stageContent')).to_contain_text('I can always manage to solve difficult problems'); expect(page.locator('#stageContent')).to_contain_text('Exactly true')
+        expect(page.locator('#stageTitle')).to_have_text('Pre-survey'); expect(page.locator('#stageContent')).to_contain_text('I can trace the execution of a program.'); expect(page.locator('#stageContent')).to_contain_text('Strongly agree')
         page.locator('#surveyForm button[type="submit"]').click(); confirm(page)
         expect(page.locator('#stageTitle')).to_have_text('Practice environment demo'); expect(page.locator('#stageContinue')).to_have_text('Continue to practice activities'); page.locator('#stageContinue').click()
         expect(page.locator('#modalityScreen')).to_be_visible(); expect(page.locator('#modalityTitle')).to_have_text('Initial practice'); expect(page.locator('#progressText')).to_have_text('0 of 2 questions completed in this phase')
@@ -143,8 +143,8 @@ def run():
         expect(page.locator('#reviewScreen')).to_be_visible(); page.locator('#completeModality').click(); confirm(page); expect(page.locator('#modalityScreen')).to_be_visible()
         expect(page.locator('#progressText')).to_have_text('2 of 2 questions completed in this phase'); expect(page.locator('#codingContinue')).to_have_text('Continue to post-survey'); page.locator('#codingContinue').click()
 
-        # The post-survey now occurs before crossover and uses the same GSE scale.
-        expect(page.locator('#stageTitle')).to_have_text('Post-survey'); expect(page.locator('#stageContent')).to_contain_text('After completing the first two practice questions'); expect(page.locator('#stageContent')).to_contain_text('I can always manage to solve difficult problems'); page.locator('#surveyForm button[type="submit"]').click(); confirm(page)
+        # The post-survey now occurs before crossover and uses the same programming self-efficacy scale.
+        expect(page.locator('#stageTitle')).to_have_text('Post-survey'); expect(page.locator('#stageContent')).to_contain_text('after completing the two practice questions'); expect(page.locator('#stageContent')).to_contain_text('I can trace the execution of a program.'); page.locator('#surveyForm button[type="submit"]').click(); confirm(page)
 
         # Crossover: the remaining two modalities appear after the post-survey.
         expect(page.locator('#modalityScreen')).to_be_visible(); expect(page.locator('#modalityTitle')).to_have_text('Crossover practice'); expect(page.locator('#progressText')).to_have_text('0 of 2 questions completed in this phase')

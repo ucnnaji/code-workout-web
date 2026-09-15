@@ -25,7 +25,12 @@ const snapshot = buildSnapshot(defaultConfig, 1, '00000000-0000-4000-8000-000000
 assert.equal(snapshot.modalityOrder.reduce((n,m) => n + (snapshot.modalityOrder[0] === m ? 2 : 1), 0), 4);
 assert.equal(snapshot.stages.find(s => s.key === 'language').ordinal < snapshot.stages.find(s => s.key === 'pre_survey').ordinal, true, 'Language selection must occur before the pre-survey.');
 assert.equal(snapshot.stages.find(s => s.key === 'post_survey').ordinal < snapshot.stages.find(s => s.key === 'crossover').ordinal, true, 'Post-survey must occur before crossover.');
-assert.match(read('content/surveys.json'), /gse_10/);
+const surveyConfig = JSON.parse(read('content/surveys.json'));
+assert.equal(surveyConfig.selfEfficacyCore.length, 6, 'Programming self-efficacy survey must contain six common core items.');
+for (const n of ['1','2','3']) assert.equal(surveyConfig.selfEfficacyBySession[n].length, 2, `Session ${n} must contain two topic-specific self-efficacy items.`);
+const allPseItems = [...surveyConfig.selfEfficacyCore, ...Object.values(surveyConfig.selfEfficacyBySession).flat()];
+assert.ok(allPseItems.every(i => i.id.startsWith('pse_') && i.type === 'likert' && i.options.length === 7), 'PSE items must use seven-point Likert responses.');
+assert.match(server, /ai_grading_failed/);
 assert.doesNotMatch(read('questions.seed.json'), /PY-PS-18|PY-PS-19|PY-PS-20|JA-PS-02/);
 assert.doesNotMatch(html, /name="accessLanguage"/, 'Language choice must not be duplicated on the access-key screen.');
 assert.match(html, /consent-scroll/, 'Consent should use the compact scrollable reader.');

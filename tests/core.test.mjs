@@ -22,14 +22,46 @@ test('structured inputs reject injected line breaks, unknown fields and invalid 
 test('stored randomization is deterministic, unique and bank-order independent', () => { const ids = ['a', 'b', 'c', 'd', 'e']; const a = deterministicPick(ids, 'seed', 'wave:1', 3); assert.deepEqual(a, deterministicPick(ids.reverse(), 'seed', 'wave:1', 3)); assert.equal(new Set(a).size, 3); assert.throws(() => deterministicPick(['a'], 'seed', 'x', 3)); });
 test('assessment scoring separates missing answers from incorrect answers', () => { const d = { version: 'v1', items: [{ id: 'q1', type: 'single', options: ['A', 'B'], answer: 'B', points: 1 }, { id: 'q2', type: 'single', options: ['A', 'B'], answer: 'A', points: 1 }] }; const ans = validateAnswers(d, { q1: 'A' }); const s = scoreAssessment(d, ans); assert.equal(s.earned, 0); assert.equal(s.nAnswered, 1); assert.equal(s.nSkipped, 1); assert.equal(scoreAssessment(d, validateAnswers(d, {})).earned, null); assert.ok(!JSON.stringify(publicDefinition(d)).includes('"answer"')); });
 test('invalid survey responses and unexpected fields are rejected', () => { const d = { items: [{ id: 'i', type: 'multi', options: ['A', 'B'] }] }; assert.throws(() => validateAnswers(d, { i: ['A', 'A'] })); assert.throws(() => validateAnswers(d, { privateEmail: 'x' })); });
-test('validated 10-item GSE uses the published four-point response scale', () => { const d = { version: 'gse', items: load('surveys.json').selfEfficacy }; assert.equal(d.items.length, 10); assert.ok(d.items.every(i => i.id.startsWith('gse_'))); assert.ok(d.items.every(i => i.options.length === 4)); const a = Object.fromEntries(d.items.map(i => [i.id, i.options[3]])); const score = scoreSelfEfficacy(d, a); assert.equal(score.total, 40); assert.equal(score.mean, 4); assert.equal(score.nExpected, 10); });
+test('IPSES-derived survey uses six common items plus two session-specific items on a seven-point scale', () => {
+    const survey = load('surveys.json');
+    assert.equal(survey.selfEfficacyCore.length, 6);
+    for (const n of ['1','2','3']) {
+        assert.equal(survey.selfEfficacyBySession[n].length, 2);
+        const items = [...survey.selfEfficacyCore, ...survey.selfEfficacyBySession[n]];
+        assert.equal(items.length, 8);
+        assert.ok(items.every(i => i.id.startsWith('pse_')));
+        assert.ok(items.every(i => i.type === 'likert' && i.options.length === 7));
+        const def = { version: 'ipses-test', items };
+        const answers = Object.fromEntries(items.map(i => [i.id, i.options[6]]));
+        const score = scoreSelfEfficacy(def, answers);
+        assert.equal(score.mean, 7);
+        assert.equal(score.coreMean, 7);
+        assert.equal(score.topicMean, 7);
+        assert.equal(score.nExpected, 8);
+        assert.equal(score.complete, true);
+    }
+});
 test('three distinct session snapshots retain the same participant ID and stage sequence', () => { const pid = randomUUID(); for (const n of [1, 2, 3]) {
     const b = buildSnapshot(defaultConfig, n, pid);
     assert.equal(Object.hasOwn(b.snapshot, 'topic'), false);
     assert.deepEqual(b.stages.map(s => s.key), ['information', 'consent', 'language', 'pre_survey', 'demo', 'coding', 'post_survey', 'crossover', 'incentive', 'completion']);
     assert.equal(b.stages.find(s => s.key === 'consent').document.protocol, '16317');
 } });
-test('pre- and post-surveys use the same validated GSE items for Python and Java', () => { const b = buildSnapshot(defaultConfig, 1, randomUUID()); for (const key of ['pre_survey', 'post_survey']) { const stage = b.stages.find(s => s.key === key), py = stage.variants.python.items.filter(i => i.id.startsWith('gse_')), java = stage.variants.java.items.filter(i => i.id.startsWith('gse_')); assert.deepEqual(py.map(i => i.id), java.map(i => i.id)); assert.deepEqual(py.map(i => i.label), java.map(i => i.label)); assert.deepEqual(py.map(i => i.options), java.map(i => i.options)); assert.equal(py.length, 10); } });
+test('pre- and post-surveys use identical programming self-efficacy items within each session', () => {
+    const pid = randomUUID();
+    for (const n of [1,2,3]) {
+        const b = buildSnapshot(defaultConfig, n, pid);
+        const pre = b.stages.find(s => s.key === 'pre_survey').variants.python.items.filter(i => i.id.startsWith('pse_'));
+        const post = b.stages.find(s => s.key === 'post_survey').variants.python.items.filter(i => i.id.startsWith('pse_'));
+        assert.equal(pre.length, 8);
+        assert.deepEqual(pre.map(i => i.id), post.map(i => i.id));
+        assert.deepEqual(pre.map(i => i.label), post.map(i => i.label));
+        assert.deepEqual(pre.map(i => i.options), post.map(i => i.options));
+        const java = b.stages.find(s => s.key === 'pre_survey').variants.java.items.filter(i => i.id.startsWith('pse_'));
+        assert.deepEqual(pre.map(i => i.id), java.map(i => i.id));
+        assert.deepEqual(pre.map(i => i.options), java.map(i => i.options));
+    }
+});
 test('optional stages may be disabled but mandatory consent cannot', () => { const c = structuredClone(defaultConfig); c.stages.demo = false; validateConfig(c); assert.equal(buildSnapshot(c, 1, randomUUID()).stages.find(s => s.key === 'demo').enabled, false); c.stages.consent = false; assert.throws(() => validateConfig(c)); assert.equal(buildSnapshot(c, 1, randomUUID()).stages.find(s => s.key === 'consent').enabled, true); });
 test('draft/review content cannot enable live collection', () => { assert.equal(canRunLive(defaultConfig), false); const c = structuredClone(defaultConfig); c.release.status = 'approved'; assert.throws(() => validateConfig(c)); assert.equal(canRunLive(c), false); });
 test('remote self-enrollment can be opened by the deployment switch without changing release-review metadata', () => { const c = structuredClone(defaultConfig); c.release.status = 'draft'; c.deliveryMode = 'remote'; assert.equal(canRunRemoteLiveStudy(c, true, true), true); assert.equal(canRunRemoteLiveStudy(c, false, true), false); assert.equal(canRunRemoteLiveStudy(c, true, false), false); c.deliveryMode = 'in_person'; assert.equal(canRunRemoteLiveStudy(c, true, true), false); });

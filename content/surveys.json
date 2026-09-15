@@ -1,5 +1,5 @@
 {
-  "version": "gse-schwarz-jerusalem-scholz-2002-v1",
+  "version": "ipses-derived-programming-self-efficacy-v1",
   "background": [
     {
       "id": "major",
@@ -47,138 +47,6 @@
         "Moderately",
         "Very",
         "Extremely"
-      ]
-    }
-  ],
-  "selfEfficacy": [
-    {
-      "id": "gse_1",
-      "label": "I can always manage to solve difficult problems if I try hard enough.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_2",
-      "label": "If someone opposes me, I can find the means and ways to get what I want.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_3",
-      "label": "I am certain that I can accomplish my goals.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_4",
-      "label": "I am confident that I could deal efficiently with unexpected events.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_5",
-      "label": "Thanks to my resourcefulness, I can handle unforeseen situations.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_6",
-      "label": "I can solve most problems if I invest the necessary effort.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_7",
-      "label": "I can remain calm when facing difficulties because I can rely on my coping abilities.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_8",
-      "label": "When I am confronted with a problem, I can find several solutions.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_9",
-      "label": "If I am in trouble, I can think of a good solution.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
-      ]
-    },
-    {
-      "id": "gse_10",
-      "label": "I can handle whatever comes my way.",
-      "type": "likert",
-      "required": false,
-      "source": "General Self-Efficacy Scale; Scholz et al. (2002), European Journal of Psychological Assessment, 18(3), 242-251; DOI: 10.1027/1015-5759.18.3.242",
-      "options": [
-        "Not at all true",
-        "Hardly true",
-        "Moderately true",
-        "Exactly true"
       ]
     }
   ],
@@ -372,7 +240,209 @@
       "source": "new request; needs instrument review"
     }
   ],
-  "prePrompt": "Please indicate how true each statement is for you right now.",
-  "postPrompt": "After completing the first two practice questions, please indicate how true each statement is for you right now.",
-  "scaleNote": "General Self-Efficacy Scale (GSE): 1 = Not at all true; 2 = Hardly true; 3 = Moderately true; 4 = Exactly true."
+  "prePrompt": "Please indicate how strongly you agree or disagree with each statement about your current confidence in programming. Answer based on how capable you feel right now. There are no right or wrong answers.",
+  "postPrompt": "Please indicate how strongly you agree or disagree with each statement about your current confidence in programming. Answer based on how capable you feel right now, after completing the two practice questions.",
+  "scaleNote": "Programming self-efficacy: 1 = Strongly disagree; 2 = Disagree; 3 = Somewhat disagree; 4 = Neither agree nor disagree; 5 = Somewhat agree; 6 = Agree; 7 = Strongly agree.",
+  "selfEfficacyCore": [
+    {
+      "id": "pse_core_1",
+      "label": "I can trace the execution of a program.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    },
+    {
+      "id": "pse_core_2",
+      "label": "I can decompose a problem into a set of simpler subproblems.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    },
+    {
+      "id": "pse_core_3",
+      "label": "I can use a process to analyze a problem, design a solution, and then implement it in code.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    },
+    {
+      "id": "pse_core_4",
+      "label": "Given the design of a solution and an incorrect program, I can identify the source of the error.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    },
+    {
+      "id": "pse_core_5",
+      "label": "I can design a set of tests that can be used to assess the correctness of a program.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    },
+    {
+      "id": "pse_core_6",
+      "label": "I can correctly trace the execution of a program even if prior attempts to trace similar programs have not succeeded.",
+      "type": "likert",
+      "required": false,
+      "source": "IPSES-derived; Steinhorst et al. (2020)",
+      "options": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat agree",
+        "Agree",
+        "Strongly agree"
+      ]
+    }
+  ],
+  "selfEfficacyBySession": {
+    "1": [
+      {
+        "id": "pse_loop_1",
+        "label": "I can evaluate boolean expressions I encounter in a program.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 3 loops/control flow",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      },
+      {
+        "id": "pse_loop_2",
+        "label": "I can construct a boolean expression to represent a condition described in plain English.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 3 loops/control flow",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      }
+    ],
+    "2": [
+      {
+        "id": "pse_function_1",
+        "label": "I can trace the execution of a program containing function or method calls with arguments and return values.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 6 functions/methods",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      },
+      {
+        "id": "pse_function_2",
+        "label": "I can write a program that defines and calls functions or methods.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 6 functions/methods",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      }
+    ],
+    "3": [
+      {
+        "id": "pse_array_1",
+        "label": "I can trace the execution of a program that uses a list or array.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 10 lists/arrays",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      },
+      {
+        "id": "pse_array_2",
+        "label": "I can trace the execution of a program that iterates over nested structures such as lists of lists or arrays of arrays.",
+        "type": "likert",
+        "required": false,
+        "source": "IPSES-derived; Week 10 lists/arrays",
+        "options": [
+          "Strongly disagree",
+          "Disagree",
+          "Somewhat disagree",
+          "Neither agree nor disagree",
+          "Somewhat agree",
+          "Agree",
+          "Strongly agree"
+        ]
+      }
+    ]
+  }
 }
