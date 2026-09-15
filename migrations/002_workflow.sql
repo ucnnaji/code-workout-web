@@ -297,8 +297,13 @@ begin
         update cw_participant_auth set preferred_language=p->'responses'->>'language' where participant_id=pid;
         update study_sessions set language=p->'responses'->>'language' where id=s.id;
       elsif st.stage_key='coding' and not coalesce((p->>'skipped')::boolean,false) then
+        if not exists(
+          select 1 from modality_completions
+          where session_id=s.id and modality_id=(s.protocol_snapshot->'modalityOrder'->>0)
+        ) then raise exception 'CONFLICT: Complete the two initial practice questions first.'; end if;
+      elsif st.stage_key='crossover' and not coalesce((p->>'skipped')::boolean,false) then
         select count(*) into cnt from modality_completions where session_id=s.id and modality_id in ('problem-solving','debugging','code-explanation');
-        if cnt<>3 then raise exception 'CONFLICT: Complete the three modalities first.'; end if;
+        if cnt<>3 then raise exception 'CONFLICT: Complete both crossover modalities first.'; end if;
         update study_sessions set coding_completed_at=now_at where id=s.id;
       elsif st.stage_key='incentive' then
         claim:=(p->>'claimId')::uuid;
@@ -325,10 +330,12 @@ begin
     return to_jsonb(st);
   end if;
 
-  if current_key is distinct from 'coding' or s.consented_at is null or s.language is null then raise exception 'FORBIDDEN: Coding is locked until previous stages are completed.'; end if;
+  if current_key not in ('coding','crossover') or s.consented_at is null or s.language is null then raise exception 'FORBIDDEN: Practice is locked until the required survey stage is completed.'; end if;
   if action='coding_start' then
     tmp:=p->>'modality';
     if tmp not in ('problem-solving','debugging','code-explanation') then raise exception 'INVALID: Unknown modality.'; end if;
+    if current_key='coding' and tmp<>(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: Complete the initial modality and post-survey before crossover.'; end if;
+    if current_key='crossover' and tmp=(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: The initial modality is already complete.'; end if;
     if exists(select 1 from modality_completions where session_id=s.id and modality_id=tmp) then raise exception 'CONFLICT: This modality is complete.'; end if;
     if s.protocol_snapshot->'config'->>'activityDesign'='assigned_crossover' then
       for x in select value from jsonb_array_elements(s.protocol_snapshot->'modalityOrder') loop
@@ -387,6 +394,23 @@ begin
   if not found then raise exception 'NOT_FOUND: Assignment not found.'; end if;
   if exists(select 1 from question_assignments where session_id=s.id and modality_id=a.modality_id and question_order<a.question_order and status<>'completed') then raise exception 'FORBIDDEN: Future questions are locked.'; end if;
   if action='assignment_get' then return to_jsonb(a)||jsonb_build_object('last_execution',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind='execute' and status='succeeded' order by requested_at desc limit 1),'last_score',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind in ('execute','score') and status='succeeded' and (case when o.kind='execute' then o.result ? 'score' else true end) order by requested_at desc limit 1)); end if;
+  if action='score_cache_get' then
+    return (
+      select jsonb_build_object(
+        'score', case when o.kind='execute' then o.result->'score' else o.result end,
+        'operationId', o.id,
+        'completedAt', o.completed_at
+      )
+      from cw_operations o
+      where o.assignment_id=a.id
+        and o.status='succeeded'
+        and o.kind in ('execute','score')
+        and coalesce(o.result->'score'->>'fingerprint',o.result->>'fingerprint')=p->>'fingerprint'
+        and nullif(coalesce(o.result->'score'->>'score',o.result->>'score'),'') is not null
+      order by o.completed_at desc nulls last, o.requested_at desc
+      limit 1
+    );
+  end if;
   select * into sub from submissions where assignment_id=a.id for update;
   if action='assignment_save' and (sub.final_request_id=(p->>'requestId')::uuid or sub.last_save_request_id=(p->>'requestId')::uuid) then return to_jsonb(sub); end if;
   if a.status<>'in_progress' then raise exception 'CONFLICT: This question is not open for changes.'; end if;

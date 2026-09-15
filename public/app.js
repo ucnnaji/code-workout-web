@@ -3,7 +3,7 @@ const $ = id => document.getElementById(id);
 const operationRetries = new Map();
 const finalRetries = new Map();
 const state = { publicInfo: null, preflight: null, account: null, flow: null, csrf: '', stage: null, queue: null, assignment: null, submission: null, modality: null, editor: null, monacoReady: false, loadingAssignment: false, lastExecutionText: '', lastScore: null, busy: false, autosaveTimer: null, activeInputAt: Date.now() };
-const labels = { information: 'Information', consent: 'Consent', pre_survey: 'Pre-survey', demo: 'Demo', language: 'Language', coding: 'Practice', post_survey: 'Post-survey', incentive: 'Incentive', completion: 'Complete' };
+const labels = { information: 'Information', consent: 'Consent', pre_survey: 'Pre-survey', demo: 'Demo', language: 'Language', coding: 'Practice', post_survey: 'Post-survey', crossover: 'Crossover', incentive: 'Incentive', completion: 'Complete' };
 const screens = ['loadingScreen', 'consentScreen', 'declineScreen', 'accessSetupScreen', 'participantScreen', 'sessionScreen', 'workflowScreen', 'modalityScreen', 'workspaceScreen', 'reviewScreen', 'completionScreen'];
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const uid = () => crypto.randomUUID();
@@ -159,8 +159,8 @@ async function applyFlow(f) {
     renderTracker();
     if (f.session.status !== 'active')
         return showCompletion();
-    if (f.currentStage === 'coding') {
-        await api(sessionURL('/stages/coding/open'), { method: 'POST', body: {} });
+    if (['coding', 'crossover'].includes(f.currentStage)) {
+        await api(sessionURL(`/stages/${f.currentStage}/open`), { method: 'POST', body: {} });
         return renderModalities();
     }
     return renderStage();
@@ -581,20 +581,34 @@ function questionPosition(assignment) {
 function renderModalities() {
     state.assignment = null;
     state.queue = null;
-    const f = state.flow, completedModalities = f.modalities.filter(m => m.completed);
-    const totalQuestions = f.modalities.reduce((n, m) => n + m.count, 0);
-    const completedQuestions = completedModalities.reduce((n, m) => n + m.count, 0);
-    $('progressText').textContent = `${completedQuestions} of ${totalQuestions} questions completed`;
-    $('progressBar').style.width = `${totalQuestions ? completedQuestions / totalQuestions * 100 : 0}%`;
-    $('studyCompletedBanner').classList.toggle('hidden', completedModalities.length !== f.modalities.length);
+    const f = state.flow;
+    const phase = f.currentStage;
+    const primary = f.modalityOrder?.[0];
+    const visibleModalities = phase === 'coding'
+        ? f.modalities.filter(m => m.id === primary)
+        : f.modalities.filter(m => m.id !== primary);
+    const completedVisible = visibleModalities.filter(m => m.completed);
+    const phaseTotal = visibleModalities.reduce((n, m) => n + m.count, 0);
+    const phaseCompleted = completedVisible.reduce((n, m) => n + m.count, 0);
+    $('progressText').textContent = `${phaseCompleted} of ${phaseTotal} ${phaseTotal === 1 ? 'question' : 'questions'} completed in this phase`;
+    $('progressBar').style.width = `${phaseTotal ? phaseCompleted / phaseTotal * 100 : 0}%`;
+    const phaseDone = visibleModalities.length > 0 && completedVisible.length === visibleModalities.length;
+    $('studyCompletedBanner').classList.toggle('hidden', !phaseDone);
+    $('modalityTitle').textContent = phase === 'coding' ? 'Initial practice' : 'Crossover practice';
+    const banner = $('studyCompletedBanner');
+    banner.querySelector('h3').textContent = phase === 'coding' ? 'Initial practice complete' : 'Crossover complete';
+    banner.querySelector('p').textContent = phase === 'coding'
+        ? 'Your first two practice questions are saved. Continue to the post-survey before the crossover activities.'
+        : 'Your crossover responses are saved. Continue to the incentive section.';
+    $('codingContinue').textContent = phase === 'coding' ? 'Continue to post-survey' : 'Continue to incentive';
     $('modalityGrid').replaceChildren();
-    let firstQuestion = 1;
-    for (const m of f.modalities) {
+    let firstQuestion = phase === 'coding' ? 1 : 3;
+    for (const m of visibleModalities) {
         const b = document.createElement('button');
         b.className = 'modality-card' + (m.completed ? ' completed' : '');
         b.disabled = m.completed || m.locked;
         const lastQuestion = firstQuestion + m.count - 1;
-        const range = m.count === 1 ? `Question ${firstQuestion} of ${totalQuestions}` : `Questions ${firstQuestion}–${lastQuestion} of ${totalQuestions}`;
+        const range = m.count === 1 ? `Question ${firstQuestion} of 4` : `Questions ${firstQuestion}–${lastQuestion} of 4`;
         b.innerHTML = `<h3>${esc(m.label)}</h3><p>${m.id === 'problem-solving' ? 'Write code to complete the task.' : m.id === 'debugging' ? 'Find and fix an error in the code.' : 'Explain what the provided code does.'}</p><span class="status">${m.completed ? `✓ Completed · ${range}` : m.locked ? `🔒 Locked · ${range}` : `${range} · Ready`}</span>`;
         b.onclick = () => startModality(m.id);
         $('modalityGrid').appendChild(b);
@@ -1218,8 +1232,10 @@ async function finalizeQuestion(skipped = false) {
 function renderReview(items) { state.assignment = null; state.queue = null; $('reviewTitle').textContent = 'Review your saved responses'; $('reviewList').innerHTML = items.map(({ assignment: a, submission: s }) => { const explanation = a.modality_id === 'code-explanation' ? `<h4>Saved explanation</h4><p>${esc(s.final_explanation || '(none)')}</p>` : ''; return `<details class="review-item"><summary>Question ${a.question_order}: ${esc(a.question_snapshot.title)}${s.skipped ? ' — skipped' : ''}</summary><div class="review-body"><h4>Question</h4><p>${esc(a.question_snapshot.prompt)}</p><h4>Saved code</h4><pre>${esc(s.final_code || '(none)')}</pre>${explanation}${s.final_score != null ? `<h4>Score</h4><p>${esc(s.final_score)}/100</p>` : ''}</div></details>`; }).join(''); showScreen('reviewScreen'); }
 async function completeCoding() {
     try {
-        const st = state.flow.stages.find(s => s.key === 'coding');
-        const r = await api(sessionURL('/stages/coding'), { method: 'PUT', body: { revision: st.revision, requestId: uid(), final: true, responses: {} } });
+        const key = state.flow.currentStage;
+        if (!['coding', 'crossover'].includes(key)) throw new Error('Practice phase is not active.');
+        const st = state.flow.stages.find(s => s.key === key);
+        const r = await api(sessionURL(`/stages/${key}`), { method: 'PUT', body: { revision: st.revision, requestId: uid(), final: true, responses: {} } });
         await applyFlow(r.state);
     }
     catch (e) {

@@ -24,6 +24,9 @@ assert.equal(defaultConfig.sessions.some(s => Object.hasOwn(s, 'topic')), false)
 const snapshot = buildSnapshot(defaultConfig, 1, '00000000-0000-4000-8000-000000000001').snapshot;
 assert.equal(snapshot.modalityOrder.reduce((n,m) => n + (snapshot.modalityOrder[0] === m ? 2 : 1), 0), 4);
 assert.equal(snapshot.stages.find(s => s.key === 'language').ordinal < snapshot.stages.find(s => s.key === 'pre_survey').ordinal, true, 'Language selection must occur before the pre-survey.');
+assert.equal(snapshot.stages.find(s => s.key === 'post_survey').ordinal < snapshot.stages.find(s => s.key === 'crossover').ordinal, true, 'Post-survey must occur before crossover.');
+assert.match(read('content/surveys.json'), /gse_10/);
+assert.doesNotMatch(read('questions.seed.json'), /PY-PS-18|PY-PS-19|PY-PS-20|JA-PS-02/);
 assert.doesNotMatch(html, /name="accessLanguage"/, 'Language choice must not be duplicated on the access-key screen.');
 assert.match(html, /consent-scroll/, 'Consent should use the compact scrollable reader.');
 assert.match(html, /id="loadingScreen"/); assert.match(html, /id="accessSetupScreen"/); assert.match(html, /id="scoreBox"/); assert.match(html, /id="checkExplanation"/);
@@ -32,6 +35,7 @@ assert.doesNotMatch(app, /supplied-main-consent/);
 assert.match(css, /\.editor-host\{height:300px;min-height:240px;max-height:360px/);
 assert.match(server, /\/api\/participants\/self-enroll/); assert.match(server, /remoteLiveStudyEnabled/); assert.match(server, /participantLiveStudyEnabled/); assert.match(server, /surveyExportNames/); assert.match(server, /preventDuplicateEntries/); assert.match(server, /cw_entry_lock/); assert.match(server, /hasValidEntryLock/); assert.match(server, /setEntryLock\s*\(\s*res\s*\)/);
 assert.match(providers, /https:\/\/ce\.judge0\.com/); assert.match(providers, /\/languages/); assert.match(providers, /async grade/); assert.match(providers, /ai-rubric-all-modalities-v2/); assert.doesNotMatch(providers, /execution-gated-ai-rubric/);
+assert.match(server, /stableGrade/); assert.match(server, /score_cache_get/); assert.match(server, /stable-ai-score-v1/); assert.match(providers, /SCORING_PROMPT_VERSION/); assert.match(migration, /score_cache_get/);
 assert.match(adminHtml, /toggleDuplicateProtection/); assert.match(adminHtml, /releaseReadiness/); assert.match(admin, /pre-post-surveys/); assert.match(admin, /reviewedContentHash === currentHash/);
 for (const term of ['loops', 'functions', 'arrays']) { assert.doesNotMatch(read('config/study.json').toLowerCase(), new RegExp(`\\b${term}\\b`)); assert.doesNotMatch(app.toLowerCase(), new RegExp(`\\b${term}\\b`)); }
 assert.match(server, /contentHashForConfig/); assert.doesNotMatch(server, /topicValidation:/); assert.match(server, /publicQuestionSnapshot/); assert.match(server, /RATE_LIMITS/); assert.match(server, /selfEnrollIpPerHour: 1200/); assert.match(server, /loginIpPer15Min: 2000/); assert.doesNotMatch(server, /Version \$/);

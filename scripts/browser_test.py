@@ -122,31 +122,50 @@ def run():
         expect(page.locator('#accessSetupScreen')).to_be_visible(); expect(page.locator('input[name="accessLanguage"]')).to_have_count(0); page.locator('#newStudyParticipantId').fill('java42'); page.locator('#generateStudyAccess').click()
         expect(page.locator('#generatedAccessKey')).to_have_text('ABCD-EFGH-JKLM-NPQR'); page.locator('#savedStudyAccess').check(); page.locator('#continueWithStudyAccess').click()
         expect(page.locator('#stageTitle')).to_have_text('Language'); expect(page.locator('[data-language="python"]')).to_be_enabled(); expect(page.locator('[data-language="java"]')).to_be_enabled(); page.locator('[data-language="java"]').click()
-        expect(page.locator('#stageTitle')).to_have_text('Pre-survey'); expect(page.locator('#stageContent')).to_contain_text('Java'); expect(page.locator('#stageContent')).not_to_contain_text('Python')
-        page.locator('#skipStage').click(); confirm(page)
+        expect(page.locator('#stageTitle')).to_have_text('Pre-survey'); expect(page.locator('#stageContent')).to_contain_text('I can always manage to solve difficult problems'); expect(page.locator('#stageContent')).to_contain_text('Exactly true')
+        page.locator('#surveyForm button[type="submit"]').click(); confirm(page)
         expect(page.locator('#stageTitle')).to_have_text('Practice environment demo'); expect(page.locator('#stageContinue')).to_have_text('Continue to practice activities'); page.locator('#stageContinue').click()
-        expect(page.locator('#modalityScreen')).to_be_visible(); expect(page.locator('#progressText')).to_have_text('0 of 4 questions completed')
+        expect(page.locator('#modalityScreen')).to_be_visible(); expect(page.locator('#modalityTitle')).to_have_text('Initial practice'); expect(page.locator('#progressText')).to_have_text('0 of 2 questions completed in this phase')
         total_saved=0
-        for mi,m in enumerate(mock.order):
-            card=page.locator('#modalityGrid button').filter(has_text=LABELS[m]); expect(card).to_be_enabled(); card.click(); count=2 if mi==0 else 1
-            for _ in range(count):
-                expect(page.locator('#workspaceScreen')).to_be_visible()
-                if m=='code-explanation':
-                    expect(page.locator('#runCode')).to_be_hidden(); expect(page.locator('#outputPanel')).to_be_hidden(); expect(page.locator('#explanationSection')).to_be_visible(); expect(page.locator('#formatCode')).to_be_hidden()
-                    page.locator('#explanationInput').fill('The code produces the required result in sequence.'); page.locator('#checkExplanation').click(); expect(page.locator('#scoreValue')).to_contain_text('100')
-                else:
-                    expect(page.locator('#runCode')).to_be_visible(); expect(page.locator('#explanationSection')).to_be_hidden(); expect(page.locator('#formatCode')).to_be_visible()
-                    page.locator('#fallbackEditor').fill('public class Main { public static void main(String[] args) { System.out.println(11); } }'); page.locator('#runCode').click(); expect(page.locator('#programOutput')).to_have_text('11\n'); expect(page.locator('#scoreValue')).to_contain_text('100')
-                page.locator('#saveFinal').click(); confirm(page); total_saved+=1
+
+        # Initial practice: only the assigned primary modality is available, with two questions.
+        m=mock.order[0]
+        card=page.locator('#modalityGrid button').filter(has_text=LABELS[m]); expect(card).to_be_enabled(); card.click()
+        for _ in range(2):
+            expect(page.locator('#workspaceScreen')).to_be_visible()
+            if m=='code-explanation':
+                expect(page.locator('#runCode')).to_be_hidden(); expect(page.locator('#outputPanel')).to_be_hidden(); expect(page.locator('#explanationSection')).to_be_visible(); expect(page.locator('#formatCode')).to_be_hidden()
+                page.locator('#explanationInput').fill('The code produces the required result in sequence.'); page.locator('#checkExplanation').click(); expect(page.locator('#scoreValue')).to_contain_text('100')
+            else:
+                expect(page.locator('#runCode')).to_be_visible(); expect(page.locator('#explanationSection')).to_be_hidden(); expect(page.locator('#formatCode')).to_be_visible()
+                page.locator('#fallbackEditor').fill('public class Main { public static void main(String[] args) { System.out.println(11); } }'); page.locator('#runCode').click(); expect(page.locator('#programOutput')).to_have_text('11\n'); expect(page.locator('#scoreValue')).to_contain_text('100')
+            page.locator('#saveFinal').click(); confirm(page); total_saved+=1
+        expect(page.locator('#reviewScreen')).to_be_visible(); page.locator('#completeModality').click(); confirm(page); expect(page.locator('#modalityScreen')).to_be_visible()
+        expect(page.locator('#progressText')).to_have_text('2 of 2 questions completed in this phase'); expect(page.locator('#codingContinue')).to_have_text('Continue to post-survey'); page.locator('#codingContinue').click()
+
+        # The post-survey now occurs before crossover and uses the same GSE scale.
+        expect(page.locator('#stageTitle')).to_have_text('Post-survey'); expect(page.locator('#stageContent')).to_contain_text('After completing the first two practice questions'); expect(page.locator('#stageContent')).to_contain_text('I can always manage to solve difficult problems'); page.locator('#surveyForm button[type="submit"]').click(); confirm(page)
+
+        # Crossover: the remaining two modalities appear after the post-survey.
+        expect(page.locator('#modalityScreen')).to_be_visible(); expect(page.locator('#modalityTitle')).to_have_text('Crossover practice'); expect(page.locator('#progressText')).to_have_text('0 of 2 questions completed in this phase')
+        for m in mock.order[1:]:
+            card=page.locator('#modalityGrid button').filter(has_text=LABELS[m]); expect(card).to_be_enabled(); card.click()
+            expect(page.locator('#workspaceScreen')).to_be_visible()
+            if m=='code-explanation':
+                expect(page.locator('#runCode')).to_be_hidden(); expect(page.locator('#outputPanel')).to_be_hidden(); expect(page.locator('#explanationSection')).to_be_visible(); expect(page.locator('#formatCode')).to_be_hidden()
+                page.locator('#explanationInput').fill('The code produces the required result in sequence.'); page.locator('#checkExplanation').click(); expect(page.locator('#scoreValue')).to_contain_text('100')
+            else:
+                expect(page.locator('#runCode')).to_be_visible(); expect(page.locator('#explanationSection')).to_be_hidden(); expect(page.locator('#formatCode')).to_be_visible()
+                page.locator('#fallbackEditor').fill('public class Main { public static void main(String[] args) { System.out.println(11); } }'); page.locator('#runCode').click(); expect(page.locator('#programOutput')).to_have_text('11\n'); expect(page.locator('#scoreValue')).to_contain_text('100')
+            page.locator('#saveFinal').click(); confirm(page); total_saved+=1
             expect(page.locator('#reviewScreen')).to_be_visible(); page.locator('#completeModality').click(); confirm(page); expect(page.locator('#modalityScreen')).to_be_visible()
         assert total_saved==4
-        expect(page.locator('#progressText')).to_have_text('4 of 4 questions completed'); page.locator('#codingContinue').click()
-        expect(page.locator('#stageTitle')).to_have_text('Post-survey'); expect(page.locator('#stageContent')).to_contain_text('Java'); expect(page.locator('#stageContent')).not_to_contain_text('Python'); page.locator('#skipStage').click(); confirm(page)
+        expect(page.locator('#progressText')).to_have_text('2 of 2 questions completed in this phase'); expect(page.locator('#codingContinue')).to_have_text('Continue to incentive'); page.locator('#codingContinue').click()
         page.locator('[name="compensationChoice"][value="later"]').check(); page.locator('#stageContinue').click(); expect(page.locator('#completionTitle')).to_have_text('Session 1 complete')
         assert not errors, errors
         page.screenshot(path=str(output/'modified-flow-smoke.png'),full_page=True)
         browser.close()
-    (output/'browser-report.json').write_text(json.dumps({'mode':'offline DOM + in-memory API','language':'java','questions':4,'passed':True,'checks':['no startup login flicker','compact consent reader','student-generated access flow','single language selection before pre-survey','Java survey wording','2/1/1 locked modality order','Run Code absent for code explanation','explanation absent for problem-solving/debugging','visible scoring','completion']},indent=2))
+    (output/'browser-report.json').write_text(json.dumps({'mode':'offline DOM + in-memory API','language':'java','questions':4,'passed':True,'checks':['no startup login flicker','compact consent reader','student-generated access flow','single language selection before pre-survey','Java survey wording','2-question initial practice, post-survey, then 1/1 crossover order','Run Code absent for code explanation','explanation absent for problem-solving/debugging','visible scoring','completion']},indent=2))
     print('Modified participant workflow browser smoke test: PASS')
 
 if __name__=='__main__': run()

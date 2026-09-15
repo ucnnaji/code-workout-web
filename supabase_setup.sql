@@ -1,4 +1,4 @@
--- CODE WORKOUT v4.0.4: additive, idempotent schema and bootstrap.
+-- CODE WORKOUT research-survey/crossover update: additive, idempotent schema and bootstrap.
 -- Back up first. Run the ENTIRE file in the Supabase SQL Editor as project owner.
 -- Existing research records and historical assignment snapshots are preserved.
 -- Current question definitions are synchronized from questions.seed.json by stable ID.
@@ -192,477 +192,890 @@ alter table public.analytics_events enable row level security;
 insert into public.questions
   (id, language, modality_id, title, prompt, starter_code, difficulty, expected_concepts, active)
 values
-('PY-PS-01','python','problem-solving','Print 1 to 5','Write a program that prints the integers 1 through 5, one per line.','','easy','["for loop","range"]'::jsonb,true),
-('PY-PS-02','python','problem-solving','Sum 1 to 10','Compute and print the sum of the integers 1 through 10.','','easy','["loop","accumulator"]'::jsonb,true),
-('PY-PS-03','python','problem-solving','Even numbers','Print all even numbers from 2 through 20, one per line.','','easy','["loop","modulo"]'::jsonb,true),
-('PY-PS-04','python','problem-solving','Count vowels','Given text = "programming", count and print the number of vowels.','text = "programming"
-','easy','["string","loop","condition"]'::jsonb,true),
-('PY-PS-05','python','problem-solving','Largest value','Given nums = [4, 9, 2, 7, 5], print the largest value without using max().','nums = [4, 9, 2, 7, 5]
-','easy','["list","loop","comparison"]'::jsonb,true),
-('PY-PS-06','python','problem-solving','Factorial','Compute and print 5 factorial using a loop.','','easy','["loop","accumulator"]'::jsonb,true),
-('PY-PS-07','python','problem-solving','Reverse text','Given text = "hello", build and print the reversed string without using slicing.','text = "hello"
-','easy','["string","loop"]'::jsonb,true),
-('PY-PS-08','python','problem-solving','Count positives','Given nums = [-2, 4, 0, 7, -1, 3], count and print how many values are positive.','nums = [-2, 4, 0, 7, -1, 3]
-','easy','["list","condition","counter"]'::jsonb,true),
-('PY-PS-09','python','problem-solving','Squares','Print the square of each integer from 1 through 6.','','easy','["loop","arithmetic"]'::jsonb,true),
-('PY-PS-10','python','problem-solving','Running total','Given nums = [3, 1, 4, 2], print the running total after each value.','nums = [3, 1, 4, 2]
-','easy','["loop","accumulator"]'::jsonb,true),
-('PY-PS-11','python','problem-solving','Multiplication table','Print the first five multiples of 7.','','medium','["loop","multiplication"]'::jsonb,true),
-('PY-PS-12','python','problem-solving','Count letter','Given text = "banana", count and print how many times the letter ''a'' occurs.','text = "banana"
-','medium','["string","counter"]'::jsonb,true),
-('PY-PS-13','python','problem-solving','Minimum value','Given nums = [8, 3, 6, 1, 9], print the smallest value without using min().','nums = [8, 3, 6, 1, 9]
-','medium','["list","comparison"]'::jsonb,true),
-('PY-PS-14','python','problem-solving','Sum evens','Compute and print the sum of all even integers from 1 through 20.','','medium','["loop","condition","accumulator"]'::jsonb,true),
-('PY-PS-15','python','problem-solving','List lengths','Given words = ["cat", "tiger", "ox"], print each word followed by its length.','words = ["cat", "tiger", "ox"]
-','medium','["list","string"]'::jsonb,true),
-('PY-PS-16','python','problem-solving','Temperature labels','Given temps = [35, 72, 90], print ''cold'' for values below 50, ''warm'' for 50-79, and ''hot'' for 80 or higher.','temps = [35, 72, 90]
-','medium','["conditionals","loop"]'::jsonb,true),
-('PY-PS-17','python','problem-solving','Skip multiples of 3','Print integers 1 through 12 except multiples of 3.','','medium','["loop","continue","modulo"]'::jsonb,true),
-('PY-PS-18','python','problem-solving','First matching value','Given nums = [3, 5, 8, 10], print the first even number and then stop searching.','nums = [3, 5, 8, 10]
-','medium','["loop","break"]'::jsonb,true),
-('PY-PS-19','python','problem-solving','Average','Given nums = [6, 8, 10, 12], compute and print their average using a loop.','nums = [6, 8, 10, 12]
-','medium','["loop","average"]'::jsonb,true),
-('PY-PS-20','python','problem-solving','Character positions','Given text = "code", print each character with its zero-based index.','text = "code"
-','medium','["enumeration","string"]'::jsonb,true),
-('PY-DBG-01','python','debugging','Off-by-one range','Fix the program so it prints 1 through 5.','for n in range(1, 5):
-    print(n)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-02','python','debugging','Missing colon','Fix the syntax error.','for n in range(3)
-    print(n)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-03','python','debugging','Indentation error','Fix the indentation so the loop prints each value.','for n in range(3):
-print(n)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-04','python','debugging','Wrong accumulator','Fix the program so it prints 15.','total = 0
-for n in range(1, 6):
-    total = n
-print(total)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-05','python','debugging','String integer mix','Fix the program so it prints Age: 20.','age = 20
-print("Age: " + age)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-06','python','debugging','Wrong comparison','Fix the program so it prints only positive values.','nums = [-1, 2, -3, 4]
-for n in nums:
-    if n < 0:
-        print(n)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-07','python','debugging','Infinite loop','Fix the loop so it prints 1, 2, 3 and stops.','n = 1
-while n <= 3:
-    print(n)
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-08','python','debugging','Wrong list index','Fix the program so it prints the last item.','items = [10, 20, 30]
-print(items[3])
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-09','python','debugging','Case mismatch','Fix the condition so the program prints Yes.','answer = "yes"
-if answer == "Yes":
-    print("Yes")
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-10','python','debugging','Wrong boolean operator','Fix the condition so 15 is recognized as being between 10 and 20 inclusive.','x = 15
-if x >= 10 or x <= 20:
-    print("between")
-','easy','["debugging"]'::jsonb,true),
-('PY-DBG-11','python','debugging','Average denominator','Fix the average calculation.','nums = [2, 4, 6, 8]
-total = sum(nums)
-average = total / 3
-print(average)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-12','python','debugging','Function return','Fix the function so result becomes 10.','def double(x):
-    x * 2
+('PY-PS-01','python','problem-solving','Display three lines exactly','Write Python code that produces exactly this output:
 
-result = double(5)
-print(result)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-13','python','debugging','Wrong loop target','Fix the code so it prints each word, not each character of the first word.','words = ["red", "blue"]
-for word in words[0]:
-    print(word)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-14','python','debugging','Modulo bug','Fix the code so it prints even numbers.','for n in range(1, 7):
-    if n % 2 == 1:
-        print(n)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-15','python','debugging','Wrong initialization','Fix the maximum-finding logic.','nums = [-8, -3, -12]
-largest = 0
-for n in nums:
-    if n > largest:
-        largest = n
-print(largest)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-16','python','debugging','Append call','Fix the code so 3 is added to the list.','values = [1, 2]
-values.append[3]
-print(values)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-17','python','debugging','Key lookup','Fix the dictionary key error.','student = {"name": "Ada"}
-print(student["Name"])
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-18','python','debugging','Loop boundary','Fix the code so it prints indexes 0, 1, and 2 without an IndexError.','items = ["a", "b", "c"]
-for i in range(4):
-    print(items[i])
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-19','python','debugging','Integer input','Fix the code so adding 1 works when the input is 5.','value = input()
-print(value + 1)
-','medium','["debugging"]'::jsonb,true),
-('PY-DBG-20','python','debugging','Nested indentation','Fix the code so only even values print ''even''.','for n in range(1, 5):
-    if n % 2 == 0:
-        print(n)
-    print("even")
-','medium','["debugging"]'::jsonb,true),
-('PY-TRC-01','python','code-explanation','Trace a range','Without running the code first, state exactly what it prints.','for n in range(1, 4):
-    print(n)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-02','python','code-explanation','Trace accumulator','Predict the final output.','total = 0
-for n in [2, 3, 4]:
-    total += n
-print(total)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-03','python','code-explanation','Trace condition','Predict the output in order.','for n in range(5):
-    if n % 2 == 0:
-        print(n)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-04','python','code-explanation','Trace string','Predict the output.','text = "cat"
-for ch in text:
-    print(ch.upper())
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-05','python','code-explanation','Trace while','Predict the output.','x = 3
-while x > 0:
-    print(x)
-    x -= 1
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-06','python','code-explanation','Trace break','Predict the output.','for n in range(1, 6):
-    if n == 4:
-        break
-    print(n)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-07','python','code-explanation','Trace continue','Predict the output.','for n in range(1, 6):
-    if n == 3:
-        continue
-    print(n)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-08','python','code-explanation','Trace nested loop','How many times is X printed? Also state the printed lines.','for i in range(2):
-    for j in range(2):
-        print("X")
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-09','python','code-explanation','Trace list mutation','Predict the final list.','values = [1, 2]
-for n in [3, 4]:
-    values.append(n)
-print(values)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-10','python','code-explanation','Trace variable update','Predict the output.','x = 1
-for _ in range(3):
-    x *= 2
-print(x)
-','easy','["tracing"]'::jsonb,true),
-('PY-TRC-11','python','code-explanation','Trace enumerate','Predict the output lines.','for i, ch in enumerate("ab"):
-    print(i, ch)
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-12','python','code-explanation','Trace membership','Predict the output.','items = [2, 4, 6]
-print(4 in items)
-print(5 in items)
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-13','python','code-explanation','Trace function','Predict the output.','def add_one(x):
-    return x + 1
+Computer Science
+Programming
+Problem Solving
 
-print(add_one(4))
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-14','python','code-explanation','Trace slicing','Predict the output.','text = "python"
-print(text[1:4])
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-15','python','code-explanation','Trace dictionary','Predict the output.','d = {"a": 2, "b": 3}
-print(d["a"] + d["b"])
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-16','python','code-explanation','Trace comparison','Predict the output.','x = 7
-if x > 5 and x < 10:
-    print("A")
-else:
-    print("B")
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-17','python','code-explanation','Trace sum loop','Predict the final output.','s = 1
-for n in range(1, 4):
-    s += n
-print(s)
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-18','python','code-explanation','Trace reversed','Predict the output sequence.','for n in reversed([1, 2, 3]):
-    print(n)
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-19','python','code-explanation','Trace length','Predict the output.','words = ["hi", "code"]
-for w in words:
-    print(len(w))
-','medium','["tracing"]'::jsonb,true),
-('PY-TRC-20','python','code-explanation','Trace nested condition','Predict the output.','for n in [1, 2, 3, 4]:
-    if n > 2:
-        if n % 2 == 0:
-            print(n)
-','medium','["tracing"]'::jsonb,true),
-('PY-CMP-01','python','code-completion','Complete range','Replace TODO so the loop prints 1 through 5.','for n in range(TODO):
-    print(n)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-02','python','code-completion','Complete sum','Replace TODO to accumulate the sum.','total = 0
-for n in range(1, 6):
-    TODO
-print(total)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-03','python','code-completion','Complete condition','Replace TODO so only even numbers print.','for n in range(1, 7):
-    if TODO:
-        print(n)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-04','python','code-completion','Complete function','Replace TODO with the correct return statement.','def square(x):
-    TODO
+Use exactly three print() statements.','','easy','["print","strings","exact output"]'::jsonb,true),
+('PY-PS-02','python','problem-solving','Print the steps in order','Write Python code that prints these steps in exactly this order:
 
-print(square(4))
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-05','python','code-completion','Complete list loop','Replace TODO so each item prints.','items = ["a", "b", "c"]
-for item in TODO:
-    print(item)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-06','python','code-completion','Complete counter','Replace TODO so the count increases for positive values.','count = 0
-for n in [-1, 2, 3]:
-    if n > 0:
-        TODO
-print(count)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-07','python','code-completion','Complete while','Replace TODO so the loop eventually stops.','n = 1
-while n <= 3:
-    print(n)
-    TODO
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-08','python','code-completion','Complete append','Replace TODO to add 3 to values.','values = [1, 2]
-TODO
-print(values)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-09','python','code-completion','Complete maximum','Replace TODO in the comparison.','nums = [2, 8, 4]
-largest = nums[0]
-for n in nums:
-    if TODO:
-        largest = n
-print(largest)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-10','python','code-completion','Complete string count','Replace TODO so the program counts ''a''.','text = "banana"
-count = 0
-for ch in text:
-    if TODO:
-        count += 1
-print(count)
-','easy','["completion"]'::jsonb,false),
-('PY-CMP-11','python','code-completion','Complete input conversion','Replace TODO so numeric addition works.','value = TODO(input())
-print(value + 1)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-12','python','code-completion','Complete index loop','Replace TODO to iterate valid indexes.','items = [10, 20, 30]
-for i in range(TODO):
-    print(i, items[i])
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-13','python','code-completion','Complete average','Replace TODO with the correct denominator.','nums = [2, 4, 6, 8]
-average = sum(nums) / TODO
-print(average)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-14','python','code-completion','Complete break','Replace TODO so the loop stops when n equals 3.','for n in range(1, 6):
-    if TODO:
-        break
-    print(n)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-15','python','code-completion','Complete dictionary','Replace TODO with the correct key.','student = {"name": "Ada", "score": 95}
-print(student[TODO])
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-16','python','code-completion','Complete nested loop','Replace TODO so the inner loop runs twice.','for i in range(2):
-    for j in range(TODO):
-        print(i, j)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-17','python','code-completion','Complete boolean','Replace TODO so values 10 through 20 inclusive are accepted.','x = 15
-if TODO:
-    print("accepted")
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-18','python','code-completion','Complete reverse build','Replace TODO so reversed_text becomes ''cba''.','text = "abc"
-reversed_text = ""
-for ch in text:
-    TODO
-print(reversed_text)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-19','python','code-completion','Complete list comprehension','Replace TODO so squares becomes [1, 4, 9, 16].','squares = [TODO for n in range(1, 5)]
-print(squares)
-','medium','["completion"]'::jsonb,false),
-('PY-CMP-20','python','code-completion','Complete return condition','Replace TODO so is_even returns True for even values.','def is_even(n):
-    return TODO
+1. Plan the program
+2. Write the code
+3. Test the program
+4. Fix problems
 
-print(is_even(6))
-','medium','["completion"]'::jsonb,false),
-('JA-PS-01','java','problem-solving','Print 1 to 5','Write a Java program that prints the integers 1 through 5, one per line.','public class Main {
+Use one print() statement for each line.','','easy','["print","sequential execution","exact output"]'::jsonb,true),
+('PY-PS-03','python','problem-solving','Create one blank line','Write Python code that produces exactly:
+
+My Reflection
+
+Programming gives computers instructions.
+
+Use exactly three print() calls. The middle print() call must create the blank line.','','easy','["print","blank line","exact output"]'::jsonb,true),
+('PY-PS-04','python','problem-solving','Print text with section comments','Write Python code that prints:
+
+Title
+Main idea
+
+Add a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.','','easy','["comments","print","program organization"]'::jsonb,true),
+('PY-PS-05','python','problem-solving','Print Start and Finish','Write two valid calls to print() that display:
+
+Start
+Finish
+
+Use normal function-call syntax with parentheses.','','easy','["function call syntax","print","sequential execution"]'::jsonb,true),
+('PY-PS-06','python','problem-solving','Print three lines with one string','Using only one print() call and one triple-quoted string, display exactly:
+
+Read
+Think
+Write','','easy','["print","multi-line string","exact output"]'::jsonb,true),
+('PY-PS-07','python','problem-solving','Recreate the output with one print','The output below could be produced with three print() calls:
+
+Red
+Green
+Blue
+
+Produce the same visible output using only one print() call and a triple-quoted string.','','medium','["print","multi-line string","equivalent output"]'::jsonb,true),
+('PY-PS-08','python','problem-solving','Match punctuation and capitalization','Write Python code that produces exactly:
+
+Ready?
+Set...
+Go!
+
+Capitalization and punctuation must match exactly.','','medium','["print","strings","capitalization","punctuation"]'::jsonb,true),
+('PY-PS-09','python','problem-solving','Format a heading and body','Write Python code that produces exactly:
+
+Computer Science Reflection
+
+Programming is one way to give computers precise instructions.
+Testing helps us notice when the result does not match what we intended.
+
+Use an empty print() call for the blank line.','','medium','["print","blank line","sequential execution","exact output"]'::jsonb,true),
+('PY-PS-10','python','problem-solving','Organize a short reflection','Write code that produces this output:
+
+Reflection
+Computer Science involves solving problems.
+Programs must be written carefully.
+
+Requirements:
+- Add a comment before the title section.
+- Add a different comment before the two body lines.
+- Comments must not be printed.','','medium','["comments","print","program organization","exact output"]'::jsonb,true),
+('PY-PS-11','python','problem-solving','Print four steps in sequence','Write four print() statements so the output is exactly:
+
+Understand
+Plan
+Program
+Test
+
+Do not combine the lines into one multi-line string.','','medium','["print","sequential execution","requirements"]'::jsonb,true),
+('PY-PS-12','python','problem-solving','Print one sentence correctly','Write one print() statement that displays exactly:
+
+Python programs follow instructions carefully.
+
+The sentence itself must be a string argument passed to print().','','medium','["print","string delimiters","function call syntax"]'::jsonb,true),
+('PY-PS-13','python','problem-solving','Print four ideas in order','Create a program that prints the following four lines in order:
+
+Problem
+Idea
+Code
+Result
+
+Use four print() statements and add one helpful comment above the group.','','medium','["print","comments","sequential execution"]'::jsonb,true),
+('PY-PS-14','python','problem-solving','Match the required output exactly','Write Python code that produces exactly:
+
+=== PROGRAM ===
+Begin
+
+Complete
+=== END ===
+
+Requirements:
+- Use print() only.
+- Use one empty print() call for the blank line.
+- Match all symbols and capitalization exactly.','','medium','["print","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-PS-15','python','problem-solving','Print four steps with one block','Using one print() call with a triple-quoted string, display:
+
+Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test
+
+Do not use four separate print() statements.','','medium','["print","multi-line string","requirements"]'::jsonb,true),
+('PY-PS-16','python','problem-solving','Use comments and a blank line','Write Python code that produces exactly:
+
+Program Start
+
+Program Complete
+
+Requirements:
+- Use an empty print() call for the blank line.
+- Add a comment above the first output statement.
+- Add a second comment above the final output statement.','','medium','["print","comments","blank line","program organization"]'::jsonb,true),
+('PY-PS-17','python','problem-solving','Format a short program message','Write a short program that prints exactly:
+
+Computer Science
+Programming turns ideas into instructions.
+
+Precise instructions matter.
+
+Use comments to label the sections and include exactly one blank line.','','medium','["print","comments","blank line","exact output","program organization"]'::jsonb,true),
+('PY-DBG-01','python','debugging','Fix the three-line output','The program should print:
+
+Computer Science
+Programming
+Problem Solving
+
+Fix the code so the output matches exactly.','print("Computer Science")
+print("Problem Solving")
+print("Programming")
+','easy','["debugging","print","exact output"]'::jsonb,true),
+('PY-DBG-02','python','debugging','Fix the output order','The required output is:
+
+1. Plan the program
+2. Write the code
+3. Test the program
+4. Fix problems
+
+Reorder the statements so the output is correct.','print("1. Plan the program")
+print("3. Test the program")
+print("2. Write the code")
+print("4. Fix problems")
+','easy','["debugging","sequential execution"]'::jsonb,true),
+('PY-DBG-03','python','debugging','Fix the blank line','The required output is:
+
+My Reflection
+
+Programming gives computers instructions.
+
+Fix the program so there is exactly one blank line between the two text lines.','print("My Reflection")
+print("Programming gives computers instructions.")
+','easy','["debugging","blank line","print"]'::jsonb,true),
+('PY-DBG-04','python','debugging','Keep labels as comments','The two section labels are meant to be comments, not output. Fix the program so it prints only:
+
+Title
+Main idea','print("Title section")
+print("Title")
+print("Main section")
+print("Main idea")
+','easy','["debugging","comments","requirements"]'::jsonb,true),
+('PY-DBG-05','python','debugging','Fix the print syntax','Fix the syntax so the program prints:
+
+Start
+Finish','print["Start"]
+print{"Finish"}
+','easy','["debugging","function call syntax","parentheses"]'::jsonb,true),
+('PY-DBG-06','python','debugging','Fix the triple-quoted string','Fix the multi-line string so the program prints:
+
+Read
+Think
+Write','print("""Read
+Think
+Write"")
+','easy','["debugging","multi-line string","quotation marks"]'::jsonb,true),
+('PY-DBG-07','python','debugging','Remove extra blank lines','The required output is:
+
+Red
+Green
+Blue
+
+Fix the program so there are no blank lines between the colors.','print("""Red
+
+Green
+
+Blue""")
+','medium','["debugging","multi-line string","exact output"]'::jsonb,true),
+('PY-DBG-08','python','debugging','Fix punctuation and capitalization','The required output is:
+
+Ready?
+Set...
+Go!
+
+Fix every mismatch.','print("ready!")
+print("Set..")
+print("Go?")
+','medium','["debugging","capitalization","punctuation","exact output"]'::jsonb,true),
+('PY-DBG-09','python','debugging','Fix the heading and body spacing','The program must produce exactly:
+
+Computer Science Reflection
+
+Programming is one way to give computers precise instructions.
+Testing helps us notice when the result does not match what we intended.
+
+Fix the spacing and order.','print("Computer Science Reflection")
+print("Programming is one way to give computers precise instructions.")
+print()
+print("Testing helps us notice when the result does not match what we intended.")
+','medium','["debugging","blank line","sequential execution"]'::jsonb,true),
+('PY-DBG-10','python','debugging','Fix the comments','The program should run and print:
+
+Reflection
+Computer Science involves solving problems.
+Programs must be written carefully.
+
+The descriptive lines are intended to be comments. Fix them.','Title section
+print("Reflection")
+Body section
+print("Computer Science involves solving problems.")
+print("Programs must be written carefully.")
+','medium','["debugging","comments","syntax error"]'::jsonb,true),
+('PY-DBG-11','python','debugging','Add the missing output line','The required output is:
+
+Understand
+Plan
+Program
+Test
+
+Add the missing statement in the correct place.','print("Understand")
+print("Plan")
+print("Test")
+','medium','["debugging","sequential execution","missing statement"]'::jsonb,true),
+('PY-DBG-12','python','debugging','Fix the string syntax','Fix the syntax error so the program prints exactly:
+
+Python programs follow instructions carefully.','print("Python programs follow instructions carefully.)
+','medium','["debugging","string delimiters","syntax error"]'::jsonb,true),
+('PY-DBG-13','python','debugging','Remove the extra output line','The required output is:
+
+Problem
+Idea
+Code
+Result
+
+Fix the program by removing only the statement that should not be there.','print("Problem")
+print("Idea")
+print("Extra")
+print("Code")
+print("Result")
+','medium','["debugging","exact output","extra statement"]'::jsonb,true),
+('PY-DBG-14','python','debugging','Fix the exact output','The required output is:
+
+=== PROGRAM ===
+Begin
+
+Complete
+=== END ===
+
+Fix the program so all text, spacing, and symbols match exactly.','print("== PROGRAM ==")
+print("Begin")
+print()
+print()
+print("Complete")
+print("=== END ==")
+','medium','["debugging","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-DBG-15','python','debugging','Fix the multi-line string','The required output is:
+
+Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test
+
+Fix the one print() call so every step appears correctly.','print("""Step 1: Read
+Step 2: Think
+Step 4: Test
+Step 3: Code""")
+','medium','["debugging","multi-line string","sequential output"]'::jsonb,true),
+('PY-DBG-16','python','debugging','Fix the comments and blank line','The required output is:
+
+Program Start
+
+Program Complete
+
+The section labels should be comments. Fix the program.','print("Start section")
+print("Program Start")
+print("End section")
+print("Program Complete")
+','medium','["debugging","comments","blank line","requirements"]'::jsonb,true),
+('PY-DBG-17','python','debugging','Fix the text and spacing','Fix the starter code so it prints exactly:
+
+Computer Science
+Programming turns ideas into instructions.
+
+Precise instructions matter.
+
+Keep the section labels as comments and include exactly one blank line.','# Title
+print("computer science")
+# Main idea
+print("Programming turns ideas into instructions.")
+print()
+print()
+print("Precise instructions matter.")
+','medium','["debugging","comments","capitalization","blank line","exact output"]'::jsonb,true),
+('PY-TRC-01','python','code-explanation','Explain how three lines are printed','Without running the code first:
+1. State exactly what it prints.
+2. Explain why there are three output lines.','print("Computer Science")
+print("Programming")
+print("Problem Solving")
+','easy','["code explanation","print","exact output"]'::jsonb,true),
+('PY-TRC-02','python','code-explanation','Explain why the output order matters','State exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.','print("1. Plan the program")
+print("2. Write the code")
+print("3. Test the program")
+print("4. Fix problems")
+','easy','["code explanation","sequential execution"]'::jsonb,true),
+('PY-TRC-03','python','code-explanation','Explain how the blank line is created','State exactly what appears in the output, including spacing. Explain what the middle print() call contributes.','print("My Reflection")
+print()
+print("Programming gives computers instructions.")
+','easy','["code explanation","blank line","print"]'::jsonb,true),
+('PY-TRC-04','python','code-explanation','Explain which lines are comments','State exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.','# Title section
+print("Title")
+# Main section
+print("Main idea")
+','easy','["code explanation","comments","program organization"]'::jsonb,true),
+('PY-TRC-05','python','code-explanation','Explain how print() is called','For each print() statement, identify:
+- the function name
+- the parentheses
+- the string argument
+
+Then state the output.','print("Start")
+print("Finish")
+','easy','["code explanation","function call syntax","strings"]'::jsonb,true),
+('PY-TRC-06','python','code-explanation','Explain how the multi-line string works','State exactly what the code prints. Explain how one print() call creates three output lines.','print("""Read
+Think
+Write""")
+','easy','["code explanation","multi-line string","print"]'::jsonb,true),
+('PY-TRC-07','python','code-explanation','Explain why both programs match','Program A:
+print("Red")
+print("Green")
+print("Blue")
+
+Program B:
+print("""Red
+Green
+Blue""")
+
+Do the two programs produce the same visible output? Explain how their code structure differs.','','medium','["code explanation","multi-line string","equivalent output"]'::jsonb,true),
+('PY-TRC-08','python','code-explanation','Explain why punctuation changes output','State exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.','print("Ready?")
+print("Set...")
+print("Go!")
+','medium','["code explanation","strings","punctuation","exact output"]'::jsonb,true),
+('PY-TRC-09','python','code-explanation','Explain how the heading is separated','State the complete output, including the blank line. Then explain which statement creates each part of that output.','print("Computer Science Reflection")
+print()
+print("Programming is one way to give computers precise instructions.")
+print("Testing helps us notice when the result does not match what we intended.")
+','medium','["code explanation","blank line","sequential execution"]'::jsonb,true),
+('PY-TRC-10','python','code-explanation','Explain how comments organize the program','Explain what is printed and what is not printed. Then describe how the two comments help organize the code.','# Title section
+print("Reflection")
+# Body section
+print("Computer Science involves solving problems.")
+print("Programs must be written carefully.")
+','medium','["code explanation","comments","program organization"]'::jsonb,true),
+('PY-TRC-11','python','code-explanation','Explain the order of four statements','Without running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.','print("Understand")
+print("Plan")
+print("Program")
+print("Test")
+','medium','["code explanation","sequential execution","tracing"]'::jsonb,true),
+('PY-TRC-12','python','code-explanation','Explain why the code has a syntax error','Explain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.','print("Python programs follow instructions carefully."
+','medium','["code explanation","syntax error","parentheses"]'::jsonb,true),
+('PY-TRC-13','python','code-explanation','Explain why the output is wrong','Suppose the required output is:
+
+Problem
+Idea
+Code
+Result
+
+Explain why the code below is valid Python but still fails the requirement.','print("Problem")
+print("Idea")
+print("Result")
+print("Code")
+','medium','["code explanation","requirements","sequential execution"]'::jsonb,true),
+('PY-TRC-14','python','code-explanation','Explain how the exact output is produced','State exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.','print("=== PROGRAM ===")
+print("Begin")
+print()
+print("Complete")
+print("=== END ===")
+','medium','["code explanation","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-TRC-15','python','code-explanation','Explain how one print creates four lines','State the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.','print("""Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test""")
+','medium','["code explanation","multi-line string","sequential output"]'::jsonb,true),
+('PY-TRC-16','python','code-explanation','Explain comments and blank-line output','State exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.','# Start section
+print("Program Start")
+print()
+# End section
+print("Program Complete")
+','medium','["code explanation","comments","blank line","program organization"]'::jsonb,true),
+('PY-TRC-17','python','code-explanation','Explain the program text and spacing','1. State exactly what is printed.
+2. Identify which statements create the blank line.
+3. Explain why the comments do not appear.
+4. Describe the order in which Python processes the executable statements.','# Title
+print("Computer Science")
+# Main idea
+print("Programming turns ideas into instructions.")
+print()
+print("Precise instructions matter.")
+','medium','["code explanation","comments","blank line","sequential execution"]'::jsonb,true),
+('JA-PS-01','java','problem-solving','Calculate a total from three integers','Store 8 in int a, 5 in int b, and 3 in int c. Add all three values, store the result in int total, and print total.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-02','java','problem-solving','Sum 1 to 10','Compute and print the sum of the integers 1 through 10.','public class Main {
+','easy','["variables","int","arithmetic","output"]'::jsonb,true),
+('JA-PS-03','java','problem-solving','Calculate a purchase total and change','Store 4.5 in double price and 3 in int quantity. Calculate the purchase total, then calculate the change from 20.0. Print total and then change.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-03','java','problem-solving','Even numbers','Print all even numbers from 2 through 20, one per line.','public class Main {
+','easy','["double","variables","arithmetic","output"]'::jsonb,true),
+('JA-PS-04','java','problem-solving','Use parentheses in a multi-step calculation','Calculate (4 + 6) * 2 - 3, store the result in int result, and print result.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-04','java','problem-solving','Count vowels','Given String text = "programming", count and print the number of vowels.','public class Main {
+','easy','["arithmetic","order of operations","parentheses"]'::jsonb,true),
+('JA-PS-05','java','problem-solving','Check a passing score at the boundary','Use int score = 60. Write an if statement that prints Pass when score is 60 or higher.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-05','java','problem-solving','Largest value','Given int[] nums = {4, 9, 2, 7, 5}, print the largest value without using library max helpers.','public class Main {
+','easy','["conditionals","if","comparison","boundary value"]'::jsonb,true),
+('JA-PS-06','java','problem-solving','Choose an output at a boundary value','Use int number = 0. Print Positive if number is greater than 0; otherwise print Zero or negative.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-06','java','problem-solving','Factorial','Compute and print 5 factorial using a loop.','public class Main {
+','easy','["conditionals","if-else","comparison","boundary value"]'::jsonb,true),
+('JA-PS-07','java','problem-solving','Assign a letter grade across four ranges','Use int score = 78. Print A for 90 or higher, B for 80-89, C for 70-79, and D for anything lower.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-07','java','problem-solving','Reverse text','Given String text = "hello", build and print the reversed string using a loop.','public class Main {
+','medium','["conditionals","if-else-if","comparison","branch order"]'::jsonb,true),
+('JA-PS-08','java','problem-solving','Check whether a value is inside a range','Use int age = 25. Print Eligible if age is between 18 and 25 inclusive; otherwise print Not eligible. Use && in the condition.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-08','java','problem-solving','Count positives','Given int[] nums = {-2, 4, 0, 7, -1, 3}, count and print how many values are positive.','public class Main {
+','medium','["conditionals","logical AND","comparison","boundary value"]'::jsonb,true),
+('JA-PS-09','java','problem-solving','Compare a String and choose a response','Use String answer = "yes". Print Accepted when answer equals "yes"; otherwise print Try again. Use equals() for the comparison.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-09','java','problem-solving','Squares','Print the square of each integer from 1 through 6.','public class Main {
+','easy','["Strings","equals","conditionals","if-else"]'::jsonb,true),
+('JA-PS-10','java','problem-solving','Print the first and last characters of a String','Given String word = "java", print its length, its first character, and its last character. Use charAt(0) for the first character and word.length() - 1 for the last index.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-10','java','problem-solving','Running total','Given int[] nums = {3, 1, 4, 2}, print the running total after each value.','public class Main {
+','medium','["Strings","length","charAt","indexing","derived index"]'::jsonb,true),
+('JA-PS-11','java','problem-solving','Format text with two values','Given double price = 3.5 and int quantity = 2, use one printf statement to display: Price: $3.50 Quantity: 2','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','easy','["java","loops"]'::jsonb,true),
-('JA-PS-11','java','problem-solving','Multiplication table','Print the first five multiples of 7.','public class Main {
+','easy','["formatted output","printf","format specifiers","multiple values"]'::jsonb,true),
+('JA-PS-12','java','problem-solving','Print even values with a for loop','Write a for loop that prints 2, 4, 6, 8, and 10, one per line. Start at 2 and increase the loop variable by 2 each time.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-12','java','problem-solving','Count letter','Given String text = "banana", count and print how many times ''a'' occurs.','public class Main {
+','medium','["for loop","loop update","loop boundary","iteration"]'::jsonb,true),
+('JA-PS-13','java','problem-solving','Count down with a while loop','Start with int n = 5. Use a while loop to print 5 through 1, one per line, then print Done after the loop.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-13','java','problem-solving','Minimum value','Given int[] nums = {8, 3, 6, 1, 9}, print the smallest value.','public class Main {
+','medium','["while loop","loop update","loop boundary","iteration"]'::jsonb,true),
+('JA-PS-14','java','problem-solving','Calculate a total and average in a loop','Use a for loop and int total = 0 to add the integers 1 through 4. After the loop, calculate double average = total / 4.0 and print total and then average.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-14','java','problem-solving','Sum evens','Compute and print the sum of all even integers from 1 through 20.','public class Main {
+','medium','["for loop","accumulator","arithmetic","double division"]'::jsonb,true),
+('JA-PS-15','java','problem-solving','Add only the even values in a loop','Loop through the integers 1 through 6. Add only the even values to int total using % 2 == 0, then print the final total.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-15','java','problem-solving','Word lengths','Given String[] words = {"cat", "tiger", "ox"}, print each word followed by its length.','public class Main {
+','medium','["for loop","conditionals","modulo","accumulator"]'::jsonb,true),
+('JA-PS-16','java','problem-solving','Return a calculated value from a method','Write a static method named squarePlusOne that receives one int x and returns x * x + 1. In main, print squarePlusOne(4).','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-16','java','problem-solving','Temperature labels','Given int[] temps = {35, 72, 90}, print cold/warm/hot using the same boundaries: below 50, 50-79, 80+.','public class Main {
+','medium','["methods","parameters","return values","method call","arithmetic"]'::jsonb,true),
+('JA-PS-17','java','problem-solving','Return the larger of two method arguments','Write a static method named larger that receives two int parameters a and b. Return the larger value using if-else. In main, print larger(7, 11).','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-17','java','problem-solving','Skip multiples of 3','Print integers 1 through 12 except multiples of 3.','public class Main {
+','medium','["methods","parameters","return values","conditionals","comparison"]'::jsonb,true),
+('JA-PS-18','java','problem-solving','Pass two values to a void method','Write a static void method named printStudent that receives String name and int age. Print Name: followed by the name and Age: followed by the age on separate lines. In main, call printStudent("Ada", 18).','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-18','java','problem-solving','First matching value','Given int[] nums = {3, 5, 8, 10}, print the first even number and stop searching.','public class Main {
+','medium','["methods","void","parameters","method call","output"]'::jsonb,true),
+('JA-PS-19','java','problem-solving','Use array indexes in a calculation','Given int[] values = {10, 20, 30, 40}, print the first element, print the third element, then print their sum.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-19','java','problem-solving','Average','Given int[] nums = {6, 8, 10, 12}, compute and print their average as a double.','public class Main {
+','easy','["one-dimensional arrays","array declaration","indexing","arithmetic"]'::jsonb,true),
+('JA-PS-20','java','problem-solving','Use array length to find the last two elements','Given int[] values = {10, 20, 30, 40}, print values.length, then print the last element using values.length - 1 and the second-to-last element using values.length - 2.','public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
 }
-','medium','["java","loops"]'::jsonb,true),
-('JA-PS-20','java','problem-solving','Character positions','Given String text = "code", print each character with its zero-based index.','public class Main {
+','easy','["one-dimensional arrays","array length","indexing","derived index"]'::jsonb,true),
+('JA-DBG-01','java','debugging','Fix the three-number total','The program should add a, b, and c and print 16. Fix the calculation for total.','public class Main {
     public static void main(String[] args) {
-        // Write your code here
+        int a = 8;
+        int b = 5;
+        int c = 3;
+        int total = a + b - c;
+        System.out.println(total);
     }
-}
-','medium','["java","loops"]'::jsonb,true),
-('JA-DBG-01','java','debugging','Off-by-one loop','Fix the loop so it prints 1 through 5.','public class Main { public static void main(String[] args) { for (int n = 1; n < 5; n++) System.out.println(n); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-02','java','debugging','Missing semicolon','Fix the syntax error.','public class Main { public static void main(String[] args) { int x = 5 System.out.println(x); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-03','java','debugging','Wrong increment','Fix the loop so it prints 1, 2, 3 and stops.','public class Main { public static void main(String[] args) { for (int n=1; n<=3; n--) System.out.println(n); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-04','java','debugging','Wrong accumulator','Fix the program so it prints 15.','public class Main { public static void main(String[] args) { int total=0; for(int n=1;n<=5;n++){ total=n; } System.out.println(total); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-05','java','debugging','String comparison','Fix the condition so it prints Yes.','public class Main { public static void main(String[] args) { String s="yes"; if(s == "yes") System.out.println("Yes"); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-06','java','debugging','Wrong comparison','Fix the program so it prints only positive values.','public class Main { public static void main(String[] args) { int[] a={-1,2,-3,4}; for(int n:a) if(n<0) System.out.println(n); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-07','java','debugging','Array bound','Fix the program so it prints the last item.','public class Main { public static void main(String[] args) { int[] a={10,20,30}; System.out.println(a[3]); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-08','java','debugging','Integer division','Fix the program so it prints 2.5.','public class Main { public static void main(String[] args) { int a=5; int b=2; System.out.println(a/b); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-09','java','debugging','Assignment in condition','Fix the condition.','public class Main { public static void main(String[] args) { int x=5; if(x = 5) System.out.println("five"); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-10','java','debugging','Wrong boolean operator','Fix the condition so only values from 10 through 20 inclusive are accepted.','public class Main { public static void main(String[] args) { int x=25; if(x>=10 || x<=20) System.out.println("between"); } }','easy','["java","debugging"]'::jsonb,true),
-('JA-DBG-11','java','debugging','Average denominator','Fix the average calculation.','public class Main { public static void main(String[] args) { int[] a={2,4,6,8}; int total=0; for(int n:a) total+=n; double avg=total/3.0; System.out.println(avg); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-12','java','debugging','Missing return','Fix the method so result becomes 10.','public class Main { static int twice(int x){ x*2; } public static void main(String[] args){ System.out.println(twice(5)); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-13','java','debugging','Wrong loop index','Fix the loop so every array element prints without error.','public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=0;i<=a.length;i++) System.out.println(a[i]); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-14','java','debugging','Modulo bug','Fix the code so it prints even numbers.','public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(n%2==1) System.out.println(n); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-15','java','debugging','Maximum initialization','Fix the maximum logic for all-negative input.','public class Main { public static void main(String[] args){ int[] a={-8,-3,-12}; int largest=0; for(int n:a) if(n>largest) largest=n; System.out.println(largest); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-16','java','debugging','Array length','Fix the property/method error.','public class Main { public static void main(String[] args){ int[] a={1,2,3}; System.out.println(a.length()); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-17','java','debugging','Character method','Fix the code so it prints the first character.','public class Main { public static void main(String[] args){ String s="code"; System.out.println(s[0]); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-18','java','debugging','Parse input','Fix the code so numeric addition works.','import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); String x=sc.nextLine(); System.out.println(x+1); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-19','java','debugging','Scope error','Fix the code so total can be printed after the loop.','public class Main { public static void main(String[] args){ for(int i=0;i<3;i++){ int total=i; } System.out.println(total); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-DBG-20','java','debugging','Nested braces','Fix the braces so ''even'' prints only for even values.','public class Main { public static void main(String[] args){ for(int n=1;n<=4;n++){ if(n%2==0) System.out.println(n); } System.out.println("even"); } }','medium','["java","debugging"]'::jsonb,true),
-('JA-TRC-01','java','code-explanation','Trace a loop','Without running the code first, state exactly what it prints.','public class Main { public static void main(String[] args){ for(int n=1;n<=3;n++) System.out.println(n); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-02','java','code-explanation','Trace accumulator','Predict the final output.','public class Main { public static void main(String[] args){ int total=0; for(int n:new int[]{2,3,4}) total+=n; System.out.println(total); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-03','java','code-explanation','Trace condition','Predict the output in order.','public class Main { public static void main(String[] args){ for(int n=0;n<5;n++) if(n%2==0) System.out.println(n); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-04','java','code-explanation','Trace string','Predict the output.','public class Main { public static void main(String[] args){ String s="cat"; for(int i=0;i<s.length();i++) System.out.println(Character.toUpperCase(s.charAt(i))); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-05','java','code-explanation','Trace while','Predict the output.','public class Main { public static void main(String[] args){ int x=3; while(x>0){ System.out.println(x); x--; } } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-06','java','code-explanation','Trace break','Predict the output.','public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==4) break; System.out.println(n); } } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-07','java','code-explanation','Trace continue','Predict the output.','public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==3) continue; System.out.println(n); } } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-08','java','code-explanation','Trace nested loop','How many times is X printed?','public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<2;j++) System.out.println("X"); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-09','java','code-explanation','Trace array update','Predict the final output.','public class Main { public static void main(String[] args){ int[] a={1,2,3}; a[1]=9; System.out.println(a[0]+" "+a[1]+" "+a[2]); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-10','java','code-explanation','Trace doubling','Predict the output.','public class Main { public static void main(String[] args){ int x=1; for(int i=0;i<3;i++) x*=2; System.out.println(x); } }','easy','["java","tracing"]'::jsonb,true),
-('JA-TRC-11','java','code-explanation','Trace index','Predict the output lines.','public class Main { public static void main(String[] args){ String s="ab"; for(int i=0;i<s.length();i++) System.out.println(i+" "+s.charAt(i)); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-12','java','code-explanation','Trace boolean','Predict the output.','public class Main { public static void main(String[] args){ int x=4; System.out.println(x>2 && x<6); System.out.println(x==5); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-13','java','code-explanation','Trace method','Predict the output.','public class Main { static int addOne(int x){ return x+1; } public static void main(String[] args){ System.out.println(addOne(4)); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-14','java','code-explanation','Trace substring','Predict the output.','public class Main { public static void main(String[] args){ String s="python"; System.out.println(s.substring(1,4)); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-15','java','code-explanation','Trace array length','Predict the output.','public class Main { public static void main(String[] args){ int[] a={4,5,6}; System.out.println(a.length); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-16','java','code-explanation','Trace comparison','Predict the output.','public class Main { public static void main(String[] args){ int x=7; if(x>5 && x<10) System.out.println("A"); else System.out.println("B"); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-17','java','code-explanation','Trace sum loop','Predict the final output.','public class Main { public static void main(String[] args){ int s=1; for(int n=1;n<=3;n++) s+=n; System.out.println(s); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-18','java','code-explanation','Trace reverse index','Predict the output sequence.','public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=a.length-1;i>=0;i--) System.out.println(a[i]); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-19','java','code-explanation','Trace word lengths','Predict the output.','public class Main { public static void main(String[] args){ String[] w={"hi","code"}; for(String s:w) System.out.println(s.length()); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-TRC-20','java','code-explanation','Trace nested condition','Predict the output.','public class Main { public static void main(String[] args){ for(int n:new int[]{1,2,3,4}) if(n>2) if(n%2==0) System.out.println(n); } }','medium','["java","tracing"]'::jsonb,true),
-('JA-CMP-01','java','code-completion','Complete loop bound','Replace TODO so the loop prints 1 through 5.','public class Main { public static void main(String[] args){ for(int n=1;n<=TODO;n++) System.out.println(n); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-02','java','code-completion','Complete sum','Replace TODO to accumulate the sum.','public class Main { public static void main(String[] args){ int total=0; for(int n=1;n<=5;n++){ TODO } System.out.println(total); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-03','java','code-completion','Complete condition','Replace TODO so only even numbers print.','public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(TODO) System.out.println(n); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-04','java','code-completion','Complete method','Replace TODO with the correct return statement.','public class Main { static int square(int x){ TODO } public static void main(String[] args){ System.out.println(square(4)); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-05','java','code-completion','Complete enhanced loop','Replace TODO so each item prints.','public class Main { public static void main(String[] args){ String[] items={"a","b","c"}; for(String item : TODO) System.out.println(item); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-06','java','code-completion','Complete counter','Replace TODO so count increases for positive values.','public class Main { public static void main(String[] args){ int count=0; for(int n:new int[]{-1,2,3}) if(n>0){ TODO } System.out.println(count); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-07','java','code-completion','Complete while','Replace TODO so the loop stops after printing 1,2,3.','public class Main { public static void main(String[] args){ int n=1; while(n<=3){ System.out.println(n); TODO } } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-08','java','code-completion','Complete array assignment','Replace TODO so the second element becomes 9.','public class Main { public static void main(String[] args){ int[] a={1,2,3}; TODO; System.out.println(a[1]); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-09','java','code-completion','Complete maximum','Replace TODO in the comparison.','public class Main { public static void main(String[] args){ int[] a={2,8,4}; int largest=a[0]; for(int n:a) if(TODO) largest=n; System.out.println(largest); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-10','java','code-completion','Complete string count','Replace TODO so the program counts ''a''.','public class Main { public static void main(String[] args){ String s="banana"; int count=0; for(int i=0;i<s.length();i++) if(TODO) count++; System.out.println(count); } }','easy','["java","completion"]'::jsonb,false),
-('JA-CMP-11','java','code-completion','Complete parsing','Replace TODO so numeric addition works.','import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); int x=TODO(sc.nextLine()); System.out.println(x+1); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-12','java','code-completion','Complete index loop','Replace TODO to iterate valid indexes.','public class Main { public static void main(String[] args){ int[] a={10,20,30}; for(int i=0;i<TODO;i++) System.out.println(i+" "+a[i]); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-13','java','code-completion','Complete average','Replace TODO so the result is a double average.','public class Main { public static void main(String[] args){ int[] a={2,4,6,8}; int total=20; double avg=TODO; System.out.println(avg); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-14','java','code-completion','Complete break','Replace TODO so the loop stops when n equals 3.','public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(TODO) break; System.out.println(n); } } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-15','java','code-completion','Complete map lookup','Replace TODO to print Ada.','import java.util.*; public class Main { public static void main(String[] args){ Map<String,String> m=new HashMap<>(); m.put("name","Ada"); System.out.println(m.get(TODO)); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-16','java','code-completion','Complete nested loop','Replace TODO so the inner loop runs twice.','public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<TODO;j++) System.out.println(i+" "+j); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-17','java','code-completion','Complete boolean','Replace TODO so values 10 through 20 inclusive are accepted.','public class Main { public static void main(String[] args){ int x=15; if(TODO) System.out.println("accepted"); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-18','java','code-completion','Complete reverse build','Replace TODO so out becomes cba.','public class Main { public static void main(String[] args){ String s="abc", out=""; for(int i=0;i<s.length();i++){ TODO } System.out.println(out); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-19','java','code-completion','Complete ArrayList add','Replace TODO so 3 is appended.','import java.util.*; public class Main { public static void main(String[] args){ List<Integer> a=new ArrayList<>(); a.add(1); a.add(2); TODO; System.out.println(a); } }','medium','["java","completion"]'::jsonb,false),
-('JA-CMP-20','java','code-completion','Complete even method','Replace TODO so isEven returns true for even values.','public class Main { static boolean isEven(int n){ return TODO; } public static void main(String[] args){ System.out.println(isEven(6)); } }','medium','["java","completion"]'::jsonb,false)
+}','easy','["variables","int","arithmetic","output","debugging"]'::jsonb,true),
+('JA-DBG-03','java','debugging','Fix the change calculation','The purchase total is price * quantity, and change should be 20.0 - total. Fix the calculation for change.','public class Main {
+    public static void main(String[] args) {
+        double price = 4.5;
+        int quantity = 3;
+        double total = price * quantity;
+        double change = total - 20.0;
+        System.out.println(total);
+        System.out.println(change);
+    }
+}','easy','["double","variables","arithmetic","output","debugging"]'::jsonb,true),
+('JA-DBG-04','java','debugging','Fix the order of operations','The intended calculation is (4 + 6) * 2 - 3. Add the parentheses needed to produce the correct result.','public class Main {
+    public static void main(String[] args) {
+        int result = 4 + 6 * 2 - 3;
+        System.out.println(result);
+    }
+}','easy','["arithmetic","order of operations","parentheses","debugging"]'::jsonb,true),
+('JA-DBG-05','java','debugging','Fix the passing-score boundary','A score of exactly 60 should print Pass. Fix the comparison operator so 60 is included.','public class Main {
+    public static void main(String[] args) {
+        int score = 60;
+        if (score > 60) {
+            System.out.println("Pass");
+        }
+    }
+}','easy','["conditionals","if","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-06','java','debugging','Fix the if-else boundary','For number = 0, the program should print Zero or negative. Fix the condition so only values greater than 0 use the first branch.','public class Main {
+    public static void main(String[] args) {
+        int number = 0;
+        if (number >= 0) {
+            System.out.println("Positive");
+        } else {
+            System.out.println("Zero or negative");
+        }
+    }
+}','easy','["conditionals","if-else","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-07','java','debugging','Fix the order of the grade conditions','For score = 85, the program should print B. Reorder the conditions so higher score ranges are checked before lower ranges.','public class Main {
+    public static void main(String[] args) {
+        int score = 85;
+        if (score >= 70) {
+            System.out.println("C");
+        } else if (score >= 80) {
+            System.out.println("B");
+        } else if (score >= 90) {
+            System.out.println("A");
+        } else {
+            System.out.println("D");
+        }
+    }
+}','medium','["conditionals","if-else-if","comparison","branch order","debugging"]'::jsonb,true),
+('JA-DBG-08','java','debugging','Fix the inclusive range check','The program should print Eligible only for ages from 18 through 25. Fix the logical operator so both comparisons must be true.','public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        if (age >= 18 || age <= 25) {
+            System.out.println("Eligible");
+        } else {
+            System.out.println("Not eligible");
+        }
+    }
+}','medium','["conditionals","logical AND","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-09','java','debugging','Fix the String comparison','The program should compare the text stored in answer with "yes". Replace the incorrect comparison with equals().','public class Main {
+    public static void main(String[] args) {
+        String answer = "yes";
+        if (answer == "yes") {
+            System.out.println("Accepted");
+        } else {
+            System.out.println("Try again");
+        }
+    }
+}','easy','["Strings","equals","conditionals","if-else","debugging"]'::jsonb,true),
+('JA-DBG-10','java','debugging','Fix the last-character index','The program should print the last character of word without an error. Fix the index used in charAt().','public class Main {
+    public static void main(String[] args) {
+        String word = "java";
+        System.out.println(word.length());
+        System.out.println(word.charAt(0));
+        System.out.println(word.charAt(word.length()));
+    }
+}','medium','["Strings","length","charAt","indexing","derived index","debugging"]'::jsonb,true),
+('JA-DBG-11','java','debugging','Fix the printf format specifiers','The program should display price with two decimal places and quantity as an integer. Fix the two format specifiers.','public class Main {
+    public static void main(String[] args) {
+        double price = 3.5;
+        int quantity = 2;
+        System.out.printf("Price: $%d Quantity: %.2f%n", price, quantity);
+    }
+}','easy','["formatted output","printf","format specifiers","multiple values","debugging"]'::jsonb,true),
+('JA-DBG-12','java','debugging','Fix the for-loop update','The loop should print 2, 4, 6, 8, and 10. Fix the update expression so n increases by 2 each iteration.','public class Main {
+    public static void main(String[] args) {
+        for (int n = 2; n <= 10; n++) {
+            System.out.println(n);
+        }
+    }
+}','medium','["for loop","loop update","loop boundary","iteration","debugging"]'::jsonb,true),
+('JA-DBG-13','java','debugging','Fix the while-loop countdown','The loop should count down 5, 4, 3, 2, 1 and then stop. Fix the update statement so n decreases by 1 each iteration.','public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        while (n >= 1) {
+            System.out.println(n);
+            n -= 2;
+        }
+        System.out.println("Done");
+    }
+}','medium','["while loop","loop update","loop boundary","iteration","debugging"]'::jsonb,true),
+('JA-DBG-14','java','debugging','Fix the running total','The program should add 1 through 4 so total becomes 10 and average becomes 2.5. Fix the statement that updates total.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 4; n++) {
+            total = n;
+        }
+        double average = total / 4.0;
+        System.out.println(total);
+        System.out.println(average);
+    }
+}','medium','["for loop","accumulator","arithmetic","double division","debugging"]'::jsonb,true),
+('JA-DBG-15','java','debugging','Fix the even-value total','The program should add only the even values from 1 through 6 and print 12. Fix the condition so only even values are added.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 6; n++) {
+            if (n % 2 != 0) {
+                total += n;
+            }
+        }
+        System.out.println(total);
+    }
+}','medium','["for loop","conditionals","modulo","accumulator","debugging"]'::jsonb,true),
+('JA-DBG-16','java','debugging','Fix the method calculation','The method squarePlusOne should return x * x + 1. Fix the return expression so squarePlusOne(4) produces 17.','public class Main {
+    public static int squarePlusOne(int x) {
+        return x + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(squarePlusOne(4));
+    }
+}','medium','["methods","parameters","return values","method call","arithmetic","debugging"]'::jsonb,true),
+('JA-DBG-17','java','debugging','Fix the method that chooses the larger value','The larger method should return the greater of a and b. Fix the return statements so larger(7, 11) prints 11.','public class Main {
+    public static int larger(int a, int b) {
+        if (a > b) {
+            return b;
+        } else {
+            return a;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(larger(7, 11));
+    }
+}','medium','["methods","parameters","return values","conditionals","comparison","debugging"]'::jsonb,true),
+('JA-DBG-18','java','debugging','Fix the arguments in a void-method call','The method is defined correctly. Fix the call in main so the String argument is passed to name and the int argument is passed to age.','public class Main {
+    public static void printStudent(String name, int age) {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        printStudent(18, "Ada");
+    }
+}','medium','["methods","void","parameters","method call","output","debugging"]'::jsonb,true),
+('JA-DBG-19','java','debugging','Fix the array indexes used in a sum','The program should add the first and third elements, 10 and 30, and print 40. Fix the incorrect array index.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        int total = values[1] + values[2];
+        System.out.println(total);
+    }
+}','easy','["one-dimensional arrays","array declaration","indexing","arithmetic","debugging"]'::jsonb,true),
+('JA-DBG-20','java','debugging','Fix the last array index','The program should print the last element without an array-index error. Fix the index used in the first element access.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        System.out.println(values.length);
+        System.out.println(values[values.length]);
+        System.out.println(values[values.length - 2]);
+    }
+}','easy','["one-dimensional arrays","array length","indexing","derived index","debugging"]'::jsonb,true),
+('JA-TRC-01','java','code-explanation','Explain how the three-number total is calculated','Explain what a, b, c, and total store, how total is calculated, and state exactly what is printed.','public class Main {
+    public static void main(String[] args) {
+        int a = 8;
+        int b = 5;
+        int c = 3;
+        int total = a + b + c;
+        System.out.println(total);
+    }
+}','easy','["variables","int","arithmetic","output","code understanding"]'::jsonb,true),
+('JA-TRC-03','java','code-explanation','Explain the purchase total and change','Explain how total and change are calculated, why they are doubles, and state the two values printed.','public class Main {
+    public static void main(String[] args) {
+        double price = 4.5;
+        int quantity = 3;
+        double total = price * quantity;
+        double change = 20.0 - total;
+        System.out.println(total);
+        System.out.println(change);
+    }
+}','easy','["double","variables","arithmetic","output","code understanding"]'::jsonb,true),
+('JA-TRC-04','java','code-explanation','Explain the order of operations','Explain which calculation happens first because of the parentheses and state the final output.','public class Main {
+    public static void main(String[] args) {
+        int result = (4 + 6) * 2 - 3;
+        System.out.println(result);
+    }
+}','easy','["arithmetic","order of operations","parentheses","code understanding"]'::jsonb,true),
+('JA-TRC-05','java','code-explanation','Explain the passing-score boundary','Explain why the condition is true when score is exactly 60 and state what is printed.','public class Main {
+    public static void main(String[] args) {
+        int score = 60;
+        if (score >= 60) {
+            System.out.println("Pass");
+        }
+    }
+}','easy','["conditionals","if","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-06','java','code-explanation','Explain which branch runs at zero','Explain which branch runs when number is 0, why that branch is selected, and what is printed.','public class Main {
+    public static void main(String[] args) {
+        int number = 0;
+        if (number > 0) {
+            System.out.println("Positive");
+        } else {
+            System.out.println("Zero or negative");
+        }
+    }
+}','easy','["conditionals","if-else","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-07','java','code-explanation','Explain how a letter grade is selected','For score = 78, trace the conditions in order and explain why C is printed.','public class Main {
+    public static void main(String[] args) {
+        int score = 78;
+        if (score >= 90) {
+            System.out.println("A");
+        } else if (score >= 80) {
+            System.out.println("B");
+        } else if (score >= 70) {
+            System.out.println("C");
+        } else {
+            System.out.println("D");
+        }
+    }
+}','medium','["conditionals","if-else-if","comparison","branch order","code understanding"]'::jsonb,true),
+('JA-TRC-08','java','code-explanation','Explain how an inclusive range check works','For age = 25, explain the result of each comparison, how && combines them, and which message is printed.','public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        if (age >= 18 && age <= 25) {
+            System.out.println("Eligible");
+        } else {
+            System.out.println("Not eligible");
+        }
+    }
+}','medium','["conditionals","logical AND","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-09','java','code-explanation','Explain how the String comparison chooses a branch','Explain what answer.equals("yes") checks, why the condition is true, and which message is printed.','public class Main {
+    public static void main(String[] args) {
+        String answer = "yes";
+        if (answer.equals("yes")) {
+            System.out.println("Accepted");
+        } else {
+            System.out.println("Try again");
+        }
+    }
+}','easy','["Strings","equals","conditionals","if-else","code understanding"]'::jsonb,true),
+('JA-TRC-10','java','code-explanation','Explain how the first and last characters are found','Explain what length() returns, why charAt(0) gives the first character, and why length() - 1 gives the last character.','public class Main {
+    public static void main(String[] args) {
+        String word = "java";
+        System.out.println(word.length());
+        System.out.println(word.charAt(0));
+        System.out.println(word.charAt(word.length() - 1));
+    }
+}','medium','["Strings","length","charAt","indexing","derived index","code understanding"]'::jsonb,true),
+('JA-TRC-11','java','code-explanation','Explain how two values are formatted','Explain what %.2f and %d do and state the exact visible output.','public class Main {
+    public static void main(String[] args) {
+        double price = 3.5;
+        int quantity = 2;
+        System.out.printf("Price: $%.2f Quantity: %d%n", price, quantity);
+    }
+}','easy','["formatted output","printf","format specifiers","multiple values","code understanding"]'::jsonb,true),
+('JA-TRC-12','java','code-explanation','Explain how the for loop produces even values','Trace the values of n, explain how n += 2 changes the loop variable, and state exactly what is printed.','public class Main {
+    public static void main(String[] args) {
+        for (int n = 2; n <= 10; n += 2) {
+            System.out.println(n);
+        }
+    }
+}','medium','["for loop","loop update","loop boundary","iteration","code understanding"]'::jsonb,true),
+('JA-TRC-13','java','code-explanation','Explain how the while-loop countdown stops','Trace n from 5 to 1, explain how n-- changes it after each iteration, and explain why Done prints after the loop.','public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        while (n >= 1) {
+            System.out.println(n);
+            n--;
+        }
+        System.out.println("Done");
+    }
+}','medium','["while loop","loop update","loop boundary","iteration","code understanding"]'::jsonb,true),
+('JA-TRC-14','java','code-explanation','Explain how the total and average are calculated','Trace how total changes as n goes from 1 through 4, then explain how average is calculated and state the two outputs.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 4; n++) {
+            total += n;
+        }
+        double average = total / 4.0;
+        System.out.println(total);
+        System.out.println(average);
+    }
+}','medium','["for loop","accumulator","arithmetic","double division","code understanding"]'::jsonb,true),
+('JA-TRC-15','java','code-explanation','Explain how only even values are added','Trace n from 1 through 6, identify which values satisfy n % 2 == 0, explain how total changes, and state the final output.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 6; n++) {
+            if (n % 2 == 0) {
+                total += n;
+            }
+        }
+        System.out.println(total);
+    }
+}','medium','["for loop","conditionals","modulo","accumulator","code understanding"]'::jsonb,true),
+('JA-TRC-16','java','code-explanation','Explain how a method calculates and returns a value','Explain what value is passed into x, how x * x + 1 is evaluated, what the method returns, and what main prints.','public class Main {
+    public static int squarePlusOne(int x) {
+        return x * x + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(squarePlusOne(4));
+    }
+}','medium','["methods","parameters","return values","method call","arithmetic","code understanding"]'::jsonb,true),
+('JA-TRC-17','java','code-explanation','Explain how a method chooses the larger value','For larger(7, 11), explain how the arguments map to a and b, which branch runs, what value is returned, and what main prints.','public class Main {
+    public static int larger(int a, int b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(larger(7, 11));
+    }
+}','medium','["methods","parameters","return values","conditionals","comparison","code understanding"]'::jsonb,true),
+('JA-TRC-18','java','code-explanation','Explain how two arguments are passed to a void method','Explain why the method is void, how "Ada" and 18 are matched to the parameters, and state the two lines printed.','public class Main {
+    public static void printStudent(String name, int age) {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        printStudent("Ada", 18);
+    }
+}','medium','["methods","void","parameters","method call","output","code understanding"]'::jsonb,true),
+('JA-TRC-19','java','code-explanation','Explain how array indexes select values for a sum','Explain which values are selected by values[0] and values[2], why those indexes refer to the first and third elements, and state the output.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        int total = values[0] + values[2];
+        System.out.println(total);
+    }
+}','easy','["one-dimensional arrays","array declaration","indexing","arithmetic","code understanding"]'::jsonb,true),
+('JA-TRC-20','java','code-explanation','Explain how array length gives the last two indexes','Explain what values.length returns, why length - 1 is the last valid index, why length - 2 is the second-to-last index, and state the three outputs.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        System.out.println(values.length);
+        System.out.println(values[values.length - 1]);
+        System.out.println(values[values.length - 2]);
+    }
+}','easy','["one-dimensional arrays","array length","indexing","derived index","code understanding"]'::jsonb,true)
 on conflict (id) do update set
   language = excluded.language,
   modality_id = excluded.modality_id,
@@ -672,6 +1085,9 @@ on conflict (id) do update set
   difficulty = excluded.difficulty,
   expected_concepts = excluded.expected_concepts,
   active = excluded.active;
+
+-- Questions retired because they require participant-provided runtime stdin.
+update public.questions set active=false where id in ('PY-PS-18','PY-PS-19','PY-PS-20','PY-DBG-18','PY-DBG-19','PY-DBG-20','PY-TRC-18','PY-TRC-19','PY-TRC-20','JA-PS-02','JA-DBG-02','JA-TRC-02');
 
 -- Code Completion remains retired unless deliberately re-enabled in questions.seed.json.
 
@@ -975,8 +1391,13 @@ begin
         update cw_participant_auth set preferred_language=p->'responses'->>'language' where participant_id=pid;
         update study_sessions set language=p->'responses'->>'language' where id=s.id;
       elsif st.stage_key='coding' and not coalesce((p->>'skipped')::boolean,false) then
+        if not exists(
+          select 1 from modality_completions
+          where session_id=s.id and modality_id=(s.protocol_snapshot->'modalityOrder'->>0)
+        ) then raise exception 'CONFLICT: Complete the two initial practice questions first.'; end if;
+      elsif st.stage_key='crossover' and not coalesce((p->>'skipped')::boolean,false) then
         select count(*) into cnt from modality_completions where session_id=s.id and modality_id in ('problem-solving','debugging','code-explanation');
-        if cnt<>3 then raise exception 'CONFLICT: Complete the three modalities first.'; end if;
+        if cnt<>3 then raise exception 'CONFLICT: Complete both crossover modalities first.'; end if;
         update study_sessions set coding_completed_at=now_at where id=s.id;
       elsif st.stage_key='incentive' then
         claim:=(p->>'claimId')::uuid;
@@ -1003,10 +1424,12 @@ begin
     return to_jsonb(st);
   end if;
 
-  if current_key is distinct from 'coding' or s.consented_at is null or s.language is null then raise exception 'FORBIDDEN: Coding is locked until previous stages are completed.'; end if;
+  if current_key not in ('coding','crossover') or s.consented_at is null or s.language is null then raise exception 'FORBIDDEN: Practice is locked until the required survey stage is completed.'; end if;
   if action='coding_start' then
     tmp:=p->>'modality';
     if tmp not in ('problem-solving','debugging','code-explanation') then raise exception 'INVALID: Unknown modality.'; end if;
+    if current_key='coding' and tmp<>(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: Complete the initial modality and post-survey before crossover.'; end if;
+    if current_key='crossover' and tmp=(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: The initial modality is already complete.'; end if;
     if exists(select 1 from modality_completions where session_id=s.id and modality_id=tmp) then raise exception 'CONFLICT: This modality is complete.'; end if;
     if s.protocol_snapshot->'config'->>'activityDesign'='assigned_crossover' then
       for x in select value from jsonb_array_elements(s.protocol_snapshot->'modalityOrder') loop
@@ -1065,6 +1488,23 @@ begin
   if not found then raise exception 'NOT_FOUND: Assignment not found.'; end if;
   if exists(select 1 from question_assignments where session_id=s.id and modality_id=a.modality_id and question_order<a.question_order and status<>'completed') then raise exception 'FORBIDDEN: Future questions are locked.'; end if;
   if action='assignment_get' then return to_jsonb(a)||jsonb_build_object('last_execution',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind='execute' and status='succeeded' order by requested_at desc limit 1),'last_score',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind in ('execute','score') and status='succeeded' and (case when o.kind='execute' then o.result ? 'score' else true end) order by requested_at desc limit 1)); end if;
+  if action='score_cache_get' then
+    return (
+      select jsonb_build_object(
+        'score', case when o.kind='execute' then o.result->'score' else o.result end,
+        'operationId', o.id,
+        'completedAt', o.completed_at
+      )
+      from cw_operations o
+      where o.assignment_id=a.id
+        and o.status='succeeded'
+        and o.kind in ('execute','score')
+        and coalesce(o.result->'score'->>'fingerprint',o.result->>'fingerprint')=p->>'fingerprint'
+        and nullif(coalesce(o.result->'score'->>'score',o.result->>'score'),'') is not null
+      order by o.completed_at desc nulls last, o.requested_at desc
+      limit 1
+    );
+  end if;
   select * into sub from submissions where assignment_id=a.id for update;
   if action='assignment_save' and (sub.final_request_id=(p->>'requestId')::uuid or sub.last_save_request_id=(p->>'requestId')::uuid) then return to_jsonb(sub); end if;
   if a.status<>'in_progress' then raise exception 'CONFLICT: This question is not open for changes.'; end if;
@@ -1125,12 +1565,12 @@ notify pgrst, 'reload schema';
 -- Versioned immutable question-bank release. Sessions store this hash, so future
 -- question edits cannot silently change an already-started session.
 insert into public.cw_question_banks(bank_hash,definitions)
-values('26a3f0c34f88f9cf0424a92b1c9b1548987fc507572c1dd0879127323a32c9b2','[{"id":"PY-PS-01","language":"python","modality_id":"problem-solving","title":"Print 1 to 5","prompt":"Write a program that prints the integers 1 through 5, one per line.","starter_code":"","difficulty":"easy","expected_concepts":["for loop","range"],"active":true,"inputSchema":[]},{"id":"PY-PS-02","language":"python","modality_id":"problem-solving","title":"Sum 1 to 10","prompt":"Compute and print the sum of the integers 1 through 10.","starter_code":"","difficulty":"easy","expected_concepts":["loop","accumulator"],"active":true,"inputSchema":[]},{"id":"PY-PS-03","language":"python","modality_id":"problem-solving","title":"Even numbers","prompt":"Print all even numbers from 2 through 20, one per line.","starter_code":"","difficulty":"easy","expected_concepts":["loop","modulo"],"active":true,"inputSchema":[]},{"id":"PY-PS-04","language":"python","modality_id":"problem-solving","title":"Count vowels","prompt":"Given text = \"programming\", count and print the number of vowels.","starter_code":"text = \"programming\"\n","difficulty":"easy","expected_concepts":["string","loop","condition"],"active":true,"inputSchema":[]},{"id":"PY-PS-05","language":"python","modality_id":"problem-solving","title":"Largest value","prompt":"Given nums = [4, 9, 2, 7, 5], print the largest value without using max().","starter_code":"nums = [4, 9, 2, 7, 5]\n","difficulty":"easy","expected_concepts":["list","loop","comparison"],"active":true,"inputSchema":[]},{"id":"PY-PS-06","language":"python","modality_id":"problem-solving","title":"Factorial","prompt":"Compute and print 5 factorial using a loop.","starter_code":"","difficulty":"easy","expected_concepts":["loop","accumulator"],"active":true,"inputSchema":[]},{"id":"PY-PS-07","language":"python","modality_id":"problem-solving","title":"Reverse text","prompt":"Given text = \"hello\", build and print the reversed string without using slicing.","starter_code":"text = \"hello\"\n","difficulty":"easy","expected_concepts":["string","loop"],"active":true,"inputSchema":[]},{"id":"PY-PS-08","language":"python","modality_id":"problem-solving","title":"Count positives","prompt":"Given nums = [-2, 4, 0, 7, -1, 3], count and print how many values are positive.","starter_code":"nums = [-2, 4, 0, 7, -1, 3]\n","difficulty":"easy","expected_concepts":["list","condition","counter"],"active":true,"inputSchema":[]},{"id":"PY-PS-09","language":"python","modality_id":"problem-solving","title":"Squares","prompt":"Print the square of each integer from 1 through 6.","starter_code":"","difficulty":"easy","expected_concepts":["loop","arithmetic"],"active":true,"inputSchema":[]},{"id":"PY-PS-10","language":"python","modality_id":"problem-solving","title":"Running total","prompt":"Given nums = [3, 1, 4, 2], print the running total after each value.","starter_code":"nums = [3, 1, 4, 2]\n","difficulty":"easy","expected_concepts":["loop","accumulator"],"active":true,"inputSchema":[]},{"id":"PY-PS-11","language":"python","modality_id":"problem-solving","title":"Multiplication table","prompt":"Print the first five multiples of 7.","starter_code":"","difficulty":"medium","expected_concepts":["loop","multiplication"],"active":true,"inputSchema":[]},{"id":"PY-PS-12","language":"python","modality_id":"problem-solving","title":"Count letter","prompt":"Given text = \"banana\", count and print how many times the letter ''a'' occurs.","starter_code":"text = \"banana\"\n","difficulty":"medium","expected_concepts":["string","counter"],"active":true,"inputSchema":[]},{"id":"PY-PS-13","language":"python","modality_id":"problem-solving","title":"Minimum value","prompt":"Given nums = [8, 3, 6, 1, 9], print the smallest value without using min().","starter_code":"nums = [8, 3, 6, 1, 9]\n","difficulty":"medium","expected_concepts":["list","comparison"],"active":true,"inputSchema":[]},{"id":"PY-PS-14","language":"python","modality_id":"problem-solving","title":"Sum evens","prompt":"Compute and print the sum of all even integers from 1 through 20.","starter_code":"","difficulty":"medium","expected_concepts":["loop","condition","accumulator"],"active":true,"inputSchema":[]},{"id":"PY-PS-15","language":"python","modality_id":"problem-solving","title":"List lengths","prompt":"Given words = [\"cat\", \"tiger\", \"ox\"], print each word followed by its length.","starter_code":"words = [\"cat\", \"tiger\", \"ox\"]\n","difficulty":"medium","expected_concepts":["list","string"],"active":true,"inputSchema":[]},{"id":"PY-PS-16","language":"python","modality_id":"problem-solving","title":"Temperature labels","prompt":"Given temps = [35, 72, 90], print ''cold'' for values below 50, ''warm'' for 50-79, and ''hot'' for 80 or higher.","starter_code":"temps = [35, 72, 90]\n","difficulty":"medium","expected_concepts":["conditionals","loop"],"active":true,"inputSchema":[]},{"id":"PY-PS-17","language":"python","modality_id":"problem-solving","title":"Skip multiples of 3","prompt":"Print integers 1 through 12 except multiples of 3.","starter_code":"","difficulty":"medium","expected_concepts":["loop","continue","modulo"],"active":true,"inputSchema":[]},{"id":"PY-PS-18","language":"python","modality_id":"problem-solving","title":"First matching value","prompt":"Given nums = [3, 5, 8, 10], print the first even number and then stop searching.","starter_code":"nums = [3, 5, 8, 10]\n","difficulty":"medium","expected_concepts":["loop","break"],"active":true,"inputSchema":[]},{"id":"PY-PS-19","language":"python","modality_id":"problem-solving","title":"Average","prompt":"Given nums = [6, 8, 10, 12], compute and print their average using a loop.","starter_code":"nums = [6, 8, 10, 12]\n","difficulty":"medium","expected_concepts":["loop","average"],"active":true,"inputSchema":[]},{"id":"PY-PS-20","language":"python","modality_id":"problem-solving","title":"Character positions","prompt":"Given text = \"code\", print each character with its zero-based index.","starter_code":"text = \"code\"\n","difficulty":"medium","expected_concepts":["enumeration","string"],"active":true,"inputSchema":[]},{"id":"PY-DBG-01","language":"python","modality_id":"debugging","title":"Off-by-one range","prompt":"Fix the program so it prints 1 through 5.","starter_code":"for n in range(1, 5):\n    print(n)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-02","language":"python","modality_id":"debugging","title":"Missing colon","prompt":"Fix the syntax error.","starter_code":"for n in range(3)\n    print(n)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-03","language":"python","modality_id":"debugging","title":"Indentation error","prompt":"Fix the indentation so the loop prints each value.","starter_code":"for n in range(3):\nprint(n)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-04","language":"python","modality_id":"debugging","title":"Wrong accumulator","prompt":"Fix the program so it prints 15.","starter_code":"total = 0\nfor n in range(1, 6):\n    total = n\nprint(total)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-05","language":"python","modality_id":"debugging","title":"String integer mix","prompt":"Fix the program so it prints Age: 20.","starter_code":"age = 20\nprint(\"Age: \" + age)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-06","language":"python","modality_id":"debugging","title":"Wrong comparison","prompt":"Fix the program so it prints only positive values.","starter_code":"nums = [-1, 2, -3, 4]\nfor n in nums:\n    if n < 0:\n        print(n)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-07","language":"python","modality_id":"debugging","title":"Infinite loop","prompt":"Fix the loop so it prints 1, 2, 3 and stops.","starter_code":"n = 1\nwhile n <= 3:\n    print(n)\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-08","language":"python","modality_id":"debugging","title":"Wrong list index","prompt":"Fix the program so it prints the last item.","starter_code":"items = [10, 20, 30]\nprint(items[3])\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-09","language":"python","modality_id":"debugging","title":"Case mismatch","prompt":"Fix the condition so the program prints Yes.","starter_code":"answer = \"yes\"\nif answer == \"Yes\":\n    print(\"Yes\")\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-10","language":"python","modality_id":"debugging","title":"Wrong boolean operator","prompt":"Fix the condition so 15 is recognized as being between 10 and 20 inclusive.","starter_code":"x = 15\nif x >= 10 or x <= 20:\n    print(\"between\")\n","difficulty":"easy","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-11","language":"python","modality_id":"debugging","title":"Average denominator","prompt":"Fix the average calculation.","starter_code":"nums = [2, 4, 6, 8]\ntotal = sum(nums)\naverage = total / 3\nprint(average)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-12","language":"python","modality_id":"debugging","title":"Function return","prompt":"Fix the function so result becomes 10.","starter_code":"def double(x):\n    x * 2\n\nresult = double(5)\nprint(result)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-13","language":"python","modality_id":"debugging","title":"Wrong loop target","prompt":"Fix the code so it prints each word, not each character of the first word.","starter_code":"words = [\"red\", \"blue\"]\nfor word in words[0]:\n    print(word)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-14","language":"python","modality_id":"debugging","title":"Modulo bug","prompt":"Fix the code so it prints even numbers.","starter_code":"for n in range(1, 7):\n    if n % 2 == 1:\n        print(n)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-15","language":"python","modality_id":"debugging","title":"Wrong initialization","prompt":"Fix the maximum-finding logic.","starter_code":"nums = [-8, -3, -12]\nlargest = 0\nfor n in nums:\n    if n > largest:\n        largest = n\nprint(largest)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-16","language":"python","modality_id":"debugging","title":"Append call","prompt":"Fix the code so 3 is added to the list.","starter_code":"values = [1, 2]\nvalues.append[3]\nprint(values)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-17","language":"python","modality_id":"debugging","title":"Key lookup","prompt":"Fix the dictionary key error.","starter_code":"student = {\"name\": \"Ada\"}\nprint(student[\"Name\"])\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-18","language":"python","modality_id":"debugging","title":"Loop boundary","prompt":"Fix the code so it prints indexes 0, 1, and 2 without an IndexError.","starter_code":"items = [\"a\", \"b\", \"c\"]\nfor i in range(4):\n    print(items[i])\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-DBG-19","language":"python","modality_id":"debugging","title":"Integer input","prompt":"Fix the code so adding 1 works when the input is 5.","starter_code":"value = input()\nprint(value + 1)\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[{"id":"value","label":"Number to add one to","type":"integer","example":"5","default":"5","required":true,"help":"The program reads this value once. The platform adds the line ending for you."}]},{"id":"PY-DBG-20","language":"python","modality_id":"debugging","title":"Nested indentation","prompt":"Fix the code so only even values print ''even''.","starter_code":"for n in range(1, 5):\n    if n % 2 == 0:\n        print(n)\n    print(\"even\")\n","difficulty":"medium","expected_concepts":["debugging"],"active":true,"inputSchema":[]},{"id":"PY-TRC-01","language":"python","modality_id":"code-explanation","title":"Trace a range","prompt":"Without running the code first, state exactly what it prints.","starter_code":"for n in range(1, 4):\n    print(n)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-02","language":"python","modality_id":"code-explanation","title":"Trace accumulator","prompt":"Predict the final output.","starter_code":"total = 0\nfor n in [2, 3, 4]:\n    total += n\nprint(total)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-03","language":"python","modality_id":"code-explanation","title":"Trace condition","prompt":"Predict the output in order.","starter_code":"for n in range(5):\n    if n % 2 == 0:\n        print(n)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-04","language":"python","modality_id":"code-explanation","title":"Trace string","prompt":"Predict the output.","starter_code":"text = \"cat\"\nfor ch in text:\n    print(ch.upper())\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-05","language":"python","modality_id":"code-explanation","title":"Trace while","prompt":"Predict the output.","starter_code":"x = 3\nwhile x > 0:\n    print(x)\n    x -= 1\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-06","language":"python","modality_id":"code-explanation","title":"Trace break","prompt":"Predict the output.","starter_code":"for n in range(1, 6):\n    if n == 4:\n        break\n    print(n)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-07","language":"python","modality_id":"code-explanation","title":"Trace continue","prompt":"Predict the output.","starter_code":"for n in range(1, 6):\n    if n == 3:\n        continue\n    print(n)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-08","language":"python","modality_id":"code-explanation","title":"Trace nested loop","prompt":"How many times is X printed? Also state the printed lines.","starter_code":"for i in range(2):\n    for j in range(2):\n        print(\"X\")\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-09","language":"python","modality_id":"code-explanation","title":"Trace list mutation","prompt":"Predict the final list.","starter_code":"values = [1, 2]\nfor n in [3, 4]:\n    values.append(n)\nprint(values)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-10","language":"python","modality_id":"code-explanation","title":"Trace variable update","prompt":"Predict the output.","starter_code":"x = 1\nfor _ in range(3):\n    x *= 2\nprint(x)\n","difficulty":"easy","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-11","language":"python","modality_id":"code-explanation","title":"Trace enumerate","prompt":"Predict the output lines.","starter_code":"for i, ch in enumerate(\"ab\"):\n    print(i, ch)\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-12","language":"python","modality_id":"code-explanation","title":"Trace membership","prompt":"Predict the output.","starter_code":"items = [2, 4, 6]\nprint(4 in items)\nprint(5 in items)\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-13","language":"python","modality_id":"code-explanation","title":"Trace function","prompt":"Predict the output.","starter_code":"def add_one(x):\n    return x + 1\n\nprint(add_one(4))\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-14","language":"python","modality_id":"code-explanation","title":"Trace slicing","prompt":"Predict the output.","starter_code":"text = \"python\"\nprint(text[1:4])\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-15","language":"python","modality_id":"code-explanation","title":"Trace dictionary","prompt":"Predict the output.","starter_code":"d = {\"a\": 2, \"b\": 3}\nprint(d[\"a\"] + d[\"b\"])\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-16","language":"python","modality_id":"code-explanation","title":"Trace comparison","prompt":"Predict the output.","starter_code":"x = 7\nif x > 5 and x < 10:\n    print(\"A\")\nelse:\n    print(\"B\")\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-17","language":"python","modality_id":"code-explanation","title":"Trace sum loop","prompt":"Predict the final output.","starter_code":"s = 1\nfor n in range(1, 4):\n    s += n\nprint(s)\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-18","language":"python","modality_id":"code-explanation","title":"Trace reversed","prompt":"Predict the output sequence.","starter_code":"for n in reversed([1, 2, 3]):\n    print(n)\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-19","language":"python","modality_id":"code-explanation","title":"Trace length","prompt":"Predict the output.","starter_code":"words = [\"hi\", \"code\"]\nfor w in words:\n    print(len(w))\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-20","language":"python","modality_id":"code-explanation","title":"Trace nested condition","prompt":"Predict the output.","starter_code":"for n in [1, 2, 3, 4]:\n    if n > 2:\n        if n % 2 == 0:\n            print(n)\n","difficulty":"medium","expected_concepts":["tracing"],"active":true,"inputSchema":[]},{"id":"PY-CMP-01","language":"python","modality_id":"code-completion","title":"Complete range","prompt":"Replace TODO so the loop prints 1 through 5.","starter_code":"for n in range(TODO):\n    print(n)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-02","language":"python","modality_id":"code-completion","title":"Complete sum","prompt":"Replace TODO to accumulate the sum.","starter_code":"total = 0\nfor n in range(1, 6):\n    TODO\nprint(total)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-03","language":"python","modality_id":"code-completion","title":"Complete condition","prompt":"Replace TODO so only even numbers print.","starter_code":"for n in range(1, 7):\n    if TODO:\n        print(n)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-04","language":"python","modality_id":"code-completion","title":"Complete function","prompt":"Replace TODO with the correct return statement.","starter_code":"def square(x):\n    TODO\n\nprint(square(4))\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-05","language":"python","modality_id":"code-completion","title":"Complete list loop","prompt":"Replace TODO so each item prints.","starter_code":"items = [\"a\", \"b\", \"c\"]\nfor item in TODO:\n    print(item)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-06","language":"python","modality_id":"code-completion","title":"Complete counter","prompt":"Replace TODO so the count increases for positive values.","starter_code":"count = 0\nfor n in [-1, 2, 3]:\n    if n > 0:\n        TODO\nprint(count)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-07","language":"python","modality_id":"code-completion","title":"Complete while","prompt":"Replace TODO so the loop eventually stops.","starter_code":"n = 1\nwhile n <= 3:\n    print(n)\n    TODO\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-08","language":"python","modality_id":"code-completion","title":"Complete append","prompt":"Replace TODO to add 3 to values.","starter_code":"values = [1, 2]\nTODO\nprint(values)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-09","language":"python","modality_id":"code-completion","title":"Complete maximum","prompt":"Replace TODO in the comparison.","starter_code":"nums = [2, 8, 4]\nlargest = nums[0]\nfor n in nums:\n    if TODO:\n        largest = n\nprint(largest)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-10","language":"python","modality_id":"code-completion","title":"Complete string count","prompt":"Replace TODO so the program counts ''a''.","starter_code":"text = \"banana\"\ncount = 0\nfor ch in text:\n    if TODO:\n        count += 1\nprint(count)\n","difficulty":"easy","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-11","language":"python","modality_id":"code-completion","title":"Complete input conversion","prompt":"Replace TODO so numeric addition works.","starter_code":"value = TODO(input())\nprint(value + 1)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-12","language":"python","modality_id":"code-completion","title":"Complete index loop","prompt":"Replace TODO to iterate valid indexes.","starter_code":"items = [10, 20, 30]\nfor i in range(TODO):\n    print(i, items[i])\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-13","language":"python","modality_id":"code-completion","title":"Complete average","prompt":"Replace TODO with the correct denominator.","starter_code":"nums = [2, 4, 6, 8]\naverage = sum(nums) / TODO\nprint(average)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-14","language":"python","modality_id":"code-completion","title":"Complete break","prompt":"Replace TODO so the loop stops when n equals 3.","starter_code":"for n in range(1, 6):\n    if TODO:\n        break\n    print(n)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-15","language":"python","modality_id":"code-completion","title":"Complete dictionary","prompt":"Replace TODO with the correct key.","starter_code":"student = {\"name\": \"Ada\", \"score\": 95}\nprint(student[TODO])\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-16","language":"python","modality_id":"code-completion","title":"Complete nested loop","prompt":"Replace TODO so the inner loop runs twice.","starter_code":"for i in range(2):\n    for j in range(TODO):\n        print(i, j)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-17","language":"python","modality_id":"code-completion","title":"Complete boolean","prompt":"Replace TODO so values 10 through 20 inclusive are accepted.","starter_code":"x = 15\nif TODO:\n    print(\"accepted\")\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-18","language":"python","modality_id":"code-completion","title":"Complete reverse build","prompt":"Replace TODO so reversed_text becomes ''cba''.","starter_code":"text = \"abc\"\nreversed_text = \"\"\nfor ch in text:\n    TODO\nprint(reversed_text)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-19","language":"python","modality_id":"code-completion","title":"Complete list comprehension","prompt":"Replace TODO so squares becomes [1, 4, 9, 16].","starter_code":"squares = [TODO for n in range(1, 5)]\nprint(squares)\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"PY-CMP-20","language":"python","modality_id":"code-completion","title":"Complete return condition","prompt":"Replace TODO so is_even returns True for even values.","starter_code":"def is_even(n):\n    return TODO\n\nprint(is_even(6))\n","difficulty":"medium","expected_concepts":["completion"],"active":false,"inputSchema":[]},{"id":"JA-PS-01","language":"java","modality_id":"problem-solving","title":"Print 1 to 5","prompt":"Write a Java program that prints the integers 1 through 5, one per line.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-02","language":"java","modality_id":"problem-solving","title":"Sum 1 to 10","prompt":"Compute and print the sum of the integers 1 through 10.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-03","language":"java","modality_id":"problem-solving","title":"Even numbers","prompt":"Print all even numbers from 2 through 20, one per line.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-04","language":"java","modality_id":"problem-solving","title":"Count vowels","prompt":"Given String text = \"programming\", count and print the number of vowels.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-05","language":"java","modality_id":"problem-solving","title":"Largest value","prompt":"Given int[] nums = {4, 9, 2, 7, 5}, print the largest value without using library max helpers.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-06","language":"java","modality_id":"problem-solving","title":"Factorial","prompt":"Compute and print 5 factorial using a loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-07","language":"java","modality_id":"problem-solving","title":"Reverse text","prompt":"Given String text = \"hello\", build and print the reversed string using a loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-08","language":"java","modality_id":"problem-solving","title":"Count positives","prompt":"Given int[] nums = {-2, 4, 0, 7, -1, 3}, count and print how many values are positive.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-09","language":"java","modality_id":"problem-solving","title":"Squares","prompt":"Print the square of each integer from 1 through 6.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-10","language":"java","modality_id":"problem-solving","title":"Running total","prompt":"Given int[] nums = {3, 1, 4, 2}, print the running total after each value.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-11","language":"java","modality_id":"problem-solving","title":"Multiplication table","prompt":"Print the first five multiples of 7.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-12","language":"java","modality_id":"problem-solving","title":"Count letter","prompt":"Given String text = \"banana\", count and print how many times ''a'' occurs.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-13","language":"java","modality_id":"problem-solving","title":"Minimum value","prompt":"Given int[] nums = {8, 3, 6, 1, 9}, print the smallest value.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-14","language":"java","modality_id":"problem-solving","title":"Sum evens","prompt":"Compute and print the sum of all even integers from 1 through 20.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-15","language":"java","modality_id":"problem-solving","title":"Word lengths","prompt":"Given String[] words = {\"cat\", \"tiger\", \"ox\"}, print each word followed by its length.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-16","language":"java","modality_id":"problem-solving","title":"Temperature labels","prompt":"Given int[] temps = {35, 72, 90}, print cold/warm/hot using the same boundaries: below 50, 50-79, 80+.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-17","language":"java","modality_id":"problem-solving","title":"Skip multiples of 3","prompt":"Print integers 1 through 12 except multiples of 3.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-18","language":"java","modality_id":"problem-solving","title":"First matching value","prompt":"Given int[] nums = {3, 5, 8, 10}, print the first even number and stop searching.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-19","language":"java","modality_id":"problem-solving","title":"Average","prompt":"Given int[] nums = {6, 8, 10, 12}, compute and print their average as a double.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-PS-20","language":"java","modality_id":"problem-solving","title":"Character positions","prompt":"Given String text = \"code\", print each character with its zero-based index.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["java","loops"],"active":true,"inputSchema":[]},{"id":"JA-DBG-01","language":"java","modality_id":"debugging","title":"Off-by-one loop","prompt":"Fix the loop so it prints 1 through 5.","starter_code":"public class Main { public static void main(String[] args) { for (int n = 1; n < 5; n++) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-02","language":"java","modality_id":"debugging","title":"Missing semicolon","prompt":"Fix the syntax error.","starter_code":"public class Main { public static void main(String[] args) { int x = 5 System.out.println(x); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-03","language":"java","modality_id":"debugging","title":"Wrong increment","prompt":"Fix the loop so it prints 1, 2, 3 and stops.","starter_code":"public class Main { public static void main(String[] args) { for (int n=1; n<=3; n--) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-04","language":"java","modality_id":"debugging","title":"Wrong accumulator","prompt":"Fix the program so it prints 15.","starter_code":"public class Main { public static void main(String[] args) { int total=0; for(int n=1;n<=5;n++){ total=n; } System.out.println(total); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-05","language":"java","modality_id":"debugging","title":"String comparison","prompt":"Fix the condition so it prints Yes.","starter_code":"public class Main { public static void main(String[] args) { String s=\"yes\"; if(s == \"yes\") System.out.println(\"Yes\"); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-06","language":"java","modality_id":"debugging","title":"Wrong comparison","prompt":"Fix the program so it prints only positive values.","starter_code":"public class Main { public static void main(String[] args) { int[] a={-1,2,-3,4}; for(int n:a) if(n<0) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-07","language":"java","modality_id":"debugging","title":"Array bound","prompt":"Fix the program so it prints the last item.","starter_code":"public class Main { public static void main(String[] args) { int[] a={10,20,30}; System.out.println(a[3]); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-08","language":"java","modality_id":"debugging","title":"Integer division","prompt":"Fix the program so it prints 2.5.","starter_code":"public class Main { public static void main(String[] args) { int a=5; int b=2; System.out.println(a/b); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-09","language":"java","modality_id":"debugging","title":"Assignment in condition","prompt":"Fix the condition.","starter_code":"public class Main { public static void main(String[] args) { int x=5; if(x = 5) System.out.println(\"five\"); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-10","language":"java","modality_id":"debugging","title":"Wrong boolean operator","prompt":"Fix the condition so only values from 10 through 20 inclusive are accepted.","starter_code":"public class Main { public static void main(String[] args) { int x=25; if(x>=10 || x<=20) System.out.println(\"between\"); } }","difficulty":"easy","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-11","language":"java","modality_id":"debugging","title":"Average denominator","prompt":"Fix the average calculation.","starter_code":"public class Main { public static void main(String[] args) { int[] a={2,4,6,8}; int total=0; for(int n:a) total+=n; double avg=total/3.0; System.out.println(avg); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-12","language":"java","modality_id":"debugging","title":"Missing return","prompt":"Fix the method so result becomes 10.","starter_code":"public class Main { static int twice(int x){ x*2; } public static void main(String[] args){ System.out.println(twice(5)); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-13","language":"java","modality_id":"debugging","title":"Wrong loop index","prompt":"Fix the loop so every array element prints without error.","starter_code":"public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=0;i<=a.length;i++) System.out.println(a[i]); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-14","language":"java","modality_id":"debugging","title":"Modulo bug","prompt":"Fix the code so it prints even numbers.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(n%2==1) System.out.println(n); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-15","language":"java","modality_id":"debugging","title":"Maximum initialization","prompt":"Fix the maximum logic for all-negative input.","starter_code":"public class Main { public static void main(String[] args){ int[] a={-8,-3,-12}; int largest=0; for(int n:a) if(n>largest) largest=n; System.out.println(largest); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-16","language":"java","modality_id":"debugging","title":"Array length","prompt":"Fix the property/method error.","starter_code":"public class Main { public static void main(String[] args){ int[] a={1,2,3}; System.out.println(a.length()); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-17","language":"java","modality_id":"debugging","title":"Character method","prompt":"Fix the code so it prints the first character.","starter_code":"public class Main { public static void main(String[] args){ String s=\"code\"; System.out.println(s[0]); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-18","language":"java","modality_id":"debugging","title":"Parse input","prompt":"Fix the code so numeric addition works.","starter_code":"import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); String x=sc.nextLine(); System.out.println(x+1); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[{"id":"value","label":"Number to add one to","type":"integer","example":"5","default":"5","required":true,"help":"The program reads this value once. The platform adds the line ending for you."}]},{"id":"JA-DBG-19","language":"java","modality_id":"debugging","title":"Scope error","prompt":"Fix the code so total can be printed after the loop.","starter_code":"public class Main { public static void main(String[] args){ for(int i=0;i<3;i++){ int total=i; } System.out.println(total); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-20","language":"java","modality_id":"debugging","title":"Nested braces","prompt":"Fix the braces so ''even'' prints only for even values.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=4;n++){ if(n%2==0) System.out.println(n); } System.out.println(\"even\"); } }","difficulty":"medium","expected_concepts":["java","debugging"],"active":true,"inputSchema":[]},{"id":"JA-TRC-01","language":"java","modality_id":"code-explanation","title":"Trace a loop","prompt":"Without running the code first, state exactly what it prints.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=3;n++) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-02","language":"java","modality_id":"code-explanation","title":"Trace accumulator","prompt":"Predict the final output.","starter_code":"public class Main { public static void main(String[] args){ int total=0; for(int n:new int[]{2,3,4}) total+=n; System.out.println(total); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-03","language":"java","modality_id":"code-explanation","title":"Trace condition","prompt":"Predict the output in order.","starter_code":"public class Main { public static void main(String[] args){ for(int n=0;n<5;n++) if(n%2==0) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-04","language":"java","modality_id":"code-explanation","title":"Trace string","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ String s=\"cat\"; for(int i=0;i<s.length();i++) System.out.println(Character.toUpperCase(s.charAt(i))); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-05","language":"java","modality_id":"code-explanation","title":"Trace while","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ int x=3; while(x>0){ System.out.println(x); x--; } } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-06","language":"java","modality_id":"code-explanation","title":"Trace break","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==4) break; System.out.println(n); } } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-07","language":"java","modality_id":"code-explanation","title":"Trace continue","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(n==3) continue; System.out.println(n); } } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-08","language":"java","modality_id":"code-explanation","title":"Trace nested loop","prompt":"How many times is X printed?","starter_code":"public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<2;j++) System.out.println(\"X\"); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-09","language":"java","modality_id":"code-explanation","title":"Trace array update","prompt":"Predict the final output.","starter_code":"public class Main { public static void main(String[] args){ int[] a={1,2,3}; a[1]=9; System.out.println(a[0]+\" \"+a[1]+\" \"+a[2]); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-10","language":"java","modality_id":"code-explanation","title":"Trace doubling","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ int x=1; for(int i=0;i<3;i++) x*=2; System.out.println(x); } }","difficulty":"easy","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-11","language":"java","modality_id":"code-explanation","title":"Trace index","prompt":"Predict the output lines.","starter_code":"public class Main { public static void main(String[] args){ String s=\"ab\"; for(int i=0;i<s.length();i++) System.out.println(i+\" \"+s.charAt(i)); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-12","language":"java","modality_id":"code-explanation","title":"Trace boolean","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ int x=4; System.out.println(x>2 && x<6); System.out.println(x==5); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-13","language":"java","modality_id":"code-explanation","title":"Trace method","prompt":"Predict the output.","starter_code":"public class Main { static int addOne(int x){ return x+1; } public static void main(String[] args){ System.out.println(addOne(4)); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-14","language":"java","modality_id":"code-explanation","title":"Trace substring","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ String s=\"python\"; System.out.println(s.substring(1,4)); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-15","language":"java","modality_id":"code-explanation","title":"Trace array length","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ int[] a={4,5,6}; System.out.println(a.length); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-16","language":"java","modality_id":"code-explanation","title":"Trace comparison","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ int x=7; if(x>5 && x<10) System.out.println(\"A\"); else System.out.println(\"B\"); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-17","language":"java","modality_id":"code-explanation","title":"Trace sum loop","prompt":"Predict the final output.","starter_code":"public class Main { public static void main(String[] args){ int s=1; for(int n=1;n<=3;n++) s+=n; System.out.println(s); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-18","language":"java","modality_id":"code-explanation","title":"Trace reverse index","prompt":"Predict the output sequence.","starter_code":"public class Main { public static void main(String[] args){ int[] a={1,2,3}; for(int i=a.length-1;i>=0;i--) System.out.println(a[i]); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-19","language":"java","modality_id":"code-explanation","title":"Trace word lengths","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ String[] w={\"hi\",\"code\"}; for(String s:w) System.out.println(s.length()); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-TRC-20","language":"java","modality_id":"code-explanation","title":"Trace nested condition","prompt":"Predict the output.","starter_code":"public class Main { public static void main(String[] args){ for(int n:new int[]{1,2,3,4}) if(n>2) if(n%2==0) System.out.println(n); } }","difficulty":"medium","expected_concepts":["java","tracing"],"active":true,"inputSchema":[]},{"id":"JA-CMP-01","language":"java","modality_id":"code-completion","title":"Complete loop bound","prompt":"Replace TODO so the loop prints 1 through 5.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=TODO;n++) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-02","language":"java","modality_id":"code-completion","title":"Complete sum","prompt":"Replace TODO to accumulate the sum.","starter_code":"public class Main { public static void main(String[] args){ int total=0; for(int n=1;n<=5;n++){ TODO } System.out.println(total); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-03","language":"java","modality_id":"code-completion","title":"Complete condition","prompt":"Replace TODO so only even numbers print.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=6;n++) if(TODO) System.out.println(n); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-04","language":"java","modality_id":"code-completion","title":"Complete method","prompt":"Replace TODO with the correct return statement.","starter_code":"public class Main { static int square(int x){ TODO } public static void main(String[] args){ System.out.println(square(4)); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-05","language":"java","modality_id":"code-completion","title":"Complete enhanced loop","prompt":"Replace TODO so each item prints.","starter_code":"public class Main { public static void main(String[] args){ String[] items={\"a\",\"b\",\"c\"}; for(String item : TODO) System.out.println(item); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-06","language":"java","modality_id":"code-completion","title":"Complete counter","prompt":"Replace TODO so count increases for positive values.","starter_code":"public class Main { public static void main(String[] args){ int count=0; for(int n:new int[]{-1,2,3}) if(n>0){ TODO } System.out.println(count); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-07","language":"java","modality_id":"code-completion","title":"Complete while","prompt":"Replace TODO so the loop stops after printing 1,2,3.","starter_code":"public class Main { public static void main(String[] args){ int n=1; while(n<=3){ System.out.println(n); TODO } } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-08","language":"java","modality_id":"code-completion","title":"Complete array assignment","prompt":"Replace TODO so the second element becomes 9.","starter_code":"public class Main { public static void main(String[] args){ int[] a={1,2,3}; TODO; System.out.println(a[1]); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-09","language":"java","modality_id":"code-completion","title":"Complete maximum","prompt":"Replace TODO in the comparison.","starter_code":"public class Main { public static void main(String[] args){ int[] a={2,8,4}; int largest=a[0]; for(int n:a) if(TODO) largest=n; System.out.println(largest); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-10","language":"java","modality_id":"code-completion","title":"Complete string count","prompt":"Replace TODO so the program counts ''a''.","starter_code":"public class Main { public static void main(String[] args){ String s=\"banana\"; int count=0; for(int i=0;i<s.length();i++) if(TODO) count++; System.out.println(count); } }","difficulty":"easy","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-11","language":"java","modality_id":"code-completion","title":"Complete parsing","prompt":"Replace TODO so numeric addition works.","starter_code":"import java.util.*; public class Main { public static void main(String[] args){ Scanner sc=new Scanner(System.in); int x=TODO(sc.nextLine()); System.out.println(x+1); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-12","language":"java","modality_id":"code-completion","title":"Complete index loop","prompt":"Replace TODO to iterate valid indexes.","starter_code":"public class Main { public static void main(String[] args){ int[] a={10,20,30}; for(int i=0;i<TODO;i++) System.out.println(i+\" \"+a[i]); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-13","language":"java","modality_id":"code-completion","title":"Complete average","prompt":"Replace TODO so the result is a double average.","starter_code":"public class Main { public static void main(String[] args){ int[] a={2,4,6,8}; int total=20; double avg=TODO; System.out.println(avg); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-14","language":"java","modality_id":"code-completion","title":"Complete break","prompt":"Replace TODO so the loop stops when n equals 3.","starter_code":"public class Main { public static void main(String[] args){ for(int n=1;n<=5;n++){ if(TODO) break; System.out.println(n); } } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-15","language":"java","modality_id":"code-completion","title":"Complete map lookup","prompt":"Replace TODO to print Ada.","starter_code":"import java.util.*; public class Main { public static void main(String[] args){ Map<String,String> m=new HashMap<>(); m.put(\"name\",\"Ada\"); System.out.println(m.get(TODO)); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-16","language":"java","modality_id":"code-completion","title":"Complete nested loop","prompt":"Replace TODO so the inner loop runs twice.","starter_code":"public class Main { public static void main(String[] args){ for(int i=0;i<2;i++) for(int j=0;j<TODO;j++) System.out.println(i+\" \"+j); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-17","language":"java","modality_id":"code-completion","title":"Complete boolean","prompt":"Replace TODO so values 10 through 20 inclusive are accepted.","starter_code":"public class Main { public static void main(String[] args){ int x=15; if(TODO) System.out.println(\"accepted\"); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-18","language":"java","modality_id":"code-completion","title":"Complete reverse build","prompt":"Replace TODO so out becomes cba.","starter_code":"public class Main { public static void main(String[] args){ String s=\"abc\", out=\"\"; for(int i=0;i<s.length();i++){ TODO } System.out.println(out); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-19","language":"java","modality_id":"code-completion","title":"Complete ArrayList add","prompt":"Replace TODO so 3 is appended.","starter_code":"import java.util.*; public class Main { public static void main(String[] args){ List<Integer> a=new ArrayList<>(); a.add(1); a.add(2); TODO; System.out.println(a); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]},{"id":"JA-CMP-20","language":"java","modality_id":"code-completion","title":"Complete even method","prompt":"Replace TODO so isEven returns true for even values.","starter_code":"public class Main { static boolean isEven(int n){ return TODO; } public static void main(String[] args){ System.out.println(isEven(6)); } }","difficulty":"medium","expected_concepts":["java","completion"],"active":false,"inputSchema":[]}]'::jsonb)
+values('30869db2c3e1136a9d8fe55526de57ae85d5a6ea8d75890333573de19d9972b1','[{"id":"PY-PS-01","language":"python","modality_id":"problem-solving","title":"Display three lines exactly","prompt":"Write Python code that produces exactly this output:\n\nComputer Science\nProgramming\nProblem Solving\n\nUse exactly three print() statements.","starter_code":"","difficulty":"easy","expected_concepts":["print","strings","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-02","language":"python","modality_id":"problem-solving","title":"Print the steps in order","prompt":"Write Python code that prints these steps in exactly this order:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nUse one print() statement for each line.","starter_code":"","difficulty":"easy","expected_concepts":["print","sequential execution","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-03","language":"python","modality_id":"problem-solving","title":"Create one blank line","prompt":"Write Python code that produces exactly:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nUse exactly three print() calls. The middle print() call must create the blank line.","starter_code":"","difficulty":"easy","expected_concepts":["print","blank line","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-04","language":"python","modality_id":"problem-solving","title":"Print text with section comments","prompt":"Write Python code that prints:\n\nTitle\nMain idea\n\nAdd a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.","starter_code":"","difficulty":"easy","expected_concepts":["comments","print","program organization"],"active":true,"inputSchema":[]},{"id":"PY-PS-05","language":"python","modality_id":"problem-solving","title":"Print Start and Finish","prompt":"Write two valid calls to print() that display:\n\nStart\nFinish\n\nUse normal function-call syntax with parentheses.","starter_code":"","difficulty":"easy","expected_concepts":["function call syntax","print","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-PS-06","language":"python","modality_id":"problem-solving","title":"Print three lines with one string","prompt":"Using only one print() call and one triple-quoted string, display exactly:\n\nRead\nThink\nWrite","starter_code":"","difficulty":"easy","expected_concepts":["print","multi-line string","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-07","language":"python","modality_id":"problem-solving","title":"Recreate the output with one print","prompt":"The output below could be produced with three print() calls:\n\nRed\nGreen\nBlue\n\nProduce the same visible output using only one print() call and a triple-quoted string.","starter_code":"","difficulty":"medium","expected_concepts":["print","multi-line string","equivalent output"],"active":true,"inputSchema":[]},{"id":"PY-PS-08","language":"python","modality_id":"problem-solving","title":"Match punctuation and capitalization","prompt":"Write Python code that produces exactly:\n\nReady?\nSet...\nGo!\n\nCapitalization and punctuation must match exactly.","starter_code":"","difficulty":"medium","expected_concepts":["print","strings","capitalization","punctuation"],"active":true,"inputSchema":[]},{"id":"PY-PS-09","language":"python","modality_id":"problem-solving","title":"Format a heading and body","prompt":"Write Python code that produces exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nUse an empty print() call for the blank line.","starter_code":"","difficulty":"medium","expected_concepts":["print","blank line","sequential execution","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-10","language":"python","modality_id":"problem-solving","title":"Organize a short reflection","prompt":"Write code that produces this output:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nRequirements:\n- Add a comment before the title section.\n- Add a different comment before the two body lines.\n- Comments must not be printed.","starter_code":"","difficulty":"medium","expected_concepts":["comments","print","program organization","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-11","language":"python","modality_id":"problem-solving","title":"Print four steps in sequence","prompt":"Write four print() statements so the output is exactly:\n\nUnderstand\nPlan\nProgram\nTest\n\nDo not combine the lines into one multi-line string.","starter_code":"","difficulty":"medium","expected_concepts":["print","sequential execution","requirements"],"active":true,"inputSchema":[]},{"id":"PY-PS-12","language":"python","modality_id":"problem-solving","title":"Print one sentence correctly","prompt":"Write one print() statement that displays exactly:\n\nPython programs follow instructions carefully.\n\nThe sentence itself must be a string argument passed to print().","starter_code":"","difficulty":"medium","expected_concepts":["print","string delimiters","function call syntax"],"active":true,"inputSchema":[]},{"id":"PY-PS-13","language":"python","modality_id":"problem-solving","title":"Print four ideas in order","prompt":"Create a program that prints the following four lines in order:\n\nProblem\nIdea\nCode\nResult\n\nUse four print() statements and add one helpful comment above the group.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-PS-14","language":"python","modality_id":"problem-solving","title":"Match the required output exactly","prompt":"Write Python code that produces exactly:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nRequirements:\n- Use print() only.\n- Use one empty print() call for the blank line.\n- Match all symbols and capitalization exactly.","starter_code":"","difficulty":"medium","expected_concepts":["print","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-15","language":"python","modality_id":"problem-solving","title":"Print four steps with one block","prompt":"Using one print() call with a triple-quoted string, display:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nDo not use four separate print() statements.","starter_code":"","difficulty":"medium","expected_concepts":["print","multi-line string","requirements"],"active":true,"inputSchema":[]},{"id":"PY-PS-16","language":"python","modality_id":"problem-solving","title":"Use comments and a blank line","prompt":"Write Python code that produces exactly:\n\nProgram Start\n\nProgram Complete\n\nRequirements:\n- Use an empty print() call for the blank line.\n- Add a comment above the first output statement.\n- Add a second comment above the final output statement.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","blank line","program organization"],"active":true,"inputSchema":[]},{"id":"PY-PS-17","language":"python","modality_id":"problem-solving","title":"Format a short program message","prompt":"Write a short program that prints exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nUse comments to label the sections and include exactly one blank line.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","blank line","exact output","program organization"],"active":true,"inputSchema":[]},{"id":"PY-DBG-01","language":"python","modality_id":"debugging","title":"Fix the three-line output","prompt":"The program should print:\n\nComputer Science\nProgramming\nProblem Solving\n\nFix the code so the output matches exactly.","starter_code":"print(\"Computer Science\")\nprint(\"Problem Solving\")\nprint(\"Programming\")\n","difficulty":"easy","expected_concepts":["debugging","print","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-02","language":"python","modality_id":"debugging","title":"Fix the output order","prompt":"The required output is:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nReorder the statements so the output is correct.","starter_code":"print(\"1. Plan the program\")\nprint(\"3. Test the program\")\nprint(\"2. Write the code\")\nprint(\"4. Fix problems\")\n","difficulty":"easy","expected_concepts":["debugging","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-DBG-03","language":"python","modality_id":"debugging","title":"Fix the blank line","prompt":"The required output is:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nFix the program so there is exactly one blank line between the two text lines.","starter_code":"print(\"My Reflection\")\nprint(\"Programming gives computers instructions.\")\n","difficulty":"easy","expected_concepts":["debugging","blank line","print"],"active":true,"inputSchema":[]},{"id":"PY-DBG-04","language":"python","modality_id":"debugging","title":"Keep labels as comments","prompt":"The two section labels are meant to be comments, not output. Fix the program so it prints only:\n\nTitle\nMain idea","starter_code":"print(\"Title section\")\nprint(\"Title\")\nprint(\"Main section\")\nprint(\"Main idea\")\n","difficulty":"easy","expected_concepts":["debugging","comments","requirements"],"active":true,"inputSchema":[]},{"id":"PY-DBG-05","language":"python","modality_id":"debugging","title":"Fix the print syntax","prompt":"Fix the syntax so the program prints:\n\nStart\nFinish","starter_code":"print[\"Start\"]\nprint{\"Finish\"}\n","difficulty":"easy","expected_concepts":["debugging","function call syntax","parentheses"],"active":true,"inputSchema":[]},{"id":"PY-DBG-06","language":"python","modality_id":"debugging","title":"Fix the triple-quoted string","prompt":"Fix the multi-line string so the program prints:\n\nRead\nThink\nWrite","starter_code":"print(\"\"\"Read\nThink\nWrite\"\")\n","difficulty":"easy","expected_concepts":["debugging","multi-line string","quotation marks"],"active":true,"inputSchema":[]},{"id":"PY-DBG-07","language":"python","modality_id":"debugging","title":"Remove extra blank lines","prompt":"The required output is:\n\nRed\nGreen\nBlue\n\nFix the program so there are no blank lines between the colors.","starter_code":"print(\"\"\"Red\n\nGreen\n\nBlue\"\"\")\n","difficulty":"medium","expected_concepts":["debugging","multi-line string","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-08","language":"python","modality_id":"debugging","title":"Fix punctuation and capitalization","prompt":"The required output is:\n\nReady?\nSet...\nGo!\n\nFix every mismatch.","starter_code":"print(\"ready!\")\nprint(\"Set..\")\nprint(\"Go?\")\n","difficulty":"medium","expected_concepts":["debugging","capitalization","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-09","language":"python","modality_id":"debugging","title":"Fix the heading and body spacing","prompt":"The program must produce exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nFix the spacing and order.","starter_code":"print(\"Computer Science Reflection\")\nprint(\"Programming is one way to give computers precise instructions.\")\nprint()\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n","difficulty":"medium","expected_concepts":["debugging","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-DBG-10","language":"python","modality_id":"debugging","title":"Fix the comments","prompt":"The program should run and print:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nThe descriptive lines are intended to be comments. Fix them.","starter_code":"Title section\nprint(\"Reflection\")\nBody section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n","difficulty":"medium","expected_concepts":["debugging","comments","syntax error"],"active":true,"inputSchema":[]},{"id":"PY-DBG-11","language":"python","modality_id":"debugging","title":"Add the missing output line","prompt":"The required output is:\n\nUnderstand\nPlan\nProgram\nTest\n\nAdd the missing statement in the correct place.","starter_code":"print(\"Understand\")\nprint(\"Plan\")\nprint(\"Test\")\n","difficulty":"medium","expected_concepts":["debugging","sequential execution","missing statement"],"active":true,"inputSchema":[]},{"id":"PY-DBG-12","language":"python","modality_id":"debugging","title":"Fix the string syntax","prompt":"Fix the syntax error so the program prints exactly:\n\nPython programs follow instructions carefully.","starter_code":"print(\"Python programs follow instructions carefully.)\n","difficulty":"medium","expected_concepts":["debugging","string delimiters","syntax error"],"active":true,"inputSchema":[]},{"id":"PY-DBG-13","language":"python","modality_id":"debugging","title":"Remove the extra output line","prompt":"The required output is:\n\nProblem\nIdea\nCode\nResult\n\nFix the program by removing only the statement that should not be there.","starter_code":"print(\"Problem\")\nprint(\"Idea\")\nprint(\"Extra\")\nprint(\"Code\")\nprint(\"Result\")\n","difficulty":"medium","expected_concepts":["debugging","exact output","extra statement"],"active":true,"inputSchema":[]},{"id":"PY-DBG-14","language":"python","modality_id":"debugging","title":"Fix the exact output","prompt":"The required output is:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nFix the program so all text, spacing, and symbols match exactly.","starter_code":"print(\"== PROGRAM ==\")\nprint(\"Begin\")\nprint()\nprint()\nprint(\"Complete\")\nprint(\"=== END ==\")\n","difficulty":"medium","expected_concepts":["debugging","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-15","language":"python","modality_id":"debugging","title":"Fix the multi-line string","prompt":"The required output is:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nFix the one print() call so every step appears correctly.","starter_code":"print(\"\"\"Step 1: Read\nStep 2: Think\nStep 4: Test\nStep 3: Code\"\"\")\n","difficulty":"medium","expected_concepts":["debugging","multi-line string","sequential output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-16","language":"python","modality_id":"debugging","title":"Fix the comments and blank line","prompt":"The required output is:\n\nProgram Start\n\nProgram Complete\n\nThe section labels should be comments. Fix the program.","starter_code":"print(\"Start section\")\nprint(\"Program Start\")\nprint(\"End section\")\nprint(\"Program Complete\")\n","difficulty":"medium","expected_concepts":["debugging","comments","blank line","requirements"],"active":true,"inputSchema":[]},{"id":"PY-DBG-17","language":"python","modality_id":"debugging","title":"Fix the text and spacing","prompt":"Fix the starter code so it prints exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nKeep the section labels as comments and include exactly one blank line.","starter_code":"# Title\nprint(\"computer science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint()\nprint(\"Precise instructions matter.\")\n","difficulty":"medium","expected_concepts":["debugging","comments","capitalization","blank line","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-01","language":"python","modality_id":"code-explanation","title":"Explain how three lines are printed","prompt":"Without running the code first:\n1. State exactly what it prints.\n2. Explain why there are three output lines.","starter_code":"print(\"Computer Science\")\nprint(\"Programming\")\nprint(\"Problem Solving\")\n","difficulty":"easy","expected_concepts":["code explanation","print","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-02","language":"python","modality_id":"code-explanation","title":"Explain why the output order matters","prompt":"State exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.","starter_code":"print(\"1. Plan the program\")\nprint(\"2. Write the code\")\nprint(\"3. Test the program\")\nprint(\"4. Fix problems\")\n","difficulty":"easy","expected_concepts":["code explanation","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-03","language":"python","modality_id":"code-explanation","title":"Explain how the blank line is created","prompt":"State exactly what appears in the output, including spacing. Explain what the middle print() call contributes.","starter_code":"print(\"My Reflection\")\nprint()\nprint(\"Programming gives computers instructions.\")\n","difficulty":"easy","expected_concepts":["code explanation","blank line","print"],"active":true,"inputSchema":[]},{"id":"PY-TRC-04","language":"python","modality_id":"code-explanation","title":"Explain which lines are comments","prompt":"State exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.","starter_code":"# Title section\nprint(\"Title\")\n# Main section\nprint(\"Main idea\")\n","difficulty":"easy","expected_concepts":["code explanation","comments","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-05","language":"python","modality_id":"code-explanation","title":"Explain how print() is called","prompt":"For each print() statement, identify:\n- the function name\n- the parentheses\n- the string argument\n\nThen state the output.","starter_code":"print(\"Start\")\nprint(\"Finish\")\n","difficulty":"easy","expected_concepts":["code explanation","function call syntax","strings"],"active":true,"inputSchema":[]},{"id":"PY-TRC-06","language":"python","modality_id":"code-explanation","title":"Explain how the multi-line string works","prompt":"State exactly what the code prints. Explain how one print() call creates three output lines.","starter_code":"print(\"\"\"Read\nThink\nWrite\"\"\")\n","difficulty":"easy","expected_concepts":["code explanation","multi-line string","print"],"active":true,"inputSchema":[]},{"id":"PY-TRC-07","language":"python","modality_id":"code-explanation","title":"Explain why both programs match","prompt":"Program A:\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\nProgram B:\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n\nDo the two programs produce the same visible output? Explain how their code structure differs.","starter_code":"","difficulty":"medium","expected_concepts":["code explanation","multi-line string","equivalent output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-08","language":"python","modality_id":"code-explanation","title":"Explain why punctuation changes output","prompt":"State exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.","starter_code":"print(\"Ready?\")\nprint(\"Set...\")\nprint(\"Go!\")\n","difficulty":"medium","expected_concepts":["code explanation","strings","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-09","language":"python","modality_id":"code-explanation","title":"Explain how the heading is separated","prompt":"State the complete output, including the blank line. Then explain which statement creates each part of that output.","starter_code":"print(\"Computer Science Reflection\")\nprint()\nprint(\"Programming is one way to give computers precise instructions.\")\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n","difficulty":"medium","expected_concepts":["code explanation","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-10","language":"python","modality_id":"code-explanation","title":"Explain how comments organize the program","prompt":"Explain what is printed and what is not printed. Then describe how the two comments help organize the code.","starter_code":"# Title section\nprint(\"Reflection\")\n# Body section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-11","language":"python","modality_id":"code-explanation","title":"Explain the order of four statements","prompt":"Without running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.","starter_code":"print(\"Understand\")\nprint(\"Plan\")\nprint(\"Program\")\nprint(\"Test\")\n","difficulty":"medium","expected_concepts":["code explanation","sequential execution","tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-12","language":"python","modality_id":"code-explanation","title":"Explain why the code has a syntax error","prompt":"Explain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.","starter_code":"print(\"Python programs follow instructions carefully.\"\n","difficulty":"medium","expected_concepts":["code explanation","syntax error","parentheses"],"active":true,"inputSchema":[]},{"id":"PY-TRC-13","language":"python","modality_id":"code-explanation","title":"Explain why the output is wrong","prompt":"Suppose the required output is:\n\nProblem\nIdea\nCode\nResult\n\nExplain why the code below is valid Python but still fails the requirement.","starter_code":"print(\"Problem\")\nprint(\"Idea\")\nprint(\"Result\")\nprint(\"Code\")\n","difficulty":"medium","expected_concepts":["code explanation","requirements","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-14","language":"python","modality_id":"code-explanation","title":"Explain how the exact output is produced","prompt":"State exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.","starter_code":"print(\"=== PROGRAM ===\")\nprint(\"Begin\")\nprint()\nprint(\"Complete\")\nprint(\"=== END ===\")\n","difficulty":"medium","expected_concepts":["code explanation","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-15","language":"python","modality_id":"code-explanation","title":"Explain how one print creates four lines","prompt":"State the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.","starter_code":"print(\"\"\"Step 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\"\"\")\n","difficulty":"medium","expected_concepts":["code explanation","multi-line string","sequential output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-16","language":"python","modality_id":"code-explanation","title":"Explain comments and blank-line output","prompt":"State exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.","starter_code":"# Start section\nprint(\"Program Start\")\nprint()\n# End section\nprint(\"Program Complete\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","blank line","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-17","language":"python","modality_id":"code-explanation","title":"Explain the program text and spacing","prompt":"1. State exactly what is printed.\n2. Identify which statements create the blank line.\n3. Explain why the comments do not appear.\n4. Describe the order in which Python processes the executable statements.","starter_code":"# Title\nprint(\"Computer Science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint(\"Precise instructions matter.\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"JA-PS-01","language":"java","modality_id":"problem-solving","title":"Calculate a total from three integers","prompt":"Store 8 in int a, 5 in int b, and 3 in int c. Add all three values, store the result in int total, and print total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-03","language":"java","modality_id":"problem-solving","title":"Calculate a purchase total and change","prompt":"Store 4.5 in double price and 3 in int quantity. Calculate the purchase total, then calculate the change from 20.0. Print total and then change.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-04","language":"java","modality_id":"problem-solving","title":"Use parentheses in a multi-step calculation","prompt":"Calculate (4 + 6) * 2 - 3, store the result in int result, and print result.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses"],"active":true,"inputSchema":[]},{"id":"JA-PS-05","language":"java","modality_id":"problem-solving","title":"Check a passing score at the boundary","prompt":"Use int score = 60. Write an if statement that prints Pass when score is 60 or higher.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-06","language":"java","modality_id":"problem-solving","title":"Choose an output at a boundary value","prompt":"Use int number = 0. Print Positive if number is greater than 0; otherwise print Zero or negative.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-07","language":"java","modality_id":"problem-solving","title":"Assign a letter grade across four ranges","prompt":"Use int score = 78. Print A for 90 or higher, B for 80-89, C for 70-79, and D for anything lower.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order"],"active":true,"inputSchema":[]},{"id":"JA-PS-08","language":"java","modality_id":"problem-solving","title":"Check whether a value is inside a range","prompt":"Use int age = 25. Print Eligible if age is between 18 and 25 inclusive; otherwise print Not eligible. Use && in the condition.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-09","language":"java","modality_id":"problem-solving","title":"Compare a String and choose a response","prompt":"Use String answer = \"yes\". Print Accepted when answer equals \"yes\"; otherwise print Try again. Use equals() for the comparison.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else"],"active":true,"inputSchema":[]},{"id":"JA-PS-10","language":"java","modality_id":"problem-solving","title":"Print the first and last characters of a String","prompt":"Given String word = \"java\", print its length, its first character, and its last character. Use charAt(0) for the first character and word.length() - 1 for the last index.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index"],"active":true,"inputSchema":[]},{"id":"JA-PS-11","language":"java","modality_id":"problem-solving","title":"Format text with two values","prompt":"Given double price = 3.5 and int quantity = 2, use one printf statement to display: Price: $3.50 Quantity: 2","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values"],"active":true,"inputSchema":[]},{"id":"JA-PS-12","language":"java","modality_id":"problem-solving","title":"Print even values with a for loop","prompt":"Write a for loop that prints 2, 4, 6, 8, and 10, one per line. Start at 2 and increase the loop variable by 2 each time.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration"],"active":true,"inputSchema":[]},{"id":"JA-PS-13","language":"java","modality_id":"problem-solving","title":"Count down with a while loop","prompt":"Start with int n = 5. Use a while loop to print 5 through 1, one per line, then print Done after the loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration"],"active":true,"inputSchema":[]},{"id":"JA-PS-14","language":"java","modality_id":"problem-solving","title":"Calculate a total and average in a loop","prompt":"Use a for loop and int total = 0 to add the integers 1 through 4. After the loop, calculate double average = total / 4.0 and print total and then average.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division"],"active":true,"inputSchema":[]},{"id":"JA-PS-15","language":"java","modality_id":"problem-solving","title":"Add only the even values in a loop","prompt":"Loop through the integers 1 through 6. Add only the even values to int total using % 2 == 0, then print the final total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator"],"active":true,"inputSchema":[]},{"id":"JA-PS-16","language":"java","modality_id":"problem-solving","title":"Return a calculated value from a method","prompt":"Write a static method named squarePlusOne that receives one int x and returns x * x + 1. In main, print squarePlusOne(4).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic"],"active":true,"inputSchema":[]},{"id":"JA-PS-17","language":"java","modality_id":"problem-solving","title":"Return the larger of two method arguments","prompt":"Write a static method named larger that receives two int parameters a and b. Return the larger value using if-else. In main, print larger(7, 11).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison"],"active":true,"inputSchema":[]},{"id":"JA-PS-18","language":"java","modality_id":"problem-solving","title":"Pass two values to a void method","prompt":"Write a static void method named printStudent that receives String name and int age. Print Name: followed by the name and Age: followed by the age on separate lines. In main, call printStudent(\"Ada\", 18).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-19","language":"java","modality_id":"problem-solving","title":"Use array indexes in a calculation","prompt":"Given int[] values = {10, 20, 30, 40}, print the first element, print the third element, then print their sum.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic"],"active":true,"inputSchema":[]},{"id":"JA-PS-20","language":"java","modality_id":"problem-solving","title":"Use array length to find the last two elements","prompt":"Given int[] values = {10, 20, 30, 40}, print values.length, then print the last element using values.length - 1 and the second-to-last element using values.length - 2.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index"],"active":true,"inputSchema":[]},{"id":"JA-DBG-01","language":"java","modality_id":"debugging","title":"Fix the three-number total","prompt":"The program should add a, b, and c and print 16. Fix the calculation for total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b - c;\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-03","language":"java","modality_id":"debugging","title":"Fix the change calculation","prompt":"The purchase total is price * quantity, and change should be 20.0 - total. Fix the calculation for change.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = total - 20.0;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-04","language":"java","modality_id":"debugging","title":"Fix the order of operations","prompt":"The intended calculation is (4 + 6) * 2 - 3. Add the parentheses needed to produce the correct result.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int result = 4 + 6 * 2 - 3;\n        System.out.println(result);\n    }\n}","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-05","language":"java","modality_id":"debugging","title":"Fix the passing-score boundary","prompt":"A score of exactly 60 should print Pass. Fix the comparison operator so 60 is included.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score > 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-06","language":"java","modality_id":"debugging","title":"Fix the if-else boundary","prompt":"For number = 0, the program should print Zero or negative. Fix the condition so only values greater than 0 use the first branch.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number >= 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-07","language":"java","modality_id":"debugging","title":"Fix the order of the grade conditions","prompt":"For score = 85, the program should print B. Reorder the conditions so higher score ranges are checked before lower ranges.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 70) {\n            System.out.println(\"C\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 90) {\n            System.out.println(\"A\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-08","language":"java","modality_id":"debugging","title":"Fix the inclusive range check","prompt":"The program should print Eligible only for ages from 18 through 25. Fix the logical operator so both comparisons must be true.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 || age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-09","language":"java","modality_id":"debugging","title":"Fix the String comparison","prompt":"The program should compare the text stored in answer with \"yes\". Replace the incorrect comparison with equals().","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer == \"yes\") {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-10","language":"java","modality_id":"debugging","title":"Fix the last-character index","prompt":"The program should print the last character of word without an error. Fix the index used in charAt().","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length()));\n    }\n}","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-11","language":"java","modality_id":"debugging","title":"Fix the printf format specifiers","prompt":"The program should display price with two decimal places and quantity as an integer. Fix the two format specifiers.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%d Quantity: %.2f%n\", price, quantity);\n    }\n}","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-12","language":"java","modality_id":"debugging","title":"Fix the for-loop update","prompt":"The loop should print 2, 4, 6, 8, and 10. Fix the update expression so n increases by 2 each iteration.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n++) {\n            System.out.println(n);\n        }\n    }\n}","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-13","language":"java","modality_id":"debugging","title":"Fix the while-loop countdown","prompt":"The loop should count down 5, 4, 3, 2, 1 and then stop. Fix the update statement so n decreases by 1 each iteration.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n -= 2;\n        }\n        System.out.println(\"Done\");\n    }\n}","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-14","language":"java","modality_id":"debugging","title":"Fix the running total","prompt":"The program should add 1 through 4 so total becomes 10 and average becomes 2.5. Fix the statement that updates total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total = n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-15","language":"java","modality_id":"debugging","title":"Fix the even-value total","prompt":"The program should add only the even values from 1 through 6 and print 12. Fix the condition so only even values are added.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 != 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-16","language":"java","modality_id":"debugging","title":"Fix the method calculation","prompt":"The method squarePlusOne should return x * x + 1. Fix the return expression so squarePlusOne(4) produces 17.","starter_code":"public class Main {\n    public static int squarePlusOne(int x) {\n        return x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-17","language":"java","modality_id":"debugging","title":"Fix the method that chooses the larger value","prompt":"The larger method should return the greater of a and b. Fix the return statements so larger(7, 11) prints 11.","starter_code":"public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return b;\n        } else {\n            return a;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-18","language":"java","modality_id":"debugging","title":"Fix the arguments in a void-method call","prompt":"The method is defined correctly. Fix the call in main so the String argument is passed to name and the int argument is passed to age.","starter_code":"public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(18, \"Ada\");\n    }\n}","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-19","language":"java","modality_id":"debugging","title":"Fix the array indexes used in a sum","prompt":"The program should add the first and third elements, 10 and 30, and print 40. Fix the incorrect array index.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[1] + values[2];\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-20","language":"java","modality_id":"debugging","title":"Fix the last array index","prompt":"The program should print the last element without an array-index error. Fix the index used in the first element access.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length]);\n        System.out.println(values[values.length - 2]);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index","debugging"],"active":true,"inputSchema":[]},{"id":"JA-TRC-01","language":"java","modality_id":"code-explanation","title":"Explain how the three-number total is calculated","prompt":"Explain what a, b, c, and total store, how total is calculated, and state exactly what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b + c;\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-03","language":"java","modality_id":"code-explanation","title":"Explain the purchase total and change","prompt":"Explain how total and change are calculated, why they are doubles, and state the two values printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = 20.0 - total;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-04","language":"java","modality_id":"code-explanation","title":"Explain the order of operations","prompt":"Explain which calculation happens first because of the parentheses and state the final output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2 - 3;\n        System.out.println(result);\n    }\n}","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-05","language":"java","modality_id":"code-explanation","title":"Explain the passing-score boundary","prompt":"Explain why the condition is true when score is exactly 60 and state what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-06","language":"java","modality_id":"code-explanation","title":"Explain which branch runs at zero","prompt":"Explain which branch runs when number is 0, why that branch is selected, and what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-07","language":"java","modality_id":"code-explanation","title":"Explain how a letter grade is selected","prompt":"For score = 78, trace the conditions in order and explain why C is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 78;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 70) {\n            System.out.println(\"C\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-08","language":"java","modality_id":"code-explanation","title":"Explain how an inclusive range check works","prompt":"For age = 25, explain the result of each comparison, how && combines them, and which message is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-09","language":"java","modality_id":"code-explanation","title":"Explain how the String comparison chooses a branch","prompt":"Explain what answer.equals(\"yes\") checks, why the condition is true, and which message is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-10","language":"java","modality_id":"code-explanation","title":"Explain how the first and last characters are found","prompt":"Explain what length() returns, why charAt(0) gives the first character, and why length() - 1 gives the last character.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length() - 1));\n    }\n}","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-11","language":"java","modality_id":"code-explanation","title":"Explain how two values are formatted","prompt":"Explain what %.2f and %d do and state the exact visible output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%.2f Quantity: %d%n\", price, quantity);\n    }\n}","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-12","language":"java","modality_id":"code-explanation","title":"Explain how the for loop produces even values","prompt":"Trace the values of n, explain how n += 2 changes the loop variable, and state exactly what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n += 2) {\n            System.out.println(n);\n        }\n    }\n}","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-13","language":"java","modality_id":"code-explanation","title":"Explain how the while-loop countdown stops","prompt":"Trace n from 5 to 1, explain how n-- changes it after each iteration, and explain why Done prints after the loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n--;\n        }\n        System.out.println(\"Done\");\n    }\n}","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-14","language":"java","modality_id":"code-explanation","title":"Explain how the total and average are calculated","prompt":"Trace how total changes as n goes from 1 through 4, then explain how average is calculated and state the two outputs.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-15","language":"java","modality_id":"code-explanation","title":"Explain how only even values are added","prompt":"Trace n from 1 through 6, identify which values satisfy n % 2 == 0, explain how total changes, and state the final output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 == 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-16","language":"java","modality_id":"code-explanation","title":"Explain how a method calculates and returns a value","prompt":"Explain what value is passed into x, how x * x + 1 is evaluated, what the method returns, and what main prints.","starter_code":"public class Main {\n    public static int squarePlusOne(int x) {\n        return x * x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-17","language":"java","modality_id":"code-explanation","title":"Explain how a method chooses the larger value","prompt":"For larger(7, 11), explain how the arguments map to a and b, which branch runs, what value is returned, and what main prints.","starter_code":"public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return a;\n        } else {\n            return b;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-18","language":"java","modality_id":"code-explanation","title":"Explain how two arguments are passed to a void method","prompt":"Explain why the method is void, how \"Ada\" and 18 are matched to the parameters, and state the two lines printed.","starter_code":"public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(\"Ada\", 18);\n    }\n}","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-19","language":"java","modality_id":"code-explanation","title":"Explain how array indexes select values for a sum","prompt":"Explain which values are selected by values[0] and values[2], why those indexes refer to the first and third elements, and state the output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[0] + values[2];\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-20","language":"java","modality_id":"code-explanation","title":"Explain how array length gives the last two indexes","prompt":"Explain what values.length returns, why length - 1 is the last valid index, why length - 2 is the second-to-last index, and state the three outputs.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length - 1]);\n        System.out.println(values[values.length - 2]);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index","code understanding"],"active":true,"inputSchema":[]}]'::jsonb)
 on conflict(bank_hash) do nothing;
 
 -- v4.0.4 migration: freeze the bank used by sessions created before this release.
 update public.study_sessions
-set protocol_snapshot=jsonb_set(protocol_snapshot,'{questionBankHash}',to_jsonb('26a3f0c34f88f9cf0424a92b1c9b1548987fc507572c1dd0879127323a32c9b2'::text),true)
+set protocol_snapshot=jsonb_set(protocol_snapshot,'{questionBankHash}',to_jsonb('30869db2c3e1136a9d8fe55526de57ae85d5a6ea8d75890333573de19d9972b1'::text),true)
 where workflow_version is not null and protocol_snapshot is not null and not (protocol_snapshot ? 'questionBankHash');
 
 COMMIT;

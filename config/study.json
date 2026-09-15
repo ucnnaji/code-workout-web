@@ -51,11 +51,12 @@
     "demo": true,
     "coding": true,
     "post_survey": true,
-    "incentive": true
+    "incentive": true,
+    "crossover": true
   },
   "backgroundFirstSessionOnly": true,
   "includeAdditionalSurveyItems": false,
-  "questionBankVersion": "inherited-v2-120",
+  "questionBankVersion": "input-free-v3-108",
   "questionIdsBySession": {},
   "avoidRepeatedQuestions": true,
   "compensation": {

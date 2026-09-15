@@ -245,52 +245,6 @@
     ]
   },
   {
-    "id": "PY-PS-18",
-    "language": "python",
-    "modality_id": "problem-solving",
-    "title": "Ask for and display a name",
-    "prompt": "Ask the user for their name, store it in a variable named name, and print a welcome message. If the user enters Ada, display:\n\nWelcome, Ada!\n\nUse the stored variable; do not hard-code Ada.",
-    "starter_code": "",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "input",
-      "variable",
-      "string concatenation",
-      "meaningful prompt"
-    ]
-  },
-  {
-    "id": "PY-PS-19",
-    "language": "python",
-    "modality_id": "problem-solving",
-    "title": "Read and convert a number",
-    "prompt": "Ask for the head x-coordinate, store it in head_x as an integer, then print head_x + 5. If the user enters 100, the final output should be 105.",
-    "starter_code": "",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "input",
-      "variable",
-      "int conversion",
-      "arithmetic"
-    ]
-  },
-  {
-    "id": "PY-PS-20",
-    "language": "python",
-    "modality_id": "problem-solving",
-    "title": "Ask for name and eye color",
-    "prompt": "Ask for the user's name and eye color. Store them in name and eye_color, then print:\n\nCreating a face for <name>\nEye color: <eye_color>\n\nUse clear prompts and do not hard-code the answers.",
-    "starter_code": "",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "input",
-      "variables",
-      "meaningful variable names",
-      "meaningful prompts",
-      "string concatenation"
-    ]
-  },
-  {
     "id": "PY-DBG-01",
     "language": "python",
     "modality_id": "debugging",
@@ -530,51 +484,6 @@
       "capitalization",
       "blank line",
       "exact output"
-    ]
-  },
-  {
-    "id": "PY-DBG-18",
-    "language": "python",
-    "modality_id": "debugging",
-    "title": "Print the correct variable",
-    "prompt": "Assume the user enters Ada for the name and blue for the eye color. Fix the program so it prints:\n\nWelcome, Ada!\n\nUse the correct variable.",
-    "starter_code": "name = input(\"Enter your name: \")\neye_color = input(\"Enter an eye color: \")\nprint(\"Welcome, \" + eye_color + \"!\")\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "debugging",
-      "input",
-      "variables",
-      "string concatenation"
-    ]
-  },
-  {
-    "id": "PY-DBG-19",
-    "language": "python",
-    "modality_id": "debugging",
-    "title": "Convert the input to an integer",
-    "prompt": "If the user enters 100, the program should print 105. Fix the code so the input is converted before numeric addition.",
-    "starter_code": "head_x = input(\"Enter the head x-coordinate: \")\nprint(head_x + 5)\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "debugging",
-      "input",
-      "int conversion",
-      "data types"
-    ]
-  },
-  {
-    "id": "PY-DBG-20",
-    "language": "python",
-    "modality_id": "debugging",
-    "title": "Use a clear prompt and variable",
-    "prompt": "Fix the program so it uses a meaningful variable name and prompt for the eye color, then prints the value entered by the user.",
-    "starter_code": "x = input(\"Enter something: \")\nprint(x)\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "debugging",
-      "input",
-      "meaningful variable names",
-      "meaningful prompts"
     ]
   },
   {
@@ -819,52 +728,6 @@
     ]
   },
   {
-    "id": "PY-TRC-18",
-    "language": "python",
-    "modality_id": "code-explanation",
-    "title": "Explain how input is stored and displayed",
-    "prompt": "Assume the user enters Ada. Explain what is stored in name, what the program prints, and why the variable is used in the final print() statement.",
-    "starter_code": "name = input(\"Enter your name: \")\nprint(\"Welcome, \" + name + \"!\")\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "code explanation",
-      "input",
-      "variable",
-      "string concatenation"
-    ]
-  },
-  {
-    "id": "PY-TRC-19",
-    "language": "python",
-    "modality_id": "code-explanation",
-    "title": "Explain how text becomes an integer",
-    "prompt": "Assume the user enters 100. State the final output and explain why int() is needed before 5 can be added.",
-    "starter_code": "head_x = int(input(\"Enter the head x-coordinate: \"))\nprint(head_x + 5)\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "code explanation",
-      "input",
-      "int conversion",
-      "data types",
-      "arithmetic"
-    ]
-  },
-  {
-    "id": "PY-TRC-20",
-    "language": "python",
-    "modality_id": "code-explanation",
-    "title": "Explain how clear names and prompts help",
-    "prompt": "Assume the user enters green. Explain what is stored in eye_color, what the program prints, and why the variable name and prompt are clear.",
-    "starter_code": "eye_color = input(\"Enter the eye color: \")\nprint(eye_color)\n",
-    "difficulty": "medium",
-    "expected_concepts": [
-      "code explanation",
-      "input",
-      "meaningful variable names",
-      "meaningful prompts"
-    ]
-  },
-  {
     "id": "JA-PS-01",
     "language": "java",
     "modality_id": "problem-solving",
@@ -875,22 +738,6 @@
     "expected_concepts": [
       "variables",
       "int",
-      "arithmetic",
-      "output"
-    ]
-  },
-  {
-    "id": "JA-PS-02",
-    "language": "java",
-    "modality_id": "problem-solving",
-    "title": "Read two integers and print their sum",
-    "prompt": "Use Scanner to read two integers into first and second. Store first + second in int total, then print total.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        // Write your code here\n    }\n}\n",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Scanner",
-      "input",
-      "variables",
       "arithmetic",
       "output"
     ]
@@ -1179,23 +1026,6 @@
     "expected_concepts": [
       "variables",
       "int",
-      "arithmetic",
-      "output",
-      "debugging"
-    ]
-  },
-  {
-    "id": "JA-DBG-02",
-    "language": "java",
-    "modality_id": "debugging",
-    "title": "Fix the sum of two input values",
-    "prompt": "The program should read two integers, add them, and print the sum. Fix the calculation for total.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int first = input.nextInt();\n        int second = input.nextInt();\n        int total = first - second;\n        System.out.println(total);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Scanner",
-      "input",
-      "variables",
       "arithmetic",
       "output",
       "debugging"
@@ -1503,23 +1333,6 @@
     "expected_concepts": [
       "variables",
       "int",
-      "arithmetic",
-      "output",
-      "code understanding"
-    ]
-  },
-  {
-    "id": "JA-TRC-02",
-    "language": "java",
-    "modality_id": "code-explanation",
-    "title": "Explain how two input values are added",
-    "prompt": "Assume the user enters 7 and then 4. Explain what is stored in first and second, how total is calculated, and what is printed.",
-    "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int first = input.nextInt();\n        int second = input.nextInt();\n        int total = first + second;\n        System.out.println(total);\n    }\n}",
-    "difficulty": "easy",
-    "expected_concepts": [
-      "Scanner",
-      "input",
-      "variables",
       "arithmetic",
       "output",
       "code understanding"

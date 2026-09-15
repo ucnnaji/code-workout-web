@@ -43,7 +43,12 @@ test('Postgres integration: migration rerun, ACLs, session uniqueness, stage loc
         const op = await call('operation_begin', { pid, sid, assignmentId: aid, kind: 'execute', id: opId, requestId: opReq, limit: 30, payload: { code: 'print(1)' } });
         assert.equal(op.status, 'pending');
         assert.equal((await call('operation_begin', { pid, sid, assignmentId: aid, kind: 'execute', id: randomUUID(), requestId: opReq, limit: 30, payload: {} })).id, opId);
-        await call('operation_finish', { pid, sid, assignmentId: aid, id: opId, status: 'succeeded', result: { stdout: '1' } });
+        const stableFingerprint = 'test-score-fingerprint';
+        await call('operation_finish', { pid, sid, assignmentId: aid, id: opId, status: 'succeeded', result: { stdout: '1', score: { score: 91, summary: 'Stable.', checks: [], fingerprint: stableFingerprint, reused: false } } });
+        const cachedScore = await call('score_cache_get', { pid, sid, assignmentId: aid, fingerprint: stableFingerprint });
+        assert.equal(cachedScore.score.score, 91);
+        assert.equal(cachedScore.operationId, opId);
+        assert.equal(await call('score_cache_get', { pid, sid, assignmentId: aid, fingerprint: 'different-fingerprint' }), null);
         await call('operation_displayed', { pid, sid, id: opId });
         await save('coding', { skipped: true });
         assert.equal((await call('state', { pid, sid })).session.status, 'active');
