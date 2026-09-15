@@ -4,7 +4,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Exact three-line output",
-    "prompt": "Concept reminder:\nEach Python print() call displays one line of output. This task focuses on writing simple output exactly as specified.\n\nYour task:\nWrite a Python program that produces exactly this output:\n\nComputer Science\nProgramming\nProblem Solving\n\nUse exactly three print() statements.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Each Python print() call displays one line of output.\n\nTask: Write Python code that produces exactly this output:\n\nComputer Science\nProgramming\nProblem Solving\n\nUse exactly three print() statements.",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -18,7 +18,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Ordered process",
-    "prompt": "Concept reminder:\nPython normally executes statements from top to bottom. When several print() statements are used, their order in the program determines the order of the output.\n\nYour task:\nWrite a Python program that prints these steps in exactly this order:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nUse one print() statement for each line.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Python normally executes statements from top to bottom.\n\nTask: Write Python code that prints these steps in exactly this order:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nUse one print() statement for each line.",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -32,7 +32,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Controlled blank line",
-    "prompt": "Concept reminder:\nAn empty print() call produces a blank output line. This task asks you to control both text and spacing.\n\nYour task:\nWrite a Python program that produces exactly:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nUse exactly three print() calls. The middle print() call must create the blank line.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: An empty print() call produces a blank output line.\n\nTask: Write Python code that produces exactly:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nUse exactly three print() calls. The middle print() call must create the blank line.",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -46,7 +46,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Commented sections",
-    "prompt": "Concept reminder:\nComments are notes for people reading the program; Python does not display them as output. They can be used to label or organize sections of code.\n\nYour task:\nWrite a Python program that prints:\n\nTitle\nMain idea\n\nAdd a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Comments are notes for people reading the program; Python does not display them as output.\n\nTask: Write Python code that prints:\n\nTitle\nMain idea\n\nAdd a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -60,7 +60,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Valid function-call syntax",
-    "prompt": "Concept reminder:\nPython functions are called by writing the function name followed by parentheses. The print() function displays the text or value placed inside those parentheses.\n\nYour task:\nWrite two valid calls to print() that display:\n\nStart\nFinish\n\nUse normal function-call syntax with parentheses.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Python functions are called by writing the function name followed by parentheses.\n\nTask: Write two valid calls to print() that display:\n\nStart\nFinish\n\nUse normal function-call syntax with parentheses.",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -74,7 +74,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Three-line multi-line string",
-    "prompt": "Concept reminder:\nA triple-quoted Python string can contain line breaks. When that string is passed to print(), the line breaks inside the string appear in the output.\n\nYour task:\nUsing only one print() call and one triple-quoted string, display exactly:\n\nRead\nThink\nWrite\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A triple-quoted Python string can contain line breaks.\n\nTask: Using only one print() call and one triple-quoted string, display exactly:\n\nRead\nThink\nWrite",
     "starter_code": "",
     "difficulty": "easy",
     "expected_concepts": [
@@ -88,7 +88,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Equivalent multi-line output",
-    "prompt": "Concept reminder:\nThe same visible output can sometimes be produced in more than one way. Here, you will replace several separate output statements with one multi-line string.\n\nYour task:\nThe output below could be produced with three print() calls:\n\nRed\nGreen\nBlue\n\nProduce the same visible output using only one print() call and a triple-quoted string.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: The same visible output can sometimes be produced in more than one way.\n\nTask: The output below could be produced with three print() calls:\n\nRed\nGreen\nBlue\n\nProduce the same visible output using only one print() call and a triple-quoted string.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -102,7 +102,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Capitalization and punctuation",
-    "prompt": "Concept reminder:\nWhen a program must match required output exactly, capitalization and punctuation are part of the answer. Small differences change the visible result.\n\nYour task:\nWrite a Python program that produces exactly:\n\nReady?\nSet...\nGo!\n\nCapitalization and punctuation must match exactly.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: When a program must match required output exactly, capitalization and punctuation are part of the answer.\n\nTask: Write Python code that produces exactly:\n\nReady?\nSet...\nGo!\n\nCapitalization and punctuation must match exactly.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -117,7 +117,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Title body formatting",
-    "prompt": "Concept reminder:\nPrograms often separate a heading from body text with a blank line. In Python, an empty print() call is one simple way to create that spacing.\n\nYour task:\nWrite a Python program that produces exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nUse an empty print() call for the blank line.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Programs often separate a heading from body text with a blank line.\n\nTask: Write Python code that produces exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nUse an empty print() call for the blank line.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -132,7 +132,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Organized reflection",
-    "prompt": "Concept reminder:\nComments can make a short program easier to read by separating a title section from the main content. Comments are not part of the printed output.\n\nYour task:\nWrite a program that produces this output:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nRequirements:\n- Add a comment before the title section.\n- Add a different comment before the two body lines.\n- Comments must not be printed.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Comments can make a short program easier to read by separating a title section from the main content.\n\nTask: Write code that produces this output:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nRequirements:\n- Add a comment before the title section.\n- Add a different comment before the two body lines.\n- Comments must not be printed.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -147,7 +147,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Four statements in sequence",
-    "prompt": "Concept reminder:\nPython executes these output statements in sequence. Each separate print() call should be responsible for one required line.\n\nYour task:\nWrite four print() statements so the output is exactly:\n\nUnderstand\nPlan\nProgram\nTest\n\nDo not combine the lines into one multi-line string.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Python executes these output statements in sequence.\n\nTask: Write four print() statements so the output is exactly:\n\nUnderstand\nPlan\nProgram\nTest\n\nDo not combine the lines into one multi-line string.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -161,7 +161,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "String boundaries",
-    "prompt": "Concept reminder:\nText written inside quotation marks is a string. The print() function can receive that string as its argument and display it.\n\nYour task:\nWrite one print() statement that displays exactly:\n\nPython programs follow instructions carefully.\n\nThe sentence itself must be a string argument passed to print().\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Text written inside quotation marks is a string.\n\nTask: Write one print() statement that displays exactly:\n\nPython programs follow instructions carefully.\n\nThe sentence itself must be a string argument passed to print().",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -175,7 +175,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "One missing idea",
-    "prompt": "Concept reminder:\nA short sequence of print() statements can represent steps or ideas in a specific order. A comment can describe the purpose of the group without appearing in the output.\n\nYour task:\nCreate a program that prints the following four lines in order:\n\nProblem\nIdea\nCode\nResult\n\nUse four print() statements and add one helpful comment above the group.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A short sequence of print() statements can represent steps or ideas in a specific order.\n\nTask: Create a program that prints the following four lines in order:\n\nProblem\nIdea\nCode\nResult\n\nUse four print() statements and add one helpful comment above the group.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -189,7 +189,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Match a detailed output specification",
-    "prompt": "Concept reminder:\nExact-output tasks require careful attention to symbols, capitalization, line order, and blank lines. Compare your final output with the specification character by character.\n\nYour task:\nWrite Python code that produces exactly:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nRequirements:\n- Use print() only.\n- Use one empty print() call for the blank line.\n- Match all symbols and capitalization exactly.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Exact-output tasks require careful attention to symbols, capitalization, line order, and blank lines.\n\nTask: Write Python code that produces exactly:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nRequirements:\n- Use print() only.\n- Use one empty print() call for the blank line.\n- Match all symbols and capitalization exactly.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -204,7 +204,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Convert repeated prints to one block",
-    "prompt": "Concept reminder:\nA triple-quoted string lets one print() call display several lines. The line breaks inside the string determine the layout of the output.\n\nYour task:\nUsing one print() call with a triple-quoted string, display:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nDo not use four separate print() statements.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A triple-quoted string lets one print() call display several lines.\n\nTask: Using one print() call with a triple-quoted string, display:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nDo not use four separate print() statements.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -218,7 +218,7 @@
     "language": "python",
     "modality_id": "problem-solving",
     "title": "Comments and spacing",
-    "prompt": "Concept reminder:\nThis task combines comments with output spacing. Remember that comments organize the code, while an empty print() call can create a blank output line.\n\nYour task:\nWrite a Python program that produces exactly:\n\nProgram Start\n\nProgram Complete\n\nRequirements:\n- Use an empty print() call for the blank line.\n- Add a comment above the first output statement.\n- Add a second comment above the final output statement.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: This task combines comments with output spacing.\n\nTask: Write Python code that produces exactly:\n\nProgram Start\n\nProgram Complete\n\nRequirements:\n- Use an empty print() call for the blank line.\n- Add a comment above the first output statement.\n- Add a second comment above the final output statement.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -232,8 +232,8 @@
     "id": "PY-PS-17",
     "language": "python",
     "modality_id": "problem-solving",
-    "title": "Integrated Assignment 1a challenge",
-    "prompt": "Concept reminder:\nThis task combines several ideas from Assignment 1a: print() statements, comments, exact output, and one intentional blank line. Use only the concepts listed in the requirements.\n\nYour task:\nWrite a short Python program that produces exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nRequirements:\n- Include at least two helpful comments.\n- Use print() statements only.\n- Include exactly one blank output line.\n- Do not use variables, input(), loops, conditionals, lists, or functions you define yourself.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "title": "Text, comments, and spacing",
+    "prompt": "Reminder: This task combines several ideas from Assignment 1a: print() statements, comments, exact output, and one intentional blank line.\n\nTask: Write a short Python program that produces exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nRequirements:\n- Include at least two helpful comments.\n- Use print() statements only.\n- Include exactly one blank output line.\n- Do not use variables, input(), loops, conditionals, lists, or functions you define yourself.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -248,8 +248,8 @@
     "id": "PY-PS-18",
     "language": "python",
     "modality_id": "problem-solving",
-    "title": "Bridge: name input",
-    "prompt": "Concept reminder:\nThe input() function displays a prompt and stores what the user types. Saving the response in a clearly named variable lets the program use that response later.\n\nYour task:\nWrite a program that:\n1. Prompts the user with: Enter your name:\n2. Stores the response in a variable named name.\n3. Prints a welcome message in this form:\n\nWelcome, Ada!\n\nAssume the user enters Ada. Use the value stored in name rather than typing Ada directly into the welcome message.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "title": "name input",
+    "prompt": "Reminder: The input() function displays a prompt and stores what the user types.\n\nTask: Write a program that:\n1. Prompts the user with: Enter your name:\n2. Stores the response in a variable named name.\n3. Prints a welcome message in this form:\n\nWelcome, Ada!\n\nAssume the user enters Ada. Use the value stored in name rather than typing Ada directly into the welcome message.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -263,8 +263,8 @@
     "id": "PY-PS-19",
     "language": "python",
     "modality_id": "problem-solving",
-    "title": "Bridge: numeric input conversion",
-    "prompt": "Concept reminder:\nThe input() function returns text. If a value will be used in integer arithmetic, convert the user's response to an int before adding or subtracting numbers.\n\nYour task:\nWrite a program that:\n1. Prompts: Enter the head x-coordinate:\n2. Stores the response in a variable named head_x.\n3. Converts the input to an integer.\n4. Prints the value of head_x plus 5.\n\nIf the user enters 100, the final output should be 105.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "title": "numeric input conversion",
+    "prompt": "Reminder: The input() function returns text.\n\nTask: Write a program that:\n1. Prompts: Enter the head x-coordinate:\n2. Stores the response in a variable named head_x.\n3. Converts the input to an integer.\n4. Prints the value of head_x plus 5.\n\nIf the user enters 100, the final output should be 105.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -278,8 +278,8 @@
     "id": "PY-PS-20",
     "language": "python",
     "modality_id": "problem-solving",
-    "title": "Bridge: meaningful variables and prompts",
-    "prompt": "Concept reminder:\nMeaningful variable names and prompts make a program easier to understand. Store each user response in a variable whose name describes what the value represents.\n\nYour task:\nWrite a program that asks the user for:\n- their name\n- an eye color\n\nStore the responses in variables named name and eye_color using meaningful prompts. Then print:\n\nCreating a face for <name>\nEye color: <eye_color>\n\nDo not hard-code the user's answers.\n\nBefore you submit:\n- Read every requirement again and make sure your Python code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "title": "meaningful variables and prompts",
+    "prompt": "Reminder: Meaningful variable names and prompts make a program easier to understand.\n\nTask: Write code that asks the user for:\n- their name\n- an eye color\n\nStore the responses in variables named name and eye_color using meaningful prompts. Then print:\n\nCreating a face for <name>\nEye color: <eye_color>\n\nDo not hard-code the user's answers.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -295,7 +295,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix exact three-line output",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print:\n\nComputer Science\nProgramming\nProblem Solving\n\nFix the code so the output matches exactly.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print:\n\nComputer Science\nProgramming\nProblem Solving\n\nFix the code so the output matches exactly.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Computer Science\")\nprint(\"Problem Solving\")\nprint(\"Programming\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -309,7 +309,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix the execution order",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nReorder the statements so the output is correct.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nReorder the statements so the output is correct.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"1. Plan the program\")\nprint(\"3. Test the program\")\nprint(\"2. Write the code\")\nprint(\"4. Fix problems\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -322,7 +322,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Restore one blank line",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nFix the program so there is exactly one blank line between the two text lines.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nFix the program so there is exactly one blank line between the two text lines.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"My Reflection\")\nprint(\"Programming gives computers instructions.\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -336,7 +336,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Turn labels into comments",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe two section labels are meant to be comments, not output. Fix the program so it prints only:\n\nTitle\nMain idea\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The two section labels are meant to be comments, not output. Fix the program so it prints only:\n\nTitle\nMain idea\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Title section\")\nprint(\"Title\")\nprint(\"Main section\")\nprint(\"Main idea\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -350,7 +350,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Repair function-call punctuation",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFix the syntax so the program prints:\n\nStart\nFinish\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: Fix the syntax so the program prints:\n\nStart\nFinish\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print[\"Start\"]\nprint{\"Finish\"}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -364,7 +364,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Repair triple quotes",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFix the multi-line string so the program prints:\n\nRead\nThink\nWrite\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: Fix the multi-line string so the program prints:\n\nRead\nThink\nWrite\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"\"\"Read\nThink\nWrite\"\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -378,7 +378,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Remove unintended spacing",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nRed\nGreen\nBlue\n\nFix the program so there are no blank lines between the colors.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nRed\nGreen\nBlue\n\nFix the program so there are no blank lines between the colors.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"\"\"Red\n\nGreen\n\nBlue\"\"\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -392,7 +392,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix capitalization and punctuation",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nReady?\nSet...\nGo!\n\nFix every mismatch.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nReady?\nSet...\nGo!\n\nFix every mismatch.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"ready!\")\nprint(\"Set..\")\nprint(\"Go?\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -407,7 +407,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix title body formatting",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program must produce exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nFix the spacing and order.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program must produce exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nFix the spacing and order.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Computer Science Reflection\")\nprint(\"Programming is one way to give computers precise instructions.\")\nprint()\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -421,7 +421,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Repair comments",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should run and print:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nThe descriptive lines are intended to be comments. Fix them.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should run and print:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nThe descriptive lines are intended to be comments. Fix them.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "Title section\nprint(\"Reflection\")\nBody section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -435,7 +435,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix a missing output line",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nUnderstand\nPlan\nProgram\nTest\n\nAdd the missing statement in the correct place.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nUnderstand\nPlan\nProgram\nTest\n\nAdd the missing statement in the correct place.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Understand\")\nprint(\"Plan\")\nprint(\"Test\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -449,7 +449,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Repair a broken string",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFix the syntax error so the program prints exactly:\n\nPython programs follow instructions carefully.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: Fix the syntax error so the program prints exactly:\n\nPython programs follow instructions carefully.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Python programs follow instructions carefully.)\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -463,7 +463,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Remove the unintended extra line",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nProblem\nIdea\nCode\nResult\n\nFix the program by removing only the statement that should not be there.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nProblem\nIdea\nCode\nResult\n\nFix the program by removing only the statement that should not be there.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Problem\")\nprint(\"Idea\")\nprint(\"Extra\")\nprint(\"Code\")\nprint(\"Result\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -477,7 +477,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix a detailed output specification",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nFix the program so all text, spacing, and symbols match exactly.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nFix the program so all text, spacing, and symbols match exactly.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"== PROGRAM ==\")\nprint(\"Begin\")\nprint()\nprint()\nprint(\"Complete\")\nprint(\"=== END ==\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -492,7 +492,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Repair a multi-line block",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nFix the one print() call so every step appears correctly.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nFix the one print() call so every step appears correctly.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"\"\"Step 1: Read\nStep 2: Think\nStep 4: Test\nStep 3: Code\"\"\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -506,7 +506,7 @@
     "language": "python",
     "modality_id": "debugging",
     "title": "Fix comments and spacing",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe required output is:\n\nProgram Start\n\nProgram Complete\n\nThe section labels should be comments. Fix the program.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The required output is:\n\nProgram Start\n\nProgram Complete\n\nThe section labels should be comments. Fix the program.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "print(\"Start section\")\nprint(\"Program Start\")\nprint(\"End section\")\nprint(\"Program Complete\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -520,8 +520,8 @@
     "id": "PY-DBG-17",
     "language": "python",
     "modality_id": "debugging",
-    "title": "Integrated Assignment 1a repair",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFix the program so it produces exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nThere should be exactly one blank line, and the section labels should remain comments.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "title": "Fix text, comments, and spacing",
+    "prompt": "The starter code has a mistake.\n\nGoal: Fix the program so it produces exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nThere should be exactly one blank line, and the section labels should remain comments.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "# Title\nprint(\"computer science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint()\nprint(\"Precise instructions matter.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -536,8 +536,8 @@
     "id": "PY-DBG-18",
     "language": "python",
     "modality_id": "debugging",
-    "title": "Bridge: wrong variable in output",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nAssume the user enters Ada for the name and blue for the eye color.\n\nThe program should print:\nWelcome, Ada!\n\nFix the program so it uses the correct variable.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "title": "wrong variable in output",
+    "prompt": "The starter code has a mistake.\n\nGoal: Assume the user enters Ada for the name and blue for the eye color.\n\nThe program should print:\nWelcome, Ada!\n\nFix the program so it uses the correct variable.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "name = input(\"Enter your name: \")\neye_color = input(\"Enter an eye color: \")\nprint(\"Welcome, \" + eye_color + \"!\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -551,8 +551,8 @@
     "id": "PY-DBG-19",
     "language": "python",
     "modality_id": "debugging",
-    "title": "Bridge: missing integer conversion",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nIf the user enters 100, the program should print 105.\n\nFix the code so numeric addition works correctly.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "title": "missing integer conversion",
+    "prompt": "The starter code has a mistake.\n\nGoal: If the user enters 100, the program should print 105.\n\nFix the code so numeric addition works correctly.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "head_x = input(\"Enter the head x-coordinate: \")\nprint(head_x + 5)\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -566,8 +566,8 @@
     "id": "PY-DBG-20",
     "language": "python",
     "modality_id": "debugging",
-    "title": "Bridge: meaningful prompt and variable",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nImprove the code so it follows the assignment expectations:\n- use a meaningful variable name for the user's eye color\n- use a meaningful prompt\n- print the value the user entered\n\nDo not change the purpose of the program.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Python code can run.\n- Check the output or behavior against the requirement above.",
+    "title": "meaningful prompt and variable",
+    "prompt": "The starter code has a mistake.\n\nGoal: Improve the code so it follows the assignment expectations:\n- use a meaningful variable name for the user's eye color\n- use a meaningful prompt\n- print the value the user entered\n\nDo not change the purpose of the program.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "x = input(\"Enter something: \")\nprint(x)\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -582,7 +582,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain exact three-line output",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nWithout running the code first:\n1. State exactly what it prints.\n2. Explain why there are three output lines.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nWithout running the code first:\n1. State exactly what it prints.\n2. Explain why there are three output lines.",
     "starter_code": "print(\"Computer Science\")\nprint(\"Programming\")\nprint(\"Problem Solving\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -596,7 +596,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain execution order",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.",
     "starter_code": "print(\"1. Plan the program\")\nprint(\"2. Write the code\")\nprint(\"3. Test the program\")\nprint(\"4. Fix problems\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -609,7 +609,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain a blank line",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what appears in the output, including spacing. Explain what the middle print() call contributes.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what appears in the output, including spacing. Explain what the middle print() call contributes.",
     "starter_code": "print(\"My Reflection\")\nprint()\nprint(\"Programming gives computers instructions.\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -623,7 +623,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain comments versus output",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.",
     "starter_code": "# Title section\nprint(\"Title\")\n# Main section\nprint(\"Main idea\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -637,7 +637,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain a function call",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nFor each print() statement, identify:\n- the function name\n- the parentheses\n- the string argument\n\nThen state the output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nFor each print() statement, identify:\n- the function name\n- the parentheses\n- the string argument\n\nThen state the output.",
     "starter_code": "print(\"Start\")\nprint(\"Finish\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -651,7 +651,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain a triple-quoted block",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what the code prints. Explain how one print() call creates three output lines.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what the code prints. Explain how one print() call creates three output lines.",
     "starter_code": "print(\"\"\"Read\nThink\nWrite\"\"\")\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -665,7 +665,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Compare equivalent programs",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nProgram A:\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\nProgram B:\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n\nDo the two programs produce the same visible output? Explain how their code structure differs.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nProgram A:\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\nProgram B:\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n\nDo the two programs produce the same visible output? Explain how their code structure differs.",
     "starter_code": "",
     "difficulty": "medium",
     "expected_concepts": [
@@ -679,7 +679,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain exact punctuation",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.",
     "starter_code": "print(\"Ready?\")\nprint(\"Set...\")\nprint(\"Go!\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -694,7 +694,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain title body formatting",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState the complete output, including the blank line. Then explain which statement creates each part of that output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState the complete output, including the blank line. Then explain which statement creates each part of that output.",
     "starter_code": "print(\"Computer Science Reflection\")\nprint()\nprint(\"Programming is one way to give computers precise instructions.\")\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -708,7 +708,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain program organization",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what is printed and what is not printed. Then describe how the two comments help organize the code.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what is printed and what is not printed. Then describe how the two comments help organize the code.",
     "starter_code": "# Title section\nprint(\"Reflection\")\n# Body section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -722,7 +722,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Predict four statements",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nWithout running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nWithout running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.",
     "starter_code": "print(\"Understand\")\nprint(\"Plan\")\nprint(\"Program\")\nprint(\"Test\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -736,7 +736,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain a syntax failure",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.",
     "starter_code": "print(\"Python programs follow instructions carefully.\"\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -750,7 +750,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Valid code but wrong result",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nSuppose the required output is:\n\nProblem\nIdea\nCode\nResult\n\nExplain why the code below is valid Python but still fails the requirement.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nSuppose the required output is:\n\nProblem\nIdea\nCode\nResult\n\nExplain why the code below is valid Python but still fails the requirement.",
     "starter_code": "print(\"Problem\")\nprint(\"Idea\")\nprint(\"Result\")\nprint(\"Code\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -764,7 +764,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Analyze a formatted output",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.",
     "starter_code": "print(\"=== PROGRAM ===\")\nprint(\"Begin\")\nprint()\nprint(\"Complete\")\nprint(\"=== END ===\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -779,7 +779,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain multi-line sequencing",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.",
     "starter_code": "print(\"\"\"Step 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\"\"\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -793,7 +793,7 @@
     "language": "python",
     "modality_id": "code-explanation",
     "title": "Explain comments and output spacing",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.",
     "starter_code": "# Start section\nprint(\"Program Start\")\nprint()\n# End section\nprint(\"Program Complete\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -807,8 +807,8 @@
     "id": "PY-TRC-17",
     "language": "python",
     "modality_id": "code-explanation",
-    "title": "Integrated Assignment 1a explanation",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nWithout running the code:\n1. State exactly what is printed.\n2. Identify which statements create the blank line.\n3. Explain why the comments do not appear.\n4. Describe the order in which Python processes the executable statements.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "title": "Explain text, comments, and spacing",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\n1. State exactly what is printed.\n2. Identify which statements create the blank line.\n3. Explain why the comments do not appear.\n4. Describe the order in which Python processes the executable statements.",
     "starter_code": "# Title\nprint(\"Computer Science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint(\"Precise instructions matter.\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -822,8 +822,8 @@
     "id": "PY-TRC-18",
     "language": "python",
     "modality_id": "code-explanation",
-    "title": "Bridge: explain input and a variable",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nAssume the user types Ada.\n\nExplain:\n1. What value is stored in name.\n2. What the final print() statement displays.\n3. Why the program uses the variable name instead of writing Ada directly in the second statement.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "title": "explain input and a variable",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nAssume the user types Ada.\n\nExplain:\n1. What value is stored in name.\n2. What the final print() statement displays.\n3. Why the program uses the variable name instead of writing Ada directly in the second statement.",
     "starter_code": "name = input(\"Enter your name: \")\nprint(\"Welcome, \" + name + \"!\")\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -837,8 +837,8 @@
     "id": "PY-TRC-19",
     "language": "python",
     "modality_id": "code-explanation",
-    "title": "Bridge: explain type conversion",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nAssume the user types 100.\n\nState the final output and explain why int() is needed before 5 can be added numerically.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "title": "explain type conversion",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nAssume the user types 100.\n\nState the final output and explain why int() is needed before 5 can be added numerically.",
     "starter_code": "head_x = int(input(\"Enter the head x-coordinate: \"))\nprint(head_x + 5)\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -853,8 +853,8 @@
     "id": "PY-TRC-20",
     "language": "python",
     "modality_id": "code-explanation",
-    "title": "Bridge: explain meaningful names and prompts",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nAssume the user types green.\n\nExplain:\n1. What value is stored in eye_color.\n2. What the program prints.\n3. Why eye_color and the prompt used here are more informative than a variable such as x and a prompt such as Enter something:\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "title": "explain meaningful names and prompts",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nAssume the user types green.\n\nExplain:\n1. What value is stored in eye_color.\n2. What the program prints.\n3. Why eye_color and the prompt used here are more informative than a variable such as x and a prompt such as Enter something:",
     "starter_code": "eye_color = input(\"Enter the eye color: \")\nprint(eye_color)\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -869,7 +869,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Variables and addition",
-    "prompt": "Concept reminder:\nJava variables store values with a declared type. In this task, use int variables for whole numbers and an arithmetic expression to calculate a new value.\n\nYour task:\nWrite a Java program that stores 8 in int a and 5 in int b. Store a + b in int total and print total.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Java variables store values with a declared type.\n\nTask: Write Java code that stores 8 in int a and 5 in int b. Store a + b in int total and print total.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -884,7 +884,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Scanner integer input",
-    "prompt": "Concept reminder:\nScanner can read values typed by the user. To use Scanner, import it from java.util, create a Scanner connected to System.in, and read the integer into the requested variable.\n\nYour task:\nWrite a Java program that uses Scanner to read one integer into a variable named age and then prints the value stored in age.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Scanner can read values typed by the user.\n\nTask: Write Java code that uses Scanner to read one integer into a variable named age and then prints the value stored in age.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -899,7 +899,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Double arithmetic",
-    "prompt": "Concept reminder:\nJava can combine int and double values in arithmetic. Because price contains a decimal value, the calculated total should be stored as a double.\n\nYour task:\nWrite a Java program that stores 4.5 in double price and 2 in int quantity. Calculate price * quantity in double total and print total.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Java can combine int and double values in arithmetic.\n\nTask: Write Java code that stores 4.5 in double price and 2 in int quantity. Calculate price * quantity in double total and print total.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -914,7 +914,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Order of operations",
-    "prompt": "Concept reminder:\nParentheses can be used to control the order of arithmetic operations. The expression inside parentheses is evaluated before the multiplication outside them.\n\nYour task:\nWrite Java code that calculates (4 + 6) * 2, stores the result in int result, and prints result.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Parentheses can be used to control the order of arithmetic operations.\n\nTask: Write Java code that calculates (4 + 6) * 2, stores the result in int result, and prints result.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -928,7 +928,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Basic if statement",
-    "prompt": "Concept reminder:\nAn if statement runs its body only when its condition is true. Use the score value to decide whether the required message should be printed.\n\nYour task:\nWrite a Java program with int score = 75. If score is at least 60, print Pass.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: An if statement runs its body only when its condition is true.\n\nTask: Write a Java program with int score = 75. If score is at least 60, print Pass.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -942,7 +942,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "If-else selection",
-    "prompt": "Concept reminder:\nAn if-else statement chooses between two paths. Exactly one branch runs depending on whether the condition is true or false.\n\nYour task:\nWrite a Java program with int number = 7. Print Positive if number is greater than 0; otherwise print Not positive.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: An if-else statement chooses between two paths.\n\nTask: Write a Java program with int number = 7. Print Positive if number is greater than 0; otherwise print Not positive.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -956,7 +956,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Else-if selection",
-    "prompt": "Concept reminder:\nAn if / else-if / else structure checks conditions from top to bottom and runs the first matching branch. Arrange the score ranges so each possible score reaches the intended category.\n\nYour task:\nWrite a Java program with int score = 85. Print A for scores 90 or higher, B for scores 80 through 89, and C for anything lower.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: An if / else-if / else structure checks conditions from top to bottom and runs the first matching branch.\n\nTask: Write a Java program with int score = 85. Print A for scores 90 or higher, B for scores 80 through 89, and C for anything lower.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -970,7 +970,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Range check with AND",
-    "prompt": "Concept reminder:\nThe && operator means both conditions must be true. It is useful when a value must satisfy a lower limit and an upper limit at the same time.\n\nYour task:\nWrite a Java program with int age = 20. If age is at least 18 and at most 25, print In range. Use && in the condition.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: The && operator means both conditions must be true.\n\nTask: Write a Java program with int age = 20. If age is at least 18 and at most 25, print In range. Use && in the condition.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -984,7 +984,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "String equality",
-    "prompt": "Concept reminder:\nJava String values contain text. When the task asks whether two strings contain the same text, use the String method specified in the instructions.\n\nYour task:\nGiven String answer = \"yes\", write an if statement that prints Accepted when answer contains the text yes. Use equals().\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: Java String values contain text.\n\nTask: Given String answer = \"yes\", write an if statement that prints Accepted when answer contains the text yes. Use equals().",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -998,7 +998,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "String length and charAt",
-    "prompt": "Concept reminder:\nString methods can provide information about text. length() reports how many characters are present, and charAt(...) retrieves a character at a specified position.\n\nYour task:\nGiven String word = \"java\", print the length of the word and then print its first character using String methods.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: String methods can provide information about text.\n\nTask: Given String word = \"java\", print the length of the word and then print its first character using String methods.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1013,7 +1013,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Formatted output",
-    "prompt": "Concept reminder:\nSystem.out.printf() can control how numeric output is displayed. A format such as two decimal places is useful when a value should always show the same number of digits after the decimal point.\n\nYour task:\nGiven double price = 3.5, use System.out.printf() to print the price with exactly two digits after the decimal point.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: System.out.printf() can control how numeric output is displayed.\n\nTask: Given double price = 3.5, use System.out.printf() to print the price with exactly two digits after the decimal point.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1027,7 +1027,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Basic for loop",
-    "prompt": "Concept reminder:\nA for loop is useful when you know the starting value, stopping condition, and update. This task uses a short loop that should run exactly three times.\n\nYour task:\nWrite a for loop that prints the integers 1, 2, and 3, one per line.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A for loop is useful when you know the starting value, stopping condition, and update.\n\nTask: Write a for loop that prints the integers 1, 2, and 3, one per line.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1041,7 +1041,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Basic while loop",
-    "prompt": "Concept reminder:\nA while loop repeats as long as its condition remains true. Make sure the loop variable changes so the loop eventually stops.\n\nYour task:\nWrite a while loop that starts with int n = 1 and prints 1, 2, and 3, then stops.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A while loop repeats as long as its condition remains true.\n\nTask: Write a while loop that starts with int n = 1 and prints 1, 2, and 3, then stops.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1055,7 +1055,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Simple loop total",
-    "prompt": "Concept reminder:\nAn accumulator variable keeps a running total. Start the total at 0, then update it once during each loop iteration before printing the final result.\n\nYour task:\nUse a for loop and int total = 0 to add the integers 1 through 4. Print the final total.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: An accumulator variable keeps a running total.\n\nTask: Use a for loop and int total = 0 to add the integers 1 through 4. Print the final total.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1069,7 +1069,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Loop with a condition",
-    "prompt": "Concept reminder:\nA loop can examine several values, and an if statement inside the loop can decide which values should be printed. The remainder operator % can be used to test whether a number is even.\n\nYour task:\nWrite a for loop that checks the integers 1 through 4 and prints only the even values. Use % 2 == 0.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A loop can examine several values, and an if statement inside the loop can decide which values should be printed.\n\nTask: Write a for loop that checks the integers 1 through 4 and prints only the even values. Use % 2 == 0.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1083,7 +1083,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Method with one parameter",
-    "prompt": "Concept reminder:\nA method can receive information through a parameter and return a result. The returned value can then be used by the code that called the method.\n\nYour task:\nWrite a static method named square that receives one int named x and returns x * x. In main, print square(4).\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A method can receive information through a parameter and return a result.\n\nTask: Write a static method named square that receives one int named x and returns x * x. In main, print square(4).",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1098,7 +1098,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Method with two parameters",
-    "prompt": "Concept reminder:\nA method may receive more than one parameter. Each argument in the method call is matched to the corresponding parameter in the method header.\n\nYour task:\nWrite a static method named add that receives two int parameters a and b and returns their sum. Print add(3, 5) in main.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A method may receive more than one parameter.\n\nTask: Write a static method named add that receives two int parameters a and b and returns their sum. Print add(3, 5) in main.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1113,7 +1113,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Void method call",
-    "prompt": "Concept reminder:\nA void method performs an action without returning a value. In this task, the method receives a name and prints a greeting when it is called.\n\nYour task:\nWrite a static void method named greet that receives a String name and prints Hello followed by the name. In main, call greet(\"Ada\").\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A void method performs an action without returning a value.\n\nTask: Write a static void method named greet that receives a String name and prints Hello followed by the name. In main, call greet(\"Ada\").",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1128,7 +1128,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Basic array indexing",
-    "prompt": "Concept reminder:\nA one-dimensional array stores several values under one variable name. Java array positions begin at index 0, so use indexes carefully when accessing the first and second elements.\n\nYour task:\nGiven int[] values = {10, 20, 30}, print the first element and then print the second element using array indexes.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: A one-dimensional array stores several values under one variable name.\n\nTask: Given int[] values = {10, 20, 30}, print the first element and then print the second element using array indexes.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1142,7 +1142,7 @@
     "language": "java",
     "modality_id": "problem-solving",
     "title": "Array length and last index",
-    "prompt": "Concept reminder:\nThe length field tells you how many elements are in an array. Because array indexes start at 0, the last valid index is one less than the array length.\n\nYour task:\nGiven int[] values = {10, 20, 30}, print the number of elements using values.length, then print the last element using values.length - 1 as the index.\n\nBefore you submit:\n- Read every requirement again and make sure your Java code follows it.\n- Check that the program produces the requested output or behavior exactly.",
+    "prompt": "Reminder: The length field tells you how many elements are in an array.\n\nTask: Given int[] values = {10, 20, 30}, print the number of elements using values.length, then print the last element using values.length - 1 as the index.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1156,7 +1156,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Variables and addition",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print 13. Fix the arithmetic operator.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print 13. Fix the arithmetic operator.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a - b;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1172,7 +1172,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Scanner integer input",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should read an integer into age and print that value. Fix the variable used in the print statement.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should read an integer into age and print that value. Fix the variable used in the print statement.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        int year = 2026;\n        System.out.println(year);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1188,7 +1188,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Double arithmetic",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should calculate price times quantity. Fix the expression for total.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should calculate price times quantity. Fix the expression for total.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price + quantity;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1204,7 +1204,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Order of operations",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe intended calculation is (4 + 6) * 2. Add the needed parentheses.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The intended calculation is (4 + 6) * 2. Add the needed parentheses.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = 4 + 6 * 2;\n        System.out.println(result);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1219,7 +1219,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Basic if statement",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print Pass when score is 60 or higher. Fix the comparison operator.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print Pass when score is 60 or higher. Fix the comparison operator.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score < 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1234,7 +1234,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: If-else selection",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print Positive for number = 7. Fix the two output statements so they match the branches.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print Positive for number = 7. Fix the two output statements so they match the branches.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Not positive\");\n        } else {\n            System.out.println(\"Positive\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1249,7 +1249,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Else-if selection",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFor score = 85, the program should print B. Fix the second condition.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: For score = 85, the program should print B. Fix the second condition.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 90) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1264,7 +1264,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Range check with AND",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print In range only when age is between 18 and 25 inclusive. Fix the logical operator.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print In range only when age is between 18 and 25 inclusive. Fix the logical operator.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 || age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1279,7 +1279,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: String equality",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nFix the String comparison so the program checks the text stored in answer.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: Fix the String comparison so the program checks the text stored in answer.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = new String(\"yes\");\n        if (answer == \"yes\") {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1294,7 +1294,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: String length and charAt",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print the first character of the String. Fix the index.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print the first character of the String. Fix the index.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.charAt(1));\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1310,7 +1310,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Formatted output",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe value 3.5 should display as 3.50. Fix the format specifier.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The value 3.5 should display as 3.50. Fix the format specifier.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.0f%n\", price);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1325,7 +1325,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Basic for loop",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe loop should print 1, 2, and 3. Fix the loop condition.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The loop should print 1, 2, and 3. Fix the loop condition.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n < 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1340,7 +1340,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Basic while loop",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe loop should stop after printing 1, 2, and 3. Add the missing update.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The loop should stop after printing 1, 2, and 3. Add the missing update.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1355,7 +1355,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Simple loop total",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should add all values from 1 through 4. Fix the accumulator statement.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should add all values from 1 through 4. Fix the accumulator statement.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total = n;\n        }\n        System.out.println(total);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1370,7 +1370,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Loop with a condition",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print only even values. Fix the comparison after the modulo operation.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print only even values. Fix the comparison after the modulo operation.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 1) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1385,7 +1385,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Method with one parameter",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe method should return x * x. Add the missing return keyword.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The method should return x * x. Add the missing return keyword.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static int square(int x) {\n        x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1401,7 +1401,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Method with two parameters",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe add method should return the sum of a and b. Fix the return expression.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The add method should return the sum of a and b. Fix the return expression.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a - b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1417,7 +1417,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Void method call",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program defines greet correctly but never calls it. Add the method call in main so Hello Ada is printed.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program defines greet correctly but never calls it. Add the method call in main so Hello Ada is printed.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        // Add the method call here\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1433,7 +1433,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Basic array indexing",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print the first element, 10. Fix the array index.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print the first element, 10. Fix the array index.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[1]);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1448,7 +1448,7 @@
     "language": "java",
     "modality_id": "debugging",
     "title": "Fix: Array length and last index",
-    "prompt": "The starter code below is intended to meet a specific requirement, but it currently contains a mistake. Read the requirement first, then compare it carefully with the code.\n\nQuestion requirement:\nThe program should print the last element without an ArrayIndexOutOfBoundsException. Fix the index.\n\nYour task:\nFind the mistake and edit the starter code so it meets the requirement. Change only what is necessary; do not rewrite the whole program unless the requirement makes that necessary.\n\nBefore you submit:\n- Make sure the corrected Java code can run.\n- Check the output or behavior against the requirement above.",
+    "prompt": "The starter code has a mistake.\n\nGoal: The program should print the last element without an ArrayIndexOutOfBoundsException. Fix the index.\n\nFix only what is needed so the code meets the goal.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[values.length]);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1463,7 +1463,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Variables and addition",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what a, b, and total store, how total is calculated, and state exactly what is printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what a, b, and total store, how total is calculated, and state exactly what is printed.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int total = a + b;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1479,7 +1479,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Scanner integer input",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nAssume the user enters 19. Explain what nextInt() does, what is stored in age, and what is printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nAssume the user enters 19. Explain what nextInt() does, what is stored in age, and what is printed.",
     "starter_code": "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        int age = input.nextInt();\n        System.out.println(age);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1495,7 +1495,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Double arithmetic",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why total is a double and state the value printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why total is a double and state the value printed.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 2;\n        double total = price * quantity;\n        System.out.println(total);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1511,7 +1511,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Order of operations",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why the parentheses make addition happen before multiplication and state the output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why the parentheses make addition happen before multiplication and state the output.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2;\n        System.out.println(result);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1526,7 +1526,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Basic if statement",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain whether the condition is true for score = 75 and state what is printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain whether the condition is true for score = 75 and state what is printed.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 75;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1541,7 +1541,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: If-else selection",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain which branch runs when number = 7 and why.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain which branch runs when number = 7 and why.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int number = 7;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Not positive\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1556,7 +1556,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Else-if selection",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nTrace the conditions for score = 85 and explain why B is printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nTrace the conditions for score = 85 and explain why B is printed.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else {\n            System.out.println(\"C\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1571,7 +1571,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Range check with AND",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why both comparisons must be true and why && is appropriate for this range check.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why both comparisons must be true and why && is appropriate for this range check.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"In range\");\n        }\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1586,7 +1586,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: String equality",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what answer.equals(\"yes\") checks and why this condition is true.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what answer.equals(\"yes\") checks and why this condition is true.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1601,7 +1601,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: String length and charAt",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what length() returns and why charAt(0) returns the first character.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what length() returns and why charAt(0) returns the first character.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1617,7 +1617,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Formatted output",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what %.2f means and state the visible output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what %.2f means and state the visible output.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        System.out.printf(\"%.2f%n\", price);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1632,7 +1632,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Basic for loop",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nState exactly what the loop prints and explain how n changes after each iteration.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nState exactly what the loop prints and explain how n changes after each iteration.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 3; n++) {\n            System.out.println(n);\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1647,7 +1647,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Basic while loop",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nTrace n through the loop and explain why the loop stops after printing 3.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nTrace n through the loop and explain why the loop stops after printing 3.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int n = 1;\n        while (n <= 3) {\n            System.out.println(n);\n            n++;\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1662,7 +1662,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Simple loop total",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain how total changes during the loop and state the final output.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain how total changes during the loop and state the final output.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        System.out.println(total);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1677,7 +1677,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Loop with a condition",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nTrace n from 1 through 4 and explain why only 2 and 4 are printed.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nTrace n from 1 through 4 and explain why only 2 and 4 are printed.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        for (int n = 1; n <= 4; n++) {\n            if (n % 2 == 0) {\n                System.out.println(n);\n            }\n        }\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1692,7 +1692,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Method with one parameter",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what value is passed into x, what the method returns, and what main prints.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what value is passed into x, what the method returns, and what main prints.",
     "starter_code": "public class Main {\n    public static int square(int x) {\n        return x * x;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(square(4));\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1708,7 +1708,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Method with two parameters",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain how 3 and 5 are matched to a and b and state the returned value.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain how 3 and 5 are matched to a and b and state the returned value.",
     "starter_code": "public class Main {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(add(3, 5));\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
@@ -1724,7 +1724,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Void method call",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why greet has return type void, what value is passed into name, and what the call greet(\"Ada\") prints.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why greet has return type void, what value is passed into name, and what the call greet(\"Ada\") prints.",
     "starter_code": "public class Main {\n    public static void greet(String name) {\n        System.out.println(\"Hello \" + name);\n    }\n\n    public static void main(String[] args) {\n        greet(\"Ada\");\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1740,7 +1740,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Basic array indexing",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain why values[0] is the first element and values[1] is the second element.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain why values[0] is the first element and values[1] is the second element.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values[0]);\n        System.out.println(values[1]);\n    }\n}",
     "difficulty": "easy",
     "expected_concepts": [
@@ -1755,7 +1755,7 @@
     "language": "java",
     "modality_id": "code-explanation",
     "title": "Explain: Array length and last index",
-    "prompt": "Read the code carefully from top to bottom before writing your response. Do not change the code. Your goal is to explain how the program works, not only to give its final output.\n\nUse these directions to guide your explanation:\nExplain what values.length returns and why values.length - 1 is the last valid index.\n\nA complete explanation should connect the important statements to what happens when the program runs. When the question asks for output, include the exact output as part of your explanation.",
+    "prompt": "Read the code and explain how it works in your own words. Do not run or change the code.\n\nAddress the following:\nExplain what values.length returns and why values.length - 1 is the last valid index.",
     "starter_code": "public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30};\n        System.out.println(values.length);\n        System.out.println(values[values.length - 1]);\n    }\n}",
     "difficulty": "medium",
     "expected_concepts": [
