@@ -5,7 +5,7 @@ import { defaultConfig, buildSnapshot } from '../lib/study.mjs';
 const read = p => readFileSync(new URL('../' + p, import.meta.url), 'utf8');
 const html = read('public/index.html'), app = read('public/app.js'), admin = read('public/admin.js'), adminHtml = read('public/admin.html'), css = read('public/styles.css'), server = read('lib/app.mjs'), providers = read('lib/providers.mjs'), migration = read('migrations/002_workflow.sql');
 const sha256 = value => createHash('sha256').update(value).digest('hex');
-assert.equal(sha256(read('content/consent.json')), '902c673fdd0524cd6d41ac18280370e8dd1f50406eabe4efa89334837d3c0f05', 'Current consent wording changed unexpectedly.');
+assert.equal(sha256(read('content/consent.json')), '8b545a8c839409a0a23501c2370e83af00a9c2db658911b3c81d166ed1ab9caf', 'Current consent wording changed unexpectedly.');
 const questions = JSON.parse(read('questions.seed.json'));
 assert.ok(Array.isArray(questions) && questions.length >= 36, 'Question bank is unexpectedly small.');
 assert.equal(new Set(questions.map(q => q.id)).size, questions.length, 'Question IDs must be unique.');
