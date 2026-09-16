@@ -142,14 +142,18 @@
           </div>
           <h2 id="taskTitle"></h2>
           <div id="taskId" class="task-id"></div>
-          <p id="taskPrompt" class="task-prompt"></p>
+          <div id="taskPrompt" class="task-prompt"></div>
+          <div id="answerGuide" class="answer-guide" role="note">
+            <strong id="answerGuideTitle">Where to work</strong>
+            <span id="answerGuideBody">Complete your response in the workspace on the right.</span>
+          </div>
           <div id="traceInstructions" class="info-box hidden">For Code Explanation, read the provided code and explain what it does. The code itself is read-only.</div>
         </aside>
 
         <section class="ide-panel" aria-label="Coding workspace">
           <div class="panel-header">
             <div>
-              <h3>Code Editor</h3>
+              <h3 id="editorTitle">Code Editor</h3>
               <p id="editorHelp" class="muted small-text">Loading the code editor…</p>
             </div>
             <button id="formatCode" class="secondary compact">Format Code</button>

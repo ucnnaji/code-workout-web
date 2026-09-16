@@ -7,6 +7,97 @@ const labels = { information: 'Information', consent: 'Consent', pre_survey: 'Pr
 const screens = ['loadingScreen', 'consentScreen', 'declineScreen', 'accessSetupScreen', 'participantScreen', 'sessionScreen', 'workflowScreen', 'modalityScreen', 'workspaceScreen', 'reviewScreen', 'completionScreen'];
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const uid = () => crypto.randomUUID();
+
+function renderQuestionPrompt(text = '', language = '') {
+    const source = String(text ?? '');
+    const lang = String(language || '').toLowerCase();
+    const keywords = lang === 'java'
+        ? new Set(['abstract','assert','boolean','break','byte','case','catch','char','class','const','continue','default','do','double','else','enum','extends','final','finally','float','for','goto','if','implements','import','instanceof','int','interface','long','native','new','package','private','protected','public','return','short','static','strictfp','super','switch','synchronized','this','throw','throws','transient','try','void','volatile','while','String','System','Scanner'])
+        : new Set(['and','as','assert','async','await','break','class','continue','def','del','elif','else','except','False','finally','for','from','global','if','import','in','is','lambda','None','nonlocal','not','or','pass','raise','return','True','try','while','with','yield','print','range','len','input','list','dict','set','tuple']);
+
+    const tokenPattern = /`([^`]+)`|\b[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*(?:\([^\n()]*\))?|\b\d+(?:\.\d+)?\b/g;
+
+    const decorateLine = line => {
+        let out = '';
+        let last = 0;
+        for (const match of line.matchAll(tokenPattern)) {
+            out += esc(line.slice(last, match.index));
+            const raw = match[0];
+            const backticked = raw.startsWith('`') && raw.endsWith('`');
+            const token = backticked ? match[1] : raw;
+            const base = token.split(/[.(\[]/, 1)[0];
+            const looksLikeCall = token.includes('(') || token.includes('.') || token.includes('[');
+            let cls = '';
+            if (backticked || looksLikeCall) cls = 'question-code-token';
+            else if (keywords.has(token) || keywords.has(base)) cls = 'question-keyword';
+            else if (/^\d+(?:\.\d+)?$/.test(token)) cls = 'question-number';
+
+            out += cls ? `<code class="${cls}">${esc(token)}</code>` : esc(token);
+            last = match.index + raw.length;
+        }
+        out += esc(line.slice(last));
+        return out;
+    };
+
+    const lines = source.split(/\r?\n/);
+    const blocks = [];
+    let buffer = [];
+    let fenced = false;
+    let codeBuffer = [];
+
+    const flushText = () => {
+        if (!buffer.length) return;
+        const paragraphs = buffer.join('\n').split(/\n\s*\n/).filter(Boolean);
+        for (const p of paragraphs) blocks.push(`<p>${p.split('\n').map(decorateLine).join('<br>')}</p>`);
+        buffer = [];
+    };
+
+    for (const line of lines) {
+        if (/^\s*```/.test(line)) {
+            if (!fenced) {
+                flushText();
+                fenced = true;
+                codeBuffer = [];
+            } else {
+                blocks.push(`<pre class="question-code-block"><code>${esc(codeBuffer.join('\n'))}</code></pre>`);
+                fenced = false;
+                codeBuffer = [];
+            }
+            continue;
+        }
+        if (fenced) codeBuffer.push(line);
+        else buffer.push(line);
+    }
+    if (fenced && codeBuffer.length) blocks.push(`<pre class="question-code-block"><code>${esc(codeBuffer.join('\n'))}</code></pre>`);
+    flushText();
+    return blocks.join('');
+}
+
+function answerGuideFor(modality) {
+    if (modality === 'problem-solving') {
+        return {
+            title: 'Where to work',
+            body: 'Write your solution in the code editor on the right. Run your code to test it, then save your final response.',
+            editorTitle: 'Code Editor — write your solution here'
+        };
+    }
+    if (modality === 'debugging') {
+        return {
+            title: 'Where to work',
+            body: 'Fix the supplied program in the code editor on the right. Run it to test your correction, then save your final response.',
+            editorTitle: 'Code Editor — fix the code here'
+        };
+    }
+    if (modality === 'code-explanation') {
+        return {
+            title: 'Where to answer',
+            body: 'Read the code in the read-only editor on the right, then type your explanation in the explanation box directly below it.',
+            editorTitle: 'Provided Code — read this code'
+        };
+    }
+    return { title: 'Where to answer', body: 'Complete your response in the workspace on the right.', editorTitle: 'Workspace' };
+}
+
 function toast(message) { $('toast').textContent = message; $('toast').classList.remove('hidden'); clearTimeout(toast.timer); toast.timer = setTimeout(() => $('toast').classList.add('hidden'), 6500); }
 function showScreen(id) {
     for (const key of screens)
@@ -665,7 +756,12 @@ async function loadAssignment(data) {
 
     $('taskTitle').textContent = q.title;
     $('taskId').textContent = q.id;
-    $('taskPrompt').textContent = q.prompt;
+    $('taskPrompt').innerHTML = renderQuestionPrompt(q.prompt, q.language);
+
+    const answerGuide = answerGuideFor(a.modality_id);
+    $('answerGuideTitle').textContent = answerGuide.title;
+    $('answerGuideBody').textContent = answerGuide.body;
+    $('editorTitle').textContent = answerGuide.editorTitle;
     $('languagePill').textContent = q.language;
 
     $('modalityPill').textContent =
@@ -715,7 +811,7 @@ async function loadAssignment(data) {
     );
 
     $('explanationLabel').textContent =
-        'Your explanation';
+        'Your explanation — type your answer here';
 
 
     // --------------------------------------------------

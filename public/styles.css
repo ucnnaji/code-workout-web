@@ -130,3 +130,7 @@ select{font:inherit;width:100%;border:1px solid #b8c2d0;border-radius:8px;paddin
     height: 34px;
   }
 }
+
+
+/* Question clarity and answer-location guidance */
+.task-prompt{font-size:1.02rem;line-height:1.62;color:#24324a}.task-prompt p{margin:13px 0}.question-keyword,.question-code-token,.question-number{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;border-radius:5px;padding:1px 4px;font-size:.94em}.question-keyword{background:#eaf1ff;color:#0f4aa8;font-weight:750}.question-code-token{background:#f1f5f9;color:#7c2d12;border:1px solid #e2e8f0}.question-number{background:#fff7e6;color:#92400e}.question-code-block{margin:13px 0;padding:13px 14px;border-radius:9px;background:#0f172a;color:#e6edf7;overflow:auto;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem;line-height:1.55}.answer-guide{margin-top:17px;padding:13px 14px;border:1px solid #9fc0f5;border-left:4px solid var(--primary);border-radius:9px;background:#f4f8ff;display:grid;gap:5px}.answer-guide strong{color:#123f89;font-size:.91rem}.answer-guide span{color:#344054;font-size:.9rem;line-height:1.48}.field-block label{display:block;font-weight:700;color:#1d3f76;margin-bottom:7px}#explanationSection{padding:13px 14px;border:1px solid #b8c9e8;border-radius:9px;background:#f8fbff}#explanationInput{background:#fff}.panel-header h3{color:#102a56}
