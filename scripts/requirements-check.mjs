@@ -18,6 +18,7 @@ for (const q of questions) {
 }
 for (const language of ['python','java']) for (const modality of ['problem-solving','debugging','code-explanation'])
     assert.ok(questions.filter(q => q.language === language && q.modality_id === modality).length >= 6, `${language}/${modality} needs at least six questions to support three nonrepeating sessions.`);
+assert.ok(questions.filter(q => q.active !== false && q.modality_id === 'code-explanation').every(q => q.starter_code.trim().length > 0), 'Every active Code Explanation question must provide read-only starter code.');
 assert.equal(defaultConfig.activityDesign, 'assigned_crossover');
 assert.equal(defaultConfig.preventDuplicateEntries, true);
 assert.equal(defaultConfig.sessions.some(s => Object.hasOwn(s, 'topic')), false);
@@ -31,6 +32,8 @@ for (const n of ['1','2','3']) assert.equal(surveyConfig.selfEfficacyBySession[n
 const allPseItems = [...surveyConfig.selfEfficacyCore, ...Object.values(surveyConfig.selfEfficacyBySession).flat()];
 assert.ok(allPseItems.every(i => i.id.startsWith('pse_') && i.type === 'likert' && i.options.length === 7), 'PSE items must use seven-point Likert responses.');
 assert.match(server, /ai_grading_failed/);
+assert.match(server, /modality === 'code-explanation' && !String\(q\.prompt \|\| ''\)\.trim\(\)/, 'Specific Code Explanation prompts should be preserved when present.');
+assert.match(app, /isExplanation\s*\? \(q\.starter_code \|\| ''\)/, 'Code Explanation must display immutable starter code rather than a possibly blank saved draft.');
 assert.doesNotMatch(read('questions.seed.json'), /PY-PS-18|PY-PS-19|PY-PS-20|JA-PS-02/);
 assert.doesNotMatch(html, /name="accessLanguage"/, 'Language choice must not be duplicated on the access-key screen.');
 assert.match(html, /consent-scroll/, 'Consent should use the compact scrollable reader.');

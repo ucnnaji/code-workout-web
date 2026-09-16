@@ -488,7 +488,11 @@ function initEditor() {
             if (state.assignment) {
                 state.loadingAssignment = true;
                 monaco.editor.setModelLanguage(state.editor.getModel(), state.assignment.question_snapshot.language === "java" ? "java" : "python");
-                state.editor.setValue(state.queue?.value?.code ?? state.submission?.draft_code ?? state.assignment.question_snapshot.starter_code ?? "");
+                const snapshotCode = state.assignment.question_snapshot.starter_code || "";
+                const initialCode = state.assignment.modality_id === "code-explanation"
+                    ? snapshotCode
+                    : (state.queue?.value?.code ?? state.submission?.draft_code ?? snapshotCode);
+                state.editor.setValue(initialCode);
                 state.editor.updateOptions({ readOnly: state.assignment.modality_id === "code-explanation" });
                 state.loadingAssignment = false;
             }
@@ -895,9 +899,9 @@ async function loadAssignment(data) {
 
     populateCoding({
         code:
-            data.submission?.draft_code ??
-            q.starter_code ??
-            '',
+            isExplanation
+                ? (q.starter_code || '')
+                : (data.submission?.draft_code ?? q.starter_code ?? ''),
 
         explanation:
             data.submission?.draft_explanation ??

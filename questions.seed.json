@@ -575,7 +575,7 @@
     "modality_id": "code-explanation",
     "title": "Explain why both programs match",
     "prompt": "Program A:\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\nProgram B:\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n\nDo the two programs produce the same visible output? Explain how their code structure differs.",
-    "starter_code": "",
+    "starter_code": "# Program A\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\n# Program B\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n",
     "difficulty": "medium",
     "expected_concepts": [
       "code explanation",
