@@ -1,78 +1,197 @@
-# Code Workout — v4.0.5 remote self-enrollment build
+# Code Workout Web v2
 
-This build keeps the existing Express + Supabase + Render architecture and applies the requested participant/admin workflow changes without replacing the question bank or approved consent content. It also adds a versioned question-bank release mechanism and burst-load hardening without changing the current question text or consent wording.
+A research-oriented programming practice platform for Python and Java. The app runs on Render, stores study data in Supabase, uses OpenAI for formative feedback, and sends untrusted code to an external sandbox provider for execution.
 
-## Participant flow
+## What changed in v2
 
-Research Information → Consent → Create Study Access → Pre-survey → Practice Environment Demo → Confirm Language → Four Practice Questions → Post-survey → Incentive → Completion.
+- Participant ID + required language selection (Python or Java).
+- Four modalities per language: Problem Solving, Debugging, Code Explanation, Code Completion.
+- 20 seeded questions per modality per language (120 total).
+- Server-side deterministic randomization: 3 questions per modality, stored with question order and IDs.
+- Sequential question release. Future questions are not returned until the current one is finalized.
+- Monaco Editor with syntax highlighting, line numbers, indentation, bracket matching, snippets/autocomplete, resizable editor, and execution-error markers when line numbers can be inferred.
+- Separate Program Output and AI Feedback panels.
+- Auto-save drafts plus research snapshots.
+- Run-code logs, AI-feedback logs, timing data, completion data, and general analytics events.
+- Completed modalities are locked.
+- Final review screen after the third question before a modality is marked complete.
+- Admin research dashboard at `/admin.html` with aggregate and participant-level metrics plus CSV/XLSX export.
 
-After consent, a participant chooses a non-identifying Participant ID and selects Python or Java. The server generates a Private Access Key, displays it once, stores only its salted hash, signs the participant in, and carries the pre-consent decision into the newly created study session. Returning participants use the same Participant ID and Private Access Key.
+## Required one-time Supabase migration
 
-The pre- and post-surveys keep the supplied item IDs, order, options, and scoring. Only the programming-language wording is adapted between Python and Java.
+The v2 server depends on new research tables. A Render restart alone cannot create PostgreSQL tables through the Supabase REST API.
 
-The participant question bank and consent wording in this package are intentionally unchanged from the supplied current codebase. Release hashing now includes the current question bank and study design configuration as well as consent/surveys/input schemas, so changing reviewed content invalidates the recorded release hash for new live enrollment.
+Before deploying v2, open **Supabase > SQL Editor**, paste the full contents of `supabase_upgrade.sql`, and click **Run**. It is safe to rerun. At the bottom, the validation query should return 6 rows, each with `question_count = 20`.
 
-For this remote deployment build, participant self-enrollment is operationally enabled when the saved study configuration has `deliveryMode=remote`, Render has `LIVE_COLLECTION_ENABLED=true`, and deployment startup checks pass. The participant must still accept the current consent, provide a signature, choose Python or Java, pass Participant ID validation and rate limits, and save the generated Private Access Key. Only the salted key hash is stored.
+The migration creates:
 
-The practice sequence uses four questions total: two questions in the assigned primary modality, then one question in each remaining modality. Later modalities are server-locked until the earlier modality is complete.
+- `participants`
+- `modalities`
+- `study_sessions`
+- `questions`
+- `question_assignments`
+- `submissions`
+- `draft_events`
+- `execution_logs`
+- `ai_feedback_logs`
+- `modality_completions`
+- `analytics_events`
 
-Problem Solving and Debugging use the sandbox Run Code workflow and show a visible 0–100 score. Code Explanation has a read-only code box and explanation field, with no Run Code/stdin/output panel; participants use Check Explanation to receive a score. The editor is intentionally compact and provides line numbers, syntax highlighting, indentation, bracket matching, undo/redo, and Format Code.
+RLS is enabled on every research table. The participant browser never talks to Supabase directly. Render must use a **Supabase Secret key** (or legacy `service_role` key), not an anon/publishable key.
 
-## Data and administration
+## Render environment variables
 
-Pre/post survey responses remain stored in Supabase `cw_stage_progress.responses`. The research dashboard now has dedicated CSV exports for pre-survey, post-survey, and combined pre/post survey datasets, plus the existing Excel workbook export.
+Required:
 
-The admin dashboard also shows live-enrollment readiness, release-review controls, the Render live-collection switch state, and a global duplicate-entry protection control. With duplicate protection enabled, finalizing the first research question records an entry lock. Existing participant/session uniqueness remains enforced by the database, and an active locked session must be resumed before another wave can start.
+```text
+OPENAI_API_KEY=...
+SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+SUPABASE_SECRET_KEY=<Supabase Secret/service_role key>
+ADMIN_TOKEN=<long random administrator secret>
+```
+
+Configured by `render.yaml`:
+
+```text
+OPENAI_MODEL=gpt-5.5
+SESSION_LABEL=study-2026
+EXECUTION_PROVIDER=judge0
+JUDGE0_URL=https://ce.judge0.com
+FEEDBACK_RATE_LIMIT=60
+EXECUTION_RATE_LIMIT=120
+SAVE_RATE_LIMIT=600
+```
+
+Optional:
+
+```text
+JUDGE0_AUTH_TOKEN=...
+```
+
+Only add `JUDGE0_AUTH_TOKEN` if your Judge0 instance requires authentication.
+
+## Deployment sequence
+
+1. Run `supabase_upgrade.sql` in the Supabase SQL Editor.
+2. In Supabase, confirm the `questions` table contains 160 rows and that the 8 language/modality groups contain 20 questions each.
+3. Confirm Render's `SUPABASE_SECRET_KEY` is a server-side Secret/service-role key. This is important because RLS is enabled.
+4. Replace your GitHub repository files with this v2 project and push to `main`.
+5. In Render, sync/redeploy the Blueprint. Add `ADMIN_TOKEN` when prompted if it is new.
+6. Open `/health`. Expected shape:
+
+```json
+{
+  "ok": true,
+  "database": true,
+  "questions": 160,
+  "model": "gpt-5.5",
+  "executionProvider": "judge0"
+}
+```
+
+7. Test with a non-study Participant ID before collecting real research data.
+8. Open `/admin.html`, enter the `ADMIN_TOKEN`, and verify the test session appears in the dashboard/export.
 
 ## Code execution
 
-The earlier Judge0-compatible sandbox path is restored. Runtime IDs can be supplied explicitly or discovered from the Judge0 `/languages` endpoint. The default compatible endpoint is `https://ce.judge0.com`; for live research, configure the execution service covered by the approved data-handling plan.
+Untrusted participant code is **never executed inside the Render Node process**. `/api/execute` forwards code to a Judge0-compatible sandbox and stores stdout, stderr, compiler output, runtime, memory, language, timestamps, and status in `execution_logs`.
 
-Required/important execution variables:
+The default `JUDGE0_URL=https://ce.judge0.com` is convenient for pilot testing, but a third-party public sandbox is outside your control. For a rigorous or larger study, use a dedicated/self-hosted Judge0 deployment (or another managed sandbox) and set `JUDGE0_URL` accordingly. If the provider requires a token, add `JUDGE0_AUTH_TOKEN` in Render.
+
+## Randomization and reproducibility
+
+Each study session receives a cryptographically random `randomization_seed`. For each modality, the server deterministically scores all active question IDs with HMAC-SHA256 using that seed and chooses the first three. The chosen question IDs and order are written to `question_assignments`.
+
+This means:
+
+- participants do not randomize questions in the browser;
+- future questions are not sent early;
+- the exact assignment is permanently stored;
+- the same seed/question bank can reproduce the selection logic.
+
+## Research data model
+
+Key relationships:
 
 ```text
-EXECUTION_PROVIDER=judge0
-JUDGE0_URL=https://ce.judge0.com
-JUDGE0_PYTHON_ID=        # optional; discovered when blank
-JUDGE0_JAVA_ID=          # optional; discovered when blank
-JUDGE0_AUTH_TOKEN=       # optional for private Judge0
-JUDGE0_RAPIDAPI_KEY=     # optional when applicable
+participants
+  1 -> many study_sessions
+study_sessions
+  1 -> many question_assignments
+  1 -> many modality_completions
+  1 -> many analytics_events
+questions
+  1 -> many question_assignments
+question_assignments
+  1 -> 1 submissions
+  1 -> many draft_events
+  1 -> many execution_logs
+  1 -> many ai_feedback_logs
 ```
 
-All three modalities are scored by the configured OpenAI model. For Problem Solving and Debugging, the scorer receives the student source plus the actual sandbox status/output/compile/runtime evidence; for Code Explanation, it receives the displayed code and the student's explanation. There are no invented hidden answer keys in this build. Score records and scoring metadata are saved with the final submission.
+Timing is stored with server timestamps. Question duration is derived from assignment `started_at` and `completed_at`; modality duration is stored in `modality_completions`; total study duration is derived from `study_sessions.started_at` and `completed_at`.
 
-## Deployment
+## Main API
 
-1. Back up Supabase.
-2. Run **one** generated migration entry point in Supabase SQL Editor: `supabase_upgrade.sql`. (`supabase_setup.sql` and `supabase_workflow.sql` are identical aliases.)
-3. Push the contents of this folder to the existing GitHub repository and deploy the latest commit on Render.
-4. Keep the existing private variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `PUBLIC_ORIGIN`, `PII_ENCRYPTION_KEY`, `ADMIN_TOKEN`, `COMPENSATION_ADMIN_TOKEN`, `OPENAI_API_KEY`, and `OPENAI_MODEL`, plus the sandbox variables above.
-5. For remote participant self-enrollment, set `deliveryMode` to `remote` in the saved study configuration and set `LIVE_COLLECTION_ENABLED=true` in Render. Students can then create their own Participant ID and one-time-display Private Access Key from the public study page. The release-review checklist remains available to researchers as an administrative record.
-6. Use `/health` for setup diagnostics and `/readyz` for strict database readiness. Render liveness remains `/healthz`.
+Participant workflow:
 
-## Verification
+```text
+POST /api/session/start
+GET  /api/session/:sessionId
+POST /api/modality/start
+POST /api/draft
+POST /api/execute
+POST /api/feedback
+POST /api/submissions/finalize
+GET  /api/modality/review
+POST /api/modality/complete
+POST /api/events
+```
+
+Administrator workflow:
+
+```text
+GET /api/admin/dashboard
+GET /api/admin/export.csv
+GET /api/admin/export.xlsx
+```
+
+Admin endpoints require `X-Admin-Token`.
+
+## Validation and data-integrity rules
+
+- Participant IDs: uppercase letters, numbers, `_`, `-`; maximum 64 characters.
+- Language can only be `python` or `java`.
+- A participant's language cannot change after a session is created.
+- One active session per participant.
+- Exactly three question-order slots per modality (`1..3`).
+- A question cannot be assigned twice in the same session.
+- Completed modalities cannot be restarted.
+- Earlier questions must be completed before a later assignment can be used by execution, feedback, or final-save APIs.
+- Code, explanations, stdin, and request-body sizes are bounded.
+- AI feedback requests and code execution are rate limited per client IP.
+
+## Security notes
+
+- Never commit `.env`, `OPENAI_API_KEY`, `SUPABASE_SECRET_KEY`, `ADMIN_TOKEN`, or sandbox credentials.
+- Do not use a Supabase anon/publishable key for the Render backend; it will be blocked by RLS and is not appropriate for privileged research writes.
+- Participant browsers receive no OpenAI/Supabase server keys.
+- Code execution is isolated from Render by an external sandbox.
+- Admin exports contain research records and should be treated as sensitive research data.
+- Participant IDs should remain pseudonymous; do not collect names/emails unless your approved study protocol requires them.
+
+## Local checks
 
 ```bash
-npm test
-npm run build:verify
-python scripts/browser_test.py
+npm install
+npm run check
+npm start
 ```
 
-`build:verify` regenerates all three SQL aliases, runs JavaScript/JSON checks, validates the draft study configuration, and runs a requested-modification regression check. The browser test is offline and uses an in-memory API; it does not contact Supabase, OpenAI, Judge0, or real participant data.
+For local execution, set the environment variables from `.env.example` in your shell or start Node with an env-file mechanism.
 
-## Consent/course-credit note
+## Research scoring and feedback separation
 
-The supplied consent content is deliberately retained byte-for-byte rather than silently rewritten. In particular, declining participation does not automatically award course credit; the participant page directs students to the approved comparable non-research option.
+This build separates requestable formative AI hints from the common rubric evaluation used for research outcomes. Formative AI hints are available only during problem-solving practice. Debugging and code-explanation tasks do not receive formative AI assistance. Code-explanation execution is disabled both in the UI and on the server.
 
-
-## Updating questions safely
-
-See `docs/QUESTION_BANK_UPDATES.md`. Edit `questions.seed.json`, regenerate/verify the migration, review the new content hash, and deploy the matching SQL + application release. Existing sessions remain pinned to their recorded question-bank release.
-
-## Scale/security verification
-
-Run `npm run test:security` and `npm run test:load`; see `docs/SCALABILITY_SECURITY_REVIEW.md` for scope and limitations.
-
-## Production capacity profile
-
-`render.yaml` now targets the Render `2c-4g` web-service compute plan (the current Pro-equivalent plan ID). Outbound OpenAI and Judge0 work remains bounded per Node process so a participant burst cannot create an unbounded number of sockets or in-memory provider operations. `npm run test:load` defaults to 500 simulated concurrent users. This is a process-level stress test with mocked external providers, not a guarantee of OpenAI, Judge0, Supabase, or campus-network capacity; rehearse the exact deployed stack before a large scheduled lab.
+Rubric evaluations are stored as immutable attempts. Re-evaluating an unchanged response returns the previously stored score, while changed responses create a new attempt. Final submission requires the exact response to have been evaluated. See `SCORING_AND_FEEDBACK.md` and run `supabase_upgrade.sql` before deployment.
