@@ -1,0 +1,58 @@
+{
+  "release": "4.0.5-remote-self-enrollment",
+  "base": "code-workout-web-v3-longitudinal",
+  "workflow": [
+    "research_information",
+    "consent",
+    "student_created_access",
+    "language_confirmation",
+    "pre_survey",
+    "practice_environment_demo",
+    "four_question_practice",
+    "post_survey",
+    "incentive",
+    "completion"
+  ],
+  "modalities": [
+    "problem-solving",
+    "debugging",
+    "code-explanation"
+  ],
+  "languages": [
+    "python",
+    "java"
+  ],
+  "notes": [
+    "The participant landing page opens directly to the consent form, which is displayed in a compact scrollable reader before study credentials are created.",
+    "After consent, students choose a non-identifying Participant ID; the server generates a one-time-display Private Access Key and stores only its hash. Python/Java is selected once after access creation and before the pre-survey.",
+    "Pre/post survey item structure is preserved while Python/Java wording follows the selected language.",
+    "Practice uses an assigned 2/1/1 sequence for four questions total, with later modalities locked until prior completion.",
+    "Problem Solving and Debugging use sandbox Run Code and visible scoring; Code Explanation has a read-only code view and explanation scoring with no Run Code.",
+    "Participant-facing session labels do not advertise specific programming topics.",
+    "Dedicated survey exports, live-release readiness controls, and duplicate-entry protection are available in the research dashboard.",
+    "Question definitions are versioned by bank hash so future edits do not silently alter already-started sessions.",
+    "Heartbeat/database chatter, shared-campus IP limits, external-provider bursts, and score JSON reliability were hardened for large scheduled cohorts.",
+    "Remote self-enrollment now opens when deliveryMode is remote, LIVE_COLLECTION_ENABLED is true, and deployment startup checks pass; participant consent, ID validation, rate limiting, duplicate protection, and hashed access-key storage remain enforced."
+  ],
+  "version": "4.0.5",
+  "deploymentFixes": [
+    "Fixed stale unparenthesized CASE expression in migrations/002_workflow.sql.",
+    "Regenerated supabase_upgrade.sql, supabase_workflow.sql, and supabase_setup.sql from the corrected source migration.",
+    "Added migration consistency checks to npm run check.",
+    "Changed Render liveness health check to /healthz so database migration problems do not fail the web-service deployment.",
+    "Removed mandatory Supabase RPC call before the HTTP server starts; study configuration now initializes lazily.",
+    "Added /health setup diagnostics and /readyz strict readiness diagnostics.",
+    "Database configuration errors now produce actionable 503 messages rather than crashing the Node process."
+  ],
+  "requestedModificationVerification": [
+    "npm test",
+    "npm run build:verify",
+    "npm run test:security",
+    "npm run test:load"
+  ],
+  "packageVersion": "4.0.5",
+  "currentQuestionsPreserved": true,
+  "currentConsentWordingPreserved": true,
+  "scoring": "OpenAI rubric scoring for problem-solving, debugging, and code-explanation; sandbox evidence is supplied for runnable modalities.",
+  "releaseHash": "Includes consent, surveys, assessments, input schemas, current question bank, and study design config (excluding release metadata and session open/closed switches)."
+}

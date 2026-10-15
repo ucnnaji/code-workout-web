@@ -1,0 +1,809 @@
+{
+  "version": "inputs-v1",
+  "questions": {
+    "PB-PY-1A": [
+      {
+        "id": "input1",
+        "label": "Estimated altitude",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-1A": [
+      {
+        "id": "input1",
+        "label": "Estimated altitude",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-1B": [
+      {
+        "id": "input1",
+        "label": "Estimated battery charge",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-1B": [
+      {
+        "id": "input1",
+        "label": "Estimated battery charge",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-2A": [
+      {
+        "id": "input1",
+        "label": "Trip distance (miles)",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Miles per gallon",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Fuel price per gallon",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Toll cost",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-2A": [
+      {
+        "id": "input1",
+        "label": "Trip distance (miles)",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Miles per gallon",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Fuel price per gallon",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Toll cost",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-2B": [
+      {
+        "id": "input1",
+        "label": "Ticket price",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Number of tickets",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Service fee",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-2B": [
+      {
+        "id": "input1",
+        "label": "Ticket price",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Number of tickets",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Service fee",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-3A": [
+      {
+        "id": "input1",
+        "label": "Short light arm length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Long light arm length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Corrected long light arm length",
+        "type": "number",
+        "required": true,
+        "default": "",
+        "help": "Required only when the first long length is not greater than the short length.",
+        "when": {
+          "field": "input2",
+          "operator": "lteField",
+          "otherField": "input1"
+        }
+      },
+      {
+        "id": "input4",
+        "label": "Extension length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Distance to performer",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-3A": [
+      {
+        "id": "input1",
+        "label": "Short light arm length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Long light arm length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Corrected long light arm length",
+        "type": "number",
+        "required": true,
+        "default": "",
+        "help": "Required only when the first long length is not greater than the short length.",
+        "when": {
+          "field": "input2",
+          "operator": "lteField",
+          "otherField": "input1"
+        }
+      },
+      {
+        "id": "input4",
+        "label": "Extension length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Distance to performer",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-3B": [
+      {
+        "id": "input1",
+        "label": "Short rope length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Long rope length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Corrected long rope length",
+        "type": "number",
+        "required": true,
+        "default": "",
+        "help": "Required only when the first long length is not greater than the short length.",
+        "when": {
+          "field": "input2",
+          "operator": "lteField",
+          "otherField": "input1"
+        }
+      },
+      {
+        "id": "input4",
+        "label": "Extension length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Distance to hiker",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-3B": [
+      {
+        "id": "input1",
+        "label": "Short rope length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Long rope length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Corrected long rope length",
+        "type": "number",
+        "required": true,
+        "default": "",
+        "help": "Required only when the first long length is not greater than the short length.",
+        "when": {
+          "field": "input2",
+          "operator": "lteField",
+          "otherField": "input1"
+        }
+      },
+      {
+        "id": "input4",
+        "label": "Extension length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Distance to hiker",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-4A": [
+      {
+        "id": "input1",
+        "label": "Station X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Station Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Station diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Traveler X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Traveler Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input6",
+        "label": "Traveler signal diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input7",
+        "label": "Short radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input8",
+        "label": "Medium radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input9",
+        "label": "Long radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-4A": [
+      {
+        "id": "input1",
+        "label": "Station X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Station Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Station diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Traveler X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Traveler Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input6",
+        "label": "Traveler signal diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input7",
+        "label": "Short radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input8",
+        "label": "Medium radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input9",
+        "label": "Long radio range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-4B": [
+      {
+        "id": "input1",
+        "label": "Robot X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Robot Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Robot diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Loading zone X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Loading zone Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input6",
+        "label": "Loading zone diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input7",
+        "label": "Short arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input8",
+        "label": "Medium arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input9",
+        "label": "Long arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-4B": [
+      {
+        "id": "input1",
+        "label": "Robot X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Robot Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Robot diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Loading zone X",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Loading zone Y",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input6",
+        "label": "Loading zone diameter",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input7",
+        "label": "Short arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input8",
+        "label": "Medium arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input9",
+        "label": "Long arm range",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-5A": [
+      {
+        "id": "input1",
+        "label": "Passengers",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Bags",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Travel distance",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-5A": [
+      {
+        "id": "input1",
+        "label": "Passengers",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Bags",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Travel distance",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-5B": [
+      {
+        "id": "input1",
+        "label": "Number of people",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Computers needed",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-5B": [
+      {
+        "id": "input1",
+        "label": "Number of people",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Computers needed",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-6A": [
+      {
+        "id": "input1",
+        "label": "Length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Width",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Height",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Weight",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Delivery distance",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-6A": [
+      {
+        "id": "input1",
+        "label": "Length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Width",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Height",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Weight",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input5",
+        "label": "Delivery distance",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-PY-6B": [
+      {
+        "id": "input1",
+        "label": "Item length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Item width",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Item height",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Item weight",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ],
+    "PB-JA-6B": [
+      {
+        "id": "input1",
+        "label": "Item length",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input2",
+        "label": "Item width",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input3",
+        "label": "Item height",
+        "type": "number",
+        "required": true,
+        "default": ""
+      },
+      {
+        "id": "input4",
+        "label": "Item weight",
+        "type": "number",
+        "required": true,
+        "default": ""
+      }
+    ]
+  },
+  "multiInputExample": [
+    {
+      "id": "first",
+      "label": "First number",
+      "type": "integer",
+      "example": "4",
+      "default": "4",
+      "required": true
+    },
+    {
+      "id": "second",
+      "label": "Second number",
+      "type": "integer",
+      "example": "7",
+      "default": "7",
+      "required": true
+    }
+  ]
+}

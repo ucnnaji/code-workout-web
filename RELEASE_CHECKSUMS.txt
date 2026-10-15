@@ -1,0 +1,8 @@
+Code Workout v4.0.4 release checksums
+Generated: 2026-09-12
+
+e09b4167c5a06a43f1e455421c39cbe76d1b36b17c8e9ad1e2b60e1b0a138fa5  questions.seed.json
+902c673fdd0524cd6d41ac18280370e8dd1f50406eabe4efa89334837d3c0f05  content/consent.json
+6f27e1462b4f344c03e6b1670f66ce9fc4bdb5ab54c673cc2719c8519b5f1db5  supabase_upgrade.sql
+6f27e1462b4f344c03e6b1670f66ce9fc4bdb5ab54c673cc2719c8519b5f1db5  supabase_setup.sql
+6f27e1462b4f344c03e6b1670f66ce9fc4bdb5ab54c673cc2719c8519b5f1db5  supabase_workflow.sql

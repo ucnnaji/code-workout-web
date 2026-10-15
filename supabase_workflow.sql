@@ -1,0 +1,2361 @@
+-- CODE WORKOUT research-survey/crossover update: additive, idempotent schema and bootstrap.
+-- Back up first. Run the ENTIRE file in the Supabase SQL Editor as project owner.
+-- Existing research records and historical assignment snapshots are preserved.
+-- Current question definitions are synchronized from questions.seed.json by stable ID.
+-- DO NOT run migrations/001_legacy.sql on its own after upgrading.
+BEGIN;
+-- Code Workout Web v2 research schema
+-- Run this once in Supabase SQL Editor before deploying v2.
+-- Safe to rerun: schema and question seeds are idempotent.
+
+create extension if not exists pgcrypto;
+
+create table if not exists public.participants (
+  id uuid primary key default gen_random_uuid(),
+  participant_code text not null unique,
+  created_at timestamptz not null default now(),
+  constraint participant_code_format check (participant_code ~ '^[A-Z0-9_-]{1,64}$')
+);
+
+create table if not exists public.modalities (
+  id text primary key,
+  label text not null,
+  description text not null default '',
+  sort_order integer not null,
+  active boolean not null default true
+);
+
+insert into public.modalities (id, label, description, sort_order, active) values
+  ('problem-solving','Problem Solving','Write a program that solves the stated problem.',1,true),
+  ('debugging','Debugging','Find and fix defects in starter code.',2,true),
+  ('code-explanation','Code Explanation','Explain what code does and describe its behavior.',3,true),
+  ('code-completion','Code Completion','Complete missing parts of starter code.',4,false)
+on conflict (id) do update set
+  label = excluded.label,
+  description = excluded.description,
+  sort_order = excluded.sort_order,
+  active = excluded.active;
+
+-- v2.1 modality adjustment: the study uses exactly three modalities.
+-- Code Completion remains inactive for backward compatibility; Code Tracing is now Code Explanation.
+update public.modalities set active = false where id in ('code-completion', 'code-tracing');
+
+create table if not exists public.study_sessions (
+  id uuid primary key default gen_random_uuid(),
+  participant_id uuid not null references public.participants(id) on delete restrict,
+  language text not null check (language in ('python','java')),
+  session_label text not null default 'study-2026',
+  randomization_seed text not null,
+  status text not null default 'active' check (status in ('active','completed','withdrawn')),
+  started_at timestamptz not null default now(),
+  last_seen_at timestamptz not null default now(),
+  completed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+-- v3 supports distinct waves; no single-active-session index.
+create index if not exists study_sessions_language_idx on public.study_sessions(language);
+create index if not exists study_sessions_status_idx on public.study_sessions(status);
+
+create table if not exists public.questions (
+  id text primary key,
+  language text not null check (language in ('python','java')),
+  modality_id text not null references public.modalities(id) on delete restrict,
+  title text not null,
+  prompt text not null,
+  starter_code text not null default '',
+  difficulty text not null default 'easy' check (difficulty in ('easy','medium','hard')),
+  expected_concepts jsonb not null default '[]'::jsonb,
+  active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+create index if not exists questions_bank_idx on public.questions(language, modality_id, active);
+
+create table if not exists public.question_assignments (
+  id uuid primary key default gen_random_uuid(),
+  session_id uuid not null references public.study_sessions(id) on delete cascade,
+  modality_id text not null references public.modalities(id) on delete restrict,
+  question_id text not null references public.questions(id) on delete restrict,
+  question_order integer not null check (question_order between 1 and 3),
+  status text not null default 'assigned' check (status in ('assigned','in_progress','completed')),
+  assigned_at timestamptz not null default now(),
+  started_at timestamptz,
+  completed_at timestamptz,
+  unique(session_id, modality_id, question_order),
+  unique(session_id, question_id)
+);
+create index if not exists assignments_session_idx on public.question_assignments(session_id, modality_id, question_order);
+
+create table if not exists public.submissions (
+  id uuid primary key default gen_random_uuid(),
+  assignment_id uuid not null unique references public.question_assignments(id) on delete cascade,
+  draft_code text,
+  draft_explanation text,
+  final_code text,
+  final_explanation text,
+  final_output text,
+  status text not null default 'draft' check (status in ('draft','final')),
+  first_started_at timestamptz not null default now(),
+  saved_at timestamptz,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.draft_events (
+  id bigint generated by default as identity primary key,
+  assignment_id uuid not null references public.question_assignments(id) on delete cascade,
+  code_snapshot text,
+  explanation_snapshot text,
+  client_timestamp timestamptz,
+  server_timestamp timestamptz not null default now()
+);
+create index if not exists draft_events_assignment_idx on public.draft_events(assignment_id, server_timestamp);
+
+create table if not exists public.execution_logs (
+  id bigint generated by default as identity primary key,
+  assignment_id uuid not null references public.question_assignments(id) on delete cascade,
+  language text not null check (language in ('python','java')),
+  source_code text not null,
+  stdin text,
+  stdout text,
+  stderr text,
+  compile_output text,
+  status text not null,
+  runtime_ms integer,
+  memory_kb integer,
+  provider text not null,
+  requested_at timestamptz not null default now(),
+  completed_at timestamptz
+);
+create index if not exists execution_logs_assignment_idx on public.execution_logs(assignment_id, requested_at);
+
+create table if not exists public.ai_feedback_logs (
+  id bigint generated by default as identity primary key,
+  assignment_id uuid not null references public.question_assignments(id) on delete cascade,
+  language text not null check (language in ('python','java')),
+  modality_id text not null references public.modalities(id) on delete restrict,
+  request_number integer not null check (request_number > 0),
+  student_code text,
+  student_explanation text,
+  execution_output text,
+  feedback text not null,
+  model text not null,
+  requested_at timestamptz not null,
+  responded_at timestamptz not null,
+  latency_ms integer,
+  unique(assignment_id, request_number)
+);
+create index if not exists ai_feedback_assignment_idx on public.ai_feedback_logs(assignment_id, requested_at);
+
+create table if not exists public.modality_completions (
+  id uuid primary key default gen_random_uuid(),
+  session_id uuid not null references public.study_sessions(id) on delete cascade,
+  modality_id text not null references public.modalities(id) on delete restrict,
+  started_at timestamptz not null,
+  completed_at timestamptz not null,
+  duration_seconds integer not null check (duration_seconds >= 0),
+  unique(session_id, modality_id)
+);
+create index if not exists modality_completions_session_idx on public.modality_completions(session_id);
+
+create table if not exists public.analytics_events (
+  id bigint generated by default as identity primary key,
+  session_id uuid not null references public.study_sessions(id) on delete cascade,
+  assignment_id uuid references public.question_assignments(id) on delete cascade,
+  event_type text not null,
+  event_data jsonb not null default '{}'::jsonb,
+  client_timestamp timestamptz,
+  server_timestamp timestamptz not null default now()
+);
+create index if not exists analytics_events_session_idx on public.analytics_events(session_id, server_timestamp);
+create index if not exists analytics_events_type_idx on public.analytics_events(event_type);
+
+-- RLS: participant browsers never access Supabase directly. The Render backend must
+-- use a Supabase Secret key (or legacy service_role key), which bypasses RLS.
+alter table public.participants enable row level security;
+alter table public.modalities enable row level security;
+alter table public.study_sessions enable row level security;
+alter table public.questions enable row level security;
+alter table public.question_assignments enable row level security;
+alter table public.submissions enable row level security;
+alter table public.draft_events enable row level security;
+alter table public.execution_logs enable row level security;
+alter table public.ai_feedback_logs enable row level security;
+alter table public.modality_completions enable row level security;
+alter table public.analytics_events enable row level security;
+
+-- Questions are seeded below. The active study has 20 questions per modality per language (120 active total).
+-- Legacy Code Completion questions remain seeded but inactive through their modality.
+-- Canonical question bank generated from questions.seed.json.
+-- Edit that JSON file (keep stable IDs for revised questions), run npm run build:verify,
+-- then run the regenerated supabase_upgrade.sql. Existing participant assignments keep
+-- their immutable question_snapshot and are not rewritten.
+insert into public.questions
+  (id, language, modality_id, title, prompt, starter_code, difficulty, expected_concepts, active)
+values
+('PY-PS-01','python','problem-solving','Display three lines exactly','Write Python code that produces exactly this output:
+
+Computer Science
+Programming
+Problem Solving
+
+Use exactly three print() statements.','','easy','["print","strings","exact output"]'::jsonb,true),
+('PY-PS-02','python','problem-solving','Print the steps in order','Write Python code that prints these steps in exactly this order:
+
+1. Plan the program
+2. Write the code
+3. Test the program
+4. Fix problems
+
+Use one print() statement for each line.','','easy','["print","sequential execution","exact output"]'::jsonb,true),
+('PY-PS-03','python','problem-solving','Create one blank line','Write Python code that produces exactly:
+
+My Reflection
+
+Programming gives computers instructions.
+
+Use exactly three print() calls. The middle print() call must create the blank line.','','easy','["print","blank line","exact output"]'::jsonb,true),
+('PY-PS-04','python','problem-solving','Print text with section comments','Write Python code that prints:
+
+Title
+Main idea
+
+Add a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.','','easy','["comments","print","program organization"]'::jsonb,true),
+('PY-PS-05','python','problem-solving','Print Start and Finish','Write two valid calls to print() that display:
+
+Start
+Finish
+
+Use normal function-call syntax with parentheses.','','easy','["function call syntax","print","sequential execution"]'::jsonb,true),
+('PY-PS-06','python','problem-solving','Print three lines with one string','Using only one print() call and one triple-quoted string, display exactly:
+
+Read
+Think
+Write','','easy','["print","multi-line string","exact output"]'::jsonb,true),
+('PY-PS-07','python','problem-solving','Recreate the output with one print','The output below could be produced with three print() calls:
+
+Red
+Green
+Blue
+
+Produce the same visible output using only one print() call and a triple-quoted string.','','medium','["print","multi-line string","equivalent output"]'::jsonb,true),
+('PY-PS-08','python','problem-solving','Match punctuation and capitalization','Write Python code that produces exactly:
+
+Ready?
+Set...
+Go!
+
+Capitalization and punctuation must match exactly.','','medium','["print","strings","capitalization","punctuation"]'::jsonb,true),
+('PY-PS-09','python','problem-solving','Format a heading and body','Write Python code that produces exactly:
+
+Computer Science Reflection
+
+Programming is one way to give computers precise instructions.
+Testing helps us notice when the result does not match what we intended.
+
+Use an empty print() call for the blank line.','','medium','["print","blank line","sequential execution","exact output"]'::jsonb,true),
+('PY-PS-10','python','problem-solving','Organize a short reflection','Write code that produces this output:
+
+Reflection
+Computer Science involves solving problems.
+Programs must be written carefully.
+
+Requirements:
+- Add a comment before the title section.
+- Add a different comment before the two body lines.
+- Comments must not be printed.','','medium','["comments","print","program organization","exact output"]'::jsonb,true),
+('PY-PS-11','python','problem-solving','Print four steps in sequence','Write four print() statements so the output is exactly:
+
+Understand
+Plan
+Program
+Test
+
+Do not combine the lines into one multi-line string.','','medium','["print","sequential execution","requirements"]'::jsonb,true),
+('PY-PS-12','python','problem-solving','Print one sentence correctly','Write one print() statement that displays exactly:
+
+Python programs follow instructions carefully.
+
+The sentence itself must be a string argument passed to print().','','medium','["print","string delimiters","function call syntax"]'::jsonb,true),
+('PY-PS-13','python','problem-solving','Print four ideas in order','Create a program that prints the following four lines in order:
+
+Problem
+Idea
+Code
+Result
+
+Use four print() statements and add one helpful comment above the group.','','medium','["print","comments","sequential execution"]'::jsonb,true),
+('PY-PS-14','python','problem-solving','Match the required output exactly','Write Python code that produces exactly:
+
+=== PROGRAM ===
+Begin
+
+Complete
+=== END ===
+
+Requirements:
+- Use print() only.
+- Use one empty print() call for the blank line.
+- Match all symbols and capitalization exactly.','','medium','["print","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-PS-15','python','problem-solving','Print four steps with one block','Using one print() call with a triple-quoted string, display:
+
+Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test
+
+Do not use four separate print() statements.','','medium','["print","multi-line string","requirements"]'::jsonb,true),
+('PY-PS-16','python','problem-solving','Use comments and a blank line','Write Python code that produces exactly:
+
+Program Start
+
+Program Complete
+
+Requirements:
+- Use an empty print() call for the blank line.
+- Add a comment above the first output statement.
+- Add a second comment above the final output statement.','','medium','["print","comments","blank line","program organization"]'::jsonb,true),
+('PY-PS-17','python','problem-solving','Format a short program message','Write a short program that prints exactly:
+
+Computer Science
+Programming turns ideas into instructions.
+
+Precise instructions matter.
+
+Use comments to label the sections and include exactly one blank line.','','medium','["print","comments","blank line","exact output","program organization"]'::jsonb,true),
+('PY-DBG-01','python','debugging','Fix the three-line output','The program should print:
+
+Computer Science
+Programming
+Problem Solving
+
+Fix the code so the output matches exactly.','print("Computer Science")
+print("Problem Solving")
+print("Programming")
+','easy','["debugging","print","exact output"]'::jsonb,true),
+('PY-DBG-02','python','debugging','Fix the output order','The required output is:
+
+1. Plan the program
+2. Write the code
+3. Test the program
+4. Fix problems
+
+Reorder the statements so the output is correct.','print("1. Plan the program")
+print("3. Test the program")
+print("2. Write the code")
+print("4. Fix problems")
+','easy','["debugging","sequential execution"]'::jsonb,true),
+('PY-DBG-03','python','debugging','Fix the blank line','The required output is:
+
+My Reflection
+
+Programming gives computers instructions.
+
+Fix the program so there is exactly one blank line between the two text lines.','print("My Reflection")
+print("Programming gives computers instructions.")
+','easy','["debugging","blank line","print"]'::jsonb,true),
+('PY-DBG-04','python','debugging','Keep labels as comments','The two section labels are meant to be comments, not output. Fix the program so it prints only:
+
+Title
+Main idea','print("Title section")
+print("Title")
+print("Main section")
+print("Main idea")
+','easy','["debugging","comments","requirements"]'::jsonb,true),
+('PY-DBG-05','python','debugging','Fix the print syntax','Fix the syntax so the program prints:
+
+Start
+Finish','print["Start"]
+print{"Finish"}
+','easy','["debugging","function call syntax","parentheses"]'::jsonb,true),
+('PY-DBG-06','python','debugging','Fix the triple-quoted string','Fix the multi-line string so the program prints:
+
+Read
+Think
+Write','print("""Read
+Think
+Write"")
+','easy','["debugging","multi-line string","quotation marks"]'::jsonb,true),
+('PY-DBG-07','python','debugging','Remove extra blank lines','The required output is:
+
+Red
+Green
+Blue
+
+Fix the program so there are no blank lines between the colors.','print("""Red
+
+Green
+
+Blue""")
+','medium','["debugging","multi-line string","exact output"]'::jsonb,true),
+('PY-DBG-08','python','debugging','Fix punctuation and capitalization','The required output is:
+
+Ready?
+Set...
+Go!
+
+Fix every mismatch.','print("ready!")
+print("Set..")
+print("Go?")
+','medium','["debugging","capitalization","punctuation","exact output"]'::jsonb,true),
+('PY-DBG-09','python','debugging','Fix the heading and body spacing','The program must produce exactly:
+
+Computer Science Reflection
+
+Programming is one way to give computers precise instructions.
+Testing helps us notice when the result does not match what we intended.
+
+Fix the spacing and order.','print("Computer Science Reflection")
+print("Programming is one way to give computers precise instructions.")
+print()
+print("Testing helps us notice when the result does not match what we intended.")
+','medium','["debugging","blank line","sequential execution"]'::jsonb,true),
+('PY-DBG-10','python','debugging','Fix the comments','The program should run and print:
+
+Reflection
+Computer Science involves solving problems.
+Programs must be written carefully.
+
+The descriptive lines are intended to be comments. Fix them.','Title section
+print("Reflection")
+Body section
+print("Computer Science involves solving problems.")
+print("Programs must be written carefully.")
+','medium','["debugging","comments","syntax error"]'::jsonb,true),
+('PY-DBG-11','python','debugging','Add the missing output line','The required output is:
+
+Understand
+Plan
+Program
+Test
+
+Add the missing statement in the correct place.','print("Understand")
+print("Plan")
+print("Test")
+','medium','["debugging","sequential execution","missing statement"]'::jsonb,true),
+('PY-DBG-12','python','debugging','Fix the string syntax','Fix the syntax error so the program prints exactly:
+
+Python programs follow instructions carefully.','print("Python programs follow instructions carefully.)
+','medium','["debugging","string delimiters","syntax error"]'::jsonb,true),
+('PY-DBG-13','python','debugging','Remove the extra output line','The required output is:
+
+Problem
+Idea
+Code
+Result
+
+Fix the program by removing only the statement that should not be there.','print("Problem")
+print("Idea")
+print("Extra")
+print("Code")
+print("Result")
+','medium','["debugging","exact output","extra statement"]'::jsonb,true),
+('PY-DBG-14','python','debugging','Fix the exact output','The required output is:
+
+=== PROGRAM ===
+Begin
+
+Complete
+=== END ===
+
+Fix the program so all text, spacing, and symbols match exactly.','print("== PROGRAM ==")
+print("Begin")
+print()
+print()
+print("Complete")
+print("=== END ==")
+','medium','["debugging","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-DBG-15','python','debugging','Fix the multi-line string','The required output is:
+
+Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test
+
+Fix the one print() call so every step appears correctly.','print("""Step 1: Read
+Step 2: Think
+Step 4: Test
+Step 3: Code""")
+','medium','["debugging","multi-line string","sequential output"]'::jsonb,true),
+('PY-DBG-16','python','debugging','Fix the comments and blank line','The required output is:
+
+Program Start
+
+Program Complete
+
+The section labels should be comments. Fix the program.','print("Start section")
+print("Program Start")
+print("End section")
+print("Program Complete")
+','medium','["debugging","comments","blank line","requirements"]'::jsonb,true),
+('PY-DBG-17','python','debugging','Fix the text and spacing','Fix the starter code so it prints exactly:
+
+Computer Science
+Programming turns ideas into instructions.
+
+Precise instructions matter.
+
+Keep the section labels as comments and include exactly one blank line.','# Title
+print("computer science")
+# Main idea
+print("Programming turns ideas into instructions.")
+print()
+print()
+print("Precise instructions matter.")
+','medium','["debugging","comments","capitalization","blank line","exact output"]'::jsonb,true),
+('PY-TRC-01','python','code-explanation','Explain how three lines are printed','Without running the code first:
+1. State exactly what it prints.
+2. Explain why there are three output lines.','print("Computer Science")
+print("Programming")
+print("Problem Solving")
+','easy','["code explanation","print","exact output"]'::jsonb,true),
+('PY-TRC-02','python','code-explanation','Explain why the output order matters','State exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.','print("1. Plan the program")
+print("2. Write the code")
+print("3. Test the program")
+print("4. Fix problems")
+','easy','["code explanation","sequential execution"]'::jsonb,true),
+('PY-TRC-03','python','code-explanation','Explain how the blank line is created','State exactly what appears in the output, including spacing. Explain what the middle print() call contributes.','print("My Reflection")
+print()
+print("Programming gives computers instructions.")
+','easy','["code explanation","blank line","print"]'::jsonb,true),
+('PY-TRC-04','python','code-explanation','Explain which lines are comments','State exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.','# Title section
+print("Title")
+# Main section
+print("Main idea")
+','easy','["code explanation","comments","program organization"]'::jsonb,true),
+('PY-TRC-05','python','code-explanation','Explain how print() is called','For each print() statement, identify:
+- the function name
+- the parentheses
+- the string argument
+
+Then state the output.','print("Start")
+print("Finish")
+','easy','["code explanation","function call syntax","strings"]'::jsonb,true),
+('PY-TRC-06','python','code-explanation','Explain how the multi-line string works','State exactly what the code prints. Explain how one print() call creates three output lines.','print("""Read
+Think
+Write""")
+','easy','["code explanation","multi-line string","print"]'::jsonb,true),
+('PY-TRC-07','python','code-explanation','Explain why both programs match','Program A:
+print("Red")
+print("Green")
+print("Blue")
+
+Program B:
+print("""Red
+Green
+Blue""")
+
+Do the two programs produce the same visible output? Explain how their code structure differs.','# Program A
+print("Red")
+print("Green")
+print("Blue")
+
+# Program B
+print("""Red
+Green
+Blue""")
+','medium','["code explanation","multi-line string","equivalent output"]'::jsonb,true),
+('PY-TRC-08','python','code-explanation','Explain why punctuation changes output','State exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.','print("Ready?")
+print("Set...")
+print("Go!")
+','medium','["code explanation","strings","punctuation","exact output"]'::jsonb,true),
+('PY-TRC-09','python','code-explanation','Explain how the heading is separated','State the complete output, including the blank line. Then explain which statement creates each part of that output.','print("Computer Science Reflection")
+print()
+print("Programming is one way to give computers precise instructions.")
+print("Testing helps us notice when the result does not match what we intended.")
+','medium','["code explanation","blank line","sequential execution"]'::jsonb,true),
+('PY-TRC-10','python','code-explanation','Explain how comments organize the program','Explain what is printed and what is not printed. Then describe how the two comments help organize the code.','# Title section
+print("Reflection")
+# Body section
+print("Computer Science involves solving problems.")
+print("Programs must be written carefully.")
+','medium','["code explanation","comments","program organization"]'::jsonb,true),
+('PY-TRC-11','python','code-explanation','Explain the order of four statements','Without running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.','print("Understand")
+print("Plan")
+print("Program")
+print("Test")
+','medium','["code explanation","sequential execution","tracing"]'::jsonb,true),
+('PY-TRC-12','python','code-explanation','Explain why the code has a syntax error','Explain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.','print("Python programs follow instructions carefully."
+','medium','["code explanation","syntax error","parentheses"]'::jsonb,true),
+('PY-TRC-13','python','code-explanation','Explain why the output is wrong','Suppose the required output is:
+
+Problem
+Idea
+Code
+Result
+
+Explain why the code below is valid Python but still fails the requirement.','print("Problem")
+print("Idea")
+print("Result")
+print("Code")
+','medium','["code explanation","requirements","sequential execution"]'::jsonb,true),
+('PY-TRC-14','python','code-explanation','Explain how the exact output is produced','State exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.','print("=== PROGRAM ===")
+print("Begin")
+print()
+print("Complete")
+print("=== END ===")
+','medium','["code explanation","blank line","punctuation","exact output"]'::jsonb,true),
+('PY-TRC-15','python','code-explanation','Explain how one print creates four lines','State the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.','print("""Step 1: Read
+Step 2: Think
+Step 3: Code
+Step 4: Test""")
+','medium','["code explanation","multi-line string","sequential output"]'::jsonb,true),
+('PY-TRC-16','python','code-explanation','Explain comments and blank-line output','State exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.','# Start section
+print("Program Start")
+print()
+# End section
+print("Program Complete")
+','medium','["code explanation","comments","blank line","program organization"]'::jsonb,true),
+('PY-TRC-17','python','code-explanation','Explain the program text and spacing','1. State exactly what is printed.
+2. Identify which statements create the blank line.
+3. Explain why the comments do not appear.
+4. Describe the order in which Python processes the executable statements.','# Title
+print("Computer Science")
+# Main idea
+print("Programming turns ideas into instructions.")
+print()
+print("Precise instructions matter.")
+','medium','["code explanation","comments","blank line","sequential execution"]'::jsonb,true),
+('JA-PS-01','java','problem-solving','Calculate a total from three integers','Store 8 in int a, 5 in int b, and 3 in int c. Add all three values, store the result in int total, and print total.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["variables","int","arithmetic","output"]'::jsonb,true),
+('JA-PS-03','java','problem-solving','Calculate a purchase total and change','Store 4.5 in double price and 3 in int quantity. Calculate the purchase total, then calculate the change from 20.0. Print total and then change.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["double","variables","arithmetic","output"]'::jsonb,true),
+('JA-PS-04','java','problem-solving','Use parentheses in a multi-step calculation','Calculate (4 + 6) * 2 - 3, store the result in int result, and print result.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["arithmetic","order of operations","parentheses"]'::jsonb,true),
+('JA-PS-05','java','problem-solving','Check a passing score at the boundary','Use int score = 60. Write an if statement that prints Pass when score is 60 or higher.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["conditionals","if","comparison","boundary value"]'::jsonb,true),
+('JA-PS-06','java','problem-solving','Choose an output at a boundary value','Use int number = 0. Print Positive if number is greater than 0; otherwise print Zero or negative.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["conditionals","if-else","comparison","boundary value"]'::jsonb,true),
+('JA-PS-07','java','problem-solving','Assign a letter grade across four ranges','Use int score = 78. Print A for 90 or higher, B for 80-89, C for 70-79, and D for anything lower.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["conditionals","if-else-if","comparison","branch order"]'::jsonb,true),
+('JA-PS-08','java','problem-solving','Check whether a value is inside a range','Use int age = 25. Print Eligible if age is between 18 and 25 inclusive; otherwise print Not eligible. Use && in the condition.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["conditionals","logical AND","comparison","boundary value"]'::jsonb,true),
+('JA-PS-09','java','problem-solving','Compare a String and choose a response','Use String answer = "yes". Print Accepted when answer equals "yes"; otherwise print Try again. Use equals() for the comparison.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["Strings","equals","conditionals","if-else"]'::jsonb,true),
+('JA-PS-10','java','problem-solving','Print the first and last characters of a String','Given String word = "java", print its length, its first character, and its last character. Use charAt(0) for the first character and word.length() - 1 for the last index.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["Strings","length","charAt","indexing","derived index"]'::jsonb,true),
+('JA-PS-11','java','problem-solving','Format text with two values','Given double price = 3.5 and int quantity = 2, use one printf statement to display: Price: $3.50 Quantity: 2','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["formatted output","printf","format specifiers","multiple values"]'::jsonb,true),
+('JA-PS-12','java','problem-solving','Print even values with a for loop','Write a for loop that prints 2, 4, 6, 8, and 10, one per line. Start at 2 and increase the loop variable by 2 each time.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["for loop","loop update","loop boundary","iteration"]'::jsonb,true),
+('JA-PS-13','java','problem-solving','Count down with a while loop','Start with int n = 5. Use a while loop to print 5 through 1, one per line, then print Done after the loop.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["while loop","loop update","loop boundary","iteration"]'::jsonb,true),
+('JA-PS-14','java','problem-solving','Calculate a total and average in a loop','Use a for loop and int total = 0 to add the integers 1 through 4. After the loop, calculate double average = total / 4.0 and print total and then average.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["for loop","accumulator","arithmetic","double division"]'::jsonb,true),
+('JA-PS-15','java','problem-solving','Add only the even values in a loop','Loop through the integers 1 through 6. Add only the even values to int total using % 2 == 0, then print the final total.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["for loop","conditionals","modulo","accumulator"]'::jsonb,true),
+('JA-PS-16','java','problem-solving','Return a calculated value from a method','Write a static method named squarePlusOne that receives one int x and returns x * x + 1. In main, print squarePlusOne(4).','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["methods","parameters","return values","method call","arithmetic"]'::jsonb,true),
+('JA-PS-17','java','problem-solving','Return the larger of two method arguments','Write a static method named larger that receives two int parameters a and b. Return the larger value using if-else. In main, print larger(7, 11).','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["methods","parameters","return values","conditionals","comparison"]'::jsonb,true),
+('JA-PS-18','java','problem-solving','Pass two values to a void method','Write a static void method named printStudent that receives String name and int age. Print Name: followed by the name and Age: followed by the age on separate lines. In main, call printStudent("Ada", 18).','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','medium','["methods","void","parameters","method call","output"]'::jsonb,true),
+('JA-PS-19','java','problem-solving','Use array indexes in a calculation','Given int[] values = {10, 20, 30, 40}, print the first element, print the third element, then print their sum.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["one-dimensional arrays","array declaration","indexing","arithmetic"]'::jsonb,true),
+('JA-PS-20','java','problem-solving','Use array length to find the last two elements','Given int[] values = {10, 20, 30, 40}, print values.length, then print the last element using values.length - 1 and the second-to-last element using values.length - 2.','public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}
+','easy','["one-dimensional arrays","array length","indexing","derived index"]'::jsonb,true),
+('JA-DBG-01','java','debugging','Fix the three-number total','The program should add a, b, and c and print 16. Fix the calculation for total.','public class Main {
+    public static void main(String[] args) {
+        int a = 8;
+        int b = 5;
+        int c = 3;
+        int total = a + b - c;
+        System.out.println(total);
+    }
+}','easy','["variables","int","arithmetic","output","debugging"]'::jsonb,true),
+('JA-DBG-03','java','debugging','Fix the change calculation','The purchase total is price * quantity, and change should be 20.0 - total. Fix the calculation for change.','public class Main {
+    public static void main(String[] args) {
+        double price = 4.5;
+        int quantity = 3;
+        double total = price * quantity;
+        double change = total - 20.0;
+        System.out.println(total);
+        System.out.println(change);
+    }
+}','easy','["double","variables","arithmetic","output","debugging"]'::jsonb,true),
+('JA-DBG-04','java','debugging','Fix the order of operations','The intended calculation is (4 + 6) * 2 - 3. Add the parentheses needed to produce the correct result.','public class Main {
+    public static void main(String[] args) {
+        int result = 4 + 6 * 2 - 3;
+        System.out.println(result);
+    }
+}','easy','["arithmetic","order of operations","parentheses","debugging"]'::jsonb,true),
+('JA-DBG-05','java','debugging','Fix the passing-score boundary','A score of exactly 60 should print Pass. Fix the comparison operator so 60 is included.','public class Main {
+    public static void main(String[] args) {
+        int score = 60;
+        if (score > 60) {
+            System.out.println("Pass");
+        }
+    }
+}','easy','["conditionals","if","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-06','java','debugging','Fix the if-else boundary','For number = 0, the program should print Zero or negative. Fix the condition so only values greater than 0 use the first branch.','public class Main {
+    public static void main(String[] args) {
+        int number = 0;
+        if (number >= 0) {
+            System.out.println("Positive");
+        } else {
+            System.out.println("Zero or negative");
+        }
+    }
+}','easy','["conditionals","if-else","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-07','java','debugging','Fix the order of the grade conditions','For score = 85, the program should print B. Reorder the conditions so higher score ranges are checked before lower ranges.','public class Main {
+    public static void main(String[] args) {
+        int score = 85;
+        if (score >= 70) {
+            System.out.println("C");
+        } else if (score >= 80) {
+            System.out.println("B");
+        } else if (score >= 90) {
+            System.out.println("A");
+        } else {
+            System.out.println("D");
+        }
+    }
+}','medium','["conditionals","if-else-if","comparison","branch order","debugging"]'::jsonb,true),
+('JA-DBG-08','java','debugging','Fix the inclusive range check','The program should print Eligible only for ages from 18 through 25. Fix the logical operator so both comparisons must be true.','public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        if (age >= 18 || age <= 25) {
+            System.out.println("Eligible");
+        } else {
+            System.out.println("Not eligible");
+        }
+    }
+}','medium','["conditionals","logical AND","comparison","boundary value","debugging"]'::jsonb,true),
+('JA-DBG-09','java','debugging','Fix the String comparison','The program should compare the text stored in answer with "yes". Replace the incorrect comparison with equals().','public class Main {
+    public static void main(String[] args) {
+        String answer = "yes";
+        if (answer == "yes") {
+            System.out.println("Accepted");
+        } else {
+            System.out.println("Try again");
+        }
+    }
+}','easy','["Strings","equals","conditionals","if-else","debugging"]'::jsonb,true),
+('JA-DBG-10','java','debugging','Fix the last-character index','The program should print the last character of word without an error. Fix the index used in charAt().','public class Main {
+    public static void main(String[] args) {
+        String word = "java";
+        System.out.println(word.length());
+        System.out.println(word.charAt(0));
+        System.out.println(word.charAt(word.length()));
+    }
+}','medium','["Strings","length","charAt","indexing","derived index","debugging"]'::jsonb,true),
+('JA-DBG-11','java','debugging','Fix the printf format specifiers','The program should display price with two decimal places and quantity as an integer. Fix the two format specifiers.','public class Main {
+    public static void main(String[] args) {
+        double price = 3.5;
+        int quantity = 2;
+        System.out.printf("Price: $%d Quantity: %.2f%n", price, quantity);
+    }
+}','easy','["formatted output","printf","format specifiers","multiple values","debugging"]'::jsonb,true),
+('JA-DBG-12','java','debugging','Fix the for-loop update','The loop should print 2, 4, 6, 8, and 10. Fix the update expression so n increases by 2 each iteration.','public class Main {
+    public static void main(String[] args) {
+        for (int n = 2; n <= 10; n++) {
+            System.out.println(n);
+        }
+    }
+}','medium','["for loop","loop update","loop boundary","iteration","debugging"]'::jsonb,true),
+('JA-DBG-13','java','debugging','Fix the while-loop countdown','The loop should count down 5, 4, 3, 2, 1 and then stop. Fix the update statement so n decreases by 1 each iteration.','public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        while (n >= 1) {
+            System.out.println(n);
+            n -= 2;
+        }
+        System.out.println("Done");
+    }
+}','medium','["while loop","loop update","loop boundary","iteration","debugging"]'::jsonb,true),
+('JA-DBG-14','java','debugging','Fix the running total','The program should add 1 through 4 so total becomes 10 and average becomes 2.5. Fix the statement that updates total.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 4; n++) {
+            total = n;
+        }
+        double average = total / 4.0;
+        System.out.println(total);
+        System.out.println(average);
+    }
+}','medium','["for loop","accumulator","arithmetic","double division","debugging"]'::jsonb,true),
+('JA-DBG-15','java','debugging','Fix the even-value total','The program should add only the even values from 1 through 6 and print 12. Fix the condition so only even values are added.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 6; n++) {
+            if (n % 2 != 0) {
+                total += n;
+            }
+        }
+        System.out.println(total);
+    }
+}','medium','["for loop","conditionals","modulo","accumulator","debugging"]'::jsonb,true),
+('JA-DBG-16','java','debugging','Fix the method calculation','The method squarePlusOne should return x * x + 1. Fix the return expression so squarePlusOne(4) produces 17.','public class Main {
+    public static int squarePlusOne(int x) {
+        return x + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(squarePlusOne(4));
+    }
+}','medium','["methods","parameters","return values","method call","arithmetic","debugging"]'::jsonb,true),
+('JA-DBG-17','java','debugging','Fix the method that chooses the larger value','The larger method should return the greater of a and b. Fix the return statements so larger(7, 11) prints 11.','public class Main {
+    public static int larger(int a, int b) {
+        if (a > b) {
+            return b;
+        } else {
+            return a;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(larger(7, 11));
+    }
+}','medium','["methods","parameters","return values","conditionals","comparison","debugging"]'::jsonb,true),
+('JA-DBG-18','java','debugging','Fix the arguments in a void-method call','The method is defined correctly. Fix the call in main so the String argument is passed to name and the int argument is passed to age.','public class Main {
+    public static void printStudent(String name, int age) {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        printStudent(18, "Ada");
+    }
+}','medium','["methods","void","parameters","method call","output","debugging"]'::jsonb,true),
+('JA-DBG-19','java','debugging','Fix the array indexes used in a sum','The program should add the first and third elements, 10 and 30, and print 40. Fix the incorrect array index.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        int total = values[1] + values[2];
+        System.out.println(total);
+    }
+}','easy','["one-dimensional arrays","array declaration","indexing","arithmetic","debugging"]'::jsonb,true),
+('JA-DBG-20','java','debugging','Fix the last array index','The program should print the last element without an array-index error. Fix the index used in the first element access.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        System.out.println(values.length);
+        System.out.println(values[values.length]);
+        System.out.println(values[values.length - 2]);
+    }
+}','easy','["one-dimensional arrays","array length","indexing","derived index","debugging"]'::jsonb,true),
+('JA-TRC-01','java','code-explanation','Explain how the three-number total is calculated','Explain what a, b, c, and total store, how total is calculated, and state exactly what is printed.','public class Main {
+    public static void main(String[] args) {
+        int a = 8;
+        int b = 5;
+        int c = 3;
+        int total = a + b + c;
+        System.out.println(total);
+    }
+}','easy','["variables","int","arithmetic","output","code understanding"]'::jsonb,true),
+('JA-TRC-03','java','code-explanation','Explain the purchase total and change','Explain how total and change are calculated, why they are doubles, and state the two values printed.','public class Main {
+    public static void main(String[] args) {
+        double price = 4.5;
+        int quantity = 3;
+        double total = price * quantity;
+        double change = 20.0 - total;
+        System.out.println(total);
+        System.out.println(change);
+    }
+}','easy','["double","variables","arithmetic","output","code understanding"]'::jsonb,true),
+('JA-TRC-04','java','code-explanation','Explain the order of operations','Explain which calculation happens first because of the parentheses and state the final output.','public class Main {
+    public static void main(String[] args) {
+        int result = (4 + 6) * 2 - 3;
+        System.out.println(result);
+    }
+}','easy','["arithmetic","order of operations","parentheses","code understanding"]'::jsonb,true),
+('JA-TRC-05','java','code-explanation','Explain the passing-score boundary','Explain why the condition is true when score is exactly 60 and state what is printed.','public class Main {
+    public static void main(String[] args) {
+        int score = 60;
+        if (score >= 60) {
+            System.out.println("Pass");
+        }
+    }
+}','easy','["conditionals","if","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-06','java','code-explanation','Explain which branch runs at zero','Explain which branch runs when number is 0, why that branch is selected, and what is printed.','public class Main {
+    public static void main(String[] args) {
+        int number = 0;
+        if (number > 0) {
+            System.out.println("Positive");
+        } else {
+            System.out.println("Zero or negative");
+        }
+    }
+}','easy','["conditionals","if-else","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-07','java','code-explanation','Explain how a letter grade is selected','For score = 78, trace the conditions in order and explain why C is printed.','public class Main {
+    public static void main(String[] args) {
+        int score = 78;
+        if (score >= 90) {
+            System.out.println("A");
+        } else if (score >= 80) {
+            System.out.println("B");
+        } else if (score >= 70) {
+            System.out.println("C");
+        } else {
+            System.out.println("D");
+        }
+    }
+}','medium','["conditionals","if-else-if","comparison","branch order","code understanding"]'::jsonb,true),
+('JA-TRC-08','java','code-explanation','Explain how an inclusive range check works','For age = 25, explain the result of each comparison, how && combines them, and which message is printed.','public class Main {
+    public static void main(String[] args) {
+        int age = 25;
+        if (age >= 18 && age <= 25) {
+            System.out.println("Eligible");
+        } else {
+            System.out.println("Not eligible");
+        }
+    }
+}','medium','["conditionals","logical AND","comparison","boundary value","code understanding"]'::jsonb,true),
+('JA-TRC-09','java','code-explanation','Explain how the String comparison chooses a branch','Explain what answer.equals("yes") checks, why the condition is true, and which message is printed.','public class Main {
+    public static void main(String[] args) {
+        String answer = "yes";
+        if (answer.equals("yes")) {
+            System.out.println("Accepted");
+        } else {
+            System.out.println("Try again");
+        }
+    }
+}','easy','["Strings","equals","conditionals","if-else","code understanding"]'::jsonb,true),
+('JA-TRC-10','java','code-explanation','Explain how the first and last characters are found','Explain what length() returns, why charAt(0) gives the first character, and why length() - 1 gives the last character.','public class Main {
+    public static void main(String[] args) {
+        String word = "java";
+        System.out.println(word.length());
+        System.out.println(word.charAt(0));
+        System.out.println(word.charAt(word.length() - 1));
+    }
+}','medium','["Strings","length","charAt","indexing","derived index","code understanding"]'::jsonb,true),
+('JA-TRC-11','java','code-explanation','Explain how two values are formatted','Explain what %.2f and %d do and state the exact visible output.','public class Main {
+    public static void main(String[] args) {
+        double price = 3.5;
+        int quantity = 2;
+        System.out.printf("Price: $%.2f Quantity: %d%n", price, quantity);
+    }
+}','easy','["formatted output","printf","format specifiers","multiple values","code understanding"]'::jsonb,true),
+('JA-TRC-12','java','code-explanation','Explain how the for loop produces even values','Trace the values of n, explain how n += 2 changes the loop variable, and state exactly what is printed.','public class Main {
+    public static void main(String[] args) {
+        for (int n = 2; n <= 10; n += 2) {
+            System.out.println(n);
+        }
+    }
+}','medium','["for loop","loop update","loop boundary","iteration","code understanding"]'::jsonb,true),
+('JA-TRC-13','java','code-explanation','Explain how the while-loop countdown stops','Trace n from 5 to 1, explain how n-- changes it after each iteration, and explain why Done prints after the loop.','public class Main {
+    public static void main(String[] args) {
+        int n = 5;
+        while (n >= 1) {
+            System.out.println(n);
+            n--;
+        }
+        System.out.println("Done");
+    }
+}','medium','["while loop","loop update","loop boundary","iteration","code understanding"]'::jsonb,true),
+('JA-TRC-14','java','code-explanation','Explain how the total and average are calculated','Trace how total changes as n goes from 1 through 4, then explain how average is calculated and state the two outputs.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 4; n++) {
+            total += n;
+        }
+        double average = total / 4.0;
+        System.out.println(total);
+        System.out.println(average);
+    }
+}','medium','["for loop","accumulator","arithmetic","double division","code understanding"]'::jsonb,true),
+('JA-TRC-15','java','code-explanation','Explain how only even values are added','Trace n from 1 through 6, identify which values satisfy n % 2 == 0, explain how total changes, and state the final output.','public class Main {
+    public static void main(String[] args) {
+        int total = 0;
+        for (int n = 1; n <= 6; n++) {
+            if (n % 2 == 0) {
+                total += n;
+            }
+        }
+        System.out.println(total);
+    }
+}','medium','["for loop","conditionals","modulo","accumulator","code understanding"]'::jsonb,true),
+('JA-TRC-16','java','code-explanation','Explain how a method calculates and returns a value','Explain what value is passed into x, how x * x + 1 is evaluated, what the method returns, and what main prints.','public class Main {
+    public static int squarePlusOne(int x) {
+        return x * x + 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(squarePlusOne(4));
+    }
+}','medium','["methods","parameters","return values","method call","arithmetic","code understanding"]'::jsonb,true),
+('JA-TRC-17','java','code-explanation','Explain how a method chooses the larger value','For larger(7, 11), explain how the arguments map to a and b, which branch runs, what value is returned, and what main prints.','public class Main {
+    public static int larger(int a, int b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(larger(7, 11));
+    }
+}','medium','["methods","parameters","return values","conditionals","comparison","code understanding"]'::jsonb,true),
+('JA-TRC-18','java','code-explanation','Explain how two arguments are passed to a void method','Explain why the method is void, how "Ada" and 18 are matched to the parameters, and state the two lines printed.','public class Main {
+    public static void printStudent(String name, int age) {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        printStudent("Ada", 18);
+    }
+}','medium','["methods","void","parameters","method call","output","code understanding"]'::jsonb,true),
+('JA-TRC-19','java','code-explanation','Explain how array indexes select values for a sum','Explain which values are selected by values[0] and values[2], why those indexes refer to the first and third elements, and state the output.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        int total = values[0] + values[2];
+        System.out.println(total);
+    }
+}','easy','["one-dimensional arrays","array declaration","indexing","arithmetic","code understanding"]'::jsonb,true),
+('JA-TRC-20','java','code-explanation','Explain how array length gives the last two indexes','Explain what values.length returns, why length - 1 is the last valid index, why length - 2 is the second-to-last index, and state the three outputs.','public class Main {
+    public static void main(String[] args) {
+        int[] values = {10, 20, 30, 40};
+        System.out.println(values.length);
+        System.out.println(values[values.length - 1]);
+        System.out.println(values[values.length - 2]);
+    }
+}','easy','["one-dimensional arrays","array length","indexing","derived index","code understanding"]'::jsonb,true),
+('PB-PY-1A','python','problem-solving','Altitude Target','Write a Python program for a training system that compares a pilot''s estimated altitude with a target altitude generated by the computer.
+1. Generate a random integer from 20 through 60 and store it as the target altitude.
+2. Ask the user to enter an estimated altitude.
+3. Calculate the absolute difference between the estimate and the target.
+4. Print the estimate and the target altitude.
+5. Use an if-elif-else statement to classify the estimate as Exact when the difference is 0, Very Close when the difference is 1 through 3, Close when the difference is 4 through 7, and Far when the difference is 8 or more.
+6. If the estimate is not exact, also print whether the estimate was above or below the target.','','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-1A','java','problem-solving','Altitude Target','Write a Java program for a training system that compares a pilot''s estimated altitude with a target altitude generated by the computer.
+1. Generate a random integer from 20 through 60 and store it as the target altitude.
+2. Ask the user to enter an estimated altitude.
+3. Calculate the absolute difference between the estimate and the target.
+4. Print the estimate and the target altitude.
+5. Use an if-else if-else statement to classify the estimate as Exact when the difference is 0, Very Close when the difference is 1 through 3, Close when the difference is 4 through 7, and Far when the difference is 8 or more.
+6. If the estimate is not exact, also print whether the estimate was above or below the target.','','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-1B','python','debugging','Battery Calibration','The following program is intended to compare a technician''s battery estimate with a randomly generated target charge. The program does not always classify the estimate correctly. Fix the program so that it correctly uses the absolute difference and prints the correct category.
+
+The corrected program should use one if-elif-else decision structure and should work correctly whether the estimate is above or below the target. The intended categories are: Exact for a difference of 0, Very close for 1-2, Close for 3-5, Far for 6-10, and Very far for more than 10.','import random
+
+target = random.randint(30, 90)
+estimate = int(input("Estimated battery charge: "))
+
+difference = target - estimate
+
+print("Target charge:", target)
+print("Your estimate:", estimate)
+
+if difference <= 10:
+    print("Far")
+elif difference <= 5:
+    print("Close")
+elif difference <= 2:
+    print("Very close")
+elif difference == 0:
+    print("Exact")
+else:
+    print("Very far")','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-1B','java','debugging','Battery Calibration','The following program is intended to compare a technician''s battery estimate with a randomly generated target charge. The program does not always classify the estimate correctly. Fix the Java program so that it correctly uses the absolute difference and prints the correct category.
+
+The corrected program should use one if-else if-else decision structure and should work correctly whether the estimate is above or below the target. The intended categories are: Exact for a difference of 0, Very close for 1-2, Close for 3-5, Far for 6-10, and Very far for more than 10.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int target = random.nextInt(61) + 30;
+        int estimate = input.nextInt();
+        int difference = target - estimate;
+        System.out.println("Target charge:" + " " + target);
+        System.out.println("Your estimate:" + " " + estimate);
+        if (difference <= 10) {
+            System.out.println("Far");
+        }
+        else if (difference <= 5) {
+            System.out.println("Close");
+        }
+        else if (difference <= 2) {
+            System.out.println("Very close");
+        }
+        else if (difference == 0) {
+            System.out.println("Exact");
+        }
+        else {
+            System.out.println("Very far");
+        }
+    }
+}','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-1C','python','code-explanation','Temperature Match','Study the program below. Without changing or running the program, explain how it determines the final message.
+
+1. Explain why the program uses abs() when calculating difference.
+2. Explain how the first if-elif-else structure decides which closeness message to print.
+3. Explain why the conditions are checked in the order shown.
+4. Explain how the second if-elif-else structure determines whether the reading is above, below, or equal to the target.','import random
+
+target = random.randint(55, 75)
+reading = int(input("Enter the temperature reading: "))
+
+difference = abs(target - reading)
+
+if difference == 0:
+    print("Perfect match")
+elif difference <= 2:
+    print("Very close")
+elif difference <= 5:
+    print("Close")
+else:
+    print("Needs adjustment")
+
+if reading < target:
+    print("Reading is below target")
+elif reading > target:
+    print("Reading is above target")
+else:
+    print("Reading equals target")','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-1C','java','code-explanation','Temperature Match','Study the Java program below. Without changing or running the program, explain how it determines the final message.
+
+1. Explain why the program uses Math.abs() when calculating difference.
+2. Explain how the first if-else if-else structure decides which closeness message to print.
+3. Explain why the conditions are checked in the order shown.
+4. Explain how the second if-else if-else structure determines whether the reading is above, below, or equal to the target.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int target = random.nextInt(21) + 55;
+        int reading = input.nextInt();
+        int difference = Math.abs(target - reading);
+        if (difference == 0) {
+            System.out.println("Perfect match");
+        }
+        else if (difference <= 2) {
+            System.out.println("Very close");
+        }
+        else if (difference <= 5) {
+            System.out.println("Close");
+        }
+        else {
+            System.out.println("Needs adjustment");
+        }
+        if (reading < target) {
+            System.out.println("Reading is below target");
+        }
+        else if (reading > target) {
+            System.out.println("Reading is above target");
+        }
+        else {
+            System.out.println("Reading equals target");
+        }
+    }
+}','medium','["matched-family-1","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-2A','python','problem-solving','Trip Cost Planner','Write a Python program that estimates the cost of a road trip and then classifies the trip by total cost.
+1. Ask the user for the trip distance in miles, the vehicle''s miles per gallon, the price of one gallon of fuel, and the toll cost.
+2. Calculate how many gallons of fuel are needed.
+3. Calculate the fuel cost and then the total trip cost after adding the toll cost.
+4. Round the total trip cost to two decimal places.
+5. Use an if-elif-else statement to classify the total cost as Low Cost when it is less than $40, Moderate Cost when it is from $40 through $79.99, High Cost when it is from $80 through $149.99, and Very High Cost when it is $150 or more.
+6. Print the gallons needed, fuel cost, total cost, and cost classification.','','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-2A','java','problem-solving','Trip Cost Planner','Write a Java program that estimates the cost of a road trip and then classifies the trip by total cost.
+1. Ask the user for the trip distance in miles, the vehicle''s miles per gallon, the price of one gallon of fuel, and the toll cost.
+2. Calculate how many gallons of fuel are needed.
+3. Calculate the fuel cost and then the total trip cost after adding the toll cost.
+4. Round the total trip cost to two decimal places.
+5. Use an if-else if-else statement to classify the total cost as Low Cost when it is less than $40, Moderate Cost when it is from $40 through $79.99, High Cost when it is from $80 through $149.99, and Very High Cost when it is $150 or more.
+6. Print the gallons needed, fuel cost, total cost, and cost classification.','','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-2B','python','debugging','Event Ticket Calculator','The following program is intended to calculate the final price of an event purchase and apply one discount based on the subtotal. The program produces incorrect totals and discount categories. Fix it.
+
+The corrected program should calculate the subtotal as ticket price multiplied by number of tickets, select only the highest discount level earned, subtract the discount, add the service fee, and print the correct totals.','ticket_price = float(input("Price of one ticket: "))
+tickets = int(input("Number of tickets: "))
+service_fee = float(input("Service fee: "))
+
+subtotal = ticket_price + tickets
+
+if subtotal >= 50:
+    discount = subtotal * 0.05
+elif subtotal >= 100:
+    discount = subtotal * 0.10
+elif subtotal >= 200:
+    discount = subtotal * 0.15
+else:
+    discount = 0
+
+final_total = subtotal - discount * service_fee
+
+print("Subtotal:", round(subtotal, 2))
+print("Discount:", round(discount, 2))
+print("Final total:", round(final_total, 2))','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-2B','java','debugging','Event Ticket Calculator','The following program is intended to calculate the final price of an event purchase and apply one discount based on the subtotal. The program produces incorrect totals and discount categories. Fix it.
+
+The corrected program should calculate the subtotal as ticket price multiplied by number of tickets, select only the highest discount level earned, subtract the discount, add the service fee, and print the correct totals.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        double ticket_price = input.nextDouble();
+        int tickets = input.nextInt();
+        double service_fee = input.nextDouble();
+        double subtotal = ticket_price + tickets;
+        double discount = 0;
+        if (subtotal >= 50) {
+            discount = subtotal * 0.05;
+        }
+        else if (subtotal >= 100) {
+            discount = subtotal * 0.10;
+        }
+        else if (subtotal >= 200) {
+            discount = subtotal * 0.15;
+        }
+        else {
+            discount = 0;
+        }
+        double final_total = subtotal - discount * service_fee;
+        System.out.println("Subtotal:" + " " + (Math.round(subtotal * 100.0) / 100.0));
+        System.out.println("Discount:" + " " + (Math.round(discount * 100.0) / 100.0));
+        System.out.println("Final total:" + " " + (Math.round(final_total * 100.0) / 100.0));
+    }
+}','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-2C','python','code-explanation','Equipment Rental Cost','Study the program below. Without changing or running it, explain how the program calculates and classifies the final rental cost.
+
+1. Explain how rental_cost is calculated from the user inputs.
+2. Explain how the program decides which discount is applied and why only one discount is selected.
+3. Explain how final_cost is calculated.
+4. Explain how the second conditional structure classifies the final cost.','days = int(input("Number of rental days: "))
+daily_rate = float(input("Daily rental rate: "))
+insurance = float(input("Insurance charge: "))
+
+rental_cost = days * daily_rate
+
+if rental_cost >= 300:
+    discount = rental_cost * 0.15
+elif rental_cost >= 150:
+    discount = rental_cost * 0.10
+elif rental_cost >= 75:
+    discount = rental_cost * 0.05
+else:
+    discount = 0
+
+final_cost = rental_cost - discount + insurance
+
+if final_cost < 100:
+    category = "Low"
+elif final_cost < 250:
+    category = "Moderate"
+else:
+    category = "High"
+
+print("Final rental cost:", round(final_cost, 2))
+print("Cost category:", category)','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-2C','java','code-explanation','Equipment Rental Cost','Study the Java program below. Without changing or running it, explain how the program calculates and classifies the final rental cost.
+
+1. Explain how rental_cost is calculated from the user inputs.
+2. Explain how the program decides which discount is applied and why only one discount is selected.
+3. Explain how final_cost is calculated.
+4. Explain how the second conditional structure classifies the final cost.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int days = input.nextInt();
+        double daily_rate = input.nextDouble();
+        double insurance = input.nextDouble();
+        double rental_cost = days * daily_rate;
+        double discount = 0;
+        if (rental_cost >= 300) {
+            discount = rental_cost * 0.15;
+        }
+        else if (rental_cost >= 150) {
+            discount = rental_cost * 0.10;
+        }
+        else if (rental_cost >= 75) {
+            discount = rental_cost * 0.05;
+        }
+        else {
+            discount = 0;
+        }
+        double final_cost = rental_cost - discount + insurance;
+        String category = "";
+        if (final_cost < 100) {
+            category = "Low";
+        }
+        else if (final_cost < 250) {
+            category = "Moderate";
+        }
+        else {
+            category = "High";
+        }
+        System.out.println("Final rental cost:" + " " + (Math.round(final_cost * 100.0) / 100.0));
+        System.out.println("Cost category:" + " " + category);
+    }
+}','medium','["matched-family-2","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-3A','python','problem-solving','Stage Lighting Reach','Write a Python program that helps a stage technician choose the shortest lighting system that can reach a performer.
+1. Ask for the length of a short light arm.
+2. Ask for the length of a long light arm. The long arm must be longer than the short arm. If it is not, display a message and ask for the long arm length one more time. You may assume the second entry is valid.
+3. Ask for the length of an extension that can be attached to the long arm.
+4. Calculate the extended reach by adding the long arm length and extension length.
+5. Ask for the distance to the performer.
+6. Use an if-elif-else statement to select the shortest option that can reach the performer: short arm, long arm, or long arm with extension.
+7. If none of the three options can reach the performer, print that the performer is out of range.','','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-3A','java','problem-solving','Stage Lighting Reach','Write a Java program that helps a stage technician choose the shortest lighting system that can reach a performer.
+1. Ask for the length of a short light arm.
+2. Ask for the length of a long light arm. The long arm must be longer than the short arm. If it is not, display a message and ask for the long arm length one more time. You may assume the second entry is valid.
+3. Ask for the length of an extension that can be attached to the long arm.
+4. Calculate the extended reach by adding the long arm length and extension length.
+5. Ask for the distance to the performer.
+6. Use an if-else if-else statement to select the shortest option that can reach the performer: short arm, long arm, or long arm with extension.
+7. If none of the three options can reach the performer, print that the performer is out of range.','','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-3B','python','debugging','Trail Rescue Rope','The following program is intended to validate two rope lengths, calculate a combined reach, and choose the shortest rescue option that can reach a hiker. The program contains errors. Fix it so that the relationships among the input values and calculated values remain correct.
+
+The corrected program should preserve the original short rope value, correctly replace the invalid long rope value, calculate the combined reach from the long rope and extension, and always choose the shortest option that works.','short_rope = int(input("Short rope length: "))
+long_rope = int(input("Long rope length: "))
+
+if long_rope <= short_rope:
+    print("Long rope must be longer. Try again.")
+    short_rope = int(input("Long rope length: "))
+
+extension = int(input("Extension length: "))
+combined_reach = short_rope + extension
+
+distance = int(input("Distance to hiker: "))
+
+if distance <= combined_reach:
+    print("Use rope with extension")
+elif distance <= long_rope:
+    print("Use long rope")
+elif distance <= short_rope:
+    print("Use short rope")
+else:
+    print("Hiker is out of range")','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-3B','java','debugging','Trail Rescue Rope','The following program is intended to validate two rope lengths, calculate a combined reach, and choose the shortest rescue option that can reach a hiker. The program contains errors. Fix it so that the relationships among the input values and calculated values remain correct.
+
+The corrected program should preserve the original short rope value, correctly replace the invalid long rope value, calculate the combined reach from the long rope and extension, and always choose the shortest option that works.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int short_rope = input.nextInt();
+        int long_rope = input.nextInt();
+        if (long_rope <= short_rope) {
+            System.out.println("Long rope must be longer. Try again.");
+            short_rope = input.nextInt();
+        }
+        int extension = input.nextInt();
+        int combined_reach = short_rope + extension;
+        int distance = input.nextInt();
+        if (distance <= combined_reach) {
+            System.out.println("Use rope with extension");
+        }
+        else if (distance <= long_rope) {
+            System.out.println("Use long rope");
+        }
+        else if (distance <= short_rope) {
+            System.out.println("Use short rope");
+        }
+        else {
+            System.out.println("Hiker is out of range");
+        }
+    }
+}','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-3C','python','code-explanation','Robot Tool Reach','Study the program below. Without changing or running it, explain how the program validates its input and selects a tool.
+
+1. Explain what condition causes the program to ask for extended_arm a second time.
+2. Explain why full_reach is calculated after the validation step.
+3. Explain why the program checks arm before extended_arm and full_reach.
+4. Explain what relationship must be true among arm, extended_arm, and full_reach for the decision structure to work as intended.','arm = int(input("Robot arm length: "))
+extended_arm = int(input("Extended arm length: "))
+
+if extended_arm <= arm:
+    print("Extended arm must be longer. Enter it again.")
+    extended_arm = int(input("Extended arm length: "))
+
+tool = int(input("Tool attachment length: "))
+full_reach = extended_arm + tool
+
+target_distance = int(input("Distance to target: "))
+
+if target_distance <= arm:
+    print("Use standard arm")
+elif target_distance <= extended_arm:
+    print("Use extended arm")
+elif target_distance <= full_reach:
+    print("Use extended arm with tool")
+else:
+    print("Target is out of reach")','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-3C','java','code-explanation','Robot Tool Reach','Study the Java program below. Without changing or running it, explain how the program validates its input and selects a tool.
+
+1. Explain what condition causes the program to ask for extended_arm a second time.
+2. Explain why full_reach is calculated after the validation step.
+3. Explain why the program checks arm before extended_arm and full_reach.
+4. Explain what relationship must be true among arm, extended_arm, and full_reach for the decision structure to work as intended.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int arm = input.nextInt();
+        int extended_arm = input.nextInt();
+        if (extended_arm <= arm) {
+            System.out.println("Extended arm must be longer. Enter it again.");
+            extended_arm = input.nextInt();
+        }
+        int tool = input.nextInt();
+        int full_reach = extended_arm + tool;
+        int target_distance = input.nextInt();
+        if (target_distance <= arm) {
+            System.out.println("Use standard arm");
+        }
+        else if (target_distance <= extended_arm) {
+            System.out.println("Use extended arm");
+        }
+        else if (target_distance <= full_reach) {
+            System.out.println("Use extended arm with tool");
+        }
+        else {
+            System.out.println("Target is out of reach");
+        }
+    }
+}','medium','["matched-family-3","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-4A','python','problem-solving','Emergency Beacon Range','Write a Python program that determines which communication system at an emergency station can reach a stranded traveler.
+1. Ask for the station''s X coordinate, Y coordinate, and diameter.
+2. Ask for the traveler''s X coordinate, Y coordinate, and the diameter of the traveler''s signal area.
+3. Ask for the maximum ranges of a short-range radio, medium-range radio, and long-range radio. You may assume the three ranges are entered from shortest to longest.
+4. Calculate the straight-line distance between the station and the traveler using their coordinates.
+5. Convert both diameters to radii and calculate the effective distance between the outside edges of the two circular areas. You may assume the two areas do not overlap.
+6. Use an if-elif-else statement to select the shortest radio that can cover the effective distance.
+7. If none can reach, print that the traveler is out of communication range.','','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-4A','java','problem-solving','Emergency Beacon Range','Write a Java program that determines which communication system at an emergency station can reach a stranded traveler.
+1. Ask for the station''s X coordinate, Y coordinate, and diameter.
+2. Ask for the traveler''s X coordinate, Y coordinate, and the diameter of the traveler''s signal area.
+3. Ask for the maximum ranges of a short-range radio, medium-range radio, and long-range radio. You may assume the three ranges are entered from shortest to longest.
+4. Calculate the straight-line distance between the station and the traveler using their coordinates.
+5. Convert both diameters to radii and calculate the effective distance between the outside edges of the two circular areas. You may assume the two areas do not overlap.
+6. Use an if-else if-else statement to select the shortest radio that can cover the effective distance.
+7. If none can reach, print that the traveler is out of communication range.','','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-4B','python','debugging','Delivery Robot Loading Zone','The following program is intended to calculate the effective distance between a delivery robot and a circular loading zone, then select the shortest delivery arm that can reach the zone. It does not work correctly. Fix it.
+
+The corrected program should use radius rather than diameter, calculate Euclidean distance correctly, measure the distance between the outside edges of the circular areas, and choose the shortest arm that reaches.','from math import sqrt
+
+robot_x = int(input("Robot x: "))
+robot_y = int(input("Robot y: "))
+robot_diameter = int(input("Robot diameter: "))
+
+zone_x = int(input("Loading zone x: "))
+zone_y = int(input("Loading zone y: "))
+zone_diameter = int(input("Loading zone diameter: "))
+
+short_arm = int(input("Short arm range: "))
+medium_arm = int(input("Medium arm range: "))
+long_arm = int(input("Long arm range: "))
+
+robot_radius = robot_diameter
+zone_radius = zone_diameter
+
+center_distance = sqrt((robot_x - zone_x) ** 2 - (robot_y - zone_y) ** 2)
+effective_distance = center_distance + robot_radius + zone_radius
+
+if effective_distance <= long_arm:
+    print("Use long arm")
+elif effective_distance <= medium_arm:
+    print("Use medium arm")
+elif effective_distance <= short_arm:
+    print("Use short arm")
+else:
+    print("Loading zone is out of reach")','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-4B','java','debugging','Delivery Robot Loading Zone','The following program is intended to calculate the effective distance between a delivery robot and a circular loading zone, then select the shortest delivery arm that can reach the zone. It does not work correctly. Fix it.
+
+The corrected program should use radius rather than diameter, calculate Euclidean distance correctly, measure the distance between the outside edges of the circular areas, and choose the shortest arm that reaches.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int robot_x = input.nextInt();
+        int robot_y = input.nextInt();
+        int robot_diameter = input.nextInt();
+        int zone_x = input.nextInt();
+        int zone_y = input.nextInt();
+        int zone_diameter = input.nextInt();
+        int short_arm = input.nextInt();
+        int medium_arm = input.nextInt();
+        int long_arm = input.nextInt();
+        int robot_radius = robot_diameter;
+        int zone_radius = zone_diameter;
+        double center_distance = Math.sqrt(Math.pow((robot_x - zone_x), 2) - Math.pow((robot_y - zone_y), 2));
+        double effective_distance = center_distance + robot_radius + zone_radius;
+        if (effective_distance <= long_arm) {
+            System.out.println("Use long arm");
+        }
+        else if (effective_distance <= medium_arm) {
+            System.out.println("Use medium arm");
+        }
+        else if (effective_distance <= short_arm) {
+            System.out.println("Use short arm");
+        }
+        else {
+            System.out.println("Loading zone is out of reach");
+        }
+    }
+}','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-4C','python','code-explanation','Research Rover Sample Range','Study the program below. Without changing or running it, explain how the rover determines which collection tool can reach the sample.
+
+1. Explain how center_distance is calculated from the two coordinate pairs.
+2. Explain why the program divides each diameter by 2.
+3. Explain why the two radii are subtracted from center_distance.
+4. Explain why the tools are checked from shortest range to longest range.','from math import sqrt
+
+rover_x = int(input("Rover x: "))
+rover_y = int(input("Rover y: "))
+rover_diameter = int(input("Rover diameter: "))
+
+sample_x = int(input("Sample x: "))
+sample_y = int(input("Sample y: "))
+sample_diameter = int(input("Sample diameter: "))
+
+grabber = int(input("Grabber range: "))
+extended_grabber = int(input("Extended grabber range: "))
+scanner = int(input("Scanner range: "))
+
+rover_radius = rover_diameter / 2
+sample_radius = sample_diameter / 2
+center_distance = sqrt((rover_x - sample_x) ** 2 + (rover_y - sample_y) ** 2)
+effective_distance = center_distance - rover_radius - sample_radius
+
+if effective_distance <= grabber:
+    print("Use grabber")
+elif effective_distance <= extended_grabber:
+    print("Use extended grabber")
+elif effective_distance <= scanner:
+    print("Use scanner")
+else:
+    print("Sample is out of range")','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-4C','java','code-explanation','Research Rover Sample Range','Study the Java program below. Without changing or running it, explain how the rover determines which collection tool can reach the sample.
+
+1. Explain how center_distance is calculated from the two coordinate pairs.
+2. Explain why the program divides each diameter by 2.
+3. Explain why the two radii are subtracted from center_distance.
+4. Explain why the tools are checked from shortest range to longest range.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int rover_x = input.nextInt();
+        int rover_y = input.nextInt();
+        int rover_diameter = input.nextInt();
+        int sample_x = input.nextInt();
+        int sample_y = input.nextInt();
+        int sample_diameter = input.nextInt();
+        int grabber = input.nextInt();
+        int extended_grabber = input.nextInt();
+        int scanner = input.nextInt();
+        double rover_radius = rover_diameter / 2.0;
+        double sample_radius = sample_diameter / 2.0;
+        double center_distance = Math.sqrt(Math.pow((rover_x - sample_x), 2) + Math.pow((rover_y - sample_y), 2));
+        double effective_distance = center_distance - rover_radius - sample_radius;
+        if (effective_distance <= grabber) {
+            System.out.println("Use grabber");
+        }
+        else if (effective_distance <= extended_grabber) {
+            System.out.println("Use extended grabber");
+        }
+        else if (effective_distance <= scanner) {
+            System.out.println("Use scanner");
+        }
+        else {
+            System.out.println("Sample is out of range");
+        }
+    }
+}','medium','["matched-family-4","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-5A','python','problem-solving','Campus Transport Selection','Write a Python program that selects the smallest campus vehicle suitable for a trip.
+1. Ask for the number of passengers, the number of bags, and the travel distance in miles.
+2. A cart may be used when there are no more than 2 passengers, no more than 2 bags, and the distance is no more than 5 miles.
+3. A van may be used when there are no more than 6 passengers, no more than 8 bags, and the distance is no more than 50 miles.
+4. A shuttle may be used when there are no more than 14 passengers and no more than 20 bags. The shuttle may be used for any distance.
+5. Use compound Boolean expressions and an if-elif-else structure to choose the smallest suitable vehicle.
+6. If none of the vehicles satisfies the requirements, print that no available vehicle can handle the trip.','','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-5A','java','problem-solving','Campus Transport Selection','Write a Java program that selects the smallest campus vehicle suitable for a trip.
+1. Ask for the number of passengers, the number of bags, and the travel distance in miles.
+2. A cart may be used when there are no more than 2 passengers, no more than 2 bags, and the distance is no more than 5 miles.
+3. A van may be used when there are no more than 6 passengers, no more than 8 bags, and the distance is no more than 50 miles.
+4. A shuttle may be used when there are no more than 14 passengers and no more than 20 bags. The shuttle may be used for any distance.
+5. Use compound Boolean expressions and an if-else if-else structure to choose the smallest suitable vehicle.
+6. If none of the vehicles satisfies the requirements, print that no available vehicle can handle the trip.','','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-5B','python','debugging','Event Room Assignment','The following program is intended to choose the smallest room that satisfies both the attendance and equipment requirements. It sometimes selects rooms that do not meet all requirements. Fix the program.
+
+Room A can hold at most 20 people and provide at most 10 computers. Room B can hold at most 40 people and provide at most 25 computers. Room C can hold at most 80 people and provide at most 50 computers. The corrected program should choose the smallest room that satisfies both requirements.','people = int(input("Number of people: "))
+computers = int(input("Computers needed: "))
+
+if people <= 20 or computers <= 10:
+    print("Use Room A")
+elif people <= 40 or computers <= 25:
+    print("Use Room B")
+elif people <= 80 or computers <= 50:
+    print("Use Room C")
+else:
+    print("No room is large enough")','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-5B','java','debugging','Event Room Assignment','The following program is intended to choose the smallest room that satisfies both the attendance and equipment requirements. It sometimes selects rooms that do not meet all requirements. Fix the Java program.
+
+Room A can hold at most 20 people and provide at most 10 computers. Room B can hold at most 40 people and provide at most 25 computers. Room C can hold at most 80 people and provide at most 50 computers. The corrected program should choose the smallest room that satisfies both requirements.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int people = input.nextInt();
+        int computers = input.nextInt();
+        if (people <= 20 || computers <= 10) {
+            System.out.println("Use Room A");
+        }
+        else if (people <= 40 || computers <= 25) {
+            System.out.println("Use Room B");
+        }
+        else if (people <= 80 || computers <= 50) {
+            System.out.println("Use Room C");
+        }
+        else {
+            System.out.println("No room is large enough");
+        }
+    }
+}','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-5C','python','code-explanation','Equipment Checkout','Study the program below. Without changing or running it, explain how the program chooses the first equipment package that satisfies the request.
+
+1. Explain what the and operator requires in each condition.
+2. Explain why the smallest package is checked first.
+3. Explain what happens when one part of a condition is true but the other part is false.
+4. Explain when the final else branch is reached.','people = int(input("Number of users: "))
+hours = int(input("Hours needed: "))
+
+if people <= 2 and hours <= 2:
+    print("Basic package")
+elif people <= 5 and hours <= 5:
+    print("Standard package")
+elif people <= 10 and hours <= 8:
+    print("Extended package")
+else:
+    print("Request requires special approval")','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-5C','java','code-explanation','Equipment Checkout','Study the Java program below. Without changing or running it, explain how the program chooses the first equipment package that satisfies the request.
+
+1. Explain what the && operator requires in each condition.
+2. Explain why the smallest package is checked first.
+3. Explain what happens when one part of a condition is true but the other part is false.
+4. Explain when the final else branch is reached.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        int people = input.nextInt();
+        int hours = input.nextInt();
+        if (people <= 2 && hours <= 2) {
+            System.out.println("Basic package");
+        }
+        else if (people <= 5 && hours <= 5) {
+            System.out.println("Standard package");
+        }
+        else if (people <= 10 && hours <= 8) {
+            System.out.println("Extended package");
+        }
+        else {
+            System.out.println("Request requires special approval");
+        }
+    }
+}','medium','["matched-family-5","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-6A','python','problem-solving','Package Delivery Method','Write a Python program that uses a package''s measurements and travel distance to select a delivery method.
+1. Ask for the package length, width, height, weight, and delivery distance.
+2. Calculate the package volume by multiplying length, width, and height.
+3. Standard delivery may be used when the volume is 1,000 cubic units or less, the weight is 20 units or less, and the distance is 100 miles or less.
+4. Large-package delivery may be used when the volume is 5,000 cubic units or less, the weight is 60 units or less, and the distance is 300 miles or less.
+5. Freight delivery may be used when the volume is 15,000 cubic units or less and the weight is 150 units or less.
+6. Use an if-elif-else structure and compound Boolean expressions to select the smallest delivery method that works.
+7. If the package does not meet any of the limits, print that special shipping is required.
+8. Print the calculated volume and selected delivery method.','','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-6A','java','problem-solving','Package Delivery Method','Write a Java program that uses a package''s measurements and travel distance to select a delivery method.
+1. Ask for the package length, width, height, weight, and delivery distance.
+2. Calculate the package volume by multiplying length, width, and height.
+3. Standard delivery may be used when the volume is 1,000 cubic units or less, the weight is 20 units or less, and the distance is 100 miles or less.
+4. Large-package delivery may be used when the volume is 5,000 cubic units or less, the weight is 60 units or less, and the distance is 300 miles or less.
+5. Freight delivery may be used when the volume is 15,000 cubic units or less and the weight is 150 units or less.
+6. Use an if-else if-else structure and compound Boolean expressions to select the smallest delivery method that works.
+7. If the package does not meet any of the limits, print that special shipping is required.
+8. Print the calculated volume and selected delivery method.','','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-6B','python','debugging','Storage Locker Selection','The following program is intended to calculate the volume of an item and select the smallest locker that satisfies both the volume and weight limits. The program contains calculation and decision errors. Fix it.
+
+A small locker supports a volume of up to 1,200 cubic units and weight up to 20 units. A medium locker supports up to 3,500 cubic units and 50 units of weight. A large locker supports up to 8,000 cubic units and 100 units of weight. The corrected program should calculate volume correctly and choose the smallest locker that meets both limits.','length = float(input("Item length: "))
+width = float(input("Item width: "))
+height = float(input("Item height: "))
+weight = float(input("Item weight: "))
+
+volume = length + width + height
+
+if volume <= 8000 and weight <= 100:
+    print("Large locker")
+elif volume <= 3500 and weight <= 50:
+    print("Medium locker")
+elif volume <= 1200 and weight <= 20:
+    print("Small locker")
+else:
+    print("Item requires special storage")','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-6B','java','debugging','Storage Locker Selection','The following program is intended to calculate the volume of an item and select the smallest locker that satisfies both the volume and weight limits. The program contains calculation and decision errors. Fix it.
+
+A small locker supports a volume of up to 1,200 cubic units and weight up to 20 units. A medium locker supports up to 3,500 cubic units and 50 units of weight. A large locker supports up to 8,000 cubic units and 100 units of weight. The corrected program should calculate volume correctly and choose the smallest locker that meets both limits.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        double length = input.nextDouble();
+        double width = input.nextDouble();
+        double height = input.nextDouble();
+        double weight = input.nextDouble();
+        double volume = length + width + height;
+        if (volume <= 8000 && weight <= 100) {
+            System.out.println("Large locker");
+        }
+        else if (volume <= 3500 && weight <= 50) {
+            System.out.println("Medium locker");
+        }
+        else if (volume <= 1200 && weight <= 20) {
+            System.out.println("Small locker");
+        }
+        else {
+            System.out.println("Item requires special storage");
+        }
+    }
+}','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-PY-6C','python','code-explanation','Moving Service Selection','Study the program below. Without changing or running it, explain how the program uses calculated volume and weight to choose a moving service.
+
+1. Explain how the program calculates volume.
+2. Explain why both volume and weight are checked for each service.
+3. Explain why the service options are ordered from the smallest limits to the largest limits.
+4. Explain the circumstances that cause Special transport to be selected.','length = float(input("Load length: "))
+width = float(input("Load width: "))
+height = float(input("Load height: "))
+weight = float(input("Load weight: "))
+
+volume = length * width * height
+
+if volume <= 1500 and weight <= 25:
+    service = "Small van"
+elif volume <= 4500 and weight <= 70:
+    service = "Cargo van"
+elif volume <= 12000 and weight <= 160:
+    service = "Box truck"
+else:
+    service = "Special transport"
+
+print("Load volume:", round(volume, 2))
+print("Selected service:", service)','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true),
+('PB-JA-6C','java','code-explanation','Moving Service Selection','Study the Java program below. Without changing or running it, explain how the program uses calculated volume and weight to choose a moving service.
+
+1. Explain how the program calculates volume.
+2. Explain why both volume and weight are checked for each service.
+3. Explain why the service options are ordered from the smallest limits to the largest limits.
+4. Explain the circumstances that cause Special transport to be selected.','import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Random random = new Random();
+        double length = input.nextDouble();
+        double width = input.nextDouble();
+        double height = input.nextDouble();
+        double weight = input.nextDouble();
+        double volume = length * width * height;
+        String service = "";
+        if (volume <= 1500 && weight <= 25) {
+            service = "Small van";
+        }
+        else if (volume <= 4500 && weight <= 70) {
+            service = "Cargo van";
+        }
+        else if (volume <= 12000 && weight <= 160) {
+            service = "Box truck";
+        }
+        else {
+            service = "Special transport";
+        }
+        System.out.println("Load volume:" + " " + (Math.round(volume * 100.0) / 100.0));
+        System.out.println("Selected service:" + " " + service);
+    }
+}','medium','["matched-family-6","conditional reasoning","multi-step computation"]'::jsonb,true)
+on conflict (id) do update set
+  language = excluded.language,
+  modality_id = excluded.modality_id,
+  title = excluded.title,
+  prompt = excluded.prompt,
+  starter_code = excluded.starter_code,
+  difficulty = excluded.difficulty,
+  expected_concepts = excluded.expected_concepts,
+  active = excluded.active;
+
+-- Questions retired because they require participant-provided runtime stdin.
+update public.questions set active=false where id in ('PY-PS-18','PY-PS-19','PY-PS-20','PY-DBG-18','PY-DBG-19','PY-DBG-20','PY-TRC-18','PY-TRC-19','PY-TRC-20','JA-PS-02','JA-DBG-02','JA-TRC-02');
+
+-- Code Completion remains retired unless deliberately re-enabled in questions.seed.json.
+
+
+-- Additive v3 migration. Does not delete or relabel legacy research records.
+alter table public.study_sessions alter column language drop not null;
+alter table public.study_sessions add column if not exists study_key text;
+alter table public.study_sessions add column if not exists session_number integer check (session_number between 1 and 3);
+alter table public.study_sessions add column if not exists topic text;
+alter table public.study_sessions add column if not exists workflow_version text;
+alter table public.study_sessions add column if not exists protocol_snapshot jsonb;
+alter table public.study_sessions add column if not exists is_test boolean not null default false;
+alter table public.study_sessions add column if not exists consented_at timestamptz;
+alter table public.study_sessions add column if not exists coding_completed_at timestamptz;
+alter table public.study_sessions add column if not exists withdrawal_requested_at timestamptz;
+alter table public.study_sessions add column if not exists entry_locked_at timestamptz;
+-- The old single-active-session constraint prevents longitudinal waves.
+drop index if exists public.one_active_session_per_participant;
+create unique index if not exists cw_unique_wave on public.study_sessions(participant_id, study_key, session_number)
+  where workflow_version is not null;
+alter table public.question_assignments add column if not exists question_snapshot jsonb;
+-- Freeze the grading concepts into pre-v4.0.3 assignment snapshots so later question-bank
+-- revisions cannot silently change the scoring context of an already assigned question.
+update public.question_assignments qa
+set question_snapshot = qa.question_snapshot || jsonb_build_object('expected_concepts', q.expected_concepts)
+from public.questions q
+where qa.question_id=q.id and qa.question_snapshot is not null and not (qa.question_snapshot ? 'expected_concepts');
+alter table public.submissions add column if not exists revision integer not null default 0;
+alter table public.submissions add column if not exists draft_inputs jsonb not null default '{}'::jsonb;
+alter table public.submissions add column if not exists final_inputs jsonb;
+alter table public.submissions add column if not exists skipped boolean not null default false;
+alter table public.submissions add column if not exists final_request_id uuid;
+alter table public.submissions add column if not exists last_save_request_id uuid;
+alter table public.submissions add column if not exists final_score integer check(final_score between 0 and 100);
+alter table public.submissions add column if not exists score_details jsonb;
+alter table public.draft_events add column if not exists input_snapshot jsonb;
+
+create table if not exists public.cw_studies (
+  study_key text primary key, config jsonb not null, revision integer not null default 1,
+  updated_at timestamptz not null default now()
+);
+
+-- v4.0.2: if an existing deployment still has the old untouched placeholder
+-- delivery settings, align them with the supplied in-person consent without
+-- overwriting a researcher-customized configuration.
+update public.cw_studies
+set config = jsonb_set(
+      jsonb_set(config, '{deliveryMode}', to_jsonb('in_person'::text), true),
+      '{durationText}', to_jsonb('Each study session will take about 65 minutes.'::text), true
+    ),
+    revision = revision + 1,
+    updated_at = now()
+where study_key = 'programming-practice-16317'
+  and config->>'deliveryMode' = 'remote'
+  and config->>'durationText' = 'The supplied consent describes about 65 minutes per session. Timing for this expanded workflow needs confirmation.';
+create table if not exists public.cw_participant_auth (
+  participant_id uuid primary key references public.participants(id) on delete restrict,
+  secret_hash text not null, preferred_language text check(preferred_language in ('python','java')),
+  is_test boolean not null default true, created_at timestamptz not null default now()
+);
+create table if not exists public.cw_access_tokens (
+  token_hash text primary key, participant_id uuid not null references public.participants(id) on delete cascade,
+  expires_at timestamptz not null, created_at timestamptz not null default now()
+);
+create index if not exists cw_tokens_expiry on public.cw_access_tokens(expires_at);
+create table if not exists public.cw_rate_limits (
+  bucket text primary key, hits integer not null, expires_at timestamptz not null
+);
+create table if not exists public.cw_question_banks (
+  bank_hash text primary key,
+  definitions jsonb not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists cw_rates_expiry on public.cw_rate_limits(expires_at);
+create table if not exists public.cw_stage_progress (
+  session_id uuid not null references public.study_sessions(id) on delete cascade,
+  stage_key text not null, ordinal integer not null,
+  status text not null check(status in ('pending','in_progress','completed','skipped','disabled','declined')),
+  definition jsonb not null, responses jsonb not null default '{}'::jsonb,
+  scoring jsonb, revision integer not null default 0, final_request_id uuid,
+  first_viewed_at timestamptz, saved_at timestamptz, completed_at timestamptz,
+  active_seconds integer not null default 0, last_heartbeat timestamptz,
+  primary key(session_id,stage_key), unique(session_id,ordinal)
+);
+create table if not exists public.cw_private_consents (
+  id uuid primary key default gen_random_uuid(), session_id uuid not null unique references public.study_sessions(id),
+  document_version text not null, document_hash text not null, document_snapshot jsonb not null,
+  signature_envelope jsonb not null, signed_at timestamptz not null default now()
+);
+create table if not exists public.cw_compensation_claims (
+  id uuid primary key, amount numeric(8,2) not null, currency text not null,
+  contact_envelope jsonb, status text not null check(status in ('requested','contact_pending','declined','paid')),
+  is_test boolean not null, created_at timestamptz not null default now(), updated_at timestamptz not null default now()
+);
+create table if not exists public.cw_compensation_links (
+  session_id uuid primary key references public.study_sessions(id),
+  claim_id uuid not null unique references public.cw_compensation_claims(id)
+);
+create table if not exists public.cw_operations (
+  id uuid primary key, assignment_id uuid not null references public.question_assignments(id),
+  session_id uuid not null references public.study_sessions(id), kind text not null check(kind in ('execute','feedback','score')),
+  request_number integer not null, request_id uuid not null,
+  payload jsonb not null, result jsonb, status text not null check(status in ('pending','succeeded','failed','interrupted')),
+  requested_at timestamptz not null default now(), completed_at timestamptz,
+  unique(assignment_id,kind,request_id), unique(assignment_id,kind,request_number)
+);
+create index if not exists cw_operations_session on public.cw_operations(session_id,requested_at);
+create index if not exists cw_operations_assignment_recent on public.cw_operations(assignment_id,kind,requested_at desc);
+create table if not exists public.cw_audit_events (
+  id bigint generated by default as identity primary key, event_type text not null,
+  session_id uuid references public.study_sessions(id), participant_id uuid references public.participants(id),
+  metadata jsonb not null default '{}'::jsonb, recorded_at timestamptz not null default now()
+);
+
+alter table public.cw_stage_progress add column if not exists last_save_request_id uuid;
+alter table public.cw_operations add column if not exists displayed_at timestamptz;
+alter table public.cw_operations drop constraint if exists cw_operations_kind_check;
+alter table public.cw_operations add constraint cw_operations_kind_check check(kind in ('execute','feedback','score'));
+
+-- One restricted RPC boundary makes critical transitions atomic. Only the trusted
+-- backend can execute it. p.pid ALWAYS comes from server authentication, never the browser.
+create or replace function public.cw_rpc(action text, p jsonb default '{}'::jsonb)
+returns jsonb language plpgsql security invoker set search_path = public, pg_temp as $$
+declare
+  s study_sessions%rowtype; st cw_stage_progress%rowtype; a question_assignments%rowtype;
+  sub submissions%rowtype; au cw_participant_auth%rowtype; op cw_operations%rowtype;
+  pid uuid; sid uuid; current_key text; result jsonb; x jsonb; n integer; cnt integer;
+  cfg jsonb; tmp text; claim uuid; latest bigint; now_at timestamptz := clock_timestamp();
+begin
+  if action='config_init' then
+    insert into cw_studies(study_key,config) values(p->>'studyKey',p->'config') on conflict do nothing;
+    return (select to_jsonb(c) from cw_studies c where study_key=p->>'studyKey');
+  elsif action='config_get' then
+    return (select to_jsonb(c) from cw_studies c where study_key=p->>'studyKey');
+  elsif action='config_save' then
+    update cw_studies set config=p->'config', revision=revision+1, updated_at=now_at
+    where study_key=p->>'studyKey' and revision=(p->>'revision')::integer returning to_jsonb(cw_studies.*) into result;
+    if result is null then raise exception 'CONFLICT: Configuration changed. Reload first.'; end if;
+    insert into cw_audit_events(event_type,metadata) values('configuration_updated',jsonb_build_object('studyKey',p->>'studyKey','revision',result->'revision'));
+    return result;
+  elsif action='rate' then
+    if coalesce((p->>'cleanup')::boolean,false) then
+      delete from cw_rate_limits where expires_at < now_at - interval '1 day';
+    end if;
+    insert into cw_rate_limits(bucket,hits,expires_at) values(p->>'bucket',1,now_at+make_interval(secs=>(p->>'seconds')::integer))
+    on conflict(bucket) do update set hits=case when cw_rate_limits.expires_at<=now_at then 1 else cw_rate_limits.hits+1 end,
+      expires_at=case when cw_rate_limits.expires_at<=now_at then excluded.expires_at else cw_rate_limits.expires_at end
+    returning hits into n;
+    return jsonb_build_object('allowed',n <= (p->>'limit')::integer);
+  elsif action='enroll' then
+    insert into participants(participant_code) values(p->>'code') on conflict(participant_code) do nothing;
+    select id into pid from participants where participant_code=p->>'code';
+    if exists(select 1 from cw_participant_auth where participant_id=pid) then raise exception 'CONFLICT: Participant already has an access key. Use reset.'; end if;
+    insert into cw_participant_auth(participant_id,secret_hash,preferred_language,is_test) values(pid,p->>'hash',nullif(p->>'language',''),(p->>'isTest')::boolean);
+    insert into cw_audit_events(event_type,participant_id,metadata) values('participant_enrolled',pid,jsonb_build_object('isTest',p->'isTest'));
+    return jsonb_build_object('participantId',pid,'code',p->>'code');
+  elsif action='auth_lookup' then
+    return (select to_jsonb(ca) || jsonb_build_object('code',pa.participant_code) from cw_participant_auth ca join participants pa on pa.id=ca.participant_id where pa.participant_code=p->>'code');
+  elsif action='credentials_reset' then
+    select id into pid from participants where participant_code=p->>'code';
+    update cw_participant_auth set secret_hash=p->>'hash' where participant_id=pid;
+    if not found then raise exception 'NOT_FOUND: Participant not enrolled.'; end if;
+    delete from cw_access_tokens where participant_id=pid;
+    insert into cw_audit_events(event_type,participant_id) values('participant_access_key_reset',pid);
+    return jsonb_build_object('reset',true);
+  elsif action='token_issue' then
+    delete from cw_access_tokens where expires_at<now_at;
+    insert into cw_access_tokens(token_hash,participant_id,expires_at) values(p->>'hash',(p->>'pid')::uuid,now_at+interval '7 days');
+    return jsonb_build_object('ok',true);
+  elsif action='token_get' then
+    return (select jsonb_build_object('pid',t.participant_id,'code',pa.participant_code,'isTest',ca.is_test,'preferredLanguage',ca.preferred_language)
+      from cw_access_tokens t join participants pa on pa.id=t.participant_id join cw_participant_auth ca on ca.participant_id=t.participant_id
+      where t.token_hash=p->>'hash' and t.expires_at>now_at);
+  elsif action='token_delete' then
+    delete from cw_access_tokens where token_hash=p->>'hash'; return '{}'::jsonb;
+  elsif action='account' then
+    return jsonb_build_object('sessions',coalesce((select jsonb_agg(jsonb_build_object('id',ss.id,'number',ss.session_number,'label',ss.session_label,'language',ss.language,'status',ss.status,'entryLockedAt',ss.entry_locked_at,'startedAt',ss.started_at,'completedAt',ss.completed_at) order by ss.session_number)
+      from study_sessions ss where ss.participant_id=(p->>'pid')::uuid and ss.study_key=p->>'studyKey' and ss.workflow_version is not null),'[]'::jsonb));
+  elsif action='session_start' then
+    pid:=(p->>'pid')::uuid;
+    select * into au from cw_participant_auth where participant_id=pid for update;
+    if not found then raise exception 'FORBIDDEN: Unknown participant.'; end if;
+    select * into s from study_sessions where participant_id=pid and study_key=p->>'studyKey' and session_number=(p->>'number')::integer and workflow_version is not null;
+    if found then return to_jsonb(s); end if;
+    insert into study_sessions(participant_id,language,session_label,randomization_seed,status,study_key,session_number,topic,workflow_version,protocol_snapshot,is_test)
+      values(pid,au.preferred_language,p->>'label',p->>'seed','active',p->>'studyKey',(p->>'number')::integer,p->>'topic',p->>'version',p->'snapshot',au.is_test) returning * into s;
+    for x in select value from jsonb_array_elements(p->'stages') loop
+      insert into cw_stage_progress(session_id,stage_key,ordinal,status,definition)
+        values(s.id,x->>'key',(x->>'ordinal')::integer,case when (x->>'enabled')::boolean then 'pending' else 'disabled' end,x);
+    end loop;
+    insert into cw_audit_events(event_type,session_id,participant_id,metadata) values('session_created',s.id,pid,jsonb_build_object('number',s.session_number,'isTest',s.is_test));
+    return to_jsonb(s);
+  elsif action='bank_release' then
+    return coalesce((select jsonb_agg(x.value order by x.value->>'id')
+      from cw_question_banks b cross join lateral jsonb_array_elements(b.definitions) x(value)
+      where b.bank_hash=p->>'bankHash' and x.value->>'language'=p->>'language'
+        and coalesce((x.value->>'active')::boolean,true)
+        and x.value->>'modality_id' in ('problem-solving','debugging','code-explanation')),'[]'::jsonb);
+  elsif action='bank' then
+    return coalesce((select jsonb_agg(to_jsonb(q) order by q.id) from questions q where q.active and q.modality_id in ('problem-solving','debugging','code-explanation') and q.language=p->>'language'),'[]'::jsonb);
+  elsif action='used_questions' then
+    return coalesce((select jsonb_agg(qa.question_id) from question_assignments qa join study_sessions ss on ss.id=qa.session_id
+      where ss.participant_id=(p->>'pid')::uuid and ss.study_key=p->>'studyKey' and ss.id<>(p->>'sid')::uuid),'[]'::jsonb);
+  elsif action='admin_export' then
+    -- Explicit allowlist; NEVER include auth, consent signatures, payment contacts or protocol answer keys.
+    tmp:=p->>'table'; n:=least(greatest(coalesce((p->>'limit')::integer,1000),1),1000); cnt:=greatest(coalesce((p->>'offset')::integer,0),0);
+    if tmp='participants' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select pa.id,pa.participant_code,pa.created_at,ca.is_test from participants pa left join cw_participant_auth ca on ca.participant_id=pa.id order by pa.id limit n offset cnt) z),'[]');
+    elsif tmp='sessions' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select ss.id,pa.participant_code as participant_code,ss.participant_id,ss.study_key,ss.session_number,ss.session_label,ss.language,ss.workflow_version,ss.is_test,ss.status,ss.entry_locked_at,ss.started_at,ss.completed_at,ss.consented_at,ss.coding_completed_at,ss.withdrawal_requested_at,ss.randomization_seed,ss.protocol_snapshot->>'contentHash' as content_hash,ss.protocol_snapshot->'config'->>'activityDesign' as activity_design from study_sessions ss join participants pa on pa.id=ss.participant_id order by ss.id limit n offset cnt) z),'[]');
+    elsif tmp='stages' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select session_id,stage_key,status,responses,scoring,revision,first_viewed_at,saved_at,completed_at,active_seconds,definition->>'version' as instrument_version from cw_stage_progress order by session_id,ordinal limit n offset cnt) z),'[]');
+    elsif tmp='assignments' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from question_assignments order by id limit n offset cnt) z),'[]');
+    elsif tmp='submissions' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from submissions order by id limit n offset cnt) z),'[]');
+    elsif tmp='operations' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from cw_operations order by id limit n offset cnt) z),'[]');
+    elsif tmp='drafts' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from draft_events order by id limit n offset cnt) z),'[]');
+    elsif tmp='events' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from cw_audit_events where event_type <> 'compensation_marked_paid' order by id limit n offset cnt) z),'[]');
+    elsif tmp='modalities' then
+      return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from modality_completions order by id limit n offset cnt) z),'[]');
+    else raise exception 'INVALID: Export table not allowed.'; end if;
+  elsif action='payment_list' then
+    return coalesce((select jsonb_agg(to_jsonb(z)) from (select * from cw_compensation_claims order by created_at desc limit 1000) z),'[]');
+  elsif action='payment_paid' then
+    update cw_compensation_claims set status='paid',updated_at=now_at where id=(p->>'claimId')::uuid and status='requested' returning to_jsonb(cw_compensation_claims.*) into result;
+    if result is null then raise exception 'CONFLICT: Only a requested claim can be marked paid.'; end if;
+    insert into cw_audit_events(event_type,metadata) values('compensation_marked_paid',jsonb_build_object('claimId',p->>'claimId'));
+    return result;
+  end if;
+
+  -- All remaining participant operations bind the session to authenticated PID.
+  sid:=(p->>'sid')::uuid; pid:=(p->>'pid')::uuid;
+  select * into s from study_sessions where id=sid and participant_id=pid and workflow_version is not null for update;
+  if not found then raise exception 'NOT_FOUND: Session not found.'; end if;
+  select stage_key into current_key from cw_stage_progress where session_id=s.id and status in ('pending','in_progress') order by ordinal limit 1;
+  if action='state' then
+    return jsonb_build_object('session',to_jsonb(s),'current',current_key,
+      'stages',coalesce((select jsonb_agg(to_jsonb(sp) order by ordinal) from cw_stage_progress sp where session_id=s.id),'[]'),
+      'modalities',coalesce((select jsonb_agg(to_jsonb(mc)) from modality_completions mc where session_id=s.id),'[]'));
+  elsif action='consent_receipt' then
+    return (select to_jsonb(c) from cw_private_consents c where session_id=s.id);
+  elsif action='claim_get' then
+    return (select jsonb_build_object('id',c.id,'status',c.status,'amount',c.amount,'currency',c.currency,'contactProvided',c.contact_envelope is not null) from cw_compensation_links l join cw_compensation_claims c on c.id=l.claim_id where l.session_id=s.id);
+  elsif action='claim_update' then
+    if s.consented_at is null then raise exception 'FORBIDDEN: Consent is required.'; end if;
+    update cw_compensation_claims c set contact_envelope=p->'envelope',status='requested',updated_at=now_at
+      from cw_compensation_links l where l.claim_id=c.id and l.session_id=s.id and c.status in ('contact_pending','requested') returning c.id into claim;
+    if claim is null then raise exception 'CONFLICT: This claim cannot be updated.'; end if;
+    return jsonb_build_object('id',claim,'saved',true);
+  elsif action='withdraw' then
+    update study_sessions set status=case when status='active' then 'withdrawn' else status end,
+      withdrawal_requested_at=case when coalesce((p->>'requestDataWithdrawal')::boolean,false) then now_at else withdrawal_requested_at end,last_seen_at=now_at where id=s.id;
+    insert into cw_audit_events(event_type,session_id,participant_id,metadata) values('participation_stopped',s.id,pid,jsonb_build_object('dataWithdrawalRequested',p->'requestDataWithdrawal'));
+    return jsonb_build_object('saved',true);
+  end if;
+  if action='operation_displayed' then
+    update cw_operations set displayed_at=coalesce(displayed_at,now_at) where id=(p->>'id')::uuid and session_id=s.id and status='succeeded';
+    return jsonb_build_object('recorded',found);
+  elsif action='operation_finish' then
+    update cw_operations set status=p->>'status',result=p->'result',completed_at=now_at where id=(p->>'id')::uuid and session_id=s.id and assignment_id=(p->>'assignmentId')::uuid and status='pending' returning * into op;
+    return to_jsonb(op);
+  elsif action='stage_save' then
+    select * into st from cw_stage_progress where session_id=s.id and stage_key=p->>'stage';
+    if st.last_save_request_id=(p->>'requestId')::uuid or st.final_request_id=(p->>'requestId')::uuid then return to_jsonb(st); end if;
+  end if;
+  if s.status<>'active' then raise exception 'CONFLICT: This session is not active.'; end if;
+
+  if action in ('stage_open','stage_save','heartbeat') then
+    select * into st from cw_stage_progress where session_id=s.id and stage_key=p->>'stage' for update;
+    if not found then raise exception 'NOT_FOUND: Unknown stage.'; end if;
+    if action='stage_save' and st.status in ('completed','skipped') and st.final_request_id=(p->>'requestId')::uuid then return to_jsonb(st); end if;
+    if current_key is distinct from st.stage_key then raise exception 'CONFLICT: Complete the current stage first.'; end if;
+    if action='stage_open' then
+      update cw_stage_progress set status='in_progress',first_viewed_at=coalesce(first_viewed_at,now_at) where session_id=s.id and stage_key=st.stage_key returning * into st;
+      return to_jsonb(st);
+    elsif action='heartbeat' then
+      if s.consented_at is not null then
+        update cw_stage_progress set active_seconds=active_seconds+case when last_heartbeat is null then 0 else least(30,greatest(0,floor(extract(epoch from (now_at-last_heartbeat)))::integer)) end,last_heartbeat=now_at where session_id=s.id and stage_key=st.stage_key;
+      end if;
+      return jsonb_build_object('ok',true);
+    end if;
+    if st.revision<>(p->>'revision')::integer then raise exception 'CONFLICT: A newer response exists. Reload before saving.'; end if;
+    if (p->>'final')::boolean then
+      if st.stage_key='eligibility' and not coalesce((p->'responses'->>'eligible')::boolean,false) then
+        update study_sessions set status='withdrawn' where id=s.id;
+        update cw_stage_progress set status='declined',responses='{}',completed_at=now_at,saved_at=now_at,final_request_id=(p->>'requestId')::uuid,last_save_request_id=(p->>'requestId')::uuid,revision=revision+1 where session_id=s.id and stage_key=st.stage_key returning * into st;
+        return to_jsonb(st);
+      elsif st.stage_key='consent' then
+        if not coalesce((p->'responses'->>'consented')::boolean,false) then raise exception 'INVALID: Consent is required to continue.'; end if;
+        insert into cw_private_consents(session_id,document_version,document_hash,document_snapshot,signature_envelope)
+          values(s.id,p->>'documentVersion',p->>'documentHash',p->'document',p->'signature');
+        update study_sessions set consented_at=now_at where id=s.id;
+      elsif st.stage_key='language' then
+        if p->'responses'->>'language' not in ('python','java') then raise exception 'INVALID: Select a language.'; end if;
+        select * into au from cw_participant_auth where participant_id=pid for update;
+        if au.preferred_language is not null and au.preferred_language<>p->'responses'->>'language' then raise exception 'CONFLICT: Language is fixed across study sessions.'; end if;
+        update cw_participant_auth set preferred_language=p->'responses'->>'language' where participant_id=pid;
+        update study_sessions set language=p->'responses'->>'language' where id=s.id;
+      elsif st.stage_key='coding' and not coalesce((p->>'skipped')::boolean,false) then
+        if not exists(
+          select 1 from modality_completions
+          where session_id=s.id and modality_id=(s.protocol_snapshot->'modalityOrder'->>0)
+        ) then raise exception 'CONFLICT: Complete the two initial practice questions first.'; end if;
+      elsif st.stage_key='crossover' and not coalesce((p->>'skipped')::boolean,false) then
+        select count(*) into cnt from modality_completions where session_id=s.id and modality_id in ('problem-solving','debugging','code-explanation');
+        if cnt<>3 then raise exception 'CONFLICT: Complete both crossover modalities first.'; end if;
+        update study_sessions set coding_completed_at=now_at where id=s.id;
+      elsif st.stage_key='incentive' then
+        claim:=(p->>'claimId')::uuid;
+        insert into cw_compensation_claims(id,amount,currency,contact_envelope,status,is_test)
+          values(claim,(s.protocol_snapshot->'config'->'compensation'->>'amount')::numeric,s.protocol_snapshot->'config'->'compensation'->>'currency',nullif(p->'contact','null'::jsonb),p->>'claimStatus',s.is_test);
+        insert into cw_compensation_links(session_id,claim_id) values(s.id,claim);
+      end if;
+    end if;
+    update cw_stage_progress set responses=coalesce(p->'responses','{}'), scoring=p->'scoring',revision=revision+1,last_save_request_id=(p->>'requestId')::uuid,
+      first_viewed_at=coalesce(first_viewed_at,now_at),saved_at=now_at,
+      status=case when (p->>'final')::boolean then case when coalesce((p->>'skipped')::boolean,false) then 'skipped' else 'completed' end else 'in_progress' end,
+      completed_at=case when (p->>'final')::boolean then now_at else null end,
+      final_request_id=case when (p->>'final')::boolean then (p->>'requestId')::uuid else null end
+      where session_id=s.id and stage_key=st.stage_key returning * into st;
+    if (p->>'final')::boolean then
+      insert into cw_audit_events(event_type,session_id,participant_id,metadata) values('stage_completed',s.id,pid,jsonb_build_object('stage',st.stage_key,'status',st.status,'revision',st.revision));
+      select stage_key into current_key from cw_stage_progress where session_id=s.id and status in ('pending','in_progress') order by ordinal limit 1;
+      if current_key='completion' then
+        update cw_stage_progress set status='completed',first_viewed_at=now_at,completed_at=now_at where session_id=s.id and stage_key='completion';
+        update study_sessions set status='completed',completed_at=now_at,last_seen_at=now_at where id=s.id;
+        insert into cw_audit_events(event_type,session_id,participant_id) values('session_completed',s.id,pid);
+      end if;
+    end if;
+    return to_jsonb(st);
+  end if;
+
+  if current_key not in ('coding','crossover') or s.consented_at is null or s.language is null then raise exception 'FORBIDDEN: Practice is locked until the required survey stage is completed.'; end if;
+  if action='coding_start' then
+    tmp:=p->>'modality';
+    if tmp not in ('problem-solving','debugging','code-explanation') then raise exception 'INVALID: Unknown modality.'; end if;
+    if current_key='coding' and tmp<>(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: Complete the initial modality and post-survey before crossover.'; end if;
+    if current_key='crossover' and tmp=(s.protocol_snapshot->'modalityOrder'->>0) then raise exception 'CONFLICT: The initial modality is already complete.'; end if;
+    if exists(select 1 from modality_completions where session_id=s.id and modality_id=tmp) then raise exception 'CONFLICT: This modality is complete.'; end if;
+    if s.protocol_snapshot->'config'->>'activityDesign'='assigned_crossover' then
+      for x in select value from jsonb_array_elements(s.protocol_snapshot->'modalityOrder') loop
+        exit when x#>>'{}'=tmp;
+        if not exists(select 1 from modality_completions where session_id=s.id and modality_id=x#>>'{}') then raise exception 'CONFLICT: Complete the assigned modality order.'; end if;
+      end loop;
+    end if;
+    if not exists(select 1 from question_assignments where session_id=s.id and modality_id=tmp) then
+      if coalesce((p->>'lookupOnly')::boolean,false) then return null; end if;
+      -- Serialize new allocations across waves of the same participant. A concurrent
+      -- wave can win after the API read its candidate bank; ask the client to retry.
+      perform 1 from cw_participant_auth where participant_id=pid for update;
+      if coalesce((s.protocol_snapshot->'config'->>'avoidRepeatedQuestions')::boolean,false) and exists(
+        select 1 from question_assignments qa join study_sessions ss on ss.id=qa.session_id
+        where ss.participant_id=pid and ss.study_key=s.study_key and ss.id<>s.id
+        and qa.question_id in (select value->>'id' from jsonb_array_elements(p->'questions'))
+      ) then raise exception 'CONFLICT: Another session allocated an overlapping question. Retry opening this modality.'; end if;
+      n:=0;
+      for x in select value from jsonb_array_elements(p->'questions') loop
+        n:=n+1;
+        insert into question_assignments(session_id,modality_id,question_id,question_order,question_snapshot)
+          values(s.id,tmp,x->>'id',n,x);
+      end loop;
+      if n <> (
+        case
+          when s.protocol_snapshot->'config'->>'activityDesign' = 'assigned_crossover' then
+            case
+              when (s.protocol_snapshot->'modalityOrder'->>0) = tmp then 2
+              else 1
+            end
+          else 3
+        end
+      ) then
+        raise exception 'INVALID: Invalid question assignment count.';
+      end if;
+      insert into cw_audit_events(event_type,session_id,participant_id,metadata) values('questions_assigned',s.id,pid,jsonb_build_object('modality',tmp,'questionIds',p->'questionIds'));
+    end if;
+    select * into a from question_assignments where session_id=s.id and modality_id=tmp and status<>'completed' order by question_order limit 1;
+    if found then
+      update question_assignments set status='in_progress',started_at=coalesce(started_at,now_at) where id=a.id returning * into a;
+      insert into submissions(assignment_id,draft_code,draft_explanation,draft_inputs) values(a.id,coalesce(a.question_snapshot->>'starter_code',''),'','{}') on conflict do nothing;
+      return jsonb_build_object('assignment',to_jsonb(a),'submission',(select to_jsonb(ss) from submissions ss where assignment_id=a.id),'operations',coalesce((select jsonb_agg(to_jsonb(o) order by requested_at) from cw_operations o where assignment_id=a.id),'[]'),
+        'total',(select count(*) from question_assignments where session_id=s.id and modality_id=tmp));
+    end if;
+    return jsonb_build_object('review',coalesce((select jsonb_agg(jsonb_build_object('assignment',to_jsonb(qa),'submission',to_jsonb(sb)) order by qa.question_order) from question_assignments qa left join submissions sb on sb.assignment_id=qa.id where qa.session_id=s.id and qa.modality_id=tmp),'[]'));
+  elsif action='modality_complete' then
+    tmp:=p->>'modality';
+    select count(*),count(*) filter(where status<>'completed') into n,cnt from question_assignments where session_id=s.id and modality_id=tmp;
+    if n=0 or cnt>0 then raise exception 'CONFLICT: Save all assigned questions first.'; end if;
+    insert into modality_completions(session_id,modality_id,started_at,completed_at,duration_seconds)
+      select s.id,tmp,min(started_at),now_at,greatest(0,floor(extract(epoch from(now_at-min(started_at))))::integer) from question_assignments where session_id=s.id and modality_id=tmp
+      on conflict(session_id,modality_id) do nothing;
+    return jsonb_build_object('saved',true);
+  end if;
+  select * into a from question_assignments where id=(p->>'assignmentId')::uuid and session_id=s.id for update;
+  if not found then raise exception 'NOT_FOUND: Assignment not found.'; end if;
+  if exists(select 1 from question_assignments where session_id=s.id and modality_id=a.modality_id and question_order<a.question_order and status<>'completed') then raise exception 'FORBIDDEN: Future questions are locked.'; end if;
+  if action='assignment_get' then return to_jsonb(a)||jsonb_build_object('last_execution',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind='execute' and status='succeeded' order by requested_at desc limit 1),'last_score',(select to_jsonb(o) from cw_operations o where assignment_id=a.id and kind in ('execute','score') and status='succeeded' and (case when o.kind='execute' then o.result ? 'score' else true end) order by requested_at desc limit 1)); end if;
+  if action='score_cache_get' then
+    return (
+      select jsonb_build_object(
+        'score', case when o.kind='execute' then o.result->'score' else o.result end,
+        'operationId', o.id,
+        'completedAt', o.completed_at
+      )
+      from cw_operations o
+      where o.assignment_id=a.id
+        and o.status='succeeded'
+        and o.kind in ('execute','score')
+        and coalesce(o.result->'score'->>'fingerprint',o.result->>'fingerprint')=p->>'fingerprint'
+        and nullif(coalesce(o.result->'score'->>'score',o.result->>'score'),'') is not null
+      order by o.completed_at desc nulls last, o.requested_at desc
+      limit 1
+    );
+  end if;
+  select * into sub from submissions where assignment_id=a.id for update;
+  if action='assignment_save' and (sub.final_request_id=(p->>'requestId')::uuid or sub.last_save_request_id=(p->>'requestId')::uuid) then return to_jsonb(sub); end if;
+  if a.status<>'in_progress' then raise exception 'CONFLICT: This question is not open for changes.'; end if;
+  if action='assignment_save' then
+    if sub.revision<>(p->>'revision')::integer then raise exception 'CONFLICT: A newer draft exists. Reload before saving.'; end if;
+    update submissions set draft_code=p->>'code',draft_explanation=p->>'explanation',draft_inputs=p->'inputs',revision=revision+1,last_save_request_id=(p->>'requestId')::uuid,updated_at=now_at,
+      status=case when (p->>'final')::boolean then 'final' else 'draft' end,
+      final_code=case when (p->>'final')::boolean then p->>'code' else final_code end,
+      final_explanation=case when (p->>'final')::boolean then p->>'explanation' else final_explanation end,
+      final_inputs=case when (p->>'final')::boolean then p->'inputs' else final_inputs end,
+      final_output=case when (p->>'final')::boolean then (select o.result->>'stdout' from cw_operations o where o.assignment_id=a.id and o.kind='execute' and o.status='succeeded' and o.payload->>'code'=p->>'code' and o.payload->'inputValues'=p->'inputs' order by requested_at desc limit 1) else final_output end,
+      final_score=case when (p->>'final')::boolean then nullif(p->'score'->>'score','')::integer else final_score end,
+      score_details=case when (p->>'final')::boolean then p->'score' else score_details end,
+      skipped=coalesce((p->>'skipped')::boolean,false),saved_at=case when (p->>'final')::boolean then now_at else null end,
+      final_request_id=case when (p->>'final')::boolean then (p->>'requestId')::uuid else null end
+      where assignment_id=a.id returning * into sub;
+    insert into draft_events(assignment_id,code_snapshot,explanation_snapshot,input_snapshot) values(a.id,p->>'code',p->>'explanation',p->'inputs');
+    if (p->>'final')::boolean then
+      update question_assignments set status='completed',completed_at=now_at where id=a.id;
+      if coalesce((s.protocol_snapshot->'config'->>'preventDuplicateEntries')::boolean,false) and s.entry_locked_at is null then
+        update study_sessions set entry_locked_at=now_at where id=s.id returning * into s;
+      end if;
+      insert into cw_audit_events(event_type,session_id,participant_id,metadata) values('question_finalized',s.id,pid,jsonb_build_object('assignmentId',a.id,'skipped',sub.skipped));
+    end if;
+    return to_jsonb(sub);
+  elsif action='operation_begin' then
+    update cw_operations set status='interrupted',completed_at=now_at,result='{"error":"Server restart or provider timeout; delivery is unknown."}'::jsonb
+      where assignment_id=a.id and status='pending' and requested_at<now_at-interval '3 minutes';
+    select * into op from cw_operations where assignment_id=a.id and kind=p->>'kind' and request_id=(p->>'requestId')::uuid;
+    if found then return to_jsonb(op)||jsonb_build_object('existing',true); end if;
+    if exists(select 1 from cw_operations where assignment_id=a.id and status='pending') then raise exception 'CONFLICT: Wait for the current run or feedback request.'; end if;
+    select coalesce(max(request_number),0)+1 into n from cw_operations where assignment_id=a.id and kind=p->>'kind';
+    if n>(p->>'limit')::integer then raise exception 'LIMIT: The request limit for this question has been reached.'; end if;
+    insert into cw_operations(id,assignment_id,session_id,kind,request_number,request_id,payload,status)
+      values((p->>'id')::uuid,a.id,s.id,p->>'kind',n,(p->>'requestId')::uuid,p->'payload','pending') returning * into op;
+    return to_jsonb(op)||jsonb_build_object('existing',false);
+  elsif action='operation_finish' then
+    update cw_operations set status=p->>'status',result=p->'result',completed_at=now_at where id=(p->>'id')::uuid and assignment_id=a.id and status='pending' returning * into op;
+    return to_jsonb(op);
+  end if;
+  raise exception 'INVALID: Unknown operation.';
+end $$;
+
+-- Explicit database privileges: no public/browser grants or permissive RLS policies.
+do $$ declare t text; begin
+  foreach t in array array['cw_studies','cw_participant_auth','cw_access_tokens','cw_rate_limits','cw_question_banks','cw_stage_progress','cw_private_consents','cw_compensation_claims','cw_compensation_links','cw_operations','cw_audit_events'] loop
+    execute format('alter table public.%I enable row level security',t);
+    execute format('revoke all on table public.%I from anon, authenticated',t);
+    execute format('grant select, insert, update, delete on table public.%I to service_role',t);
+  end loop;
+end $$;
+grant select,insert,update,delete on public.participants,public.questions,public.study_sessions,public.question_assignments,public.submissions,public.draft_events,public.modality_completions to service_role;
+grant usage,select on sequence public.draft_events_id_seq,public.cw_audit_events_id_seq to service_role;
+revoke all on function public.cw_rpc(text,jsonb) from public,anon,authenticated;
+grant execute on function public.cw_rpc(text,jsonb) to service_role;
+notify pgrst, 'reload schema';
+
+-- Versioned immutable question-bank release. Sessions store this hash, so future
+-- question edits cannot silently change an already-started session.
+insert into public.cw_question_banks(bank_hash,definitions)
+values('5e9463b4c77deb57d63d62ad92e2c36bd3362c53e90674a525620e31a87ee056','[{"id":"PY-PS-01","language":"python","modality_id":"problem-solving","title":"Display three lines exactly","prompt":"Write Python code that produces exactly this output:\n\nComputer Science\nProgramming\nProblem Solving\n\nUse exactly three print() statements.","starter_code":"","difficulty":"easy","expected_concepts":["print","strings","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-02","language":"python","modality_id":"problem-solving","title":"Print the steps in order","prompt":"Write Python code that prints these steps in exactly this order:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nUse one print() statement for each line.","starter_code":"","difficulty":"easy","expected_concepts":["print","sequential execution","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-03","language":"python","modality_id":"problem-solving","title":"Create one blank line","prompt":"Write Python code that produces exactly:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nUse exactly three print() calls. The middle print() call must create the blank line.","starter_code":"","difficulty":"easy","expected_concepts":["print","blank line","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-04","language":"python","modality_id":"problem-solving","title":"Print text with section comments","prompt":"Write Python code that prints:\n\nTitle\nMain idea\n\nAdd a helpful comment immediately before each print() statement to identify the section being displayed. The comments must not appear in the output.","starter_code":"","difficulty":"easy","expected_concepts":["comments","print","program organization"],"active":true,"inputSchema":[]},{"id":"PY-PS-05","language":"python","modality_id":"problem-solving","title":"Print Start and Finish","prompt":"Write two valid calls to print() that display:\n\nStart\nFinish\n\nUse normal function-call syntax with parentheses.","starter_code":"","difficulty":"easy","expected_concepts":["function call syntax","print","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-PS-06","language":"python","modality_id":"problem-solving","title":"Print three lines with one string","prompt":"Using only one print() call and one triple-quoted string, display exactly:\n\nRead\nThink\nWrite","starter_code":"","difficulty":"easy","expected_concepts":["print","multi-line string","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-07","language":"python","modality_id":"problem-solving","title":"Recreate the output with one print","prompt":"The output below could be produced with three print() calls:\n\nRed\nGreen\nBlue\n\nProduce the same visible output using only one print() call and a triple-quoted string.","starter_code":"","difficulty":"medium","expected_concepts":["print","multi-line string","equivalent output"],"active":true,"inputSchema":[]},{"id":"PY-PS-08","language":"python","modality_id":"problem-solving","title":"Match punctuation and capitalization","prompt":"Write Python code that produces exactly:\n\nReady?\nSet...\nGo!\n\nCapitalization and punctuation must match exactly.","starter_code":"","difficulty":"medium","expected_concepts":["print","strings","capitalization","punctuation"],"active":true,"inputSchema":[]},{"id":"PY-PS-09","language":"python","modality_id":"problem-solving","title":"Format a heading and body","prompt":"Write Python code that produces exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nUse an empty print() call for the blank line.","starter_code":"","difficulty":"medium","expected_concepts":["print","blank line","sequential execution","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-10","language":"python","modality_id":"problem-solving","title":"Organize a short reflection","prompt":"Write code that produces this output:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nRequirements:\n- Add a comment before the title section.\n- Add a different comment before the two body lines.\n- Comments must not be printed.","starter_code":"","difficulty":"medium","expected_concepts":["comments","print","program organization","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-11","language":"python","modality_id":"problem-solving","title":"Print four steps in sequence","prompt":"Write four print() statements so the output is exactly:\n\nUnderstand\nPlan\nProgram\nTest\n\nDo not combine the lines into one multi-line string.","starter_code":"","difficulty":"medium","expected_concepts":["print","sequential execution","requirements"],"active":true,"inputSchema":[]},{"id":"PY-PS-12","language":"python","modality_id":"problem-solving","title":"Print one sentence correctly","prompt":"Write one print() statement that displays exactly:\n\nPython programs follow instructions carefully.\n\nThe sentence itself must be a string argument passed to print().","starter_code":"","difficulty":"medium","expected_concepts":["print","string delimiters","function call syntax"],"active":true,"inputSchema":[]},{"id":"PY-PS-13","language":"python","modality_id":"problem-solving","title":"Print four ideas in order","prompt":"Create a program that prints the following four lines in order:\n\nProblem\nIdea\nCode\nResult\n\nUse four print() statements and add one helpful comment above the group.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-PS-14","language":"python","modality_id":"problem-solving","title":"Match the required output exactly","prompt":"Write Python code that produces exactly:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nRequirements:\n- Use print() only.\n- Use one empty print() call for the blank line.\n- Match all symbols and capitalization exactly.","starter_code":"","difficulty":"medium","expected_concepts":["print","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-PS-15","language":"python","modality_id":"problem-solving","title":"Print four steps with one block","prompt":"Using one print() call with a triple-quoted string, display:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nDo not use four separate print() statements.","starter_code":"","difficulty":"medium","expected_concepts":["print","multi-line string","requirements"],"active":true,"inputSchema":[]},{"id":"PY-PS-16","language":"python","modality_id":"problem-solving","title":"Use comments and a blank line","prompt":"Write Python code that produces exactly:\n\nProgram Start\n\nProgram Complete\n\nRequirements:\n- Use an empty print() call for the blank line.\n- Add a comment above the first output statement.\n- Add a second comment above the final output statement.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","blank line","program organization"],"active":true,"inputSchema":[]},{"id":"PY-PS-17","language":"python","modality_id":"problem-solving","title":"Format a short program message","prompt":"Write a short program that prints exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nUse comments to label the sections and include exactly one blank line.","starter_code":"","difficulty":"medium","expected_concepts":["print","comments","blank line","exact output","program organization"],"active":true,"inputSchema":[]},{"id":"PY-DBG-01","language":"python","modality_id":"debugging","title":"Fix the three-line output","prompt":"The program should print:\n\nComputer Science\nProgramming\nProblem Solving\n\nFix the code so the output matches exactly.","starter_code":"print(\"Computer Science\")\nprint(\"Problem Solving\")\nprint(\"Programming\")\n","difficulty":"easy","expected_concepts":["debugging","print","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-02","language":"python","modality_id":"debugging","title":"Fix the output order","prompt":"The required output is:\n\n1. Plan the program\n2. Write the code\n3. Test the program\n4. Fix problems\n\nReorder the statements so the output is correct.","starter_code":"print(\"1. Plan the program\")\nprint(\"3. Test the program\")\nprint(\"2. Write the code\")\nprint(\"4. Fix problems\")\n","difficulty":"easy","expected_concepts":["debugging","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-DBG-03","language":"python","modality_id":"debugging","title":"Fix the blank line","prompt":"The required output is:\n\nMy Reflection\n\nProgramming gives computers instructions.\n\nFix the program so there is exactly one blank line between the two text lines.","starter_code":"print(\"My Reflection\")\nprint(\"Programming gives computers instructions.\")\n","difficulty":"easy","expected_concepts":["debugging","blank line","print"],"active":true,"inputSchema":[]},{"id":"PY-DBG-04","language":"python","modality_id":"debugging","title":"Keep labels as comments","prompt":"The two section labels are meant to be comments, not output. Fix the program so it prints only:\n\nTitle\nMain idea","starter_code":"print(\"Title section\")\nprint(\"Title\")\nprint(\"Main section\")\nprint(\"Main idea\")\n","difficulty":"easy","expected_concepts":["debugging","comments","requirements"],"active":true,"inputSchema":[]},{"id":"PY-DBG-05","language":"python","modality_id":"debugging","title":"Fix the print syntax","prompt":"Fix the syntax so the program prints:\n\nStart\nFinish","starter_code":"print[\"Start\"]\nprint{\"Finish\"}\n","difficulty":"easy","expected_concepts":["debugging","function call syntax","parentheses"],"active":true,"inputSchema":[]},{"id":"PY-DBG-06","language":"python","modality_id":"debugging","title":"Fix the triple-quoted string","prompt":"Fix the multi-line string so the program prints:\n\nRead\nThink\nWrite","starter_code":"print(\"\"\"Read\nThink\nWrite\"\")\n","difficulty":"easy","expected_concepts":["debugging","multi-line string","quotation marks"],"active":true,"inputSchema":[]},{"id":"PY-DBG-07","language":"python","modality_id":"debugging","title":"Remove extra blank lines","prompt":"The required output is:\n\nRed\nGreen\nBlue\n\nFix the program so there are no blank lines between the colors.","starter_code":"print(\"\"\"Red\n\nGreen\n\nBlue\"\"\")\n","difficulty":"medium","expected_concepts":["debugging","multi-line string","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-08","language":"python","modality_id":"debugging","title":"Fix punctuation and capitalization","prompt":"The required output is:\n\nReady?\nSet...\nGo!\n\nFix every mismatch.","starter_code":"print(\"ready!\")\nprint(\"Set..\")\nprint(\"Go?\")\n","difficulty":"medium","expected_concepts":["debugging","capitalization","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-09","language":"python","modality_id":"debugging","title":"Fix the heading and body spacing","prompt":"The program must produce exactly:\n\nComputer Science Reflection\n\nProgramming is one way to give computers precise instructions.\nTesting helps us notice when the result does not match what we intended.\n\nFix the spacing and order.","starter_code":"print(\"Computer Science Reflection\")\nprint(\"Programming is one way to give computers precise instructions.\")\nprint()\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n","difficulty":"medium","expected_concepts":["debugging","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-DBG-10","language":"python","modality_id":"debugging","title":"Fix the comments","prompt":"The program should run and print:\n\nReflection\nComputer Science involves solving problems.\nPrograms must be written carefully.\n\nThe descriptive lines are intended to be comments. Fix them.","starter_code":"Title section\nprint(\"Reflection\")\nBody section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n","difficulty":"medium","expected_concepts":["debugging","comments","syntax error"],"active":true,"inputSchema":[]},{"id":"PY-DBG-11","language":"python","modality_id":"debugging","title":"Add the missing output line","prompt":"The required output is:\n\nUnderstand\nPlan\nProgram\nTest\n\nAdd the missing statement in the correct place.","starter_code":"print(\"Understand\")\nprint(\"Plan\")\nprint(\"Test\")\n","difficulty":"medium","expected_concepts":["debugging","sequential execution","missing statement"],"active":true,"inputSchema":[]},{"id":"PY-DBG-12","language":"python","modality_id":"debugging","title":"Fix the string syntax","prompt":"Fix the syntax error so the program prints exactly:\n\nPython programs follow instructions carefully.","starter_code":"print(\"Python programs follow instructions carefully.)\n","difficulty":"medium","expected_concepts":["debugging","string delimiters","syntax error"],"active":true,"inputSchema":[]},{"id":"PY-DBG-13","language":"python","modality_id":"debugging","title":"Remove the extra output line","prompt":"The required output is:\n\nProblem\nIdea\nCode\nResult\n\nFix the program by removing only the statement that should not be there.","starter_code":"print(\"Problem\")\nprint(\"Idea\")\nprint(\"Extra\")\nprint(\"Code\")\nprint(\"Result\")\n","difficulty":"medium","expected_concepts":["debugging","exact output","extra statement"],"active":true,"inputSchema":[]},{"id":"PY-DBG-14","language":"python","modality_id":"debugging","title":"Fix the exact output","prompt":"The required output is:\n\n=== PROGRAM ===\nBegin\n\nComplete\n=== END ===\n\nFix the program so all text, spacing, and symbols match exactly.","starter_code":"print(\"== PROGRAM ==\")\nprint(\"Begin\")\nprint()\nprint()\nprint(\"Complete\")\nprint(\"=== END ==\")\n","difficulty":"medium","expected_concepts":["debugging","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-15","language":"python","modality_id":"debugging","title":"Fix the multi-line string","prompt":"The required output is:\n\nStep 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\n\nFix the one print() call so every step appears correctly.","starter_code":"print(\"\"\"Step 1: Read\nStep 2: Think\nStep 4: Test\nStep 3: Code\"\"\")\n","difficulty":"medium","expected_concepts":["debugging","multi-line string","sequential output"],"active":true,"inputSchema":[]},{"id":"PY-DBG-16","language":"python","modality_id":"debugging","title":"Fix the comments and blank line","prompt":"The required output is:\n\nProgram Start\n\nProgram Complete\n\nThe section labels should be comments. Fix the program.","starter_code":"print(\"Start section\")\nprint(\"Program Start\")\nprint(\"End section\")\nprint(\"Program Complete\")\n","difficulty":"medium","expected_concepts":["debugging","comments","blank line","requirements"],"active":true,"inputSchema":[]},{"id":"PY-DBG-17","language":"python","modality_id":"debugging","title":"Fix the text and spacing","prompt":"Fix the starter code so it prints exactly:\n\nComputer Science\nProgramming turns ideas into instructions.\n\nPrecise instructions matter.\n\nKeep the section labels as comments and include exactly one blank line.","starter_code":"# Title\nprint(\"computer science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint()\nprint(\"Precise instructions matter.\")\n","difficulty":"medium","expected_concepts":["debugging","comments","capitalization","blank line","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-01","language":"python","modality_id":"code-explanation","title":"Explain how three lines are printed","prompt":"Without running the code first:\n1. State exactly what it prints.\n2. Explain why there are three output lines.","starter_code":"print(\"Computer Science\")\nprint(\"Programming\")\nprint(\"Problem Solving\")\n","difficulty":"easy","expected_concepts":["code explanation","print","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-02","language":"python","modality_id":"code-explanation","title":"Explain why the output order matters","prompt":"State exactly what the program prints. Then explain why Python produces the lines in that order rather than rearranging them.","starter_code":"print(\"1. Plan the program\")\nprint(\"2. Write the code\")\nprint(\"3. Test the program\")\nprint(\"4. Fix problems\")\n","difficulty":"easy","expected_concepts":["code explanation","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-03","language":"python","modality_id":"code-explanation","title":"Explain how the blank line is created","prompt":"State exactly what appears in the output, including spacing. Explain what the middle print() call contributes.","starter_code":"print(\"My Reflection\")\nprint()\nprint(\"Programming gives computers instructions.\")\n","difficulty":"easy","expected_concepts":["code explanation","blank line","print"],"active":true,"inputSchema":[]},{"id":"PY-TRC-04","language":"python","modality_id":"code-explanation","title":"Explain which lines are comments","prompt":"State exactly what the program prints. Identify which lines Python ignores and explain why they are still useful to a programmer.","starter_code":"# Title section\nprint(\"Title\")\n# Main section\nprint(\"Main idea\")\n","difficulty":"easy","expected_concepts":["code explanation","comments","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-05","language":"python","modality_id":"code-explanation","title":"Explain how print() is called","prompt":"For each print() statement, identify:\n- the function name\n- the parentheses\n- the string argument\n\nThen state the output.","starter_code":"print(\"Start\")\nprint(\"Finish\")\n","difficulty":"easy","expected_concepts":["code explanation","function call syntax","strings"],"active":true,"inputSchema":[]},{"id":"PY-TRC-06","language":"python","modality_id":"code-explanation","title":"Explain how the multi-line string works","prompt":"State exactly what the code prints. Explain how one print() call creates three output lines.","starter_code":"print(\"\"\"Read\nThink\nWrite\"\"\")\n","difficulty":"easy","expected_concepts":["code explanation","multi-line string","print"],"active":true,"inputSchema":[]},{"id":"PY-TRC-07","language":"python","modality_id":"code-explanation","title":"Explain why both programs match","prompt":"Program A:\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\nProgram B:\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n\nDo the two programs produce the same visible output? Explain how their code structure differs.","starter_code":"# Program A\nprint(\"Red\")\nprint(\"Green\")\nprint(\"Blue\")\n\n# Program B\nprint(\"\"\"Red\nGreen\nBlue\"\"\")\n","difficulty":"medium","expected_concepts":["code explanation","multi-line string","equivalent output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-08","language":"python","modality_id":"code-explanation","title":"Explain why punctuation changes output","prompt":"State exactly what this program prints. Explain why the punctuation marks inside the strings are part of the visible output.","starter_code":"print(\"Ready?\")\nprint(\"Set...\")\nprint(\"Go!\")\n","difficulty":"medium","expected_concepts":["code explanation","strings","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-09","language":"python","modality_id":"code-explanation","title":"Explain how the heading is separated","prompt":"State the complete output, including the blank line. Then explain which statement creates each part of that output.","starter_code":"print(\"Computer Science Reflection\")\nprint()\nprint(\"Programming is one way to give computers precise instructions.\")\nprint(\"Testing helps us notice when the result does not match what we intended.\")\n","difficulty":"medium","expected_concepts":["code explanation","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-10","language":"python","modality_id":"code-explanation","title":"Explain how comments organize the program","prompt":"Explain what is printed and what is not printed. Then describe how the two comments help organize the code.","starter_code":"# Title section\nprint(\"Reflection\")\n# Body section\nprint(\"Computer Science involves solving problems.\")\nprint(\"Programs must be written carefully.\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-11","language":"python","modality_id":"code-explanation","title":"Explain the order of four statements","prompt":"Without running the code, state the output exactly. Then explain what would change if the second and fourth print() statements were swapped.","starter_code":"print(\"Understand\")\nprint(\"Plan\")\nprint(\"Program\")\nprint(\"Test\")\n","difficulty":"medium","expected_concepts":["code explanation","sequential execution","tracing"],"active":true,"inputSchema":[]},{"id":"PY-TRC-12","language":"python","modality_id":"code-explanation","title":"Explain why the code has a syntax error","prompt":"Explain why the program cannot run as written. Identify the missing character and describe what role it normally plays in the print() call.","starter_code":"print(\"Python programs follow instructions carefully.\"\n","difficulty":"medium","expected_concepts":["code explanation","syntax error","parentheses"],"active":true,"inputSchema":[]},{"id":"PY-TRC-13","language":"python","modality_id":"code-explanation","title":"Explain why the output is wrong","prompt":"Suppose the required output is:\n\nProblem\nIdea\nCode\nResult\n\nExplain why the code below is valid Python but still fails the requirement.","starter_code":"print(\"Problem\")\nprint(\"Idea\")\nprint(\"Result\")\nprint(\"Code\")\n","difficulty":"medium","expected_concepts":["code explanation","requirements","sequential execution"],"active":true,"inputSchema":[]},{"id":"PY-TRC-14","language":"python","modality_id":"code-explanation","title":"Explain how the exact output is produced","prompt":"State exactly what this program prints, including the blank line and symbols. Explain why exact capitalization, symbols, and spacing matter when matching a required output.","starter_code":"print(\"=== PROGRAM ===\")\nprint(\"Begin\")\nprint()\nprint(\"Complete\")\nprint(\"=== END ===\")\n","difficulty":"medium","expected_concepts":["code explanation","blank line","punctuation","exact output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-15","language":"python","modality_id":"code-explanation","title":"Explain how one print creates four lines","prompt":"State the exact output. Explain how the line breaks inside the triple-quoted string determine the order and layout of the output.","starter_code":"print(\"\"\"Step 1: Read\nStep 2: Think\nStep 3: Code\nStep 4: Test\"\"\")\n","difficulty":"medium","expected_concepts":["code explanation","multi-line string","sequential output"],"active":true,"inputSchema":[]},{"id":"PY-TRC-16","language":"python","modality_id":"code-explanation","title":"Explain comments and blank-line output","prompt":"State exactly what is displayed. Then explain the different roles of the comment lines, the empty print() call, and the two text print() calls.","starter_code":"# Start section\nprint(\"Program Start\")\nprint()\n# End section\nprint(\"Program Complete\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","blank line","program organization"],"active":true,"inputSchema":[]},{"id":"PY-TRC-17","language":"python","modality_id":"code-explanation","title":"Explain the program text and spacing","prompt":"1. State exactly what is printed.\n2. Identify which statements create the blank line.\n3. Explain why the comments do not appear.\n4. Describe the order in which Python processes the executable statements.","starter_code":"# Title\nprint(\"Computer Science\")\n# Main idea\nprint(\"Programming turns ideas into instructions.\")\nprint()\nprint(\"Precise instructions matter.\")\n","difficulty":"medium","expected_concepts":["code explanation","comments","blank line","sequential execution"],"active":true,"inputSchema":[]},{"id":"JA-PS-01","language":"java","modality_id":"problem-solving","title":"Calculate a total from three integers","prompt":"Store 8 in int a, 5 in int b, and 3 in int c. Add all three values, store the result in int total, and print total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-03","language":"java","modality_id":"problem-solving","title":"Calculate a purchase total and change","prompt":"Store 4.5 in double price and 3 in int quantity. Calculate the purchase total, then calculate the change from 20.0. Print total and then change.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-04","language":"java","modality_id":"problem-solving","title":"Use parentheses in a multi-step calculation","prompt":"Calculate (4 + 6) * 2 - 3, store the result in int result, and print result.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses"],"active":true,"inputSchema":[]},{"id":"JA-PS-05","language":"java","modality_id":"problem-solving","title":"Check a passing score at the boundary","prompt":"Use int score = 60. Write an if statement that prints Pass when score is 60 or higher.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-06","language":"java","modality_id":"problem-solving","title":"Choose an output at a boundary value","prompt":"Use int number = 0. Print Positive if number is greater than 0; otherwise print Zero or negative.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-07","language":"java","modality_id":"problem-solving","title":"Assign a letter grade across four ranges","prompt":"Use int score = 78. Print A for 90 or higher, B for 80-89, C for 70-79, and D for anything lower.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order"],"active":true,"inputSchema":[]},{"id":"JA-PS-08","language":"java","modality_id":"problem-solving","title":"Check whether a value is inside a range","prompt":"Use int age = 25. Print Eligible if age is between 18 and 25 inclusive; otherwise print Not eligible. Use && in the condition.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value"],"active":true,"inputSchema":[]},{"id":"JA-PS-09","language":"java","modality_id":"problem-solving","title":"Compare a String and choose a response","prompt":"Use String answer = \"yes\". Print Accepted when answer equals \"yes\"; otherwise print Try again. Use equals() for the comparison.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else"],"active":true,"inputSchema":[]},{"id":"JA-PS-10","language":"java","modality_id":"problem-solving","title":"Print the first and last characters of a String","prompt":"Given String word = \"java\", print its length, its first character, and its last character. Use charAt(0) for the first character and word.length() - 1 for the last index.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index"],"active":true,"inputSchema":[]},{"id":"JA-PS-11","language":"java","modality_id":"problem-solving","title":"Format text with two values","prompt":"Given double price = 3.5 and int quantity = 2, use one printf statement to display: Price: $3.50 Quantity: 2","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values"],"active":true,"inputSchema":[]},{"id":"JA-PS-12","language":"java","modality_id":"problem-solving","title":"Print even values with a for loop","prompt":"Write a for loop that prints 2, 4, 6, 8, and 10, one per line. Start at 2 and increase the loop variable by 2 each time.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration"],"active":true,"inputSchema":[]},{"id":"JA-PS-13","language":"java","modality_id":"problem-solving","title":"Count down with a while loop","prompt":"Start with int n = 5. Use a while loop to print 5 through 1, one per line, then print Done after the loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration"],"active":true,"inputSchema":[]},{"id":"JA-PS-14","language":"java","modality_id":"problem-solving","title":"Calculate a total and average in a loop","prompt":"Use a for loop and int total = 0 to add the integers 1 through 4. After the loop, calculate double average = total / 4.0 and print total and then average.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division"],"active":true,"inputSchema":[]},{"id":"JA-PS-15","language":"java","modality_id":"problem-solving","title":"Add only the even values in a loop","prompt":"Loop through the integers 1 through 6. Add only the even values to int total using % 2 == 0, then print the final total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator"],"active":true,"inputSchema":[]},{"id":"JA-PS-16","language":"java","modality_id":"problem-solving","title":"Return a calculated value from a method","prompt":"Write a static method named squarePlusOne that receives one int x and returns x * x + 1. In main, print squarePlusOne(4).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic"],"active":true,"inputSchema":[]},{"id":"JA-PS-17","language":"java","modality_id":"problem-solving","title":"Return the larger of two method arguments","prompt":"Write a static method named larger that receives two int parameters a and b. Return the larger value using if-else. In main, print larger(7, 11).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison"],"active":true,"inputSchema":[]},{"id":"JA-PS-18","language":"java","modality_id":"problem-solving","title":"Pass two values to a void method","prompt":"Write a static void method named printStudent that receives String name and int age. Print Name: followed by the name and Age: followed by the age on separate lines. In main, call printStudent(\"Ada\", 18).","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output"],"active":true,"inputSchema":[]},{"id":"JA-PS-19","language":"java","modality_id":"problem-solving","title":"Use array indexes in a calculation","prompt":"Given int[] values = {10, 20, 30, 40}, print the first element, print the third element, then print their sum.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic"],"active":true,"inputSchema":[]},{"id":"JA-PS-20","language":"java","modality_id":"problem-solving","title":"Use array length to find the last two elements","prompt":"Given int[] values = {10, 20, 30, 40}, print values.length, then print the last element using values.length - 1 and the second-to-last element using values.length - 2.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}\n","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index"],"active":true,"inputSchema":[]},{"id":"JA-DBG-01","language":"java","modality_id":"debugging","title":"Fix the three-number total","prompt":"The program should add a, b, and c and print 16. Fix the calculation for total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b - c;\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-03","language":"java","modality_id":"debugging","title":"Fix the change calculation","prompt":"The purchase total is price * quantity, and change should be 20.0 - total. Fix the calculation for change.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = total - 20.0;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-04","language":"java","modality_id":"debugging","title":"Fix the order of operations","prompt":"The intended calculation is (4 + 6) * 2 - 3. Add the parentheses needed to produce the correct result.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int result = 4 + 6 * 2 - 3;\n        System.out.println(result);\n    }\n}","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-05","language":"java","modality_id":"debugging","title":"Fix the passing-score boundary","prompt":"A score of exactly 60 should print Pass. Fix the comparison operator so 60 is included.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score > 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-06","language":"java","modality_id":"debugging","title":"Fix the if-else boundary","prompt":"For number = 0, the program should print Zero or negative. Fix the condition so only values greater than 0 use the first branch.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number >= 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-07","language":"java","modality_id":"debugging","title":"Fix the order of the grade conditions","prompt":"For score = 85, the program should print B. Reorder the conditions so higher score ranges are checked before lower ranges.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 85;\n        if (score >= 70) {\n            System.out.println(\"C\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 90) {\n            System.out.println(\"A\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-08","language":"java","modality_id":"debugging","title":"Fix the inclusive range check","prompt":"The program should print Eligible only for ages from 18 through 25. Fix the logical operator so both comparisons must be true.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 || age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-09","language":"java","modality_id":"debugging","title":"Fix the String comparison","prompt":"The program should compare the text stored in answer with \"yes\". Replace the incorrect comparison with equals().","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer == \"yes\") {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-10","language":"java","modality_id":"debugging","title":"Fix the last-character index","prompt":"The program should print the last character of word without an error. Fix the index used in charAt().","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length()));\n    }\n}","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-11","language":"java","modality_id":"debugging","title":"Fix the printf format specifiers","prompt":"The program should display price with two decimal places and quantity as an integer. Fix the two format specifiers.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%d Quantity: %.2f%n\", price, quantity);\n    }\n}","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-12","language":"java","modality_id":"debugging","title":"Fix the for-loop update","prompt":"The loop should print 2, 4, 6, 8, and 10. Fix the update expression so n increases by 2 each iteration.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n++) {\n            System.out.println(n);\n        }\n    }\n}","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-13","language":"java","modality_id":"debugging","title":"Fix the while-loop countdown","prompt":"The loop should count down 5, 4, 3, 2, 1 and then stop. Fix the update statement so n decreases by 1 each iteration.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n -= 2;\n        }\n        System.out.println(\"Done\");\n    }\n}","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-14","language":"java","modality_id":"debugging","title":"Fix the running total","prompt":"The program should add 1 through 4 so total becomes 10 and average becomes 2.5. Fix the statement that updates total.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total = n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-15","language":"java","modality_id":"debugging","title":"Fix the even-value total","prompt":"The program should add only the even values from 1 through 6 and print 12. Fix the condition so only even values are added.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 != 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-16","language":"java","modality_id":"debugging","title":"Fix the method calculation","prompt":"The method squarePlusOne should return x * x + 1. Fix the return expression so squarePlusOne(4) produces 17.","starter_code":"public class Main {\n    public static int squarePlusOne(int x) {\n        return x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-17","language":"java","modality_id":"debugging","title":"Fix the method that chooses the larger value","prompt":"The larger method should return the greater of a and b. Fix the return statements so larger(7, 11) prints 11.","starter_code":"public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return b;\n        } else {\n            return a;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-18","language":"java","modality_id":"debugging","title":"Fix the arguments in a void-method call","prompt":"The method is defined correctly. Fix the call in main so the String argument is passed to name and the int argument is passed to age.","starter_code":"public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(18, \"Ada\");\n    }\n}","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-19","language":"java","modality_id":"debugging","title":"Fix the array indexes used in a sum","prompt":"The program should add the first and third elements, 10 and 30, and print 40. Fix the incorrect array index.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[1] + values[2];\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic","debugging"],"active":true,"inputSchema":[]},{"id":"JA-DBG-20","language":"java","modality_id":"debugging","title":"Fix the last array index","prompt":"The program should print the last element without an array-index error. Fix the index used in the first element access.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length]);\n        System.out.println(values[values.length - 2]);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index","debugging"],"active":true,"inputSchema":[]},{"id":"JA-TRC-01","language":"java","modality_id":"code-explanation","title":"Explain how the three-number total is calculated","prompt":"Explain what a, b, c, and total store, how total is calculated, and state exactly what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int a = 8;\n        int b = 5;\n        int c = 3;\n        int total = a + b + c;\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["variables","int","arithmetic","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-03","language":"java","modality_id":"code-explanation","title":"Explain the purchase total and change","prompt":"Explain how total and change are calculated, why they are doubles, and state the two values printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 4.5;\n        int quantity = 3;\n        double total = price * quantity;\n        double change = 20.0 - total;\n        System.out.println(total);\n        System.out.println(change);\n    }\n}","difficulty":"easy","expected_concepts":["double","variables","arithmetic","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-04","language":"java","modality_id":"code-explanation","title":"Explain the order of operations","prompt":"Explain which calculation happens first because of the parentheses and state the final output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int result = (4 + 6) * 2 - 3;\n        System.out.println(result);\n    }\n}","difficulty":"easy","expected_concepts":["arithmetic","order of operations","parentheses","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-05","language":"java","modality_id":"code-explanation","title":"Explain the passing-score boundary","prompt":"Explain why the condition is true when score is exactly 60 and state what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 60;\n        if (score >= 60) {\n            System.out.println(\"Pass\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-06","language":"java","modality_id":"code-explanation","title":"Explain which branch runs at zero","prompt":"Explain which branch runs when number is 0, why that branch is selected, and what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int number = 0;\n        if (number > 0) {\n            System.out.println(\"Positive\");\n        } else {\n            System.out.println(\"Zero or negative\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["conditionals","if-else","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-07","language":"java","modality_id":"code-explanation","title":"Explain how a letter grade is selected","prompt":"For score = 78, trace the conditions in order and explain why C is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int score = 78;\n        if (score >= 90) {\n            System.out.println(\"A\");\n        } else if (score >= 80) {\n            System.out.println(\"B\");\n        } else if (score >= 70) {\n            System.out.println(\"C\");\n        } else {\n            System.out.println(\"D\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","if-else-if","comparison","branch order","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-08","language":"java","modality_id":"code-explanation","title":"Explain how an inclusive range check works","prompt":"For age = 25, explain the result of each comparison, how && combines them, and which message is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        if (age >= 18 && age <= 25) {\n            System.out.println(\"Eligible\");\n        } else {\n            System.out.println(\"Not eligible\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["conditionals","logical AND","comparison","boundary value","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-09","language":"java","modality_id":"code-explanation","title":"Explain how the String comparison chooses a branch","prompt":"Explain what answer.equals(\"yes\") checks, why the condition is true, and which message is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String answer = \"yes\";\n        if (answer.equals(\"yes\")) {\n            System.out.println(\"Accepted\");\n        } else {\n            System.out.println(\"Try again\");\n        }\n    }\n}","difficulty":"easy","expected_concepts":["Strings","equals","conditionals","if-else","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-10","language":"java","modality_id":"code-explanation","title":"Explain how the first and last characters are found","prompt":"Explain what length() returns, why charAt(0) gives the first character, and why length() - 1 gives the last character.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        String word = \"java\";\n        System.out.println(word.length());\n        System.out.println(word.charAt(0));\n        System.out.println(word.charAt(word.length() - 1));\n    }\n}","difficulty":"medium","expected_concepts":["Strings","length","charAt","indexing","derived index","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-11","language":"java","modality_id":"code-explanation","title":"Explain how two values are formatted","prompt":"Explain what %.2f and %d do and state the exact visible output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        double price = 3.5;\n        int quantity = 2;\n        System.out.printf(\"Price: $%.2f Quantity: %d%n\", price, quantity);\n    }\n}","difficulty":"easy","expected_concepts":["formatted output","printf","format specifiers","multiple values","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-12","language":"java","modality_id":"code-explanation","title":"Explain how the for loop produces even values","prompt":"Trace the values of n, explain how n += 2 changes the loop variable, and state exactly what is printed.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        for (int n = 2; n <= 10; n += 2) {\n            System.out.println(n);\n        }\n    }\n}","difficulty":"medium","expected_concepts":["for loop","loop update","loop boundary","iteration","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-13","language":"java","modality_id":"code-explanation","title":"Explain how the while-loop countdown stops","prompt":"Trace n from 5 to 1, explain how n-- changes it after each iteration, and explain why Done prints after the loop.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int n = 5;\n        while (n >= 1) {\n            System.out.println(n);\n            n--;\n        }\n        System.out.println(\"Done\");\n    }\n}","difficulty":"medium","expected_concepts":["while loop","loop update","loop boundary","iteration","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-14","language":"java","modality_id":"code-explanation","title":"Explain how the total and average are calculated","prompt":"Trace how total changes as n goes from 1 through 4, then explain how average is calculated and state the two outputs.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 4; n++) {\n            total += n;\n        }\n        double average = total / 4.0;\n        System.out.println(total);\n        System.out.println(average);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","accumulator","arithmetic","double division","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-15","language":"java","modality_id":"code-explanation","title":"Explain how only even values are added","prompt":"Trace n from 1 through 6, identify which values satisfy n % 2 == 0, explain how total changes, and state the final output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int total = 0;\n        for (int n = 1; n <= 6; n++) {\n            if (n % 2 == 0) {\n                total += n;\n            }\n        }\n        System.out.println(total);\n    }\n}","difficulty":"medium","expected_concepts":["for loop","conditionals","modulo","accumulator","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-16","language":"java","modality_id":"code-explanation","title":"Explain how a method calculates and returns a value","prompt":"Explain what value is passed into x, how x * x + 1 is evaluated, what the method returns, and what main prints.","starter_code":"public class Main {\n    public static int squarePlusOne(int x) {\n        return x * x + 1;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(squarePlusOne(4));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","method call","arithmetic","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-17","language":"java","modality_id":"code-explanation","title":"Explain how a method chooses the larger value","prompt":"For larger(7, 11), explain how the arguments map to a and b, which branch runs, what value is returned, and what main prints.","starter_code":"public class Main {\n    public static int larger(int a, int b) {\n        if (a > b) {\n            return a;\n        } else {\n            return b;\n        }\n    }\n\n    public static void main(String[] args) {\n        System.out.println(larger(7, 11));\n    }\n}","difficulty":"medium","expected_concepts":["methods","parameters","return values","conditionals","comparison","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-18","language":"java","modality_id":"code-explanation","title":"Explain how two arguments are passed to a void method","prompt":"Explain why the method is void, how \"Ada\" and 18 are matched to the parameters, and state the two lines printed.","starter_code":"public class Main {\n    public static void printStudent(String name, int age) {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        printStudent(\"Ada\", 18);\n    }\n}","difficulty":"medium","expected_concepts":["methods","void","parameters","method call","output","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-19","language":"java","modality_id":"code-explanation","title":"Explain how array indexes select values for a sum","prompt":"Explain which values are selected by values[0] and values[2], why those indexes refer to the first and third elements, and state the output.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        int total = values[0] + values[2];\n        System.out.println(total);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array declaration","indexing","arithmetic","code understanding"],"active":true,"inputSchema":[]},{"id":"JA-TRC-20","language":"java","modality_id":"code-explanation","title":"Explain how array length gives the last two indexes","prompt":"Explain what values.length returns, why length - 1 is the last valid index, why length - 2 is the second-to-last index, and state the three outputs.","starter_code":"public class Main {\n    public static void main(String[] args) {\n        int[] values = {10, 20, 30, 40};\n        System.out.println(values.length);\n        System.out.println(values[values.length - 1]);\n        System.out.println(values[values.length - 2]);\n    }\n}","difficulty":"easy","expected_concepts":["one-dimensional arrays","array length","indexing","derived index","code understanding"],"active":true,"inputSchema":[]},{"id":"PB-PY-1A","language":"python","modality_id":"problem-solving","title":"Altitude Target","prompt":"Write a Python program for a training system that compares a pilot''s estimated altitude with a target altitude generated by the computer.\n1. Generate a random integer from 20 through 60 and store it as the target altitude.\n2. Ask the user to enter an estimated altitude.\n3. Calculate the absolute difference between the estimate and the target.\n4. Print the estimate and the target altitude.\n5. Use an if-elif-else statement to classify the estimate as Exact when the difference is 0, Very Close when the difference is 1 through 3, Close when the difference is 4 through 7, and Far when the difference is 8 or more.\n6. If the estimate is not exact, also print whether the estimate was above or below the target.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Estimated altitude","type":"number","required":true,"default":""}]},{"id":"PB-JA-1A","language":"java","modality_id":"problem-solving","title":"Altitude Target","prompt":"Write a Java program for a training system that compares a pilot''s estimated altitude with a target altitude generated by the computer.\n1. Generate a random integer from 20 through 60 and store it as the target altitude.\n2. Ask the user to enter an estimated altitude.\n3. Calculate the absolute difference between the estimate and the target.\n4. Print the estimate and the target altitude.\n5. Use an if-else if-else statement to classify the estimate as Exact when the difference is 0, Very Close when the difference is 1 through 3, Close when the difference is 4 through 7, and Far when the difference is 8 or more.\n6. If the estimate is not exact, also print whether the estimate was above or below the target.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Estimated altitude","type":"number","required":true,"default":""}]},{"id":"PB-PY-1B","language":"python","modality_id":"debugging","title":"Battery Calibration","prompt":"The following program is intended to compare a technician''s battery estimate with a randomly generated target charge. The program does not always classify the estimate correctly. Fix the program so that it correctly uses the absolute difference and prints the correct category.\n\nThe corrected program should use one if-elif-else decision structure and should work correctly whether the estimate is above or below the target. The intended categories are: Exact for a difference of 0, Very close for 1-2, Close for 3-5, Far for 6-10, and Very far for more than 10.","starter_code":"import random\n\ntarget = random.randint(30, 90)\nestimate = int(input(\"Estimated battery charge: \"))\n\ndifference = target - estimate\n\nprint(\"Target charge:\", target)\nprint(\"Your estimate:\", estimate)\n\nif difference <= 10:\n    print(\"Far\")\nelif difference <= 5:\n    print(\"Close\")\nelif difference <= 2:\n    print(\"Very close\")\nelif difference == 0:\n    print(\"Exact\")\nelse:\n    print(\"Very far\")","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Estimated battery charge","type":"number","required":true,"default":""}]},{"id":"PB-JA-1B","language":"java","modality_id":"debugging","title":"Battery Calibration","prompt":"The following program is intended to compare a technician''s battery estimate with a randomly generated target charge. The program does not always classify the estimate correctly. Fix the Java program so that it correctly uses the absolute difference and prints the correct category.\n\nThe corrected program should use one if-else if-else decision structure and should work correctly whether the estimate is above or below the target. The intended categories are: Exact for a difference of 0, Very close for 1-2, Close for 3-5, Far for 6-10, and Very far for more than 10.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int target = random.nextInt(61) + 30;\n        int estimate = input.nextInt();\n        int difference = target - estimate;\n        System.out.println(\"Target charge:\" + \" \" + target);\n        System.out.println(\"Your estimate:\" + \" \" + estimate);\n        if (difference <= 10) {\n            System.out.println(\"Far\");\n        }\n        else if (difference <= 5) {\n            System.out.println(\"Close\");\n        }\n        else if (difference <= 2) {\n            System.out.println(\"Very close\");\n        }\n        else if (difference == 0) {\n            System.out.println(\"Exact\");\n        }\n        else {\n            System.out.println(\"Very far\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Estimated battery charge","type":"number","required":true,"default":""}]},{"id":"PB-PY-1C","language":"python","modality_id":"code-explanation","title":"Temperature Match","prompt":"Study the program below. Without changing or running the program, explain how it determines the final message.\n\n1. Explain why the program uses abs() when calculating difference.\n2. Explain how the first if-elif-else structure decides which closeness message to print.\n3. Explain why the conditions are checked in the order shown.\n4. Explain how the second if-elif-else structure determines whether the reading is above, below, or equal to the target.","starter_code":"import random\n\ntarget = random.randint(55, 75)\nreading = int(input(\"Enter the temperature reading: \"))\n\ndifference = abs(target - reading)\n\nif difference == 0:\n    print(\"Perfect match\")\nelif difference <= 2:\n    print(\"Very close\")\nelif difference <= 5:\n    print(\"Close\")\nelse:\n    print(\"Needs adjustment\")\n\nif reading < target:\n    print(\"Reading is below target\")\nelif reading > target:\n    print(\"Reading is above target\")\nelse:\n    print(\"Reading equals target\")","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-1C","language":"java","modality_id":"code-explanation","title":"Temperature Match","prompt":"Study the Java program below. Without changing or running the program, explain how it determines the final message.\n\n1. Explain why the program uses Math.abs() when calculating difference.\n2. Explain how the first if-else if-else structure decides which closeness message to print.\n3. Explain why the conditions are checked in the order shown.\n4. Explain how the second if-else if-else structure determines whether the reading is above, below, or equal to the target.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int target = random.nextInt(21) + 55;\n        int reading = input.nextInt();\n        int difference = Math.abs(target - reading);\n        if (difference == 0) {\n            System.out.println(\"Perfect match\");\n        }\n        else if (difference <= 2) {\n            System.out.println(\"Very close\");\n        }\n        else if (difference <= 5) {\n            System.out.println(\"Close\");\n        }\n        else {\n            System.out.println(\"Needs adjustment\");\n        }\n        if (reading < target) {\n            System.out.println(\"Reading is below target\");\n        }\n        else if (reading > target) {\n            System.out.println(\"Reading is above target\");\n        }\n        else {\n            System.out.println(\"Reading equals target\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-1","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-PY-2A","language":"python","modality_id":"problem-solving","title":"Trip Cost Planner","prompt":"Write a Python program that estimates the cost of a road trip and then classifies the trip by total cost.\n1. Ask the user for the trip distance in miles, the vehicle''s miles per gallon, the price of one gallon of fuel, and the toll cost.\n2. Calculate how many gallons of fuel are needed.\n3. Calculate the fuel cost and then the total trip cost after adding the toll cost.\n4. Round the total trip cost to two decimal places.\n5. Use an if-elif-else statement to classify the total cost as Low Cost when it is less than $40, Moderate Cost when it is from $40 through $79.99, High Cost when it is from $80 through $149.99, and Very High Cost when it is $150 or more.\n6. Print the gallons needed, fuel cost, total cost, and cost classification.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Trip distance (miles)","type":"number","required":true,"default":""},{"id":"input2","label":"Miles per gallon","type":"number","required":true,"default":""},{"id":"input3","label":"Fuel price per gallon","type":"number","required":true,"default":""},{"id":"input4","label":"Toll cost","type":"number","required":true,"default":""}]},{"id":"PB-JA-2A","language":"java","modality_id":"problem-solving","title":"Trip Cost Planner","prompt":"Write a Java program that estimates the cost of a road trip and then classifies the trip by total cost.\n1. Ask the user for the trip distance in miles, the vehicle''s miles per gallon, the price of one gallon of fuel, and the toll cost.\n2. Calculate how many gallons of fuel are needed.\n3. Calculate the fuel cost and then the total trip cost after adding the toll cost.\n4. Round the total trip cost to two decimal places.\n5. Use an if-else if-else statement to classify the total cost as Low Cost when it is less than $40, Moderate Cost when it is from $40 through $79.99, High Cost when it is from $80 through $149.99, and Very High Cost when it is $150 or more.\n6. Print the gallons needed, fuel cost, total cost, and cost classification.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Trip distance (miles)","type":"number","required":true,"default":""},{"id":"input2","label":"Miles per gallon","type":"number","required":true,"default":""},{"id":"input3","label":"Fuel price per gallon","type":"number","required":true,"default":""},{"id":"input4","label":"Toll cost","type":"number","required":true,"default":""}]},{"id":"PB-PY-2B","language":"python","modality_id":"debugging","title":"Event Ticket Calculator","prompt":"The following program is intended to calculate the final price of an event purchase and apply one discount based on the subtotal. The program produces incorrect totals and discount categories. Fix it.\n\nThe corrected program should calculate the subtotal as ticket price multiplied by number of tickets, select only the highest discount level earned, subtract the discount, add the service fee, and print the correct totals.","starter_code":"ticket_price = float(input(\"Price of one ticket: \"))\ntickets = int(input(\"Number of tickets: \"))\nservice_fee = float(input(\"Service fee: \"))\n\nsubtotal = ticket_price + tickets\n\nif subtotal >= 50:\n    discount = subtotal * 0.05\nelif subtotal >= 100:\n    discount = subtotal * 0.10\nelif subtotal >= 200:\n    discount = subtotal * 0.15\nelse:\n    discount = 0\n\nfinal_total = subtotal - discount * service_fee\n\nprint(\"Subtotal:\", round(subtotal, 2))\nprint(\"Discount:\", round(discount, 2))\nprint(\"Final total:\", round(final_total, 2))","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Ticket price","type":"number","required":true,"default":""},{"id":"input2","label":"Number of tickets","type":"number","required":true,"default":""},{"id":"input3","label":"Service fee","type":"number","required":true,"default":""}]},{"id":"PB-JA-2B","language":"java","modality_id":"debugging","title":"Event Ticket Calculator","prompt":"The following program is intended to calculate the final price of an event purchase and apply one discount based on the subtotal. The program produces incorrect totals and discount categories. Fix it.\n\nThe corrected program should calculate the subtotal as ticket price multiplied by number of tickets, select only the highest discount level earned, subtract the discount, add the service fee, and print the correct totals.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        double ticket_price = input.nextDouble();\n        int tickets = input.nextInt();\n        double service_fee = input.nextDouble();\n        double subtotal = ticket_price + tickets;\n        double discount = 0;\n        if (subtotal >= 50) {\n            discount = subtotal * 0.05;\n        }\n        else if (subtotal >= 100) {\n            discount = subtotal * 0.10;\n        }\n        else if (subtotal >= 200) {\n            discount = subtotal * 0.15;\n        }\n        else {\n            discount = 0;\n        }\n        double final_total = subtotal - discount * service_fee;\n        System.out.println(\"Subtotal:\" + \" \" + (Math.round(subtotal * 100.0) / 100.0));\n        System.out.println(\"Discount:\" + \" \" + (Math.round(discount * 100.0) / 100.0));\n        System.out.println(\"Final total:\" + \" \" + (Math.round(final_total * 100.0) / 100.0));\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Ticket price","type":"number","required":true,"default":""},{"id":"input2","label":"Number of tickets","type":"number","required":true,"default":""},{"id":"input3","label":"Service fee","type":"number","required":true,"default":""}]},{"id":"PB-PY-2C","language":"python","modality_id":"code-explanation","title":"Equipment Rental Cost","prompt":"Study the program below. Without changing or running it, explain how the program calculates and classifies the final rental cost.\n\n1. Explain how rental_cost is calculated from the user inputs.\n2. Explain how the program decides which discount is applied and why only one discount is selected.\n3. Explain how final_cost is calculated.\n4. Explain how the second conditional structure classifies the final cost.","starter_code":"days = int(input(\"Number of rental days: \"))\ndaily_rate = float(input(\"Daily rental rate: \"))\ninsurance = float(input(\"Insurance charge: \"))\n\nrental_cost = days * daily_rate\n\nif rental_cost >= 300:\n    discount = rental_cost * 0.15\nelif rental_cost >= 150:\n    discount = rental_cost * 0.10\nelif rental_cost >= 75:\n    discount = rental_cost * 0.05\nelse:\n    discount = 0\n\nfinal_cost = rental_cost - discount + insurance\n\nif final_cost < 100:\n    category = \"Low\"\nelif final_cost < 250:\n    category = \"Moderate\"\nelse:\n    category = \"High\"\n\nprint(\"Final rental cost:\", round(final_cost, 2))\nprint(\"Cost category:\", category)","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-2C","language":"java","modality_id":"code-explanation","title":"Equipment Rental Cost","prompt":"Study the Java program below. Without changing or running it, explain how the program calculates and classifies the final rental cost.\n\n1. Explain how rental_cost is calculated from the user inputs.\n2. Explain how the program decides which discount is applied and why only one discount is selected.\n3. Explain how final_cost is calculated.\n4. Explain how the second conditional structure classifies the final cost.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int days = input.nextInt();\n        double daily_rate = input.nextDouble();\n        double insurance = input.nextDouble();\n        double rental_cost = days * daily_rate;\n        double discount = 0;\n        if (rental_cost >= 300) {\n            discount = rental_cost * 0.15;\n        }\n        else if (rental_cost >= 150) {\n            discount = rental_cost * 0.10;\n        }\n        else if (rental_cost >= 75) {\n            discount = rental_cost * 0.05;\n        }\n        else {\n            discount = 0;\n        }\n        double final_cost = rental_cost - discount + insurance;\n        String category = \"\";\n        if (final_cost < 100) {\n            category = \"Low\";\n        }\n        else if (final_cost < 250) {\n            category = \"Moderate\";\n        }\n        else {\n            category = \"High\";\n        }\n        System.out.println(\"Final rental cost:\" + \" \" + (Math.round(final_cost * 100.0) / 100.0));\n        System.out.println(\"Cost category:\" + \" \" + category);\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-2","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-PY-3A","language":"python","modality_id":"problem-solving","title":"Stage Lighting Reach","prompt":"Write a Python program that helps a stage technician choose the shortest lighting system that can reach a performer.\n1. Ask for the length of a short light arm.\n2. Ask for the length of a long light arm. The long arm must be longer than the short arm. If it is not, display a message and ask for the long arm length one more time. You may assume the second entry is valid.\n3. Ask for the length of an extension that can be attached to the long arm.\n4. Calculate the extended reach by adding the long arm length and extension length.\n5. Ask for the distance to the performer.\n6. Use an if-elif-else statement to select the shortest option that can reach the performer: short arm, long arm, or long arm with extension.\n7. If none of the three options can reach the performer, print that the performer is out of range.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Short light arm length","type":"number","required":true,"default":""},{"id":"input2","label":"Long light arm length","type":"number","required":true,"default":""},{"id":"input3","label":"Corrected long light arm length","type":"number","required":true,"default":"","help":"Required only when the first long length is not greater than the short length.","when":{"field":"input2","operator":"lteField","otherField":"input1"}},{"id":"input4","label":"Extension length","type":"number","required":true,"default":""},{"id":"input5","label":"Distance to performer","type":"number","required":true,"default":""}]},{"id":"PB-JA-3A","language":"java","modality_id":"problem-solving","title":"Stage Lighting Reach","prompt":"Write a Java program that helps a stage technician choose the shortest lighting system that can reach a performer.\n1. Ask for the length of a short light arm.\n2. Ask for the length of a long light arm. The long arm must be longer than the short arm. If it is not, display a message and ask for the long arm length one more time. You may assume the second entry is valid.\n3. Ask for the length of an extension that can be attached to the long arm.\n4. Calculate the extended reach by adding the long arm length and extension length.\n5. Ask for the distance to the performer.\n6. Use an if-else if-else statement to select the shortest option that can reach the performer: short arm, long arm, or long arm with extension.\n7. If none of the three options can reach the performer, print that the performer is out of range.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Short light arm length","type":"number","required":true,"default":""},{"id":"input2","label":"Long light arm length","type":"number","required":true,"default":""},{"id":"input3","label":"Corrected long light arm length","type":"number","required":true,"default":"","help":"Required only when the first long length is not greater than the short length.","when":{"field":"input2","operator":"lteField","otherField":"input1"}},{"id":"input4","label":"Extension length","type":"number","required":true,"default":""},{"id":"input5","label":"Distance to performer","type":"number","required":true,"default":""}]},{"id":"PB-PY-3B","language":"python","modality_id":"debugging","title":"Trail Rescue Rope","prompt":"The following program is intended to validate two rope lengths, calculate a combined reach, and choose the shortest rescue option that can reach a hiker. The program contains errors. Fix it so that the relationships among the input values and calculated values remain correct.\n\nThe corrected program should preserve the original short rope value, correctly replace the invalid long rope value, calculate the combined reach from the long rope and extension, and always choose the shortest option that works.","starter_code":"short_rope = int(input(\"Short rope length: \"))\nlong_rope = int(input(\"Long rope length: \"))\n\nif long_rope <= short_rope:\n    print(\"Long rope must be longer. Try again.\")\n    short_rope = int(input(\"Long rope length: \"))\n\nextension = int(input(\"Extension length: \"))\ncombined_reach = short_rope + extension\n\ndistance = int(input(\"Distance to hiker: \"))\n\nif distance <= combined_reach:\n    print(\"Use rope with extension\")\nelif distance <= long_rope:\n    print(\"Use long rope\")\nelif distance <= short_rope:\n    print(\"Use short rope\")\nelse:\n    print(\"Hiker is out of range\")","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Short rope length","type":"number","required":true,"default":""},{"id":"input2","label":"Long rope length","type":"number","required":true,"default":""},{"id":"input3","label":"Corrected long rope length","type":"number","required":true,"default":"","help":"Required only when the first long length is not greater than the short length.","when":{"field":"input2","operator":"lteField","otherField":"input1"}},{"id":"input4","label":"Extension length","type":"number","required":true,"default":""},{"id":"input5","label":"Distance to hiker","type":"number","required":true,"default":""}]},{"id":"PB-JA-3B","language":"java","modality_id":"debugging","title":"Trail Rescue Rope","prompt":"The following program is intended to validate two rope lengths, calculate a combined reach, and choose the shortest rescue option that can reach a hiker. The program contains errors. Fix it so that the relationships among the input values and calculated values remain correct.\n\nThe corrected program should preserve the original short rope value, correctly replace the invalid long rope value, calculate the combined reach from the long rope and extension, and always choose the shortest option that works.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int short_rope = input.nextInt();\n        int long_rope = input.nextInt();\n        if (long_rope <= short_rope) {\n            System.out.println(\"Long rope must be longer. Try again.\");\n            short_rope = input.nextInt();\n        }\n        int extension = input.nextInt();\n        int combined_reach = short_rope + extension;\n        int distance = input.nextInt();\n        if (distance <= combined_reach) {\n            System.out.println(\"Use rope with extension\");\n        }\n        else if (distance <= long_rope) {\n            System.out.println(\"Use long rope\");\n        }\n        else if (distance <= short_rope) {\n            System.out.println(\"Use short rope\");\n        }\n        else {\n            System.out.println(\"Hiker is out of range\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Short rope length","type":"number","required":true,"default":""},{"id":"input2","label":"Long rope length","type":"number","required":true,"default":""},{"id":"input3","label":"Corrected long rope length","type":"number","required":true,"default":"","help":"Required only when the first long length is not greater than the short length.","when":{"field":"input2","operator":"lteField","otherField":"input1"}},{"id":"input4","label":"Extension length","type":"number","required":true,"default":""},{"id":"input5","label":"Distance to hiker","type":"number","required":true,"default":""}]},{"id":"PB-PY-3C","language":"python","modality_id":"code-explanation","title":"Robot Tool Reach","prompt":"Study the program below. Without changing or running it, explain how the program validates its input and selects a tool.\n\n1. Explain what condition causes the program to ask for extended_arm a second time.\n2. Explain why full_reach is calculated after the validation step.\n3. Explain why the program checks arm before extended_arm and full_reach.\n4. Explain what relationship must be true among arm, extended_arm, and full_reach for the decision structure to work as intended.","starter_code":"arm = int(input(\"Robot arm length: \"))\nextended_arm = int(input(\"Extended arm length: \"))\n\nif extended_arm <= arm:\n    print(\"Extended arm must be longer. Enter it again.\")\n    extended_arm = int(input(\"Extended arm length: \"))\n\ntool = int(input(\"Tool attachment length: \"))\nfull_reach = extended_arm + tool\n\ntarget_distance = int(input(\"Distance to target: \"))\n\nif target_distance <= arm:\n    print(\"Use standard arm\")\nelif target_distance <= extended_arm:\n    print(\"Use extended arm\")\nelif target_distance <= full_reach:\n    print(\"Use extended arm with tool\")\nelse:\n    print(\"Target is out of reach\")","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-3C","language":"java","modality_id":"code-explanation","title":"Robot Tool Reach","prompt":"Study the Java program below. Without changing or running it, explain how the program validates its input and selects a tool.\n\n1. Explain what condition causes the program to ask for extended_arm a second time.\n2. Explain why full_reach is calculated after the validation step.\n3. Explain why the program checks arm before extended_arm and full_reach.\n4. Explain what relationship must be true among arm, extended_arm, and full_reach for the decision structure to work as intended.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int arm = input.nextInt();\n        int extended_arm = input.nextInt();\n        if (extended_arm <= arm) {\n            System.out.println(\"Extended arm must be longer. Enter it again.\");\n            extended_arm = input.nextInt();\n        }\n        int tool = input.nextInt();\n        int full_reach = extended_arm + tool;\n        int target_distance = input.nextInt();\n        if (target_distance <= arm) {\n            System.out.println(\"Use standard arm\");\n        }\n        else if (target_distance <= extended_arm) {\n            System.out.println(\"Use extended arm\");\n        }\n        else if (target_distance <= full_reach) {\n            System.out.println(\"Use extended arm with tool\");\n        }\n        else {\n            System.out.println(\"Target is out of reach\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-3","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-PY-4A","language":"python","modality_id":"problem-solving","title":"Emergency Beacon Range","prompt":"Write a Python program that determines which communication system at an emergency station can reach a stranded traveler.\n1. Ask for the station''s X coordinate, Y coordinate, and diameter.\n2. Ask for the traveler''s X coordinate, Y coordinate, and the diameter of the traveler''s signal area.\n3. Ask for the maximum ranges of a short-range radio, medium-range radio, and long-range radio. You may assume the three ranges are entered from shortest to longest.\n4. Calculate the straight-line distance between the station and the traveler using their coordinates.\n5. Convert both diameters to radii and calculate the effective distance between the outside edges of the two circular areas. You may assume the two areas do not overlap.\n6. Use an if-elif-else statement to select the shortest radio that can cover the effective distance.\n7. If none can reach, print that the traveler is out of communication range.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Station X","type":"number","required":true,"default":""},{"id":"input2","label":"Station Y","type":"number","required":true,"default":""},{"id":"input3","label":"Station diameter","type":"number","required":true,"default":""},{"id":"input4","label":"Traveler X","type":"number","required":true,"default":""},{"id":"input5","label":"Traveler Y","type":"number","required":true,"default":""},{"id":"input6","label":"Traveler signal diameter","type":"number","required":true,"default":""},{"id":"input7","label":"Short radio range","type":"number","required":true,"default":""},{"id":"input8","label":"Medium radio range","type":"number","required":true,"default":""},{"id":"input9","label":"Long radio range","type":"number","required":true,"default":""}]},{"id":"PB-JA-4A","language":"java","modality_id":"problem-solving","title":"Emergency Beacon Range","prompt":"Write a Java program that determines which communication system at an emergency station can reach a stranded traveler.\n1. Ask for the station''s X coordinate, Y coordinate, and diameter.\n2. Ask for the traveler''s X coordinate, Y coordinate, and the diameter of the traveler''s signal area.\n3. Ask for the maximum ranges of a short-range radio, medium-range radio, and long-range radio. You may assume the three ranges are entered from shortest to longest.\n4. Calculate the straight-line distance between the station and the traveler using their coordinates.\n5. Convert both diameters to radii and calculate the effective distance between the outside edges of the two circular areas. You may assume the two areas do not overlap.\n6. Use an if-else if-else statement to select the shortest radio that can cover the effective distance.\n7. If none can reach, print that the traveler is out of communication range.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Station X","type":"number","required":true,"default":""},{"id":"input2","label":"Station Y","type":"number","required":true,"default":""},{"id":"input3","label":"Station diameter","type":"number","required":true,"default":""},{"id":"input4","label":"Traveler X","type":"number","required":true,"default":""},{"id":"input5","label":"Traveler Y","type":"number","required":true,"default":""},{"id":"input6","label":"Traveler signal diameter","type":"number","required":true,"default":""},{"id":"input7","label":"Short radio range","type":"number","required":true,"default":""},{"id":"input8","label":"Medium radio range","type":"number","required":true,"default":""},{"id":"input9","label":"Long radio range","type":"number","required":true,"default":""}]},{"id":"PB-PY-4B","language":"python","modality_id":"debugging","title":"Delivery Robot Loading Zone","prompt":"The following program is intended to calculate the effective distance between a delivery robot and a circular loading zone, then select the shortest delivery arm that can reach the zone. It does not work correctly. Fix it.\n\nThe corrected program should use radius rather than diameter, calculate Euclidean distance correctly, measure the distance between the outside edges of the circular areas, and choose the shortest arm that reaches.","starter_code":"from math import sqrt\n\nrobot_x = int(input(\"Robot x: \"))\nrobot_y = int(input(\"Robot y: \"))\nrobot_diameter = int(input(\"Robot diameter: \"))\n\nzone_x = int(input(\"Loading zone x: \"))\nzone_y = int(input(\"Loading zone y: \"))\nzone_diameter = int(input(\"Loading zone diameter: \"))\n\nshort_arm = int(input(\"Short arm range: \"))\nmedium_arm = int(input(\"Medium arm range: \"))\nlong_arm = int(input(\"Long arm range: \"))\n\nrobot_radius = robot_diameter\nzone_radius = zone_diameter\n\ncenter_distance = sqrt((robot_x - zone_x) ** 2 - (robot_y - zone_y) ** 2)\neffective_distance = center_distance + robot_radius + zone_radius\n\nif effective_distance <= long_arm:\n    print(\"Use long arm\")\nelif effective_distance <= medium_arm:\n    print(\"Use medium arm\")\nelif effective_distance <= short_arm:\n    print(\"Use short arm\")\nelse:\n    print(\"Loading zone is out of reach\")","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Robot X","type":"number","required":true,"default":""},{"id":"input2","label":"Robot Y","type":"number","required":true,"default":""},{"id":"input3","label":"Robot diameter","type":"number","required":true,"default":""},{"id":"input4","label":"Loading zone X","type":"number","required":true,"default":""},{"id":"input5","label":"Loading zone Y","type":"number","required":true,"default":""},{"id":"input6","label":"Loading zone diameter","type":"number","required":true,"default":""},{"id":"input7","label":"Short arm range","type":"number","required":true,"default":""},{"id":"input8","label":"Medium arm range","type":"number","required":true,"default":""},{"id":"input9","label":"Long arm range","type":"number","required":true,"default":""}]},{"id":"PB-JA-4B","language":"java","modality_id":"debugging","title":"Delivery Robot Loading Zone","prompt":"The following program is intended to calculate the effective distance between a delivery robot and a circular loading zone, then select the shortest delivery arm that can reach the zone. It does not work correctly. Fix it.\n\nThe corrected program should use radius rather than diameter, calculate Euclidean distance correctly, measure the distance between the outside edges of the circular areas, and choose the shortest arm that reaches.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int robot_x = input.nextInt();\n        int robot_y = input.nextInt();\n        int robot_diameter = input.nextInt();\n        int zone_x = input.nextInt();\n        int zone_y = input.nextInt();\n        int zone_diameter = input.nextInt();\n        int short_arm = input.nextInt();\n        int medium_arm = input.nextInt();\n        int long_arm = input.nextInt();\n        int robot_radius = robot_diameter;\n        int zone_radius = zone_diameter;\n        double center_distance = Math.sqrt(Math.pow((robot_x - zone_x), 2) - Math.pow((robot_y - zone_y), 2));\n        double effective_distance = center_distance + robot_radius + zone_radius;\n        if (effective_distance <= long_arm) {\n            System.out.println(\"Use long arm\");\n        }\n        else if (effective_distance <= medium_arm) {\n            System.out.println(\"Use medium arm\");\n        }\n        else if (effective_distance <= short_arm) {\n            System.out.println(\"Use short arm\");\n        }\n        else {\n            System.out.println(\"Loading zone is out of reach\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Robot X","type":"number","required":true,"default":""},{"id":"input2","label":"Robot Y","type":"number","required":true,"default":""},{"id":"input3","label":"Robot diameter","type":"number","required":true,"default":""},{"id":"input4","label":"Loading zone X","type":"number","required":true,"default":""},{"id":"input5","label":"Loading zone Y","type":"number","required":true,"default":""},{"id":"input6","label":"Loading zone diameter","type":"number","required":true,"default":""},{"id":"input7","label":"Short arm range","type":"number","required":true,"default":""},{"id":"input8","label":"Medium arm range","type":"number","required":true,"default":""},{"id":"input9","label":"Long arm range","type":"number","required":true,"default":""}]},{"id":"PB-PY-4C","language":"python","modality_id":"code-explanation","title":"Research Rover Sample Range","prompt":"Study the program below. Without changing or running it, explain how the rover determines which collection tool can reach the sample.\n\n1. Explain how center_distance is calculated from the two coordinate pairs.\n2. Explain why the program divides each diameter by 2.\n3. Explain why the two radii are subtracted from center_distance.\n4. Explain why the tools are checked from shortest range to longest range.","starter_code":"from math import sqrt\n\nrover_x = int(input(\"Rover x: \"))\nrover_y = int(input(\"Rover y: \"))\nrover_diameter = int(input(\"Rover diameter: \"))\n\nsample_x = int(input(\"Sample x: \"))\nsample_y = int(input(\"Sample y: \"))\nsample_diameter = int(input(\"Sample diameter: \"))\n\ngrabber = int(input(\"Grabber range: \"))\nextended_grabber = int(input(\"Extended grabber range: \"))\nscanner = int(input(\"Scanner range: \"))\n\nrover_radius = rover_diameter / 2\nsample_radius = sample_diameter / 2\ncenter_distance = sqrt((rover_x - sample_x) ** 2 + (rover_y - sample_y) ** 2)\neffective_distance = center_distance - rover_radius - sample_radius\n\nif effective_distance <= grabber:\n    print(\"Use grabber\")\nelif effective_distance <= extended_grabber:\n    print(\"Use extended grabber\")\nelif effective_distance <= scanner:\n    print(\"Use scanner\")\nelse:\n    print(\"Sample is out of range\")","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-4C","language":"java","modality_id":"code-explanation","title":"Research Rover Sample Range","prompt":"Study the Java program below. Without changing or running it, explain how the rover determines which collection tool can reach the sample.\n\n1. Explain how center_distance is calculated from the two coordinate pairs.\n2. Explain why the program divides each diameter by 2.\n3. Explain why the two radii are subtracted from center_distance.\n4. Explain why the tools are checked from shortest range to longest range.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int rover_x = input.nextInt();\n        int rover_y = input.nextInt();\n        int rover_diameter = input.nextInt();\n        int sample_x = input.nextInt();\n        int sample_y = input.nextInt();\n        int sample_diameter = input.nextInt();\n        int grabber = input.nextInt();\n        int extended_grabber = input.nextInt();\n        int scanner = input.nextInt();\n        double rover_radius = rover_diameter / 2.0;\n        double sample_radius = sample_diameter / 2.0;\n        double center_distance = Math.sqrt(Math.pow((rover_x - sample_x), 2) + Math.pow((rover_y - sample_y), 2));\n        double effective_distance = center_distance - rover_radius - sample_radius;\n        if (effective_distance <= grabber) {\n            System.out.println(\"Use grabber\");\n        }\n        else if (effective_distance <= extended_grabber) {\n            System.out.println(\"Use extended grabber\");\n        }\n        else if (effective_distance <= scanner) {\n            System.out.println(\"Use scanner\");\n        }\n        else {\n            System.out.println(\"Sample is out of range\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-4","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-PY-5A","language":"python","modality_id":"problem-solving","title":"Campus Transport Selection","prompt":"Write a Python program that selects the smallest campus vehicle suitable for a trip.\n1. Ask for the number of passengers, the number of bags, and the travel distance in miles.\n2. A cart may be used when there are no more than 2 passengers, no more than 2 bags, and the distance is no more than 5 miles.\n3. A van may be used when there are no more than 6 passengers, no more than 8 bags, and the distance is no more than 50 miles.\n4. A shuttle may be used when there are no more than 14 passengers and no more than 20 bags. The shuttle may be used for any distance.\n5. Use compound Boolean expressions and an if-elif-else structure to choose the smallest suitable vehicle.\n6. If none of the vehicles satisfies the requirements, print that no available vehicle can handle the trip.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Passengers","type":"number","required":true,"default":""},{"id":"input2","label":"Bags","type":"number","required":true,"default":""},{"id":"input3","label":"Travel distance","type":"number","required":true,"default":""}]},{"id":"PB-JA-5A","language":"java","modality_id":"problem-solving","title":"Campus Transport Selection","prompt":"Write a Java program that selects the smallest campus vehicle suitable for a trip.\n1. Ask for the number of passengers, the number of bags, and the travel distance in miles.\n2. A cart may be used when there are no more than 2 passengers, no more than 2 bags, and the distance is no more than 5 miles.\n3. A van may be used when there are no more than 6 passengers, no more than 8 bags, and the distance is no more than 50 miles.\n4. A shuttle may be used when there are no more than 14 passengers and no more than 20 bags. The shuttle may be used for any distance.\n5. Use compound Boolean expressions and an if-else if-else structure to choose the smallest suitable vehicle.\n6. If none of the vehicles satisfies the requirements, print that no available vehicle can handle the trip.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Passengers","type":"number","required":true,"default":""},{"id":"input2","label":"Bags","type":"number","required":true,"default":""},{"id":"input3","label":"Travel distance","type":"number","required":true,"default":""}]},{"id":"PB-PY-5B","language":"python","modality_id":"debugging","title":"Event Room Assignment","prompt":"The following program is intended to choose the smallest room that satisfies both the attendance and equipment requirements. It sometimes selects rooms that do not meet all requirements. Fix the program.\n\nRoom A can hold at most 20 people and provide at most 10 computers. Room B can hold at most 40 people and provide at most 25 computers. Room C can hold at most 80 people and provide at most 50 computers. The corrected program should choose the smallest room that satisfies both requirements.","starter_code":"people = int(input(\"Number of people: \"))\ncomputers = int(input(\"Computers needed: \"))\n\nif people <= 20 or computers <= 10:\n    print(\"Use Room A\")\nelif people <= 40 or computers <= 25:\n    print(\"Use Room B\")\nelif people <= 80 or computers <= 50:\n    print(\"Use Room C\")\nelse:\n    print(\"No room is large enough\")","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Number of people","type":"number","required":true,"default":""},{"id":"input2","label":"Computers needed","type":"number","required":true,"default":""}]},{"id":"PB-JA-5B","language":"java","modality_id":"debugging","title":"Event Room Assignment","prompt":"The following program is intended to choose the smallest room that satisfies both the attendance and equipment requirements. It sometimes selects rooms that do not meet all requirements. Fix the Java program.\n\nRoom A can hold at most 20 people and provide at most 10 computers. Room B can hold at most 40 people and provide at most 25 computers. Room C can hold at most 80 people and provide at most 50 computers. The corrected program should choose the smallest room that satisfies both requirements.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int people = input.nextInt();\n        int computers = input.nextInt();\n        if (people <= 20 || computers <= 10) {\n            System.out.println(\"Use Room A\");\n        }\n        else if (people <= 40 || computers <= 25) {\n            System.out.println(\"Use Room B\");\n        }\n        else if (people <= 80 || computers <= 50) {\n            System.out.println(\"Use Room C\");\n        }\n        else {\n            System.out.println(\"No room is large enough\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Number of people","type":"number","required":true,"default":""},{"id":"input2","label":"Computers needed","type":"number","required":true,"default":""}]},{"id":"PB-PY-5C","language":"python","modality_id":"code-explanation","title":"Equipment Checkout","prompt":"Study the program below. Without changing or running it, explain how the program chooses the first equipment package that satisfies the request.\n\n1. Explain what the and operator requires in each condition.\n2. Explain why the smallest package is checked first.\n3. Explain what happens when one part of a condition is true but the other part is false.\n4. Explain when the final else branch is reached.","starter_code":"people = int(input(\"Number of users: \"))\nhours = int(input(\"Hours needed: \"))\n\nif people <= 2 and hours <= 2:\n    print(\"Basic package\")\nelif people <= 5 and hours <= 5:\n    print(\"Standard package\")\nelif people <= 10 and hours <= 8:\n    print(\"Extended package\")\nelse:\n    print(\"Request requires special approval\")","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-5C","language":"java","modality_id":"code-explanation","title":"Equipment Checkout","prompt":"Study the Java program below. Without changing or running it, explain how the program chooses the first equipment package that satisfies the request.\n\n1. Explain what the && operator requires in each condition.\n2. Explain why the smallest package is checked first.\n3. Explain what happens when one part of a condition is true but the other part is false.\n4. Explain when the final else branch is reached.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        int people = input.nextInt();\n        int hours = input.nextInt();\n        if (people <= 2 && hours <= 2) {\n            System.out.println(\"Basic package\");\n        }\n        else if (people <= 5 && hours <= 5) {\n            System.out.println(\"Standard package\");\n        }\n        else if (people <= 10 && hours <= 8) {\n            System.out.println(\"Extended package\");\n        }\n        else {\n            System.out.println(\"Request requires special approval\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-5","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-PY-6A","language":"python","modality_id":"problem-solving","title":"Package Delivery Method","prompt":"Write a Python program that uses a package''s measurements and travel distance to select a delivery method.\n1. Ask for the package length, width, height, weight, and delivery distance.\n2. Calculate the package volume by multiplying length, width, and height.\n3. Standard delivery may be used when the volume is 1,000 cubic units or less, the weight is 20 units or less, and the distance is 100 miles or less.\n4. Large-package delivery may be used when the volume is 5,000 cubic units or less, the weight is 60 units or less, and the distance is 300 miles or less.\n5. Freight delivery may be used when the volume is 15,000 cubic units or less and the weight is 150 units or less.\n6. Use an if-elif-else structure and compound Boolean expressions to select the smallest delivery method that works.\n7. If the package does not meet any of the limits, print that special shipping is required.\n8. Print the calculated volume and selected delivery method.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Length","type":"number","required":true,"default":""},{"id":"input2","label":"Width","type":"number","required":true,"default":""},{"id":"input3","label":"Height","type":"number","required":true,"default":""},{"id":"input4","label":"Weight","type":"number","required":true,"default":""},{"id":"input5","label":"Delivery distance","type":"number","required":true,"default":""}]},{"id":"PB-JA-6A","language":"java","modality_id":"problem-solving","title":"Package Delivery Method","prompt":"Write a Java program that uses a package''s measurements and travel distance to select a delivery method.\n1. Ask for the package length, width, height, weight, and delivery distance.\n2. Calculate the package volume by multiplying length, width, and height.\n3. Standard delivery may be used when the volume is 1,000 cubic units or less, the weight is 20 units or less, and the distance is 100 miles or less.\n4. Large-package delivery may be used when the volume is 5,000 cubic units or less, the weight is 60 units or less, and the distance is 300 miles or less.\n5. Freight delivery may be used when the volume is 15,000 cubic units or less and the weight is 150 units or less.\n6. Use an if-else if-else structure and compound Boolean expressions to select the smallest delivery method that works.\n7. If the package does not meet any of the limits, print that special shipping is required.\n8. Print the calculated volume and selected delivery method.","starter_code":"","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Length","type":"number","required":true,"default":""},{"id":"input2","label":"Width","type":"number","required":true,"default":""},{"id":"input3","label":"Height","type":"number","required":true,"default":""},{"id":"input4","label":"Weight","type":"number","required":true,"default":""},{"id":"input5","label":"Delivery distance","type":"number","required":true,"default":""}]},{"id":"PB-PY-6B","language":"python","modality_id":"debugging","title":"Storage Locker Selection","prompt":"The following program is intended to calculate the volume of an item and select the smallest locker that satisfies both the volume and weight limits. The program contains calculation and decision errors. Fix it.\n\nA small locker supports a volume of up to 1,200 cubic units and weight up to 20 units. A medium locker supports up to 3,500 cubic units and 50 units of weight. A large locker supports up to 8,000 cubic units and 100 units of weight. The corrected program should calculate volume correctly and choose the smallest locker that meets both limits.","starter_code":"length = float(input(\"Item length: \"))\nwidth = float(input(\"Item width: \"))\nheight = float(input(\"Item height: \"))\nweight = float(input(\"Item weight: \"))\n\nvolume = length + width + height\n\nif volume <= 8000 and weight <= 100:\n    print(\"Large locker\")\nelif volume <= 3500 and weight <= 50:\n    print(\"Medium locker\")\nelif volume <= 1200 and weight <= 20:\n    print(\"Small locker\")\nelse:\n    print(\"Item requires special storage\")","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Item length","type":"number","required":true,"default":""},{"id":"input2","label":"Item width","type":"number","required":true,"default":""},{"id":"input3","label":"Item height","type":"number","required":true,"default":""},{"id":"input4","label":"Item weight","type":"number","required":true,"default":""}]},{"id":"PB-JA-6B","language":"java","modality_id":"debugging","title":"Storage Locker Selection","prompt":"The following program is intended to calculate the volume of an item and select the smallest locker that satisfies both the volume and weight limits. The program contains calculation and decision errors. Fix it.\n\nA small locker supports a volume of up to 1,200 cubic units and weight up to 20 units. A medium locker supports up to 3,500 cubic units and 50 units of weight. A large locker supports up to 8,000 cubic units and 100 units of weight. The corrected program should calculate volume correctly and choose the smallest locker that meets both limits.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        double length = input.nextDouble();\n        double width = input.nextDouble();\n        double height = input.nextDouble();\n        double weight = input.nextDouble();\n        double volume = length + width + height;\n        if (volume <= 8000 && weight <= 100) {\n            System.out.println(\"Large locker\");\n        }\n        else if (volume <= 3500 && weight <= 50) {\n            System.out.println(\"Medium locker\");\n        }\n        else if (volume <= 1200 && weight <= 20) {\n            System.out.println(\"Small locker\");\n        }\n        else {\n            System.out.println(\"Item requires special storage\");\n        }\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[{"id":"input1","label":"Item length","type":"number","required":true,"default":""},{"id":"input2","label":"Item width","type":"number","required":true,"default":""},{"id":"input3","label":"Item height","type":"number","required":true,"default":""},{"id":"input4","label":"Item weight","type":"number","required":true,"default":""}]},{"id":"PB-PY-6C","language":"python","modality_id":"code-explanation","title":"Moving Service Selection","prompt":"Study the program below. Without changing or running it, explain how the program uses calculated volume and weight to choose a moving service.\n\n1. Explain how the program calculates volume.\n2. Explain why both volume and weight are checked for each service.\n3. Explain why the service options are ordered from the smallest limits to the largest limits.\n4. Explain the circumstances that cause Special transport to be selected.","starter_code":"length = float(input(\"Load length: \"))\nwidth = float(input(\"Load width: \"))\nheight = float(input(\"Load height: \"))\nweight = float(input(\"Load weight: \"))\n\nvolume = length * width * height\n\nif volume <= 1500 and weight <= 25:\n    service = \"Small van\"\nelif volume <= 4500 and weight <= 70:\n    service = \"Cargo van\"\nelif volume <= 12000 and weight <= 160:\n    service = \"Box truck\"\nelse:\n    service = \"Special transport\"\n\nprint(\"Load volume:\", round(volume, 2))\nprint(\"Selected service:\", service)","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]},{"id":"PB-JA-6C","language":"java","modality_id":"code-explanation","title":"Moving Service Selection","prompt":"Study the Java program below. Without changing or running it, explain how the program uses calculated volume and weight to choose a moving service.\n\n1. Explain how the program calculates volume.\n2. Explain why both volume and weight are checked for each service.\n3. Explain why the service options are ordered from the smallest limits to the largest limits.\n4. Explain the circumstances that cause Special transport to be selected.","starter_code":"import java.util.Scanner;\nimport java.util.Random;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner input = new Scanner(System.in);\n        Random random = new Random();\n        double length = input.nextDouble();\n        double width = input.nextDouble();\n        double height = input.nextDouble();\n        double weight = input.nextDouble();\n        double volume = length * width * height;\n        String service = \"\";\n        if (volume <= 1500 && weight <= 25) {\n            service = \"Small van\";\n        }\n        else if (volume <= 4500 && weight <= 70) {\n            service = \"Cargo van\";\n        }\n        else if (volume <= 12000 && weight <= 160) {\n            service = \"Box truck\";\n        }\n        else {\n            service = \"Special transport\";\n        }\n        System.out.println(\"Load volume:\" + \" \" + (Math.round(volume * 100.0) / 100.0));\n        System.out.println(\"Selected service:\" + \" \" + service);\n    }\n}","difficulty":"medium","expected_concepts":["matched-family-6","conditional reasoning","multi-step computation"],"active":true,"inputSchema":[]}]'::jsonb)
+on conflict(bank_hash) do nothing;
+
+-- v4.0.4 migration: freeze the bank used by sessions created before this release.
+update public.study_sessions
+set protocol_snapshot=jsonb_set(protocol_snapshot,'{questionBankHash}',to_jsonb('5e9463b4c77deb57d63d62ad92e2c36bd3362c53e90674a525620e31a87ee056'::text),true)
+where workflow_version is not null and protocol_snapshot is not null and not (protocol_snapshot ? 'questionBankHash');
+
+COMMIT;
+
+SELECT language, modality_id, count(*) AS question_count FROM public.questions WHERE active AND modality_id IN ('problem-solving','debugging','code-explanation') GROUP BY language, modality_id ORDER BY language, modality_id;

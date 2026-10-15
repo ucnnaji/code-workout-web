@@ -1,0 +1,179 @@
+{
+  "studyKey": "programming-practice-16317",
+  "workflowVersion": "4.0.0",
+  "title": "Programming Practice Study",
+  "contact": {
+    "name": "Dr. Yang Shi",
+    "email": "Yang.Shi@usu.edu",
+    "phone": "435-797-4458",
+    "irbEmail": "irb@usu.edu",
+    "irbPhone": "435-797-0567"
+  },
+  "deliveryMode": "remote",
+  "durationText": "Each study session will take about 65 minutes.",
+  "languages": [
+    "python",
+    "java"
+  ],
+  "activityDesign": "assigned_crossover",
+  "questionsPerModality": 3,
+  "aiEnabled": true,
+  "aiModalities": [
+    "problem-solving"
+  ],
+  "feedbackTypes": [
+    "hint",
+    "concept",
+    "debugging"
+  ],
+  "maxFeedbackPerQuestion": 8,
+  "maxRunsPerQuestion": 30,
+  "executionEnabled": true,
+  "sessions": [
+    {
+      "number": 1,
+      "label": "Session 1",
+      "open": true
+    },
+    {
+      "number": 2,
+      "label": "Session 2",
+      "open": false
+    },
+    {
+      "number": 3,
+      "label": "Session 3",
+      "open": false
+    }
+  ],
+  "stages": {
+    "pre_survey": true,
+    "demo": true,
+    "coding": true,
+    "post_survey": true,
+    "incentive": true,
+    "crossover": true
+  },
+  "backgroundFirstSessionOnly": true,
+  "includeAdditionalSurveyItems": false,
+  "questionBankVersion": "practicebridge-oct2026-matched-6x3x2",
+  "questionIdsBySession": {
+    "1": {
+      "python": {
+        "problem-solving": [
+          "PB-PY-1A",
+          "PB-PY-2A"
+        ],
+        "debugging": [
+          "PB-PY-1B",
+          "PB-PY-2B"
+        ],
+        "code-explanation": [
+          "PB-PY-1C",
+          "PB-PY-2C"
+        ]
+      },
+      "java": {
+        "problem-solving": [
+          "PB-JA-1A",
+          "PB-JA-2A"
+        ],
+        "debugging": [
+          "PB-JA-1B",
+          "PB-JA-2B"
+        ],
+        "code-explanation": [
+          "PB-JA-1C",
+          "PB-JA-2C"
+        ]
+      }
+    },
+    "2": {
+      "python": {
+        "problem-solving": [
+          "PB-PY-3A",
+          "PB-PY-4A"
+        ],
+        "debugging": [
+          "PB-PY-3B",
+          "PB-PY-4B"
+        ],
+        "code-explanation": [
+          "PB-PY-3C",
+          "PB-PY-4C"
+        ]
+      },
+      "java": {
+        "problem-solving": [
+          "PB-JA-3A",
+          "PB-JA-4A"
+        ],
+        "debugging": [
+          "PB-JA-3B",
+          "PB-JA-4B"
+        ],
+        "code-explanation": [
+          "PB-JA-3C",
+          "PB-JA-4C"
+        ]
+      }
+    },
+    "3": {
+      "python": {
+        "problem-solving": [
+          "PB-PY-5A",
+          "PB-PY-6A"
+        ],
+        "debugging": [
+          "PB-PY-5B",
+          "PB-PY-6B"
+        ],
+        "code-explanation": [
+          "PB-PY-5C",
+          "PB-PY-6C"
+        ]
+      },
+      "java": {
+        "problem-solving": [
+          "PB-JA-5A",
+          "PB-JA-6A"
+        ],
+        "debugging": [
+          "PB-JA-5B",
+          "PB-JA-6B"
+        ],
+        "code-explanation": [
+          "PB-JA-5C",
+          "PB-JA-6C"
+        ]
+      }
+    }
+  },
+  "avoidRepeatedQuestions": true,
+  "compensation": {
+    "amount": 20,
+    "currency": "USD",
+    "description": "$20 Amazon e-gift card per completed session; up to $60 across three sessions. Performance and assigned practice modality do not affect compensation.",
+    "instructions": "Choose how to receive your gift card. The research team issues cards; this website does not send payments automatically. Contact the team about payment questions or participation that ends early.",
+    "courseCredit": "Up to 1.0 course credit point: 0.3 for Week 3, 0.3 for Week 6, and 0.4 for Week 10. A comparable non-research option is available through the study team."
+  },
+  "release": {
+    "status": "draft",
+    "approvalReference": "",
+    "reviewed": {
+      "remote_delivery": false,
+      "electronic_consent": false,
+      "university_approved_storage": false,
+      "external_ai_and_execution": false,
+      "duration_and_assessments": false,
+      "survey_item_count_and_additions": false,
+      "java_adaptation": false,
+      "activity_design_and_topic_banks": false,
+      "eligibility_wording": false,
+      "contact_information": false
+    },
+    "reviewedContentHash": ""
+  },
+  "contentNotice": "Welcome! Click Continue to continue with the study.",
+  "preventDuplicateEntries": true
+}

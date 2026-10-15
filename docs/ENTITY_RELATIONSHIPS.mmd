@@ -1,0 +1,15 @@
+erDiagram
+  PARTICIPANTS ||--|| CW_PARTICIPANT_AUTH : authenticates
+  PARTICIPANTS ||--o{ STUDY_SESSIONS : returns_across_waves
+  PARTICIPANTS ||--o{ CW_ACCESS_TOKENS : signs_in
+  STUDY_SESSIONS ||--|{ CW_STAGE_PROGRESS : records_progress
+  STUDY_SESSIONS ||--o{ QUESTION_ASSIGNMENTS : receives
+  QUESTIONS ||--o{ QUESTION_ASSIGNMENTS : snapshots_into
+  QUESTION_ASSIGNMENTS ||--o| SUBMISSIONS : saves
+  QUESTION_ASSIGNMENTS ||--o{ DRAFT_EVENTS : records_revisions
+  QUESTION_ASSIGNMENTS ||--o{ CW_OPERATIONS : runs_or_requests_AI
+  STUDY_SESSIONS ||--o{ MODALITY_COMPLETIONS : completes
+  STUDY_SESSIONS ||--o| CW_PRIVATE_CONSENTS : separately_signs
+  STUDY_SESSIONS ||--o| CW_COMPENSATION_LINKS : privately_links
+  CW_COMPENSATION_LINKS ||--|| CW_COMPENSATION_CLAIMS : separates_contact
+  STUDY_SESSIONS ||--o{ CW_AUDIT_EVENTS : records_transitions

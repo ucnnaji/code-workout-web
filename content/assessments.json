@@ -1,0 +1,666 @@
+{
+  "python": {
+    "1": {
+      "pre_test": {
+        "version": "illustrative-python-loops-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "loops_total",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "total = 0\nfor i in range(1, 4):\n    total += i\nprint(total)",
+            "answer": "6",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "3",
+              "6",
+              "4",
+              "0"
+            ]
+          },
+          {
+            "id": "loops_repeat",
+            "label": "Which construct repeats instructions while a condition remains true?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "while loop",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "if statement",
+              "while loop",
+              "return statement",
+              "variable declaration"
+            ]
+          },
+          {
+            "id": "loops_stop",
+            "label": "Which statement exits the nearest enclosing loop immediately?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "break",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "continue",
+              "return type",
+              "break",
+              "else"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-python-loops-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "loops_total",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "total = 0\nfor i in range(1, 5):\n    total += i\nprint(total)",
+            "answer": "10",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "10",
+              "5",
+              "0"
+            ]
+          },
+          {
+            "id": "loops_repeat",
+            "label": "Which construct repeats instructions while a condition remains true?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "while loop",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "if statement",
+              "while loop",
+              "return statement",
+              "variable declaration"
+            ]
+          },
+          {
+            "id": "loops_stop",
+            "label": "Which statement exits the nearest enclosing loop immediately?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "break",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "continue",
+              "return type",
+              "break",
+              "else"
+            ]
+          }
+        ]
+      }
+    },
+    "2": {
+      "pre_test": {
+        "version": "illustrative-python-functions-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "functions_return",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "def twice(x):\n    return x * 2\nprint(twice(3))",
+            "answer": "6",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "3",
+              "6",
+              "4",
+              "2"
+            ]
+          },
+          {
+            "id": "functions_parameter",
+            "label": "A parameter is best described as:",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "A value name received by a function",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "A value name received by a function",
+              "A loop that never ends",
+              "A compiler error",
+              "Printed output only"
+            ]
+          },
+          {
+            "id": "functions_reuse",
+            "label": "Why would you put repeated logic into a function?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "To reuse and organize behavior",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "To prevent input",
+              "To remove every variable",
+              "To reuse and organize behavior",
+              "To make every value global"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-python-functions-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "functions_return",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "def twice(x):\n    return x * 2\nprint(twice(4))",
+            "answer": "8",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "8",
+              "5",
+              "2"
+            ]
+          },
+          {
+            "id": "functions_parameter",
+            "label": "A parameter is best described as:",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "A value name received by a function",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "A value name received by a function",
+              "A loop that never ends",
+              "A compiler error",
+              "Printed output only"
+            ]
+          },
+          {
+            "id": "functions_reuse",
+            "label": "Why would you put repeated logic into a function?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "To reuse and organize behavior",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "To prevent input",
+              "To remove every variable",
+              "To reuse and organize behavior",
+              "To make every value global"
+            ]
+          }
+        ]
+      }
+    },
+    "3": {
+      "pre_test": {
+        "version": "illustrative-python-arrays-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "arrays_index",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "values = [2, 5, 8]\nprint(values[1])",
+            "answer": "5",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "2",
+              "5",
+              "8",
+              "1"
+            ]
+          },
+          {
+            "id": "arrays_first",
+            "label": "What is the index of the first element in a non-empty list/array?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "0",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "0",
+              "1",
+              "-1",
+              "It is always the length"
+            ]
+          },
+          {
+            "id": "arrays_length",
+            "label": "A list/array has five elements. What is the highest non-negative valid index?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "4",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "5",
+              "6",
+              "4",
+              "0"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-python-arrays-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "arrays_index",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "values = [4, 7, 9]\nprint(values[1])",
+            "answer": "7",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "7",
+              "9",
+              "1"
+            ]
+          },
+          {
+            "id": "arrays_first",
+            "label": "What is the index of the first element in a non-empty list/array?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "0",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "0",
+              "1",
+              "-1",
+              "It is always the length"
+            ]
+          },
+          {
+            "id": "arrays_length",
+            "label": "A list/array has five elements. What is the highest non-negative valid index?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "4",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "5",
+              "6",
+              "4",
+              "0"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "java": {
+    "1": {
+      "pre_test": {
+        "version": "illustrative-java-loops-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "loops_total",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "int total = 0;\nfor (int i = 1; i <= 3; i++) total += i;\nSystem.out.println(total);",
+            "answer": "6",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "3",
+              "6",
+              "4",
+              "0"
+            ]
+          },
+          {
+            "id": "loops_repeat",
+            "label": "Which construct repeats instructions while a condition remains true?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "while loop",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "if statement",
+              "while loop",
+              "return statement",
+              "variable declaration"
+            ]
+          },
+          {
+            "id": "loops_stop",
+            "label": "Which statement exits the nearest enclosing loop immediately?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "break",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "continue",
+              "return type",
+              "break",
+              "else"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-java-loops-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "loops_total",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "int total = 0;\nfor (int i = 1; i <= 4; i++) total += i;\nSystem.out.println(total);",
+            "answer": "10",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "10",
+              "5",
+              "0"
+            ]
+          },
+          {
+            "id": "loops_repeat",
+            "label": "Which construct repeats instructions while a condition remains true?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "while loop",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "if statement",
+              "while loop",
+              "return statement",
+              "variable declaration"
+            ]
+          },
+          {
+            "id": "loops_stop",
+            "label": "Which statement exits the nearest enclosing loop immediately?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "break",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "continue",
+              "return type",
+              "break",
+              "else"
+            ]
+          }
+        ]
+      }
+    },
+    "2": {
+      "pre_test": {
+        "version": "illustrative-java-functions-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "functions_return",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "static int twice(int x) { return x * 2; }\n// inside main:\nSystem.out.println(twice(3));",
+            "answer": "6",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "3",
+              "6",
+              "4",
+              "2"
+            ]
+          },
+          {
+            "id": "functions_parameter",
+            "label": "A parameter is best described as:",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "A value name received by a function",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "A value name received by a function",
+              "A loop that never ends",
+              "A compiler error",
+              "Printed output only"
+            ]
+          },
+          {
+            "id": "functions_reuse",
+            "label": "Why would you put repeated logic into a function?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "To reuse and organize behavior",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "To prevent input",
+              "To remove every variable",
+              "To reuse and organize behavior",
+              "To make every value global"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-java-functions-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "functions_return",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "static int twice(int x) { return x * 2; }\n// inside main:\nSystem.out.println(twice(4));",
+            "answer": "8",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "8",
+              "5",
+              "2"
+            ]
+          },
+          {
+            "id": "functions_parameter",
+            "label": "A parameter is best described as:",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "A value name received by a function",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "A value name received by a function",
+              "A loop that never ends",
+              "A compiler error",
+              "Printed output only"
+            ]
+          },
+          {
+            "id": "functions_reuse",
+            "label": "Why would you put repeated logic into a function?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "To reuse and organize behavior",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "To prevent input",
+              "To remove every variable",
+              "To reuse and organize behavior",
+              "To make every value global"
+            ]
+          }
+        ]
+      }
+    },
+    "3": {
+      "pre_test": {
+        "version": "illustrative-java-arrays-pre_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "arrays_index",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "int[] values = {2, 5, 8};\nSystem.out.println(values[1]);",
+            "answer": "5",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "2",
+              "5",
+              "8",
+              "1"
+            ]
+          },
+          {
+            "id": "arrays_first",
+            "label": "What is the index of the first element in a non-empty list/array?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "0",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "0",
+              "1",
+              "-1",
+              "It is always the length"
+            ]
+          },
+          {
+            "id": "arrays_length",
+            "label": "A list/array has five elements. What is the highest non-negative valid index?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "4",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "5",
+              "6",
+              "4",
+              "0"
+            ]
+          }
+        ]
+      },
+      "post_test": {
+        "version": "illustrative-java-arrays-post_test-v1",
+        "reviewStatus": "draft; not supplied or validated",
+        "items": [
+          {
+            "id": "arrays_index",
+            "label": "What value is printed?",
+            "type": "choice",
+            "required": false,
+            "code": "int[] values = {4, 7, 9};\nSystem.out.println(values[1]);",
+            "answer": "7",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "4",
+              "7",
+              "9",
+              "1"
+            ]
+          },
+          {
+            "id": "arrays_first",
+            "label": "What is the index of the first element in a non-empty list/array?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "0",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "0",
+              "1",
+              "-1",
+              "It is always the length"
+            ]
+          },
+          {
+            "id": "arrays_length",
+            "label": "A list/array has five elements. What is the highest non-negative valid index?",
+            "type": "choice",
+            "required": false,
+            "code": "",
+            "answer": "4",
+            "points": 1,
+            "source": "new illustrative assessment; review before collection",
+            "options": [
+              "5",
+              "6",
+              "4",
+              "0"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
