@@ -1,78 +1,135 @@
-# Code Workout — v4.0.5 remote self-enrollment build
+# PracticeBridge
 
-This build keeps the existing Express + Supabase + Render architecture and applies the requested participant/admin workflow changes without replacing the question bank or approved consent content. It also adds a versioned question-bank release mechanism and burst-load hardening without changing the current question text or consent wording.
+**An Interactive Programming Practice and Learning Platform**
 
-## Participant flow
+PracticeBridge is a web-based platform designed to support programming education through interactive coding activities, automated feedback, and structured learning experiences.
 
-Research Information → Consent → Create Study Access → Pre-survey → Practice Environment Demo → Confirm Language → Four Practice Questions → Post-survey → Incentive → Completion.
+The platform provides an environment where learners can write, execute, debug, and explain code while receiving feedback to support their understanding of programming concepts.
 
-After consent, a participant chooses a non-identifying Participant ID and selects Python or Java. The server generates a Private Access Key, displays it once, stores only its salted hash, signs the participant in, and carries the pre-consent decision into the newly created study session. Returning participants use the same Participant ID and Private Access Key.
+PracticeBridge supports **Python** and **Java** and can be deployed in educational settings.
 
-The pre- and post-surveys keep the supplied item IDs, order, options, and scoring. Only the programming-language wording is adapted between Python and Java.
+## Features
 
-The participant question bank and consent wording in this package are intentionally unchanged from the supplied current codebase. Release hashing now includes the current question bank and study design configuration as well as consent/surveys/input schemas, so changing reviewed content invalidates the recorded release hash for new live enrollment.
+- **Interactive code editor:** Syntax highlighting, line numbers, indentation, bracket matching, undo/redo, and code formatting.
+- **Python and Java support:** Practice programming in either supported language.
+- **Code execution:** Run code in a sandboxed environment and inspect output.
+- **AI-assisted feedback:** Receive automated guidance during programming practice.
+- **Debugging practice:** Find and correct errors in existing programs.
+- **Code explanation:** Strengthen comprehension by describing what code does.
+- **Progress tracking:** Continue learning activities across sessions.
+- **Administrative interface:** Manage operational settings and platform activity.
 
-For this remote deployment build, participant self-enrollment is operationally enabled when the saved study configuration has `deliveryMode=remote`, Render has `LIVE_COLLECTION_ENABLED=true`, and deployment startup checks pass. The participant must still accept the current consent, provide a signature, choose Python or Java, pass Participant ID validation and rate limits, and save the generated Private Access Key. Only the salted key hash is stored.
+## Technology Stack
 
-The practice sequence uses four questions total: two questions in the assigned primary modality, then one question in each remaining modality. Later modalities are server-locked until the earlier modality is complete.
+| Technology | Purpose |
+| --- | --- |
+| Node.js | Server-side JavaScript runtime |
+| Express.js | Web application framework |
+| Supabase | Database and application services |
+| OpenAI API | AI-assisted feedback |
+| Judge0 | Sandboxed code execution |
+| Render | Cloud hosting and deployment |
+| GitHub | Source control and collaboration |
 
-Problem Solving and Debugging use the sandbox Run Code workflow and show a visible 0–100 score. Code Explanation has a read-only code box and explanation field, with no Run Code/stdin/output panel; participants use Check Explanation to receive a score. The editor is intentionally compact and provides line numbers, syntax highlighting, indentation, bracket matching, undo/redo, and Format Code.
+## Getting Started
 
-## Data and administration
+### Prerequisites
 
-Pre/post survey responses remain stored in Supabase `cw_stage_progress.responses`. The research dashboard now has dedicated CSV exports for pre-survey, post-survey, and combined pre/post survey datasets, plus the existing Excel workbook export.
+- Node.js and npm
+- Git
+- A configured Supabase project
+- Credentials for any enabled external services
 
-The admin dashboard also shows live-enrollment readiness, release-review controls, the Render live-collection switch state, and a global duplicate-entry protection control. With duplicate protection enabled, finalizing the first research question records an entry lock. Existing participant/session uniqueness remains enforced by the database, and an active locked session must be resumed before another wave can start.
+### Local Installation
 
-## Code execution
+1. Clone your repository and enter the project directory:
 
-The earlier Judge0-compatible sandbox path is restored. Runtime IDs can be supplied explicitly or discovered from the Judge0 `/languages` endpoint. The default compatible endpoint is `https://ce.judge0.com`; for live research, configure the execution service covered by the approved data-handling plan.
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/practicebridge.git
+   cd practicebridge
+   ```
 
-Required/important execution variables:
+2. Install dependencies:
 
-```text
-EXECUTION_PROVIDER=judge0
-JUDGE0_URL=https://ce.judge0.com
-JUDGE0_PYTHON_ID=        # optional; discovered when blank
-JUDGE0_JAVA_ID=          # optional; discovered when blank
-JUDGE0_AUTH_TOKEN=       # optional for private Judge0
-JUDGE0_RAPIDAPI_KEY=     # optional when applicable
-```
+   ```bash
+   npm install
+   ```
 
-All three modalities are scored by the configured OpenAI model. For Problem Solving and Debugging, the scorer receives the student source plus the actual sandbox status/output/compile/runtime evidence; for Code Explanation, it receives the displayed code and the student's explanation. There are no invented hidden answer keys in this build. Score records and scoring metadata are saved with the final submission.
+3. Create a `.env` file in the project root and set the environment variables required by your deployment. Keep this file out of version control.
 
-## Deployment
+4. Set up the database using the migration scripts supplied with the repository.
 
-1. Back up Supabase.
-2. Run **one** generated migration entry point in Supabase SQL Editor: `supabase_upgrade.sql`. (`supabase_setup.sql` and `supabase_workflow.sql` are identical aliases.)
-3. Push the contents of this folder to the existing GitHub repository and deploy the latest commit on Render.
-4. Keep the existing private variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `PUBLIC_ORIGIN`, `PII_ENCRYPTION_KEY`, `ADMIN_TOKEN`, `COMPENSATION_ADMIN_TOKEN`, `OPENAI_API_KEY`, and `OPENAI_MODEL`, plus the sandbox variables above.
-5. For remote participant self-enrollment, set `deliveryMode` to `remote` in the saved study configuration and set `LIVE_COLLECTION_ENABLED=true` in Render. Students can then create their own Participant ID and one-time-display Private Access Key from the public study page. The release-review checklist remains available to researchers as an administrative record.
-6. Use `/health` for setup diagnostics and `/readyz` for strict database readiness. Render liveness remains `/healthz`.
+5. Start the application:
 
-## Verification
+   ```bash
+   npm start
+   ```
+
+Open the local URL configured for the application.
+
+## How PracticeBridge Works
+
+PracticeBridge brings several programming activities into one interface:
+
+- **Write and run code:** Develop programs, execute them, and inspect results.
+- **Debug programs:** Explore existing code, identify errors, and improve implementations.
+- **Explain code:** Read examples and describe their behavior in plain language.
+- **Review feedback:** Use automated guidance to refine understanding and solutions.
+
+Available activities may depend on the deployment configuration.
+
+## Testing
+
+Run the automated test suite:
 
 ```bash
 npm test
-npm run build:verify
-python scripts/browser_test.py
 ```
 
-`build:verify` regenerates all three SQL aliases, runs JavaScript/JSON checks, validates the draft study configuration, and runs a requested-modification regression check. The browser test is offline and uses an in-memory API; it does not contact Supabase, OpenAI, Judge0, or real participant data.
+Run build verification:
 
-## Consent/course-credit note
+```bash
+npm run build:verify
+```
 
-The supplied consent content is deliberately retained byte-for-byte rather than silently rewritten. In particular, declining participation does not automatically award course credit; the participant page directs students to the approved comparable non-research option.
+Additional checks:
 
+```bash
+npm run test:security
+npm run test:load
+```
 
-## Updating questions safely
+These checks support development but do not replace validation of a production deployment.
 
-See `docs/QUESTION_BANK_UPDATES.md`. Edit `questions.seed.json`, regenerate/verify the migration, review the new content hash, and deploy the matching SQL + application release. Existing sessions remain pinned to their recorded question-bank release.
+## Deployment
 
-## Scale/security verification
+PracticeBridge supports cloud deployment with **Render** and **Supabase**.
 
-Run `npm run test:security` and `npm run test:load`; see `docs/SCALABILITY_SECURITY_REVIEW.md` for scope and limitations.
+1. Configure the Supabase project and apply the appropriate database migrations.
+2. Add required environment variables securely in the deployment environment.
+3. Connect the GitHub repository to Render.
+4. Deploy the application and confirm that its health checks pass.
+5. Verify the application in the deployed environment before making it available to users.
 
-## Production capacity profile
+## Security and Privacy
 
-`render.yaml` now targets the Render `2c-4g` web-service compute plan (the current Pro-equivalent plan ID). Outbound OpenAI and Judge0 work remains bounded per Node process so a participant burst cannot create an unbounded number of sockets or in-memory provider operations. `npm run test:load` defaults to 500 simulated concurrent users. This is a process-level stress test with mocked external providers, not a guarantee of OpenAI, Judge0, Supabase, or campus-network capacity; rehearse the exact deployed stack before a large scheduled lab.
+- Keep API keys, database credentials, and administrative secrets in environment variables.
+- Never commit `.env` files or private data to the repository.
+- Use an appropriately secured code-execution service.
+- Follow applicable institutional and organizational requirements for data handling.
+
+## Project Status
+
+**Active development.** Features and documentation may evolve as the platform improves.
+
+## Intended Use
+
+PracticeBridge is designed for programming education, instructional development, and related academic applications.
+
+## License
+
+All rights reserved unless a separate license is provided by the repository maintainers.
+
+---
+
+*PracticeBridge | Interactive programming practice and feedback.*
