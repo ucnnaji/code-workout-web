@@ -1,0 +1,4614 @@
+{
+  "bank_id": "PB3-R3-JA",
+  "source": "Session_3_Questions_Clarified(1).docx, Python R2; Java R3 newly authored from this conceptual structure",
+  "purpose": "PracticeBridge Session 3; 40 available tasks, four assigned per session",
+  "status": "OFFLINE_REFERENCE_TESTED_APP_VALIDATION_PENDING",
+  "questions": [
+    {
+      "id": "PB3-JA-01-WA-R3",
+      "source_python_id": "PB3-PY-01-WA-R2",
+      "language": "Java",
+      "family": "F01",
+      "family_name": "Range classification",
+      "concepts": "Functions, loops, and compound conditions",
+      "difficulty_provisional": "Accessible",
+      "title": "Count Temperature Readings",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "countTemperatures",
+      "prompt": "A weather station stores integer temperature readings in values. Write countTemperatures(values, low, high). Return how many values fall inside the inclusive range [low, high]. If the list is empty or low > high, return 0. Do not modify values. Both boundaries count.",
+      "student_code": "class Solution {\n    static int countTemperatures(int[] values, int low, int high) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Solution {\n    static int countTemperatures(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value <= high) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              3,
+              5,
+              7,
+              9
+            ],
+            5,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5,
+            7
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              7
+            ],
+            5,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5
+            ],
+            5,
+            5
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              1,
+              3
+            ],
+            8,
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              -2,
+              -1,
+              0
+            ],
+            -1,
+            0
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved original A objective; function signature and bounds unchanged."
+    },
+    {
+      "id": "PB3-JA-01-WB-R3",
+      "source_python_id": "PB3-PY-01-WB-R2",
+      "language": "Java",
+      "family": "F01",
+      "family_name": "Range classification",
+      "concepts": "Functions, loops, and compound conditions",
+      "difficulty_provisional": "Accessible",
+      "title": "Count Attendance Outside a Range",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "countAttendanceOutside",
+      "prompt": "A sports centre records daily attendance in values. Write countAttendanceOutside(values, low, high). Count days with attendance strictly below low OR strictly above high, rather than days inside the range. Values exactly at low or high are inside and do not count as outside. If values is empty or low > high, return 0. Do not modify values.",
+      "student_code": "class Solution {\n    static int countAttendanceOutside(int[] values, int low, int high) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Solution {\n    static int countAttendanceOutside(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value < low || value > high) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              3,
+              5,
+              7,
+              9
+            ],
+            5,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              7
+            ],
+            5,
+            7
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              -2,
+              5,
+              8
+            ],
+            0,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              8
+            ],
+            5,
+            7
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              7
+            ],
+            7,
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5,
+            7
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Changed B from a cosmetic inside-range renaming to an outside-range decision with OR; same loop/count workload."
+    },
+    {
+      "id": "PB3-JA-01-DBG-R3",
+      "source_python_id": "PB3-PY-01-DBG-R2",
+      "language": "Java",
+      "family": "F01",
+      "family_name": "Range classification",
+      "concepts": "Functions, loops, and compound conditions",
+      "difficulty_provisional": "Accessible",
+      "title": "Fix the Inclusive Range Count",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "countLabReadings",
+      "prompt": "A lab should count readings inside the inclusive range [low, high]. If low > high or values is empty, return 0. The function below has one logic defect. Fix the code while keeping the function signature; do not change values. The system grades corrected code against hidden tests. An optional brief explanation of the defect can be recorded separately.",
+      "student_code": "class Solution {\n    static int countLabReadings(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value < high) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class Solution {\n    static int countLabReadings(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value <= high) count++;\n        }\n        return count;\n    }\n}\n",
+      "faulty_source": "class Solution {\n    static int countLabReadings(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value < high) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              3,
+              5,
+              7,
+              9
+            ],
+            5,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5,
+            7
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              7
+            ],
+            5,
+            7
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5
+            ],
+            5,
+            5
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              1,
+              3
+            ],
+            8,
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            [
+              -2,
+              -1,
+              0
+            ],
+            -1,
+            0
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved inclusive-boundary defect; simplified mandatory response to correct code."
+    },
+    {
+      "id": "PB3-JA-01-EXP-R3",
+      "source_python_id": "PB3-PY-01-EXP-R2",
+      "language": "Java",
+      "family": "F01",
+      "family_name": "Range classification",
+      "concepts": "Functions, loops, and compound conditions",
+      "difficulty_provisional": "Accessible",
+      "title": "Explain an Inclusive Range Count",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "countStorageReadings",
+      "prompt": "Study the function that counts storage readings inside [low, high]. For values = [3, 5, 7, 9], low = 5, high = 7, answer four short numbered parts: (1) what the function returns in general; (2) the running count after each reading and final result; (3) why it includes both boundaries; (4) what happens for empty values and for low > high. Write explanations rather than editing code. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class Solution {\n    static int countStorageReadings(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value <= high) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class Solution {\n    static int countStorageReadings(int[] values, int low, int high) {\n        if (low > high) return 0;\n        int count = 0;\n        for (int value : values) {\n            if (value >= low && value <= high) count++;\n        }\n        return count;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Purpose and distinction from sum",
+          "full_credit_example": "Counts readings within the range, not their sum.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Correct sequence of running counts and final value",
+          "full_credit_example": "Counts: 0, 1, 2, 2; final 2.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Inclusive-boundary reasoning",
+          "full_credit_example": "5 and 7 are counted because comparisons include equality.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Empty and invalid interval behavior",
+          "full_credit_example": "Empty list and low > high each return 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Counts readings within the range, not their sum.\n2. Counts: 0, 1, 2, 2; final 2.\n3. 5 and 7 are counted because comparisons include equality.\n4. Empty list and low > high each return 0.",
+        "partial_credit_example": "1. Counts readings within the range, not their sum.\n2. Counts: 0, 1, 2, 2; final 2.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Same trace concept and four response criteria; standardized brief-response format."
+    },
+    {
+      "id": "PB3-JA-02-WA-R3",
+      "source_python_id": "PB3-PY-02-WA-R2",
+      "language": "Java",
+      "family": "F02",
+      "family_name": "Capped and excess records",
+      "concepts": "Object creation, attributes, conditionals, and iteration",
+      "difficulty_provisional": "Moderate",
+      "title": "Create Game-Point Records",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "makePointRecords",
+      "prompt": "Each game has a nonnegative point total. Complete makePointRecords(amounts, cap) to return one new PointRecord object per value, in order. Each object must hold amount (the original integer) and counted (the smaller of amount and cap). PointRecord is supplied. Return an empty list when amounts is empty; do not change amounts or reuse one object for multiple entries.",
+      "student_code": "import java.util.*;\nclass PointRecord { int amount; int counted; }\nclass Solution {\n    static List<PointRecord> makePointRecords(int[] amounts, int cap) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "import java.util.*;\nclass PointRecord { int amount; int counted; }\nclass Solution {\n    static List<PointRecord> makePointRecords(int[] amounts, int cap) {\n        List<PointRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            PointRecord item = new PointRecord();\n            item.amount = amount;\n            item.counted = amount > cap ? cap : amount;\n            records.add(item);\n        }\n        return records;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              2,
+              8,
+              4
+            ],
+            5
+          ],
+          "expected": [
+            [
+              2,
+              2
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              4,
+              4
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              5
+            ],
+            5
+          ],
+          "expected": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              5
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              0,
+              9
+            ],
+            0
+          ],
+          "expected": [
+            [
+              0,
+              0
+            ],
+            [
+              9,
+              0
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "Kept capped-record behavior. Class skeleton provided in both languages for fairness; object creation remains task."
+    },
+    {
+      "id": "PB3-JA-02-WB-R3",
+      "source_python_id": "PB3-PY-02-WB-R2",
+      "language": "Java",
+      "family": "F02",
+      "family_name": "Capped and excess records",
+      "concepts": "Object creation, attributes, conditionals, and iteration",
+      "difficulty_provisional": "Moderate",
+      "title": "Create Donation Excess Records",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "makeDonationRecords",
+      "prompt": "A donation drive needs to see when a contribution exceeds its per-group allowance. Complete makeDonationRecords(amounts, cap). Return a separate DonationRecord for each nonnegative input amount, in order. Store the original value in amount and the amount ABOVE cap in excess (0 when amount <= cap). DonationRecord is supplied. Do not change amounts, and return an empty list for an empty input.",
+      "student_code": "import java.util.*;\nclass DonationRecord { int amount; int excess; }\nclass Solution {\n    static List<DonationRecord> makeDonationRecords(int[] amounts, int cap) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "import java.util.*;\nclass DonationRecord { int amount; int excess; }\nclass Solution {\n    static List<DonationRecord> makeDonationRecords(int[] amounts, int cap) {\n        List<DonationRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            DonationRecord item = new DonationRecord();\n            item.amount = amount;\n            item.excess = amount > cap ? amount - cap : 0;\n            records.add(item);\n        }\n        return records;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              2,
+              8,
+              4
+            ],
+            5
+          ],
+          "expected": [
+            [
+              2,
+              0
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              4,
+              0
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              5
+            ],
+            5
+          ],
+          "expected": [
+            [
+              5,
+              0
+            ],
+            [
+              5,
+              0
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              0,
+              9
+            ],
+            0
+          ],
+          "expected": [
+            [
+              0,
+              0
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now computes excess rather than copied capped amount, retaining one new object, condition, and stored attributes."
+    },
+    {
+      "id": "PB3-JA-02-DBG-R3",
+      "source_python_id": "PB3-PY-02-DBG-R2",
+      "language": "Java",
+      "family": "F02",
+      "family_name": "Capped and excess records",
+      "concepts": "Object creation, attributes, conditionals, and iteration",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix Contribution Object Storage",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "makeEventRecords",
+      "prompt": "An event needs a separate record for each contribution. The method must return objects containing amount (original value) and counted (at most cap). One logic defect causes incorrect returned entries. Correct the program; input order must remain unchanged and every entry must be an independent object. Optional bug explanation is recorded separately.",
+      "student_code": "import java.util.*;\nclass EventRecord { int amount; int counted; }\nclass Solution {\n    static List<EventRecord> makeEventRecords(int[] amounts, int cap) {\n        List<EventRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            EventRecord item = new EventRecord();\n            item.amount = amount;\n            if (amount > cap) item.counted = cap;\n            else item.counted = amount;\n            records.add(new EventRecord());\n        }\n        return records;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "import java.util.*;\nclass EventRecord { int amount; int counted; }\nclass Solution {\n    static List<EventRecord> makeEventRecords(int[] amounts, int cap) {\n        List<EventRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            EventRecord item = new EventRecord();\n            item.amount = amount;\n            if (amount > cap) item.counted = cap;\n            else item.counted = amount;\n            records.add(item);\n        }\n        return records;\n    }\n}\n",
+      "faulty_source": "import java.util.*;\nclass EventRecord { int amount; int counted; }\nclass Solution {\n    static List<EventRecord> makeEventRecords(int[] amounts, int cap) {\n        List<EventRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            EventRecord item = new EventRecord();\n            item.amount = amount;\n            if (amount > cap) item.counted = cap;\n            else item.counted = amount;\n            records.add(new EventRecord());\n        }\n        return records;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            [
+              2,
+              8,
+              4
+            ],
+            5
+          ],
+          "expected": [
+            [
+              2,
+              2
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              4,
+              4
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [],
+            5
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              5,
+              5
+            ],
+            5
+          ],
+          "expected": [
+            [
+              5,
+              5
+            ],
+            [
+              5,
+              5
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            [
+              0,
+              9
+            ],
+            0
+          ],
+          "expected": [
+            [
+              0,
+              0
+            ],
+            [
+              9,
+              0
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "Kept incorrect append/add defect to target object identity vs input value."
+    },
+    {
+      "id": "PB3-JA-02-EXP-R3",
+      "source_python_id": "PB3-PY-02-EXP-R2",
+      "language": "Java",
+      "family": "F02",
+      "family_name": "Capped and excess records",
+      "concepts": "Object creation, attributes, conditionals, and iteration",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain How Activity Objects Are Created",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "makeActivityRecords",
+      "prompt": "Read the object-creation code with amounts = [2, 8, 4] and cap = 5. Explain in four numbered parts: (1) the returned container and its element type; (2) each object's (amount, counted) values; (3) why a new object must be created inside the loop; (4) behavior for empty input and an amount exactly equal to cap. Keep answers concise. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "import java.util.*;\nclass ActivityRecord { int amount; int counted; }\nclass Solution {\n    static List<ActivityRecord> makeActivityRecords(int[] amounts, int cap) {\n        List<ActivityRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            ActivityRecord item = new ActivityRecord();\n            item.amount = amount;\n            if (amount > cap) item.counted = cap;\n            else item.counted = amount;\n            records.add(item);\n        }\n        return records;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "import java.util.*;\nclass ActivityRecord { int amount; int counted; }\nclass Solution {\n    static List<ActivityRecord> makeActivityRecords(int[] amounts, int cap) {\n        List<ActivityRecord> records = new ArrayList<>();\n        for (int amount : amounts) {\n            ActivityRecord item = new ActivityRecord();\n            item.amount = amount;\n            if (amount > cap) item.counted = cap;\n            else item.counted = amount;\n            records.add(item);\n        }\n        return records;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Returned structure and element type",
+          "full_credit_example": "Returns an ordered list of ActivityRecord objects.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Correct object attribute pairs",
+          "full_credit_example": "Attribute pairs: (2, 2), (8, 5), (4, 4).",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Fresh-object identity reasoning",
+          "full_credit_example": "Every input needs a distinct object; reusing one aliases records.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Empty and boundary cases",
+          "full_credit_example": "Empty input returns []; amount equal to cap remains unchanged.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Returns an ordered list of ActivityRecord objects.\n2. Attribute pairs: (2, 2), (8, 5), (4, 4).\n3. Every input needs a distinct object; reusing one aliases records.\n4. Empty input returns []; amount equal to cap remains unchanged.",
+        "partial_credit_example": "1. Returns an ordered list of ActivityRecord objects.\n2. Attribute pairs: (2, 2), (8, 5), (4, 4).",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Shortened equivalent explanation prompts; same four assessed concepts."
+    },
+    {
+      "id": "PB3-JA-03-WA-R3",
+      "source_python_id": "PB3-PY-03-WA-R2",
+      "language": "Java",
+      "family": "F03",
+      "family_name": "Longest qualifying runs",
+      "concepts": "Object attributes, iteration, conditional resets, and maximum tracking",
+      "difficulty_provisional": "Moderate",
+      "title": "Find the Longest Successful Run",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "longestSuccessRun",
+      "prompt": "Each PracticeRound in records has Boolean successful, and records are ordered by time. Write longestSuccessRun(records) to return the length of the longest consecutive run of successful=true. A false value ends the current run. Return 0 for empty input or when nothing succeeded. Do not modify the records or return a starting index.",
+      "student_code": "class PracticeRound { boolean successful; }\nclass Solution {\n    static int longestSuccessRun(PracticeRound[] records) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class PracticeRound { boolean successful; }\nclass Solution {\n    static int longestSuccessRun(PracticeRound[] records) {\n        int current = 0, longest = 0;\n        for (PracticeRound item : records) {\n            if (item.successful) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 0;\n        }\n        return longest;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 3,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved longest-run objective; includes multiple runs and empty checks."
+    },
+    {
+      "id": "PB3-JA-03-WB-R3",
+      "source_python_id": "PB3-PY-03-WB-R2",
+      "language": "Java",
+      "family": "F03",
+      "family_name": "Longest qualifying runs",
+      "concepts": "Object attributes, iteration, conditional resets, and maximum tracking",
+      "difficulty_provisional": "Moderate",
+      "title": "Find the Longest Daily Reading Streak",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "longestReadingRun",
+      "prompt": "Each ReadingDay record has a nonnegative pagesRead attribute. A day qualifies when pagesRead >= minimum. Write longestReadingRun(records, minimum) to find the longest consecutive sequence of qualifying days in time order. A nonqualifying day breaks a run. Return 0 for empty records or no qualifying days. Do not mutate the objects.",
+      "student_code": "class ReadingDay { int pagesRead; }\nclass Solution {\n    static int longestReadingRun(ReadingDay[] records, int minimum) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class ReadingDay { int pagesRead; }\nclass Solution {\n    static int longestReadingRun(ReadingDay[] records, int minimum) {\n        int current = 0, longest = 0;\n        for (ReadingDay day : records) {\n            if (day.pagesRead >= minimum) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 0;\n        }\n        return longest;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 10
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 0
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 5
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 4
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 5
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 9
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 9
+                  }
+                }
+              ]
+            },
+            9
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            },
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 4
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "pages_read": 4
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "B changed from renamed Boolean streak to thresholded streak; same reset and maximum-tracking cognitive steps."
+    },
+    {
+      "id": "PB3-JA-03-DBG-R3",
+      "source_python_id": "PB3-PY-03-DBG-R2",
+      "language": "Java",
+      "family": "F03",
+      "family_name": "Longest qualifying runs",
+      "concepts": "Object attributes, iteration, conditional resets, and maximum tracking",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Longest Successful Run",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "longestPracticeRun",
+      "prompt": "The practice tracker must report the longest consecutive run of successful=true objects. false breaks the run and empty input returns 0. One logic defect incorrectly carries a failed round forward. Fix only the necessary logic and keep the function signature unchanged. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class PracticeRound { boolean successful; }\nclass Solution {\n    static int longestPracticeRun(PracticeRound[] records) {\n        int current = 0, longest = 0;\n        for (PracticeRound item : records) {\n            if (item.successful) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 1;\n        }\n        return longest;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class PracticeRound { boolean successful; }\nclass Solution {\n    static int longestPracticeRun(PracticeRound[] records) {\n        int current = 0, longest = 0;\n        for (PracticeRound item : records) {\n            if (item.successful) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 0;\n        }\n        return longest;\n    }\n}\n",
+      "faulty_source": "class PracticeRound { boolean successful; }\nclass Solution {\n    static int longestPracticeRun(PracticeRound[] records) {\n        int current = 0, longest = 0;\n        for (PracticeRound item : records) {\n            if (item.successful) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 1;\n        }\n        return longest;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 3,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": false
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "successful": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Retains single reset bug; code-only evaluated."
+    },
+    {
+      "id": "PB3-JA-03-EXP-R3",
+      "source_python_id": "PB3-PY-03-EXP-R2",
+      "language": "Java",
+      "family": "F03",
+      "family_name": "Longest qualifying runs",
+      "concepts": "Object attributes, iteration, conditional resets, and maximum tracking",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain a Longest Study Streak",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "longestStudyRun",
+      "prompt": "Study the code with completed values [true, true, false, true] in time order. Answer in four short numbered parts: (1) what the returned number means; (2) current and longest after each day; (3) why false resets current but leaves longest alone; (4) what is returned for empty records or all-false records. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class StudyDay { boolean completed; }\nclass Solution {\n    static int longestStudyRun(StudyDay[] records) {\n        int current = 0, longest = 0;\n        for (StudyDay item : records) {\n            if (item.completed) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 0;\n        }\n        return longest;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class StudyDay { boolean completed; }\nclass Solution {\n    static int longestStudyRun(StudyDay[] records) {\n        int current = 0, longest = 0;\n        for (StudyDay item : records) {\n            if (item.completed) {\n                current++;\n                if (current > longest) longest = current;\n            } else current = 0;\n        }\n        return longest;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Meaning of returned number",
+          "full_credit_example": "Length of the longest uninterrupted successful run.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Full current/longest trace and final result",
+          "full_credit_example": "(current,longest): (1,1), (2,2), (0,2), (1,2); returns 2.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Different responsibilities of current and longest",
+          "full_credit_example": "Failed day ends current run but must not erase previous best.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Both empty and all-false boundaries",
+          "full_credit_example": "Both cases return 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Length of the longest uninterrupted successful run.\n2. (current,longest): (1,1), (2,2), (0,2), (1,2); returns 2.\n3. Failed day ends current run but must not erase previous best.\n4. Both cases return 0.",
+        "partial_credit_example": "1. Length of the longest uninterrupted successful run.\n2. (current,longest): (1,1), (2,2), (0,2), (1,2); returns 2.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved trace; made question explicitly short and scorable."
+    },
+    {
+      "id": "PB3-JA-04-WA-R3",
+      "source_python_id": "PB3-PY-04-WA-R2",
+      "language": "Java",
+      "family": "F04",
+      "family_name": "Before-and-after comparisons",
+      "concepts": "Object attributes, comparisons, and accumulation",
+      "difficulty_provisional": "Accessible",
+      "title": "Count Days With Higher Attendance",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "countAttendanceIncreases",
+      "prompt": "Each AttendanceRecord contains integer before and after values. Write countAttendanceIncreases(records) to count records whose after value is strictly greater than before. Equal values are not increases. Return 0 for no records; read attributes from the same object and do not modify any object.",
+      "student_code": "class AttendanceRecord { int before; int after; }\nclass Solution {\n    static int countAttendanceIncreases(AttendanceRecord[] records) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class AttendanceRecord { int before; int after; }\nclass Solution {\n    static int countAttendanceIncreases(AttendanceRecord[] records) {\n        int count = 0;\n        for (AttendanceRecord item : records) {\n            if (item.after > item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 2,
+                    "after": 4
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 8,
+                    "after": 8
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 3,
+                    "after": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 0,
+                    "after": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 1,
+                    "after": 2
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": -2,
+                    "after": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserves record-by-record comparison and count."
+    },
+    {
+      "id": "PB3-JA-04-WB-R3",
+      "source_python_id": "PB3-PY-04-WB-R2",
+      "language": "Java",
+      "family": "F04",
+      "family_name": "Before-and-after comparisons",
+      "concepts": "Object attributes, comparisons, and accumulation",
+      "difficulty_provisional": "Accessible",
+      "title": "Calculate Total Sales Increase",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "totalSalesIncrease",
+      "prompt": "Each SalesRecord has integer before and after daily sales. Write totalSalesIncrease(records) to sum only positive increases (after - before) across all records. A decrease or no change contributes 0. For example, changes +3, 0, -2 contribute a total increase of 3. Return 0 for no records. Leave the objects unchanged.",
+      "student_code": "class SalesRecord { int before; int after; }\nclass Solution {\n    static int totalSalesIncrease(SalesRecord[] records) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class SalesRecord { int before; int after; }\nclass Solution {\n    static int totalSalesIncrease(SalesRecord[] records) {\n        int total = 0;\n        for (SalesRecord item : records) {\n            if (item.after > item.before) total += item.after - item.before;\n        }\n        return total;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 2,
+                    "after": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 8,
+                    "after": 8
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 3,
+                    "after": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 3,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 0,
+                    "after": 3
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 6,
+                    "after": 8
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 5,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 9,
+                    "after": 2
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 1,
+                    "after": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now sums magnitude of positive changes instead of simply recounting an equivalent threshold case."
+    },
+    {
+      "id": "PB3-JA-04-DBG-R3",
+      "source_python_id": "PB3-PY-04-DBG-R2",
+      "language": "Java",
+      "family": "F04",
+      "family_name": "Before-and-after comparisons",
+      "concepts": "Object attributes, comparisons, and accumulation",
+      "difficulty_provisional": "Accessible",
+      "title": "Fix the Strict Increase Count",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "countTemperatureIncreases",
+      "prompt": "A tracker must count only records whose later reading exceeds its earlier reading. Equal values do not qualify. The code has one comparison error. Correct it without changing the signature or the objects. Empty input returns 0. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class ReadingChange { int before; int after; }\nclass Solution {\n    static int countTemperatureIncreases(ReadingChange[] records) {\n        int count = 0;\n        for (ReadingChange item : records) {\n            if (item.after >= item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class ReadingChange { int before; int after; }\nclass Solution {\n    static int countTemperatureIncreases(ReadingChange[] records) {\n        int count = 0;\n        for (ReadingChange item : records) {\n            if (item.after > item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "faulty_source": "class ReadingChange { int before; int after; }\nclass Solution {\n    static int countTemperatureIncreases(ReadingChange[] records) {\n        int count = 0;\n        for (ReadingChange item : records) {\n            if (item.after >= item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 2,
+                    "after": 4
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 8,
+                    "after": 8
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 3,
+                    "after": 1
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 0,
+                    "after": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": 1,
+                    "after": 2
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "before": -2,
+                    "after": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved strict-vs-nonstrict comparison mistake."
+    },
+    {
+      "id": "PB3-JA-04-EXP-R3",
+      "source_python_id": "PB3-PY-04-EXP-R2",
+      "language": "Java",
+      "family": "F04",
+      "family_name": "Before-and-after comparisons",
+      "concepts": "Object attributes, comparisons, and accumulation",
+      "difficulty_provisional": "Accessible",
+      "title": "Explain a Record Comparison",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "countScoreIncreases",
+      "prompt": "Using (before, after) values [(2,4), (8,8), (3,1)], answer briefly: (1) what is counted; (2) count after each record and returned value; (3) why before and after must come from the same object; (4) how the result changes if >= replaces >. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class ScoreRecord { int before; int after; }\nclass Solution {\n    static int countScoreIncreases(ScoreRecord[] records) {\n        int count = 0;\n        for (ScoreRecord item : records) {\n            if (item.after > item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class ScoreRecord { int before; int after; }\nclass Solution {\n    static int countScoreIncreases(ScoreRecord[] records) {\n        int count = 0;\n        for (ScoreRecord item : records) {\n            if (item.after > item.before) count++;\n        }\n        return count;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Correct definition of strict increase",
+          "full_credit_example": "Counts records with after > before.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "All intermediate counts and returned result",
+          "full_credit_example": "Running counts 1,1,1; final 1.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Within-record attribute pairing",
+          "full_credit_example": "They are measurements of the same record.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Prediction of >= modification",
+          "full_credit_example": "Using >= also counts (8,8), so returns 2.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Counts records with after > before.\n2. Running counts 1,1,1; final 1.\n3. They are measurements of the same record.\n4. Using >= also counts (8,8), so returns 2.",
+        "partial_credit_example": "1. Counts records with after > before.\n2. Running counts 1,1,1; final 1.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Same cognitive trace as source, concise rubric-ready wording."
+    },
+    {
+      "id": "PB3-JA-05-WA-R3",
+      "source_python_id": "PB3-PY-05-WA-R2",
+      "language": "Java",
+      "family": "F05",
+      "family_name": "Thresholded object aggregation",
+      "concepts": "Objects, loops, selection, counting, and summation",
+      "difficulty_provisional": "Accessible",
+      "title": "Count Animal Sightings",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "countAnimalSightings",
+      "prompt": "Each supplied Animal object has name and nonnegative integer numberSeen. Write countAnimalSightings(records, minimum) to count how many records have numberSeen >= minimum. Count records, not total sightings. Include equality. Return 0 for no records or no matches, and leave all objects unchanged.",
+      "student_code": "class Animal { String name; int numberSeen; }\nclass Solution {\n    static int countAnimalSightings(Animal[] records, int minimum) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Animal { String name; int numberSeen; }\nclass Solution {\n    static int countAnimalSightings(Animal[] records, int minimum) {\n        int count = 0;\n        for (Animal animal : records) {\n            if (animal.numberSeen >= minimum) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "A",
+                    "number_seen": 2
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "B",
+                    "number_seen": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "C",
+                    "number_seen": 7
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            },
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 5
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 0
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 0
+                  }
+                }
+              ]
+            },
+            0
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 1
+                  }
+                }
+              ]
+            },
+            2
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved core object-threshold count and boundary case."
+    },
+    {
+      "id": "PB3-JA-05-WB-R3",
+      "source_python_id": "PB3-PY-05-WB-R2",
+      "language": "Java",
+      "family": "F05",
+      "family_name": "Thresholded object aggregation",
+      "concepts": "Objects, loops, selection, counting, and summation",
+      "difficulty_provisional": "Accessible",
+      "title": "Sum Visits for Qualifying Pets",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "totalQualifyingVisits",
+      "prompt": "Each Pet has name and a nonnegative integer visits count. Write totalQualifyingVisits(records, minimum). Add together the visits values of pets whose visits >= minimum, and ignore other pets. This returns total visits, NOT the number of pets. Include pets at the threshold. Return 0 for empty or no-qualifying input. Do not mutate the records.",
+      "student_code": "class Pet { String name; int visits; }\nclass Solution {\n    static int totalQualifyingVisits(Pet[] records, int minimum) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Pet { String name; int visits; }\nclass Solution {\n    static int totalQualifyingVisits(Pet[] records, int minimum) {\n        int total = 0;\n        for (Pet pet : records) {\n            if (pet.visits >= minimum) total += pet.visits;\n        }\n        return total;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "A",
+                    "visits": 2
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "B",
+                    "visits": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "C",
+                    "visits": 7
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 12,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            },
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "visits": 5
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 5,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "visits": 0
+                  }
+                }
+              ]
+            },
+            0
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "visits": 9
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "visits": 4
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 9,
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now performs conditional sum, not cosmetic renaming of Animal count; same loop/attribute/threshold structure."
+    },
+    {
+      "id": "PB3-JA-05-DBG-R3",
+      "source_python_id": "PB3-PY-05-DBG-R2",
+      "language": "Java",
+      "family": "F05",
+      "family_name": "Thresholded object aggregation",
+      "concepts": "Objects, loops, selection, counting, and summation",
+      "difficulty_provisional": "Accessible",
+      "title": "Fix the Animal Threshold Count",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "countShelterSightings",
+      "prompt": "The shelter must count Animal records with numberSeen >= minimum. Empty records count as 0. The code wrongly excludes animals seen exactly minimum times. Correct the logic; do not sum sightings or change records. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class Animal { String name; int numberSeen; }\nclass Solution {\n    static int countShelterSightings(Animal[] records, int minimum) {\n        int matches = 0;\n        for (Animal animal : records) {\n            if (animal.numberSeen > minimum) matches++;\n        }\n        return matches;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class Animal { String name; int numberSeen; }\nclass Solution {\n    static int countShelterSightings(Animal[] records, int minimum) {\n        int matches = 0;\n        for (Animal animal : records) {\n            if (animal.numberSeen >= minimum) matches++;\n        }\n        return matches;\n    }\n}\n",
+      "faulty_source": "class Animal { String name; int numberSeen; }\nclass Solution {\n    static int countShelterSightings(Animal[] records, int minimum) {\n        int matches = 0;\n        for (Animal animal : records) {\n            if (animal.numberSeen > minimum) matches++;\n        }\n        return matches;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "A",
+                    "number_seen": 2
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "B",
+                    "number_seen": 5
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "name": "C",
+                    "number_seen": 7
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            },
+            5
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 5
+                  }
+                }
+              ]
+            },
+            5
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 0
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 0
+                  }
+                }
+              ]
+            },
+            0
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "number_seen": 1
+                  }
+                }
+              ]
+            },
+            2
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Retained single inclusive-threshold defect with boundary-grading test."
+    },
+    {
+      "id": "PB3-JA-05-EXP-R3",
+      "source_python_id": "PB3-PY-05-EXP-R2",
+      "language": "Java",
+      "family": "F05",
+      "family_name": "Thresholded object aggregation",
+      "concepts": "Objects, loops, selection, counting, and summation",
+      "difficulty_provisional": "Accessible",
+      "title": "Explain an Object Threshold Count",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "countVisitRecords",
+      "prompt": "Read countVisitRecords with visits values [2, 5, 7] and minimum = 5. Explain in four short numbered parts: (1) whether the program counts records or totals visits; (2) matches after each item and the returned result; (3) why it compares record.visits rather than the whole object; (4) result with > replacing >= and result for empty records. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class VisitRecord { String name; int visits; }\nclass Solution {\n    static int countVisitRecords(VisitRecord[] records, int minimum) {\n        int matches = 0;\n        for (VisitRecord item : records) {\n            if (item.visits >= minimum) matches++;\n        }\n        return matches;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class VisitRecord { String name; int visits; }\nclass Solution {\n    static int countVisitRecords(VisitRecord[] records, int minimum) {\n        int matches = 0;\n        for (VisitRecord item : records) {\n            if (item.visits >= minimum) matches++;\n        }\n        return matches;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Counts records, not visit values",
+          "full_credit_example": "Counts qualifying records, not sum of visits.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Correct sequence and return",
+          "full_credit_example": "Running counts 0,1,2; final 2.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Attribute-vs-object comparison rationale",
+          "full_credit_example": "visits is the numeric attribute; record itself is an object.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Strict threshold and empty boundaries",
+          "full_credit_example": "With >: 1; empty list: 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Counts qualifying records, not sum of visits.\n2. Running counts 0,1,2; final 2.\n3. visits is the numeric attribute; record itself is an object.\n4. With >: 1; empty list: 0.",
+        "partial_credit_example": "1. Counts qualifying records, not sum of visits.\n2. Running counts 0,1,2; final 2.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved trace and boundary but made scoring four-part and concise."
+    },
+    {
+      "id": "PB3-JA-06-WA-R3",
+      "source_python_id": "PB3-PY-06-WA-R2",
+      "language": "Java",
+      "family": "F06",
+      "family_name": "Two-digit eligibility rules",
+      "concepts": "Digit extraction, object attributes, compound conditions",
+      "difficulty_provisional": "Moderate",
+      "title": "Count Years That Meet Two Digit Rules",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "countDisplayYears",
+      "prompt": "Each YearRecord has a four-digit integer year. Write countDisplayYears(records). A year qualifies only when its tens and ones digits sum to AT LEAST 10 AND its ones digit is even. Extract digits using integer / and % (division and remainder), not string conversion. Count qualifying objects, not the years. Return 0 for empty records; do not mutate objects.",
+      "student_code": "class YearRecord { int year; }\nclass Solution {\n    static int countDisplayYears(YearRecord[] records) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class YearRecord { int year; }\nclass Solution {\n    static int countDisplayYears(YearRecord[] records) {\n        int count = 0;\n        for (YearRecord item : records) {\n            int ones = item.year % 10;\n            int tens = (item.year / 10) % 10;\n            if (tens + ones >= 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2748
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2747
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2746
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2746
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1012
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1058
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1234
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 9998
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 8002
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved year-digit arithmetic criteria and requirement to meet both rules."
+    },
+    {
+      "id": "PB3-JA-06-WB-R3",
+      "source_python_id": "PB3-PY-06-WB-R2",
+      "language": "Java",
+      "family": "F06",
+      "family_name": "Two-digit eligibility rules",
+      "concepts": "Digit extraction, object attributes, compound conditions",
+      "difficulty_provisional": "Moderate",
+      "title": "Count Label Codes Meeting a Target",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "countLabelCodes",
+      "prompt": "Each CodeRecord has a four-digit integer code. Write countLabelCodes(records, target). Count each record whose tens and ones digits add up to EXACTLY target AND whose ones digit is odd. Extract both digits using integer arithmetic, not text conversion. target is an integer from 0 to 18. Return 0 for empty records and do not modify the objects.",
+      "student_code": "class CodeRecord { int code; }\nclass Solution {\n    static int countLabelCodes(CodeRecord[] records, int target) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class CodeRecord { int code; }\nclass Solution {\n    static int countLabelCodes(CodeRecord[] records, int target) {\n        int count = 0;\n        for (CodeRecord item : records) {\n            int ones = item.code % 10;\n            int tens = (item.code / 10) % 10;\n            if (tens + ones == target && ones % 2 != 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2757
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2767
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2747
+                  }
+                }
+              ]
+            },
+            12
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2757
+                  }
+                }
+              ]
+            },
+            12
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2757
+                  }
+                }
+              ]
+            },
+            11
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2739
+                  }
+                }
+              ]
+            },
+            12
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "code": 2746
+                  }
+                }
+              ]
+            },
+            10
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            },
+            12
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "B has exact target and odd-parity condition, not a renamed copy of A; same digit and AND operations."
+    },
+    {
+      "id": "PB3-JA-06-DBG-R3",
+      "source_python_id": "PB3-PY-06-DBG-R2",
+      "language": "Java",
+      "family": "F06",
+      "family_name": "Two-digit eligibility rules",
+      "concepts": "Digit extraction, object attributes, compound conditions",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Digit Rule Boundary",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "countArchiveYears",
+      "prompt": "An archive counts YearRecord objects only when the final two digits sum to at least 10 AND the last digit is even. Each year is 1000-9999. The function has one incorrect inequality and misses boundary cases. Fix its logic without changing the interface or converting digits to strings. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class YearRecord { int year; }\nclass Solution {\n    static int countArchiveYears(YearRecord[] records) {\n        int count = 0;\n        for (YearRecord item : records) {\n            int ones = item.year % 10;\n            int tens = (item.year / 10) % 10;\n            if (tens + ones > 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class YearRecord { int year; }\nclass Solution {\n    static int countArchiveYears(YearRecord[] records) {\n        int count = 0;\n        for (YearRecord item : records) {\n            int ones = item.year % 10;\n            int tens = (item.year / 10) % 10;\n            if (tens + ones >= 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "faulty_source": "class YearRecord { int year; }\nclass Solution {\n    static int countArchiveYears(YearRecord[] records) {\n        int count = 0;\n        for (YearRecord item : records) {\n            int ones = item.year % 10;\n            int tens = (item.year / 10) % 10;\n            if (tens + ones > 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2748
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2747
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2746
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 2746
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1012
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1058
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 1234
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 9998
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "year": 8002
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 1,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved one > vs >= defect; deterministic boundary test."
+    },
+    {
+      "id": "PB3-JA-06-EXP-R3",
+      "source_python_id": "PB3-PY-06-EXP-R2",
+      "language": "Java",
+      "family": "F06",
+      "family_name": "Two-digit eligibility rules",
+      "concepts": "Digit extraction, object attributes, compound conditions",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain the Digit-Rule Count",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "countLibraryCodes",
+      "prompt": "Read countLibraryCodes using codes [2748, 2747, 2746]. Answer four short numbered parts: (1) both digit rules; (2) tens and ones digits and running count after each code; (3) why AND is required rather than OR; (4) whether 2746 qualifies and what empty input returns. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class CodeRecord { int code; }\nclass Solution {\n    static int countLibraryCodes(CodeRecord[] records) {\n        int count = 0;\n        for (CodeRecord item : records) {\n            int ones = item.code % 10;\n            int tens = (item.code / 10) % 10;\n            if (tens + ones >= 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class CodeRecord { int code; }\nclass Solution {\n    static int countLibraryCodes(CodeRecord[] records) {\n        int count = 0;\n        for (CodeRecord item : records) {\n            int ones = item.code % 10;\n            int tens = (item.code / 10) % 10;\n            if (tens + ones >= 10 && ones % 2 == 0) count++;\n        }\n        return count;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Correct two eligibility rules",
+          "full_credit_example": "Tens+ones >= 10 AND ones digit is even.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Tens/ones values and running count sequence",
+          "full_credit_example": "2748: (4,8), count 1; 2747: (4,7), count 1; 2746: (4,6), count 2.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Why conjunction is necessary",
+          "full_credit_example": "AND requires both; OR would include odd codes with large sums.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "2746 inclusion and empty input",
+          "full_credit_example": "2746 meets both and empty returns 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Tens+ones >= 10 AND ones digit is even.\n2. 2748: (4,8), count 1; 2747: (4,7), count 1; 2746: (4,6), count 2.\n3. AND requires both; OR would include odd codes with large sums.\n4. 2746 meets both and empty returns 0.",
+        "partial_credit_example": "1. Tens+ones >= 10 AND ones digit is even.\n2. 2748: (4,8), count 1; 2747: (4,7), count 1; 2746: (4,6), count 2.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved four-part digit trace and explicit boundary."
+    },
+    {
+      "id": "PB3-JA-07-WA-R3",
+      "source_python_id": "PB3-PY-07-WA-R2",
+      "language": "Java",
+      "family": "F07",
+      "family_name": "Alternating nested-loop patterns",
+      "concepts": "Nested loops, parity, and string building",
+      "difficulty_provisional": "Moderate",
+      "title": "Build an Alternating Banner",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "makeBanner",
+      "prompt": "Write makeBanner(n), where n is 0-6. Produce one string with n left-aligned rows. For row i starting at 1, print i copies of '#' if i is odd, otherwise i copies of '+'. Use a row loop and an inner repetition loop, and put exactly one newline between rows, with no trailing newline or spaces. If n=0, return an empty string.",
+      "student_code": "class Solution {\n    static String makeBanner(int n) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Solution {\n    static String makeBanner(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 1) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": "#\n++\n###",
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": "",
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": "#",
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": "#\n++\n###\n++++",
+          "after": null
+        },
+        {
+          "args": [
+            6
+          ],
+          "expected": "#\n++\n###\n++++\n#####\n++++++",
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved original nested-loop alternating symbols and newline output."
+    },
+    {
+      "id": "PB3-JA-07-WB-R3",
+      "source_python_id": "PB3-PY-07-WB-R2",
+      "language": "Java",
+      "family": "F07",
+      "family_name": "Alternating nested-loop patterns",
+      "concepts": "Nested loops, parity, and string building",
+      "difficulty_provisional": "Moderate",
+      "title": "Build a Descending Decoration",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "makeDecoration",
+      "prompt": "Write makeDecoration(n), where n is 0-6. Produce n rows in one string. Row 1 has n '*' symbols, row 2 has (n-1) '-' symbols, row 3 has (n-2) '*' symbols, and so on until the last row contains one symbol. Use an outer row loop and an inner repetition loop. Separate rows by exactly one newline, with no spaces or trailing newline. Return '' if n=0.",
+      "student_code": "class Solution {\n    static String makeDecoration(int n) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Solution {\n    static String makeDecoration(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 1) ch = '*';\n            else ch = '-';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < n - row + 1; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": "***\n--\n*",
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": "",
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": "*",
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": "****\n---\n**\n-",
+          "after": null
+        },
+        {
+          "args": [
+            6
+          ],
+          "expected": "******\n-----\n****\n---\n**\n-",
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now uses decreasing row lengths, unlike A ascending; retains paired nested loops/parity/output rules."
+    },
+    {
+      "id": "PB3-JA-07-DBG-R3",
+      "source_python_id": "PB3-PY-07-DBG-R2",
+      "language": "Java",
+      "family": "F07",
+      "family_name": "Alternating nested-loop patterns",
+      "concepts": "Nested loops, parity, and string building",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Alternating Row Symbols",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "makeFestivalRows",
+      "prompt": "A festival requires row i to contain i copies of '#' on odd rows and '+' on even rows. n is 0-6. Rows are separated by one newline, with no trailing newline. The code chooses symbols for the wrong parity. Correct only the logic while preserving the nested loops and output contract. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class Solution {\n    static String makeFestivalRows(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 0) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class Solution {\n    static String makeFestivalRows(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 1) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "faulty_source": "class Solution {\n    static String makeFestivalRows(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 0) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": "#\n++\n###",
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": "",
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": "#",
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": "#\n++\n###\n++++",
+          "after": null
+        },
+        {
+          "args": [
+            6
+          ],
+          "expected": "#\n++\n###\n++++\n#####\n++++++",
+          "after": null
+        }
+      ],
+      "revision_from_source": "Retains parity defect while standardizing exact output requirements."
+    },
+    {
+      "id": "PB3-JA-07-EXP-R3",
+      "source_python_id": "PB3-PY-07-EXP-R2",
+      "language": "Java",
+      "family": "F07",
+      "family_name": "Alternating nested-loop patterns",
+      "concepts": "Nested loops, parity, and string building",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain Nested Alternating Rows",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "makeMarkerRows",
+      "prompt": "Study makeMarkerRows with n=3. Answer four short numbered parts: (1) how many symbols each row gets and which symbol it uses; (2) exact returned string with newlines represented as \\n; (3) what the outer and inner loops do; (4) why no newline is added before row 1 and what happens at n=0. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class Solution {\n    static String makeMarkerRows(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 1) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class Solution {\n    static String makeMarkerRows(int n) {\n        StringBuilder result = new StringBuilder();\n        for (int row = 1; row <= n; row++) {\n            char ch;\n            if (row % 2 == 1) ch = '#';\n            else ch = '+';\n            if (row > 1) result.append('\\n');\n            for (int col = 0; col < row; col++) result.append(ch);\n        }\n        return result.toString();\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Odd/even parity and row lengths",
+          "full_credit_example": "Row i has i characters: odd uses #; even uses +.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Exact trace output for n=3",
+          "full_credit_example": "Returned string: #\\n++\\n###.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Roles of outer and inner loops",
+          "full_credit_example": "Outer loop controls rows and symbols; inner loop repeats the symbol.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Newline placement and n=0",
+          "full_credit_example": "No blank first line; n=0 returns empty string.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Row i has i characters: odd uses #; even uses +.\n2. Returned string: #\\n++\\n###.\n3. Outer loop controls rows and symbols; inner loop repeats the symbol.\n4. No blank first line; n=0 returns empty string.",
+        "partial_credit_example": "1. Row i has i characters: odd uses #; even uses +.\n2. Returned string: #\\n++\\n###.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Retained output and loop reasoning; short numbered response."
+    },
+    {
+      "id": "PB3-JA-08-WA-R3",
+      "source_python_id": "PB3-PY-08-WA-R2",
+      "language": "Java",
+      "family": "F08",
+      "family_name": "Tiered scoring",
+      "concepts": "Objects, branching, and summation",
+      "difficulty_provisional": "Moderate",
+      "title": "Add Quiz Points From Time",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "totalQuizPoints",
+      "prompt": "Each QuizRound has nonnegative seconds and Boolean correct. Write totalQuizPoints(rounds) to total points. Incorrect rounds earn 0. A correct round earns 3 if seconds < 2; 2 if 2 <= seconds < 4; 1 if seconds >= 4. Include times exactly at 2 and 4 in the proper intervals. Return 0 for an empty collection. No timer construction or mutation.",
+      "student_code": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalQuizPoints(QuizRound[] rounds) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalQuizPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds < 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 2.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 5,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 2.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 4.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 3,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.99,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 3.99,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 4.0,
+                    "correct": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 6,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved time-tier points and boundaries."
+    },
+    {
+      "id": "PB3-JA-08-WB-R3",
+      "source_python_id": "PB3-PY-08-WB-R2",
+      "language": "Java",
+      "family": "F08",
+      "family_name": "Tiered scoring",
+      "concepts": "Objects, branching, and summation",
+      "difficulty_provisional": "Moderate",
+      "title": "Add Challenge Points From Attempts",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "totalChallengePoints",
+      "prompt": "Each ChallengeRound has a positive integer attempts and Boolean correct. Write totalChallengePoints(rounds). Incorrect rounds earn 0, regardless of attempts. Correct answers earn 3 points if solved on attempt 1, 2 points if solved on attempt 2, and 1 point for attempt 3 or later. Sum all points; empty rounds returns 0. The attempts have already been recorded; do not simulate retries.",
+      "student_code": "class ChallengeRound { int attempts; boolean correct; }\nclass Solution {\n    static int totalChallengePoints(ChallengeRound[] rounds) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class ChallengeRound { int attempts; boolean correct; }\nclass Solution {\n    static int totalChallengePoints(ChallengeRound[] rounds) {\n        int total = 0;\n        for (ChallengeRound item : rounds) {\n            if (item.correct) {\n                if (item.attempts == 1) total += 3;\n                else if (item.attempts == 2) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 1,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 2,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 3,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 5,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 3,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 5,
+                    "correct": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 2,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 1,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 1,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 2,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "attempts": 4,
+                    "correct": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 6,
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now uses attempt-based tiers rather than time tiers, matching conditional ladder work but changing decision context."
+    },
+    {
+      "id": "PB3-JA-08-DBG-R3",
+      "source_python_id": "PB3-PY-08-DBG-R2",
+      "language": "Java",
+      "family": "F08",
+      "family_name": "Tiered scoring",
+      "concepts": "Objects, branching, and summation",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Two-Second Scoring Boundary",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "totalContestPoints",
+      "prompt": "A quiz awards 3 points for a correct answer with seconds < 2; 2 points when 2 <= seconds < 4; 1 point when seconds >= 4; and 0 when incorrect. The faulty code includes exactly 2 seconds in the wrong tier. Correct the logic without changing the interface, and return 0 for empty rounds. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalContestPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds <= 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalContestPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds < 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "faulty_source": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalContestPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds <= 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 2.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 5,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 2.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 4.0,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 3,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": []
+            }
+          ],
+          "expected": 0,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 1.99,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 3.99,
+                    "correct": true
+                  }
+                },
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 4.0,
+                    "correct": true
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 6,
+          "after": null
+        },
+        {
+          "args": [
+            {
+              "type": "array",
+              "values": [
+                {
+                  "type": "object",
+                  "fields": {
+                    "seconds": 0,
+                    "correct": false
+                  }
+                }
+              ]
+            }
+          ],
+          "expected": 0,
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved one time-tier defect; explicit 2.0,4.0 hidden boundary tests."
+    },
+    {
+      "id": "PB3-JA-08-EXP-R3",
+      "source_python_id": "PB3-PY-08-EXP-R2",
+      "language": "Java",
+      "family": "F08",
+      "family_name": "Tiered scoring",
+      "concepts": "Objects, branching, and summation",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain the Tiered Quiz Total",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "totalTeamPoints",
+      "prompt": "Read totalTeamPoints with rounds [(seconds=1.0, correct=true), (2.0, true), (1.0, false)]. Answer four short numbered parts: (1) scoring rules; (2) awarded points and running total for every round; (3) why time checks appear inside the correctness test; (4) what happens at exactly 4 seconds for a correct round and for an empty list. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalTeamPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds < 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class QuizRound { double seconds; boolean correct; }\nclass Solution {\n    static int totalTeamPoints(QuizRound[] rounds) {\n        int total = 0;\n        for (QuizRound item : rounds) {\n            if (item.correct) {\n                if (item.seconds < 2) total += 3;\n                else if (item.seconds < 4) total += 2;\n                else total += 1;\n            }\n        }\n        return total;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Correct point tiers and wrong-answer behavior",
+          "full_credit_example": "Incorrect=0; correct <2:3; [2,4):2; >=4:1.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Three running totals and final points",
+          "full_credit_example": "Adds 3,2,0; totals 3,5,5; final 5.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Condition nesting purpose",
+          "full_credit_example": "Wrong answers earn no points even when fast.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Four-second boundary and empty input",
+          "full_credit_example": "Correct exactly 4 seconds earns 1; empty returns 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Incorrect=0; correct <2:3; [2,4):2; >=4:1.\n2. Adds 3,2,0; totals 3,5,5; final 5.\n3. Wrong answers earn no points even when fast.\n4. Correct exactly 4 seconds earns 1; empty returns 0.",
+        "partial_credit_example": "1. Incorrect=0; correct <2:3; [2,4):2; >=4:1.\n2. Adds 3,2,0; totals 3,5,5; final 5.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved source trace; shortened standardized response."
+    },
+    {
+      "id": "PB3-JA-09-WA-R3",
+      "source_python_id": "PB3-PY-09-WA-R2",
+      "language": "Java",
+      "family": "F09",
+      "family_name": "Bounded object state",
+      "concepts": "Object mutation, ordered updates, and bounds checks",
+      "difficulty_provisional": "Moderate",
+      "title": "Update a Game Score Within Bounds",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "updateGameScore",
+      "prompt": "A Game object has score initially 0 and nonnegative goal. Write updateGameScore(game, changes) to apply EVERY integer change in order, adjusting game.score after EACH change so that score never stays below 0 or above goal. Clamp an invalid score to the nearest bound, then continue with later changes. Return the final stored score. Do not alter game.goal. For empty changes return 0.",
+      "student_code": "class Game { int score; int goal; }\nclass Solution {\n    static int updateGameScore(Game game, int[] changes) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Game { int score; int goal; }\nclass Solution {\n    static int updateGameScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score += change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              6,
+              -3,
+              8,
+              -2
+            ]
+          ],
+          "expected": 8,
+          "after": {
+            "score": 8,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              11,
+              -2
+            ]
+          ],
+          "expected": 8,
+          "after": {
+            "score": 8,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              -5,
+              3
+            ]
+          ],
+          "expected": 3,
+          "after": {
+            "score": 3,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            []
+          ],
+          "expected": 0,
+          "after": {
+            "score": 0,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 0
+              }
+            },
+            [
+              5,
+              -4,
+              7
+            ]
+          ],
+          "expected": 0,
+          "after": {
+            "score": 0,
+            "goal": 0
+          }
+        }
+      ],
+      "revision_from_source": "Preserved clamp-after-each-change semantics, including later changes after goal."
+    },
+    {
+      "id": "PB3-JA-09-WB-R3",
+      "source_python_id": "PB3-PY-09-WB-R2",
+      "language": "Java",
+      "family": "F09",
+      "family_name": "Bounded object state",
+      "concepts": "Object mutation, ordered updates, and bounds checks",
+      "difficulty_provisional": "Moderate",
+      "title": "Update a Storage Level by Rejecting Invalid Changes",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "updateStorageLevel",
+      "prompt": "A Storage object has level initially 0 and nonnegative capacity. Write updateStorageLevel(storage, changes) to examine each integer change in order. Apply a change ONLY if level + change is within [0, capacity]; otherwise reject that individual change and leave level as it was. Continue to process later changes. Return final storage.level and leave capacity unchanged. Empty changes returns 0. NOTE: This task rejects invalid changes; it does not clamp values.",
+      "student_code": "class Storage { int level; int capacity; }\nclass Solution {\n    static int updateStorageLevel(Storage storage, int[] changes) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "class Storage { int level; int capacity; }\nclass Solution {\n    static int updateStorageLevel(Storage storage, int[] changes) {\n        for (int change : changes) {\n            int proposed = storage.level + change;\n            if (proposed >= 0 && proposed <= storage.capacity) {\n                storage.level = proposed;\n            }\n        }\n        return storage.level;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "level": 0,
+                "capacity": 10
+              }
+            },
+            [
+              6,
+              -3,
+              8,
+              -2
+            ]
+          ],
+          "expected": 1,
+          "after": {
+            "level": 1,
+            "capacity": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "level": 0,
+                "capacity": 10
+              }
+            },
+            [
+              11,
+              2
+            ]
+          ],
+          "expected": 2,
+          "after": {
+            "level": 2,
+            "capacity": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "level": 0,
+                "capacity": 10
+              }
+            },
+            [
+              -5,
+              3
+            ]
+          ],
+          "expected": 3,
+          "after": {
+            "level": 3,
+            "capacity": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "level": 0,
+                "capacity": 10
+              }
+            },
+            []
+          ],
+          "expected": 0,
+          "after": {
+            "level": 0,
+            "capacity": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "level": 0,
+                "capacity": 0
+              }
+            },
+            [
+              5,
+              -4,
+              0
+            ]
+          ],
+          "expected": 0,
+          "after": {
+            "level": 0,
+            "capacity": 0
+          }
+        }
+      ],
+      "revision_from_source": "B uses reject-out-of-range rather than clamp; both assess ordered state updates and bounds but are not copied algorithms."
+    },
+    {
+      "id": "PB3-JA-09-DBG-R3",
+      "source_python_id": "PB3-PY-09-DBG-R2",
+      "language": "Java",
+      "family": "F09",
+      "family_name": "Bounded object state",
+      "concepts": "Object mutation, ordered updates, and bounds checks",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Cumulative Score Update",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "updatePracticeScore",
+      "prompt": "A Game starts with score 0, goal nonnegative, and list changes (possibly negative). Apply changes cumulatively in order, clamping after each addition to [0, goal]. Continue even after reaching the goal. The faulty function replaces the running score rather than adding to it. Correct the code and preserve game.goal. Submit corrected code; optional reflection is unscored.",
+      "student_code": "class Game { int score; int goal; }\nclass Solution {\n    static int updatePracticeScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score = change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "class Game { int score; int goal; }\nclass Solution {\n    static int updatePracticeScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score += change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "faulty_source": "class Game { int score; int goal; }\nclass Solution {\n    static int updatePracticeScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score = change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              6,
+              -3,
+              8,
+              -2
+            ]
+          ],
+          "expected": 8,
+          "after": {
+            "score": 8,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              11,
+              -2
+            ]
+          ],
+          "expected": 8,
+          "after": {
+            "score": 8,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            [
+              -5,
+              3
+            ]
+          ],
+          "expected": 3,
+          "after": {
+            "score": 3,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 10
+              }
+            },
+            []
+          ],
+          "expected": 0,
+          "after": {
+            "score": 0,
+            "goal": 10
+          }
+        },
+        {
+          "args": [
+            {
+              "type": "object",
+              "fields": {
+                "score": 0,
+                "goal": 0
+              }
+            },
+            [
+              5,
+              -4,
+              7
+            ]
+          ],
+          "expected": 0,
+          "after": {
+            "score": 0,
+            "goal": 0
+          }
+        }
+      ],
+      "revision_from_source": "Retained = versus += fault; state mutation included in test checks."
+    },
+    {
+      "id": "PB3-JA-09-EXP-R3",
+      "source_python_id": "PB3-PY-09-EXP-R2",
+      "language": "Java",
+      "family": "F09",
+      "family_name": "Bounded object state",
+      "concepts": "Object mutation, ordered updates, and bounds checks",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain Bounded Score Changes",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "updateTeamScore",
+      "prompt": "Read updateTeamScore with score initially 0, goal 10, and changes [6, -3, 8, -2]. Explain in four short numbered parts: (1) which attribute changes and what is returned; (2) stored score after every change; (3) why bounds are checked after each individual change; (4) whether -2 is applied after the goal is reached and what happens for empty changes. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "class Game { int score; int goal; }\nclass Solution {\n    static int updateTeamScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score += change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "class Game { int score; int goal; }\nclass Solution {\n    static int updateTeamScore(Game game, int[] changes) {\n        for (int change : changes) {\n            game.score += change;\n            if (game.score < 0) game.score = 0;\n            else if (game.score > game.goal) game.score = game.goal;\n        }\n        return game.score;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Updated field, unchanged field and return",
+          "full_credit_example": "Updates game.score, leaves goal unchanged, returns final stored score.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Four scores after changes and final result",
+          "full_credit_example": "Scores: 6,3,10,8; returns 8.",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Why per-step clamping matters",
+          "full_credit_example": "Each next change starts from a valid bounded state.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Continues after goal and empty boundary",
+          "full_credit_example": "Yes -2 is applied after reaching goal; empty changes returns 0.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Updates game.score, leaves goal unchanged, returns final stored score.\n2. Scores: 6,3,10,8; returns 8.\n3. Each next change starts from a valid bounded state.\n4. Yes -2 is applied after reaching goal; empty changes returns 0.",
+        "partial_credit_example": "1. Updates game.score, leaves goal unchanged, returns final stored score.\n2. Scores: 6,3,10,8; returns 8.",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved source trace and boundary conceptual reasoning."
+    },
+    {
+      "id": "PB3-JA-10-WA-R3",
+      "source_python_id": "PB3-PY-10-WA-R2",
+      "language": "Java",
+      "family": "F10",
+      "family_name": "Row objects and nested loops",
+      "concepts": "Object creation, nested loops, and string assembly",
+      "difficulty_provisional": "Moderate",
+      "title": "Create Number-Row Objects",
+      "modality": "Code writing",
+      "variant": "WA",
+      "entry_point": "makeNumberRows",
+      "prompt": "For n from 0 to 6, makeNumberRows(n) returns one distinct NumberRow per row 1..n, in order. Each object stores number=i and text equal to the numbers 1 through i separated by ONE space, with no leading/trailing spaces. Use nested loops to build each row string. NumberRow class is supplied. Return an empty list for n=0. Objects must not alias one another.",
+      "student_code": "import java.util.*;\nclass NumberRow { int number; String text; }\nclass Solution {\n    static List<NumberRow> makeNumberRows(int n) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "import java.util.*;\nclass NumberRow { int number; String text; }\nclass Solution {\n    static List<NumberRow> makeNumberRows(int n) {\n        List<NumberRow> rows = new ArrayList<>();\n        for (int i = 1; i <= n; i++) {\n            NumberRow item = new NumberRow();\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "1 2"
+            ],
+            [
+              3,
+              "1 2 3"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "1 2"
+            ],
+            [
+              3,
+              "1 2 3"
+            ],
+            [
+              4,
+              "1 2 3 4"
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "Preserved row-object creation and nested iteration; Python uses join to avoid separator defect, still nested loops."
+    },
+    {
+      "id": "PB3-JA-10-WB-R3",
+      "source_python_id": "PB3-PY-10-WB-R2",
+      "language": "Java",
+      "family": "F10",
+      "family_name": "Row objects and nested loops",
+      "concepts": "Object creation, nested loops, and string assembly",
+      "difficulty_provisional": "Moderate",
+      "title": "Create Multiplication Stair Objects",
+      "modality": "Code writing",
+      "variant": "WB",
+      "entry_point": "makeStairLevels",
+      "prompt": "For n from 0 to 6, makeStairLevels(n) returns one different StairLevel per level i=1..n. Each stores number=i and text containing the multiples i, 2*i, ..., i*i, separated by single spaces. Example: for level 3 the text is '3 6 9'. Use an outer loop over levels and inner loop over multipliers. StairLevel is supplied. Return an empty list for n=0, and do not reuse an object.",
+      "student_code": "import java.util.*;\nclass StairLevel { int number; String text; }\nclass Solution {\n    static List<StairLevel> makeStairLevels(int n) {\n        // Complete this method.\n        throw new UnsupportedOperationException(\"Implement this method\");\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        10,
+        12
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "source_code",
+        "failure_policy": "Grader error, timeout, or missing output -> technical_failure; score null, not zero.",
+        "return_contract": "Check numeric/string return or ordered object fields, object identity, and input non-mutation where applicable."
+      },
+      "reference_solution": "import java.util.*;\nclass StairLevel { int number; String text; }\nclass Solution {\n    static List<StairLevel> makeStairLevels(int n) {\n        List<StairLevel> rows = new ArrayList<>();\n        for (int level = 1; level <= n; level++) {\n            StairLevel item = new StairLevel();\n            item.number = level;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= level; k++) {\n                if (k > 1) s.append(' ');\n                s.append(level * k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "2 4"
+            ],
+            [
+              3,
+              "3 6 9"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "2 4"
+            ],
+            [
+              3,
+              "3 6 9"
+            ],
+            [
+              4,
+              "4 8 12 16"
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "B now computes successive multiples rather than copying literal 1..i; same object and nested-loop workload."
+    },
+    {
+      "id": "PB3-JA-10-DBG-R3",
+      "source_python_id": "PB3-PY-10-DBG-R2",
+      "language": "Java",
+      "family": "F10",
+      "family_name": "Row objects and nested loops",
+      "concepts": "Object creation, nested loops, and string assembly",
+      "difficulty_provisional": "Moderate",
+      "title": "Fix the Reused Row Object",
+      "modality": "Debugging",
+      "variant": "DBG",
+      "entry_point": "makeLessonRows",
+      "prompt": "For n=0..6, makeLessonRows(n) must return a distinct NumberRow object for each row i. Each has number=i and text '1 2 ... i' with single spaces and no leading/trailing spaces. The faulty code appends multiple references to the same object. Fix the location of object creation; return an empty list for n=0. Submit corrected code; optional reflection is unscored.",
+      "student_code": "import java.util.*;\nclass NumberRow { int number; String text; }\nclass Solution {\n    static List<NumberRow> makeLessonRows(int n) {\n        List<NumberRow> rows = new ArrayList<>();\n        NumberRow item = new NumberRow();\n        for (int i = 1; i <= n; i++) {\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "executable_hidden_tests",
+        "score_range": [
+          0,
+          100
+        ],
+        "weights": "equal_per_test_case",
+        "scored_response": "corrected_source_code",
+        "optional_unscored_fields": [
+          "bug_explanation"
+        ],
+        "failure_policy": "Grader failures must be flagged as technical_failure; never score as incorrect."
+      },
+      "reference_solution": "import java.util.*;\nclass NumberRow { int number; String text; }\nclass Solution {\n    static List<NumberRow> makeLessonRows(int n) {\n        List<NumberRow> rows = new ArrayList<>();\n        for (int i = 1; i <= n; i++) {\n            NumberRow item = new NumberRow();\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "faulty_source": "import java.util.*;\nclass NumberRow { int number; String text; }\nclass Solution {\n    static List<NumberRow> makeLessonRows(int n) {\n        List<NumberRow> rows = new ArrayList<>();\n        NumberRow item = new NumberRow();\n        for (int i = 1; i <= n; i++) {\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "hidden_test_cases": [
+        {
+          "args": [
+            3
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "1 2"
+            ],
+            [
+              3,
+              "1 2 3"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            0
+          ],
+          "expected": [],
+          "after": null
+        },
+        {
+          "args": [
+            1
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ]
+          ],
+          "after": null
+        },
+        {
+          "args": [
+            4
+          ],
+          "expected": [
+            [
+              1,
+              "1"
+            ],
+            [
+              2,
+              "1 2"
+            ],
+            [
+              3,
+              "1 2 3"
+            ],
+            [
+              4,
+              "1 2 3 4"
+            ]
+          ],
+          "after": null
+        }
+      ],
+      "revision_from_source": "Retained object aliasing fault; tests check object identity and text, not just list length."
+    },
+    {
+      "id": "PB3-JA-10-EXP-R3",
+      "source_python_id": "PB3-PY-10-EXP-R2",
+      "language": "Java",
+      "family": "F10",
+      "family_name": "Row objects and nested loops",
+      "concepts": "Object creation, nested loops, and string assembly",
+      "difficulty_provisional": "Moderate",
+      "title": "Explain How Row Objects Are Stored",
+      "modality": "Code explanation",
+      "variant": "EXP",
+      "entry_point": "makeLabelRows",
+      "prompt": "Read makeLabelRows for n=3. Answer four short numbered parts: (1) what fields each returned object contains; (2) the ordered pairs (number,text) for all three rows; (3) roles of the two loops; (4) why a new object is needed per row and what n=0 returns. Answer using four short numbered parts; equivalent correct explanations receive credit.",
+      "student_code": "import java.util.*;\nclass LabelRow { int number; String text; }\nclass Solution {\n    static List<LabelRow> makeLabelRows(int n) {\n        List<LabelRow> rows = new ArrayList<>();\n        for (int i = 1; i <= n; i++) {\n            LabelRow item = new LabelRow();\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "modeled_time_target_minutes": [
+        5,
+        7
+      ],
+      "version": "R3",
+      "requires_app_acceptance_test": true,
+      "grading": {
+        "type": "analytic_explanation_rubric",
+        "four_independent_criteria": 4,
+        "criterion_max": 25,
+        "total_max": 100,
+        "scale": {
+          "fully_correct": 25,
+          "mostly_correct": 18,
+          "partially_correct": 10,
+          "missing_or_incorrect": 0
+        },
+        "accept_equivalent_wording": true,
+        "recommended_response": "Four short numbered parts, ideally <=500 characters",
+        "minimum_platform_input_limit_characters": 1200,
+        "no_exact_wording_requirement": true
+      },
+      "reference_solution": "import java.util.*;\nclass LabelRow { int number; String text; }\nclass Solution {\n    static List<LabelRow> makeLabelRows(int n) {\n        List<LabelRow> rows = new ArrayList<>();\n        for (int i = 1; i <= n; i++) {\n            LabelRow item = new LabelRow();\n            item.number = i;\n            StringBuilder s = new StringBuilder();\n            for (int k = 1; k <= i; k++) {\n                if (k > 1) s.append(' ');\n                s.append(k);\n            }\n            item.text = s.toString();\n            rows.add(item);\n        }\n        return rows;\n    }\n}\n",
+      "rubric": [
+        {
+          "criterion": 1,
+          "target": "Object fields and returned list",
+          "full_credit_example": "Each object has number and text; returned collection is ordered.",
+          "max_points": 25
+        },
+        {
+          "criterion": 2,
+          "target": "Ordered pairs for n=3",
+          "full_credit_example": "(1,\"1\"), (2,\"1 2\"), (3,\"1 2 3\").",
+          "max_points": 25
+        },
+        {
+          "criterion": 3,
+          "target": "Distinct roles of nested loops",
+          "full_credit_example": "Outer loop creates rows; inner builds text for that row.",
+          "max_points": 25
+        },
+        {
+          "criterion": 4,
+          "target": "Identity rationale and n=0",
+          "full_credit_example": "Separate objects avoid aliasing; n=0 returns empty list.",
+          "max_points": 25
+        }
+      ],
+      "scoring_fixture_responses": {
+        "full_credit": "1. Each object has number and text; returned collection is ordered.\n2. (1,\"1\"), (2,\"1 2\"), (3,\"1 2 3\").\n3. Outer loop creates rows; inner builds text for that row.\n4. Separate objects avoid aliasing; n=0 returns empty list.",
+        "partial_credit_example": "1. Each object has number and text; returned collection is ordered.\n2. (1,\"1\"), (2,\"1 2\"), (3,\"1 2 3\").",
+        "nonresponse": "",
+        "validation_note": "Human reference ratings must be compared with platform model scores; these are reference fixtures, not proof of LLM agreement."
+      },
+      "revision_from_source": "Preserved exact object-identity and nested-loop explanation."
+    }
+  ]
+}

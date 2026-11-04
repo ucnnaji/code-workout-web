@@ -121,30 +121,98 @@
     "3": {
       "python": {
         "problem-solving": [
-          "PB-PY-5A",
-          "PB-PY-6A"
+          "PB3-PY-01-WA-R3",
+          "PB3-PY-01-WB-R3",
+          "PB3-PY-02-WA-R3",
+          "PB3-PY-02-WB-R3",
+          "PB3-PY-03-WA-R3",
+          "PB3-PY-03-WB-R3",
+          "PB3-PY-04-WA-R3",
+          "PB3-PY-04-WB-R3",
+          "PB3-PY-05-WA-R3",
+          "PB3-PY-05-WB-R3",
+          "PB3-PY-06-WA-R3",
+          "PB3-PY-06-WB-R3",
+          "PB3-PY-07-WA-R3",
+          "PB3-PY-07-WB-R3",
+          "PB3-PY-08-WA-R3",
+          "PB3-PY-08-WB-R3",
+          "PB3-PY-09-WA-R3",
+          "PB3-PY-09-WB-R3",
+          "PB3-PY-10-WA-R3",
+          "PB3-PY-10-WB-R3"
         ],
         "debugging": [
-          "PB-PY-5B",
-          "PB-PY-6B"
+          "PB3-PY-01-DBG-R3",
+          "PB3-PY-02-DBG-R3",
+          "PB3-PY-03-DBG-R3",
+          "PB3-PY-04-DBG-R3",
+          "PB3-PY-05-DBG-R3",
+          "PB3-PY-06-DBG-R3",
+          "PB3-PY-07-DBG-R3",
+          "PB3-PY-08-DBG-R3",
+          "PB3-PY-09-DBG-R3",
+          "PB3-PY-10-DBG-R3"
         ],
         "code-explanation": [
-          "PB-PY-5C",
-          "PB-PY-6C"
+          "PB3-PY-01-EXP-R3",
+          "PB3-PY-02-EXP-R3",
+          "PB3-PY-03-EXP-R3",
+          "PB3-PY-04-EXP-R3",
+          "PB3-PY-05-EXP-R3",
+          "PB3-PY-06-EXP-R3",
+          "PB3-PY-07-EXP-R3",
+          "PB3-PY-08-EXP-R3",
+          "PB3-PY-09-EXP-R3",
+          "PB3-PY-10-EXP-R3"
         ]
       },
       "java": {
         "problem-solving": [
-          "PB-JA-5A",
-          "PB-JA-6A"
+          "PB3-JA-01-WA-R3",
+          "PB3-JA-01-WB-R3",
+          "PB3-JA-02-WA-R3",
+          "PB3-JA-02-WB-R3",
+          "PB3-JA-03-WA-R3",
+          "PB3-JA-03-WB-R3",
+          "PB3-JA-04-WA-R3",
+          "PB3-JA-04-WB-R3",
+          "PB3-JA-05-WA-R3",
+          "PB3-JA-05-WB-R3",
+          "PB3-JA-06-WA-R3",
+          "PB3-JA-06-WB-R3",
+          "PB3-JA-07-WA-R3",
+          "PB3-JA-07-WB-R3",
+          "PB3-JA-08-WA-R3",
+          "PB3-JA-08-WB-R3",
+          "PB3-JA-09-WA-R3",
+          "PB3-JA-09-WB-R3",
+          "PB3-JA-10-WA-R3",
+          "PB3-JA-10-WB-R3"
         ],
         "debugging": [
-          "PB-JA-5B",
-          "PB-JA-6B"
+          "PB3-JA-01-DBG-R3",
+          "PB3-JA-02-DBG-R3",
+          "PB3-JA-03-DBG-R3",
+          "PB3-JA-04-DBG-R3",
+          "PB3-JA-05-DBG-R3",
+          "PB3-JA-06-DBG-R3",
+          "PB3-JA-07-DBG-R3",
+          "PB3-JA-08-DBG-R3",
+          "PB3-JA-09-DBG-R3",
+          "PB3-JA-10-DBG-R3"
         ],
         "code-explanation": [
-          "PB-JA-5C",
-          "PB-JA-6C"
+          "PB3-JA-01-EXP-R3",
+          "PB3-JA-02-EXP-R3",
+          "PB3-JA-03-EXP-R3",
+          "PB3-JA-04-EXP-R3",
+          "PB3-JA-05-EXP-R3",
+          "PB3-JA-06-EXP-R3",
+          "PB3-JA-07-EXP-R3",
+          "PB3-JA-08-EXP-R3",
+          "PB3-JA-09-EXP-R3",
+          "PB3-JA-10-EXP-R3"
         ]
       }
     }
@@ -175,5 +243,6 @@
     "reviewedContentHash": ""
   },
   "contentNotice": "Welcome! Click Continue to continue with the study.",
-  "preventDuplicateEntries": true
+  "preventDuplicateEntries": true,
+  "session3R3Allocation": "distinct-families-v1"
 }

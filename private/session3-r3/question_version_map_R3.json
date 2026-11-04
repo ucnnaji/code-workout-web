@@ -1,0 +1,642 @@
+[
+  {
+    "id": "PB3-PY-01-WA-R3",
+    "source_id": "PB3-PY-01-WA-R2",
+    "family": "F01",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved original A objective; function signature and bounds unchanged."
+  },
+  {
+    "id": "PB3-JA-01-WA-R3",
+    "source_id": "PB3-PY-01-WA-R2",
+    "family": "F01",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved original A objective; function signature and bounds unchanged."
+  },
+  {
+    "id": "PB3-PY-01-WB-R3",
+    "source_id": "PB3-PY-01-WB-R2",
+    "family": "F01",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Changed B from a cosmetic inside-range renaming to an outside-range decision with OR; same loop/count workload."
+  },
+  {
+    "id": "PB3-JA-01-WB-R3",
+    "source_id": "PB3-PY-01-WB-R2",
+    "family": "F01",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Changed B from a cosmetic inside-range renaming to an outside-range decision with OR; same loop/count workload."
+  },
+  {
+    "id": "PB3-PY-01-DBG-R3",
+    "source_id": "PB3-PY-01-DBG-R2",
+    "family": "F01",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Preserved inclusive-boundary defect; simplified mandatory response to correct code."
+  },
+  {
+    "id": "PB3-JA-01-DBG-R3",
+    "source_id": "PB3-PY-01-DBG-R2",
+    "family": "F01",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Preserved inclusive-boundary defect; simplified mandatory response to correct code."
+  },
+  {
+    "id": "PB3-PY-01-EXP-R3",
+    "source_id": "PB3-PY-01-EXP-R2",
+    "family": "F01",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Same trace concept and four response criteria; standardized brief-response format."
+  },
+  {
+    "id": "PB3-JA-01-EXP-R3",
+    "source_id": "PB3-PY-01-EXP-R2",
+    "family": "F01",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Same trace concept and four response criteria; standardized brief-response format."
+  },
+  {
+    "id": "PB3-PY-02-WA-R3",
+    "source_id": "PB3-PY-02-WA-R2",
+    "family": "F02",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Kept capped-record behavior. Class skeleton provided in both languages for fairness; object creation remains task."
+  },
+  {
+    "id": "PB3-JA-02-WA-R3",
+    "source_id": "PB3-PY-02-WA-R2",
+    "family": "F02",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Kept capped-record behavior. Class skeleton provided in both languages for fairness; object creation remains task."
+  },
+  {
+    "id": "PB3-PY-02-WB-R3",
+    "source_id": "PB3-PY-02-WB-R2",
+    "family": "F02",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now computes excess rather than copied capped amount, retaining one new object, condition, and stored attributes."
+  },
+  {
+    "id": "PB3-JA-02-WB-R3",
+    "source_id": "PB3-PY-02-WB-R2",
+    "family": "F02",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now computes excess rather than copied capped amount, retaining one new object, condition, and stored attributes."
+  },
+  {
+    "id": "PB3-PY-02-DBG-R3",
+    "source_id": "PB3-PY-02-DBG-R2",
+    "family": "F02",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Kept incorrect append/add defect to target object identity vs input value."
+  },
+  {
+    "id": "PB3-JA-02-DBG-R3",
+    "source_id": "PB3-PY-02-DBG-R2",
+    "family": "F02",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Kept incorrect append/add defect to target object identity vs input value."
+  },
+  {
+    "id": "PB3-PY-02-EXP-R3",
+    "source_id": "PB3-PY-02-EXP-R2",
+    "family": "F02",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Shortened equivalent explanation prompts; same four assessed concepts."
+  },
+  {
+    "id": "PB3-JA-02-EXP-R3",
+    "source_id": "PB3-PY-02-EXP-R2",
+    "family": "F02",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Shortened equivalent explanation prompts; same four assessed concepts."
+  },
+  {
+    "id": "PB3-PY-03-WA-R3",
+    "source_id": "PB3-PY-03-WA-R2",
+    "family": "F03",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved longest-run objective; includes multiple runs and empty checks."
+  },
+  {
+    "id": "PB3-JA-03-WA-R3",
+    "source_id": "PB3-PY-03-WA-R2",
+    "family": "F03",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved longest-run objective; includes multiple runs and empty checks."
+  },
+  {
+    "id": "PB3-PY-03-WB-R3",
+    "source_id": "PB3-PY-03-WB-R2",
+    "family": "F03",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B changed from renamed Boolean streak to thresholded streak; same reset and maximum-tracking cognitive steps."
+  },
+  {
+    "id": "PB3-JA-03-WB-R3",
+    "source_id": "PB3-PY-03-WB-R2",
+    "family": "F03",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B changed from renamed Boolean streak to thresholded streak; same reset and maximum-tracking cognitive steps."
+  },
+  {
+    "id": "PB3-PY-03-DBG-R3",
+    "source_id": "PB3-PY-03-DBG-R2",
+    "family": "F03",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Retains single reset bug; code-only evaluated."
+  },
+  {
+    "id": "PB3-JA-03-DBG-R3",
+    "source_id": "PB3-PY-03-DBG-R2",
+    "family": "F03",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Retains single reset bug; code-only evaluated."
+  },
+  {
+    "id": "PB3-PY-03-EXP-R3",
+    "source_id": "PB3-PY-03-EXP-R2",
+    "family": "F03",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved trace; made question explicitly short and scorable."
+  },
+  {
+    "id": "PB3-JA-03-EXP-R3",
+    "source_id": "PB3-PY-03-EXP-R2",
+    "family": "F03",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved trace; made question explicitly short and scorable."
+  },
+  {
+    "id": "PB3-PY-04-WA-R3",
+    "source_id": "PB3-PY-04-WA-R2",
+    "family": "F04",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserves record-by-record comparison and count."
+  },
+  {
+    "id": "PB3-JA-04-WA-R3",
+    "source_id": "PB3-PY-04-WA-R2",
+    "family": "F04",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserves record-by-record comparison and count."
+  },
+  {
+    "id": "PB3-PY-04-WB-R3",
+    "source_id": "PB3-PY-04-WB-R2",
+    "family": "F04",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now sums magnitude of positive changes instead of simply recounting an equivalent threshold case."
+  },
+  {
+    "id": "PB3-JA-04-WB-R3",
+    "source_id": "PB3-PY-04-WB-R2",
+    "family": "F04",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now sums magnitude of positive changes instead of simply recounting an equivalent threshold case."
+  },
+  {
+    "id": "PB3-PY-04-DBG-R3",
+    "source_id": "PB3-PY-04-DBG-R2",
+    "family": "F04",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Preserved strict-vs-nonstrict comparison mistake."
+  },
+  {
+    "id": "PB3-JA-04-DBG-R3",
+    "source_id": "PB3-PY-04-DBG-R2",
+    "family": "F04",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Preserved strict-vs-nonstrict comparison mistake."
+  },
+  {
+    "id": "PB3-PY-04-EXP-R3",
+    "source_id": "PB3-PY-04-EXP-R2",
+    "family": "F04",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Same cognitive trace as source, concise rubric-ready wording."
+  },
+  {
+    "id": "PB3-JA-04-EXP-R3",
+    "source_id": "PB3-PY-04-EXP-R2",
+    "family": "F04",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Same cognitive trace as source, concise rubric-ready wording."
+  },
+  {
+    "id": "PB3-PY-05-WA-R3",
+    "source_id": "PB3-PY-05-WA-R2",
+    "family": "F05",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved core object-threshold count and boundary case."
+  },
+  {
+    "id": "PB3-JA-05-WA-R3",
+    "source_id": "PB3-PY-05-WA-R2",
+    "family": "F05",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved core object-threshold count and boundary case."
+  },
+  {
+    "id": "PB3-PY-05-WB-R3",
+    "source_id": "PB3-PY-05-WB-R2",
+    "family": "F05",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now performs conditional sum, not cosmetic renaming of Animal count; same loop/attribute/threshold structure."
+  },
+  {
+    "id": "PB3-JA-05-WB-R3",
+    "source_id": "PB3-PY-05-WB-R2",
+    "family": "F05",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now performs conditional sum, not cosmetic renaming of Animal count; same loop/attribute/threshold structure."
+  },
+  {
+    "id": "PB3-PY-05-DBG-R3",
+    "source_id": "PB3-PY-05-DBG-R2",
+    "family": "F05",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Retained single inclusive-threshold defect with boundary-grading test."
+  },
+  {
+    "id": "PB3-JA-05-DBG-R3",
+    "source_id": "PB3-PY-05-DBG-R2",
+    "family": "F05",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Retained single inclusive-threshold defect with boundary-grading test."
+  },
+  {
+    "id": "PB3-PY-05-EXP-R3",
+    "source_id": "PB3-PY-05-EXP-R2",
+    "family": "F05",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved trace and boundary but made scoring four-part and concise."
+  },
+  {
+    "id": "PB3-JA-05-EXP-R3",
+    "source_id": "PB3-PY-05-EXP-R2",
+    "family": "F05",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved trace and boundary but made scoring four-part and concise."
+  },
+  {
+    "id": "PB3-PY-06-WA-R3",
+    "source_id": "PB3-PY-06-WA-R2",
+    "family": "F06",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved year-digit arithmetic criteria and requirement to meet both rules."
+  },
+  {
+    "id": "PB3-JA-06-WA-R3",
+    "source_id": "PB3-PY-06-WA-R2",
+    "family": "F06",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved year-digit arithmetic criteria and requirement to meet both rules."
+  },
+  {
+    "id": "PB3-PY-06-WB-R3",
+    "source_id": "PB3-PY-06-WB-R2",
+    "family": "F06",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B has exact target and odd-parity condition, not a renamed copy of A; same digit and AND operations."
+  },
+  {
+    "id": "PB3-JA-06-WB-R3",
+    "source_id": "PB3-PY-06-WB-R2",
+    "family": "F06",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B has exact target and odd-parity condition, not a renamed copy of A; same digit and AND operations."
+  },
+  {
+    "id": "PB3-PY-06-DBG-R3",
+    "source_id": "PB3-PY-06-DBG-R2",
+    "family": "F06",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Preserved one > vs >= defect; deterministic boundary test."
+  },
+  {
+    "id": "PB3-JA-06-DBG-R3",
+    "source_id": "PB3-PY-06-DBG-R2",
+    "family": "F06",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Preserved one > vs >= defect; deterministic boundary test."
+  },
+  {
+    "id": "PB3-PY-06-EXP-R3",
+    "source_id": "PB3-PY-06-EXP-R2",
+    "family": "F06",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved four-part digit trace and explicit boundary."
+  },
+  {
+    "id": "PB3-JA-06-EXP-R3",
+    "source_id": "PB3-PY-06-EXP-R2",
+    "family": "F06",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved four-part digit trace and explicit boundary."
+  },
+  {
+    "id": "PB3-PY-07-WA-R3",
+    "source_id": "PB3-PY-07-WA-R2",
+    "family": "F07",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved original nested-loop alternating symbols and newline output."
+  },
+  {
+    "id": "PB3-JA-07-WA-R3",
+    "source_id": "PB3-PY-07-WA-R2",
+    "family": "F07",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved original nested-loop alternating symbols and newline output."
+  },
+  {
+    "id": "PB3-PY-07-WB-R3",
+    "source_id": "PB3-PY-07-WB-R2",
+    "family": "F07",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now uses decreasing row lengths, unlike A ascending; retains paired nested loops/parity/output rules."
+  },
+  {
+    "id": "PB3-JA-07-WB-R3",
+    "source_id": "PB3-PY-07-WB-R2",
+    "family": "F07",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now uses decreasing row lengths, unlike A ascending; retains paired nested loops/parity/output rules."
+  },
+  {
+    "id": "PB3-PY-07-DBG-R3",
+    "source_id": "PB3-PY-07-DBG-R2",
+    "family": "F07",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Retains parity defect while standardizing exact output requirements."
+  },
+  {
+    "id": "PB3-JA-07-DBG-R3",
+    "source_id": "PB3-PY-07-DBG-R2",
+    "family": "F07",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Retains parity defect while standardizing exact output requirements."
+  },
+  {
+    "id": "PB3-PY-07-EXP-R3",
+    "source_id": "PB3-PY-07-EXP-R2",
+    "family": "F07",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Retained output and loop reasoning; short numbered response."
+  },
+  {
+    "id": "PB3-JA-07-EXP-R3",
+    "source_id": "PB3-PY-07-EXP-R2",
+    "family": "F07",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Retained output and loop reasoning; short numbered response."
+  },
+  {
+    "id": "PB3-PY-08-WA-R3",
+    "source_id": "PB3-PY-08-WA-R2",
+    "family": "F08",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved time-tier points and boundaries."
+  },
+  {
+    "id": "PB3-JA-08-WA-R3",
+    "source_id": "PB3-PY-08-WA-R2",
+    "family": "F08",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved time-tier points and boundaries."
+  },
+  {
+    "id": "PB3-PY-08-WB-R3",
+    "source_id": "PB3-PY-08-WB-R2",
+    "family": "F08",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now uses attempt-based tiers rather than time tiers, matching conditional ladder work but changing decision context."
+  },
+  {
+    "id": "PB3-JA-08-WB-R3",
+    "source_id": "PB3-PY-08-WB-R2",
+    "family": "F08",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now uses attempt-based tiers rather than time tiers, matching conditional ladder work but changing decision context."
+  },
+  {
+    "id": "PB3-PY-08-DBG-R3",
+    "source_id": "PB3-PY-08-DBG-R2",
+    "family": "F08",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Preserved one time-tier defect; explicit 2.0,4.0 hidden boundary tests."
+  },
+  {
+    "id": "PB3-JA-08-DBG-R3",
+    "source_id": "PB3-PY-08-DBG-R2",
+    "family": "F08",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Preserved one time-tier defect; explicit 2.0,4.0 hidden boundary tests."
+  },
+  {
+    "id": "PB3-PY-08-EXP-R3",
+    "source_id": "PB3-PY-08-EXP-R2",
+    "family": "F08",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved source trace; shortened standardized response."
+  },
+  {
+    "id": "PB3-JA-08-EXP-R3",
+    "source_id": "PB3-PY-08-EXP-R2",
+    "family": "F08",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved source trace; shortened standardized response."
+  },
+  {
+    "id": "PB3-PY-09-WA-R3",
+    "source_id": "PB3-PY-09-WA-R2",
+    "family": "F09",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved clamp-after-each-change semantics, including later changes after goal."
+  },
+  {
+    "id": "PB3-JA-09-WA-R3",
+    "source_id": "PB3-PY-09-WA-R2",
+    "family": "F09",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved clamp-after-each-change semantics, including later changes after goal."
+  },
+  {
+    "id": "PB3-PY-09-WB-R3",
+    "source_id": "PB3-PY-09-WB-R2",
+    "family": "F09",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B uses reject-out-of-range rather than clamp; both assess ordered state updates and bounds but are not copied algorithms."
+  },
+  {
+    "id": "PB3-JA-09-WB-R3",
+    "source_id": "PB3-PY-09-WB-R2",
+    "family": "F09",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B uses reject-out-of-range rather than clamp; both assess ordered state updates and bounds but are not copied algorithms."
+  },
+  {
+    "id": "PB3-PY-09-DBG-R3",
+    "source_id": "PB3-PY-09-DBG-R2",
+    "family": "F09",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Retained = versus += fault; state mutation included in test checks."
+  },
+  {
+    "id": "PB3-JA-09-DBG-R3",
+    "source_id": "PB3-PY-09-DBG-R2",
+    "family": "F09",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Retained = versus += fault; state mutation included in test checks."
+  },
+  {
+    "id": "PB3-PY-09-EXP-R3",
+    "source_id": "PB3-PY-09-EXP-R2",
+    "family": "F09",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved source trace and boundary conceptual reasoning."
+  },
+  {
+    "id": "PB3-JA-09-EXP-R3",
+    "source_id": "PB3-PY-09-EXP-R2",
+    "family": "F09",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved source trace and boundary conceptual reasoning."
+  },
+  {
+    "id": "PB3-PY-10-WA-R3",
+    "source_id": "PB3-PY-10-WA-R2",
+    "family": "F10",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "Preserved row-object creation and nested iteration; Python uses join to avoid separator defect, still nested loops."
+  },
+  {
+    "id": "PB3-JA-10-WA-R3",
+    "source_id": "PB3-PY-10-WA-R2",
+    "family": "F10",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "Preserved row-object creation and nested iteration; Python uses join to avoid separator defect, still nested loops."
+  },
+  {
+    "id": "PB3-PY-10-WB-R3",
+    "source_id": "PB3-PY-10-WB-R2",
+    "family": "F10",
+    "language": "Python",
+    "modality": "Code writing",
+    "change": "B now computes successive multiples rather than copying literal 1..i; same object and nested-loop workload."
+  },
+  {
+    "id": "PB3-JA-10-WB-R3",
+    "source_id": "PB3-PY-10-WB-R2",
+    "family": "F10",
+    "language": "Java",
+    "modality": "Code writing",
+    "change": "B now computes successive multiples rather than copying literal 1..i; same object and nested-loop workload."
+  },
+  {
+    "id": "PB3-PY-10-DBG-R3",
+    "source_id": "PB3-PY-10-DBG-R2",
+    "family": "F10",
+    "language": "Python",
+    "modality": "Debugging",
+    "change": "Retained object aliasing fault; tests check object identity and text, not just list length."
+  },
+  {
+    "id": "PB3-JA-10-DBG-R3",
+    "source_id": "PB3-PY-10-DBG-R2",
+    "family": "F10",
+    "language": "Java",
+    "modality": "Debugging",
+    "change": "Retained object aliasing fault; tests check object identity and text, not just list length."
+  },
+  {
+    "id": "PB3-PY-10-EXP-R3",
+    "source_id": "PB3-PY-10-EXP-R2",
+    "family": "F10",
+    "language": "Python",
+    "modality": "Code explanation",
+    "change": "Preserved exact object-identity and nested-loop explanation."
+  },
+  {
+    "id": "PB3-JA-10-EXP-R3",
+    "source_id": "PB3-PY-10-EXP-R2",
+    "family": "F10",
+    "language": "Java",
+    "modality": "Code explanation",
+    "change": "Preserved exact object-identity and nested-loop explanation."
+  }
+]
